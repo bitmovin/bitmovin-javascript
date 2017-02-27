@@ -1,71 +1,29 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
-import Promise from 'bluebird';
+import http, { utils} from '../http';
 
-const inputs = (configuration) => {
+export const inputs = (configuration, http) => {
+  const { get, post, delete_ } = http;
   let typeFn = (typeUrl) => {
     let fn = (inputId) => {
       return {
         details   : () => {
-          console.info('Getting Details for Input with ID ' + inputId + ' ...');
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl, inputId);
-
-          return new Promise((resolve, reject) => {
-            get(configuration, url)
-            .then((input, rawResponse) => {
-              resolve(input);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          return get(configuration, url);
         },
         customData: () => {
-          console.info('Getting Custom Data for Input with ID ' + inputId + ' ...');
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl, inputId, 'customData');
-
-          return new Promise((resolve, reject) => {
-            get(configuration, url)
-            .then((customData, rawResponse) => {
-              resolve(customData);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          return get(configuration, url);
         },
         delete    : () => {
-          console.info('Deleting Input with ID ' + inputId + ' ...');
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl, inputId);
-
-          return new Promise((resolve, reject) => {
-            delete_(configuration, url)
-            .then((response, rawResponse) => {
-              resolve(response);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          return delete_(configuration, url);
         }
       };
     };
 
     fn.create = (input) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl);
-
-      return new Promise((resolve, reject) => {
-        post(configuration, url, input)
-        .then((createdOutput, rawResponse) => {
-          resolve(createdOutput);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return post(configuration, url, input);
     };
 
     fn.list = (limit, offset) => {
@@ -79,15 +37,7 @@ const inputs = (configuration) => {
         url = urljoin(url, getParams);
       }
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-        .then((inputList, rawResponse) => {
-          resolve(inputList);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return get(configuration, url);
     };
 
     return fn;
@@ -100,16 +50,7 @@ const inputs = (configuration) => {
           console.info('Getting Details for Output with ID ' + inputId + ' ...');
 
           let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl, inputId);
-
-          return new Promise((resolve, reject) => {
-            get(configuration, url)
-            .then((input, rawResponse) => {
-              resolve(input);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          return get(configuration, url);
         }
       };
     };
@@ -125,15 +66,7 @@ const inputs = (configuration) => {
         url = urljoin(url, getParams);
       }
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-        .then((inputList, rawResponse) => {
-          resolve(inputList);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return get(configuration, url);
     };
 
     return rtmpFn;
@@ -162,31 +95,14 @@ const inputs = (configuration) => {
         url = urljoin(url, getParams);
       }
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-        .then((inputList, rawResponse) => {
-          resolve(inputList);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return get(configuration, url);
     },
 
     getType: (inputId) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', inputId, 'type');
-
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-        .then((result, rawResponse) => {
-          resolve(result);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return get(configuration, url);
     }
   };
 };
 
-module.exports = inputs;
+export default (configuration) => { return inputs(configuration, http); };

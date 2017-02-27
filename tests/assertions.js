@@ -16,6 +16,7 @@ export const methodToMock = (method) => {
 export const testSetup = () => {
   mockGet.mockClear();
   mockPost.mockClear();
+  mockDelete.mockClear();
 }
 
 export const assertPayload = (mock, call, expectedPayload) => {
