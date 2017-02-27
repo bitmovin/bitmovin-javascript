@@ -1,7 +1,9 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
+import http, { utils } from '../http';
 
-const domains = (configuration, licenseId) => {
+export const domains = (configuration, licenseId, http) => {
+  const {get, post, delete_ } = http;
+
   const fn = (domainId) => {
     return {
       delete: () => {
@@ -33,4 +35,4 @@ const domains = (configuration, licenseId) => {
   return fn;
 };
 
-module.exports = domains;
+export default (configuration, licenseId) => { return domains(configuration, licenseId, http); };

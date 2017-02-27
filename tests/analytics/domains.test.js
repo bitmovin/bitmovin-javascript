@@ -1,64 +1,58 @@
-import {after, before, describe, it} from 'mocha';
-import assert from 'assert';
-
 import {getConfiguration} from '../utils';
-import licenses from '../../bitmovin/analytics/licenses';
+import { licenses } from '../../bitmovin/analytics/licenses';
+import { domains } from '../../bitmovin/analytics/domains';
+
+import {
+  mockGet,
+  mockPost,
+  mockDelete,
+  mockHttp,
+  methodToMock,
+  assertPayload,
+  assertItReturnsUnderlyingPromise,
+  assertItCallsCorrectUrl,
+  testSetup
+} from '../assertions';
 
 let testConfiguration = getConfiguration();
 
-const getRandom = () => {
-  return Math.floor(Math.random() * (4096 - 1 + 1)) + 1;
-};
-
-describe('[Analytics License Domains]', () => {
-  const licensesClient = licenses(testConfiguration);
+describe('analytics', () => {
+  beforeEach(testSetup);
+  const licensesClient = licenses(testConfiguration, mockHttp);
 
   let sampleDomain = {
-    'url': 'yourhost' + getRandom() + '.com'
+    'url': 'yourhost.com'
   };
 
-  it('should add analytics license domain', (done) => {
-    let analyticsLicenseId = undefined;
-
-    licensesClient.list().then((response) => {
-      assert(response.items instanceof Array);
-      analyticsLicenseId = response.items[0].id;
-      return licensesClient(analyticsLicenseId).domains.add(sampleDomain);
-    }).then((response) => {
-      assert.equal(response.url, sampleDomain.url);
-      done();
-    }).catch((error) => {
-      done(new Error(error));
+  describe('license', () => {
+    describe('list', () => {
+      assertItCallsCorrectUrl('GET', '/v1/analytics/licenses', licensesClient.list);
+      assertItReturnsUnderlyingPromise(mockGet, licensesClient.list);
     });
-  });
-
-  it('should list analytics license domains', (done) => {
-    licensesClient.list().then((response) => {
-      assert(response.items instanceof Array);
-      done();
-    }).catch((error) => {
-      done(new Error(error));
+    describe('detail', () => {
+      assertItCallsCorrectUrl('GET', '/v1/analytics/licenses/my-license-id', () => licensesClient('my-license-id').details());
+      assertItReturnsUnderlyingPromise(mockGet, licensesClient('my-license-id').details);
     });
-  });
 
-  // TODO: investigate why there's a 400
-  it.skip('should delete analytics license domain', (done) => {
-    let analyticsLicenseId = undefined;
-    let createdDomain      = undefined;
+    describe('domains', () => {
+      const domainClient = domains(testConfiguration, 'license-id', mockHttp);
 
-    licensesClient.list().then((response) => {
-      assert(response.items instanceof Array);
-      analyticsLicenseId = response.items[0].id;
-      return licensesClient(analyticsLicenseId).domains.add(sampleDomain);
-    }).then((response) => {
-      assert.equal(response.url, sampleDomain.url);
-      createdDomain = response;
-      return licensesClient(analyticsLicenseId).domains(createdDomain.id).delete();
-    }).then((response) => {
-      assert.equal(response.id, createdDomain.id);
-      done();
-    }).catch((error) => {
-      done(new Error(error));
+      describe('list', () => {
+        assertItCallsCorrectUrl('GET', '/v1/analytics/licenses/license-id/domains', domainClient.list);
+        assertItReturnsUnderlyingPromise(mockGet, domainClient.list);
+      });
+      describe('add', () => {
+        assertItCallsCorrectUrl('POST', '/v1/analytics/licenses/license-id/domains', domainClient.add);
+
+        assertItReturnsUnderlyingPromise(mockPost, () => domainClient.add({
+          url: 'foo'
+        }));
+        assertPayload(mockPost, () => domainClient.add({ url: 'foo'}), { url: 'foo' });
+      });
+      describe('delete', () => {
+        assertItCallsCorrectUrl('DELETE', '/v1/analytics/licenses/license-id/domains/domain-id', domainClient('domain-id').delete);
+        assertItReturnsUnderlyingPromise(mockDelete, domainClient('domain-id').delete);
+      });
     });
   });
 });

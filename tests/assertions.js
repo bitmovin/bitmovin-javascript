@@ -6,9 +6,16 @@ export const mockHttp = { get: mockGet, post: mockPost, delete_: mockDelete };
 export const methodToMock = (method) => {
   if (method.toLowerCase() === 'get')
     return mockGet;
+  if (method.toLowerCase() === 'delete')
+    return mockDelete;
   return mockPost;
 }
 
+
+export const testSetup = () => {
+  mockGet.mockClear();
+  mockPost.mockClear();
+}
 
 export const assertPayload = (mock, call, expectedPayload) => {
   it ('should send appropriate payload', () => {
@@ -19,7 +26,7 @@ export const assertPayload = (mock, call, expectedPayload) => {
 }
 
 export const assertItReturnsUnderlyingPromise = (mock, call) => {
-  it ('should return post promise', () => {
+  it ('should return promise', () => {
     mock.mockReturnValue(Promise.resolve("success"));
     const retVal = call();
     expect(retVal).toEqual(expect.any(Promise));
@@ -30,7 +37,7 @@ export const assertItReturnsUnderlyingPromise = (mock, call) => {
 };
 
 export const assertItCallsCorrectUrl = (method, expectedUrl, fn) => {
-  it (`should call ${method} ${expectedUrl} once`, () => {
+  it (`should call ${method} with URL ${expectedUrl} once`, () => {
     return fn().then(() => {
       expect(methodToMock(method)).toBeCalled();
     });
