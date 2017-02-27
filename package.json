@@ -1,6 +1,6 @@
 {
   "name": "bitmovin-javascript",
-  "version": "0.0.13",
+  "version": "0.1.0",
   "scripts": {
     "mocha": "./node_modules/mocha/bin/mocha --compilers js:babel-register --require babel-polyfill --recursive tests --timeout 30000",
     "lint": "./node_modules/eslint/bin/eslint.js --color ./bitmovin",
