@@ -1,70 +1,30 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
+import http, {utils} from '../http';
 
-const outputs = (configuration) => {
+export const outputs = (configuration, http) => {
+  const { get, post, delete_ } = http;
   let typeFn = (typeUrl) => {
     let fn = (outputId) => {
       return {
         details   : () => {
-          console.info('Getting Details for Output with ID ' + outputId + ' ...');
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', typeUrl, outputId);
-
-          return new Promise((resolve, reject) => {
-            get(configuration, url)
-            .then((output, rawResponse) => {
-              resolve(output);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          return get(configuration, url);
         },
         customData: () => {
-          console.info('Getting Custom Data for Output with ID ' + outputId + ' ...');
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', typeUrl, outputId, 'customData');
 
-          return new Promise((resolve, reject) => {
-            get(configuration, url)
-            .then((customData, rawResponse) => {
-              resolve(customData);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          return get(configuration, url);
         },
         delete    : () => {
-          console.info('Deleting Output with ID ' + outputId + ' ...');
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', typeUrl, outputId);
-
-          return new Promise((resolve, reject) => {
-            delete_(configuration, url)
-            .then((response, rawResponse) => {
-              resolve(response);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          return delete_(configuration, url);
         }
       };
     };
 
     fn.create = (output) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', typeUrl);
-
-      return new Promise((resolve, reject) => {
-        post(configuration, url, output)
-        .then((createdOutput, rawResponse) => {
-          resolve(createdOutput);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return post(configuration, url, output);
     };
 
     fn.list = (limit, offset) => {
@@ -78,15 +38,7 @@ const outputs = (configuration) => {
         url = urljoin(url, getParams);
       }
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-        .then((outputList, rawResponse) => {
-          resolve(outputList);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return get(configuration, url);
     };
 
     return fn;
@@ -96,19 +48,9 @@ const outputs = (configuration) => {
     let bitmovinFn = (outputId) => {
       return {
         details: () => {
-          console.info('Getting Details for Bitmovin Output with ID ' + outputId + ' ...');
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', typeUrl, outputId);
 
-          return new Promise((resolve, reject) => {
-            get(configuration, url)
-            .then((output, rawResponse) => {
-              resolve(output);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          return get(configuration, url);
         }
       };
     };
@@ -124,15 +66,7 @@ const outputs = (configuration) => {
         url = urljoin(url, getParams);
       }
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-        .then((outputList, rawResponse) => {
-          resolve(outputList);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return get(configuration, url);
     };
 
     return bitmovinFn;
@@ -161,31 +95,15 @@ const outputs = (configuration) => {
         url = urljoin(url, getParams);
       }
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-        .then((outputList, rawResponse) => {
-          resolve(outputList);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return get(configuration, url);
     },
 
     getType: (outputId) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', outputId, 'type');
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-        .then((result, rawResponse) => {
-          resolve(result);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return get(configuration, url);
     }
   };
 };
 
-module.exports = outputs;
+export default (configuration) => { return outputs(configuration, http); };
