@@ -1,0 +1,57 @@
+import urljoin from 'url-join';
+import {get, post, delete_, utils} from '../http';
+
+import representations from './smoothManifestRepresentations';
+import contentProtections from './smoothManifestContentProtections';
+
+const smoothManifests = (configuration) => {
+  let fn = (manifestId) => {
+    return {
+      details        : () => {
+        let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/smooth', manifestId);
+        return get(configuration, url);
+      },
+      delete         : () => {
+        let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/smooth', manifestId);
+        return delete_(configuration, url);
+      },
+      start          : () => {
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/smooth', manifestId, 'start');
+        return post(configuration, url);
+      },
+      stop           : () => {
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/smooth', manifestId, 'stop');
+        return post(configuration, url);
+      },
+      status         : () => {
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/smooth', manifestId, 'status');
+        return get(configuration, url);
+      },
+      representations: representations(configuration, manifestId),
+      contentProtections: contentProtections(configuration, manifestId)
+    };
+  };
+
+  fn.create = (manifest) => {
+    let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/smooth');
+    return post(configuration, url, manifest);
+  };
+
+  fn.list = (limit, offset) => {
+    let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/smooth');
+
+    let getParams = utils.buildGetParamString({
+      limit : limit,
+      offset: offset
+    });
+    if (getParams.length > 0) {
+      url = urljoin(url, getParams);
+    }
+
+    return get(configuration, url);
+  };
+
+  return fn;
+};
+
+module.exports = smoothManifests;
