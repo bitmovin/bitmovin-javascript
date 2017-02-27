@@ -1,3 +1,4 @@
+import bluebird from 'bluebird';
 export const mockGet = jest.fn().mockReturnValue(Promise.resolve({}));
 export const mockPost = jest.fn().mockReturnValue(Promise.resolve({}));
 export const mockDelete = jest.fn().mockReturnValue(Promise.resolve({}));
@@ -24,16 +25,27 @@ export const assertPayload = (mock, call, expectedPayload) => {
     });
   });
 }
-
-export const assertItReturnsUnderlyingPromise = (mock, call) => {
+export const assertItReturnsPromise = (mock, call) => {
   it ('should return promise', () => {
     mock.mockReturnValue(Promise.resolve("success"));
     const retVal = call();
-    expect(retVal).toEqual(expect.any(Promise));
+    expect(typeof retVal.then).toBe('function');
+    return retVal;
+  });
+};
+export const assertItReturnsCorrectResponse = (mock, call, expectedResponse) => {
+  it ('should return correct response object', () => {
+    const retVal = call();
     return retVal.then((response, rawResponse) => {
-      expect(response).toEqual("success");
+      expect(response).toEqual(expectedResponse);
     });
   });
+};
+
+export const assertItReturnsUnderlyingPromise = (mock, call) => {
+  mock.mockReturnValue(Promise.resolve("success"));
+  assertItReturnsCorrectResponse(mock, call, "success");
+  assertItReturnsPromise(mock, call);
 };
 
 export const assertItCallsCorrectUrl = (method, expectedUrl, fn) => {

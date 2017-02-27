@@ -10,28 +10,22 @@ import {
   methodToMock,
   assertPayload,
   assertItReturnsUnderlyingPromise,
-  assertItCallsCorrectUrl
+  assertItCallsCorrectUrl,
+  testSetup
 } from '../assertions';
 
 const testConfigurationWithHeaders = getConfiguration();
 
 describe('account', () => {
   beforeEach(() => {
-    mockGet.mockClear();
-    mockPost.mockClear();
+    testSetup();
   });
   const client = account(testConfigurationWithHeaders, mockHttp);
 
 
   describe('information', () => {
-    it ('should call GET /v1/account/information', () => {
-      return client.information().then(() => {
-        const callParams = mockGet.mock.calls[0];
-        expect(callParams[0]).toEqual(testConfigurationWithHeaders);
-        expect(callParams[1]).toEqual(expect.stringMatching('\/v1\/account\/information$'));
-      });
-    });
-    assertItReturnsUnderlyingPromise(mockGet, () => client.information());
+    assertItCallsCorrectUrl('GET', '/v1/account/information', client.information);
+    assertItReturnsUnderlyingPromise(mockGet, client.information);
   });
 
   describe('login', () => {
