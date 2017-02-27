@@ -36,8 +36,9 @@
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-import Bitmovin from 'bitmovin-javascript';
-import Promise from 'bluebird';
+const Bitmovin = require('bitmovin-javascript').default;
+console.log(Bitmovin);
+const Promise = require('bluebird');
 
 const BITMOVIN_API_KEY = '<YOUR_API_KEY>';
 const bitmovin         = new Bitmovin({'apiKey': BITMOVIN_API_KEY, debug: false});
@@ -99,24 +100,12 @@ const encodingResource = {
 };
 
 const main = () => new Promise((resolve, reject) => {
-  let aacCodecConfiguration = {
-    ...aacAudioCodecConfiguration
-  };
-  let h264CodecConfiguration1080p = {
-    ...h264VideoCodecConfiguration1080p
-  };
-  let h264CodecConfiguration720p = {
-    ...h264VideoCodecConfiguration720p
-  };
-  let input = {
-    ...httpInput
-  };
-  let output = {
-    ...s3Output
-  };
-  let encoding = {
-    ...encodingResource
-  };
+  let aacCodecConfiguration = Object.assign({}, aacAudioCodecConfiguration);
+  let h264CodecConfiguration1080p = Object.assign({}, h264VideoCodecConfiguration1080p);
+  let h264CodecConfiguration720p = Object.assign({}, h264VideoCodecConfiguration720p);
+  let input = Object.assign({}, httpInput);
+  let output = Object.assign({}, s3Output);
+  let encoding = Object.assign({}, encodingResource);
 
   const createHttpInputPromise = createHttpInput(input);
   createHttpInputPromise.then((createdInput) => {
