@@ -16,14 +16,14 @@ Initialization
 
 With Babel/ES6:
 ```es6
-import Bitmovin from 'bitmovin-javascript'
+import Bitmovin from 'bitmovin-javascript';
 const bitmovin = new Bitmovin({'apiKey': BITMOVIN_API_KEY, debug: false});
 ```
 
 With NodeJS:
 
 ```js
-const Bitmovin = require('bitmovin-javascript').default
+const Bitmovin = require('bitmovin-javascript').default;
 const bitmovin = new Bitmovin({'apiKey': BITMOVIN_API_KEY, debug: false});
 ```
 
@@ -31,9 +31,9 @@ Usage
 -----------
 
 The Bitmovin-Javascript API Client is closely modeled after our Bitmovin API Reference [Bitmovin API](https://bitmovin.com/encoding-documentation/bitmovin-api/).
-Each resource in the API Reference has a 1:1 corresponding mapping in our API Client.
+Each resource in the API Reference has a 1:1 mapping in our API Client.
 
-All methods return a `Promise` Object that will return the fetched input values from the API.
+All methods return a `Promise` Object that will return the fetched result values from the API.
 
 So for example the list all inputs call is defined as `GET v1/encoding/inputs` in our API-Reference and simply corresponds to:
 
