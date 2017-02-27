@@ -1,8 +1,9 @@
 import urljoin from 'url-join';
-import { get, post } from '../http';
+import http from '../http';
 import organizations from './organizations/organizations.js';
 
-const account = (configuration) => {
+export const account = (configuration, http) => {
+  const { get, post } = http;
   const accountBaseUrl = urljoin(configuration.apiBaseUrl, 'account');
 
   const information = () => {
@@ -39,4 +40,4 @@ const account = (configuration) => {
   };
 };
 
-export default account;
+export default (configuration) => { return account(configuration, http); };
