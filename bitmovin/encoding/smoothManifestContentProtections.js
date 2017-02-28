@@ -1,7 +1,8 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
+import http, { utils } from '../http';
 
-const contentProtection = (configuration, manifestId) => {
+export const contentProtection = (configuration, manifestId, http) => {
+  const { get, post, delete_ } = http;
   const baseUrl = urljoin(configuration.apiBaseUrl, 'encoding/manifests/smooth', manifestId, 'contentprotection');
 
   const fn = (contentProtectionId) => {
@@ -38,4 +39,4 @@ const contentProtection = (configuration, manifestId) => {
   return fn;
 };
 
-module.exports = contentProtection;
+export default (configuration, manifestId) => { return contentProtection(configuration, manifestId, http); };
