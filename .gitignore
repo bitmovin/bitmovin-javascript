@@ -30,6 +30,7 @@ jest/
 .idea_modules/
 
 tests/**/settings.json
+tests_it/**/settings.json
 
 # JIRA plugin
 atlassian-ide-plugin.xml
