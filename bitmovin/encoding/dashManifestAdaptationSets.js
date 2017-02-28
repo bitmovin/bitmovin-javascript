@@ -1,45 +1,26 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
+import http, { utils } from '../http';
 import Promise from 'bluebird';
 
 import representations from './dashManifestRepresentations';
 import contentProtections from './dashManifestContentProtections';
 
-const adaptationSets = (configuration, manifestId, periodId) => {
+export const adaptationSets = (configuration, manifestId, periodId, http) => {
+  const { get, post, delete_ } = http;
   let typeFn = (typeUrl) => {
     let fn = (adaptationSetId) => {
       return {
         details: () => {
-          console.info('Getting Details for DASH Manifest Period with ID ' + adaptationSetId + ' ...');
 
           let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId,
             'adaptationsets', typeUrl, adaptationSetId);
 
-          return new Promise((resolve, reject) => {
-            get(configuration, url)
-            .then((details, rawResponse) => {
-              resolve(details);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          return get(configuration, url);
         },
         delete : () => {
-          console.info('Deleting DASH Manifest Period with ID ' + adaptationSetId + ' ...');
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId,
             'adaptationsets', typeUrl, adaptationSetId);
-
-          return new Promise((resolve, reject) => {
-            delete_(configuration, url)
-            .then((response, rawResponse) => {
-              resolve(response);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          return delete_(configuration, url);
         }
       };
     };
@@ -48,15 +29,7 @@ const adaptationSets = (configuration, manifestId, periodId) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId,
         'adaptationsets', typeUrl);
 
-      return new Promise((resolve, reject) => {
-        post(configuration, url, period)
-        .then((createdPeriod, rawResponse) => {
-          resolve(createdPeriod);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return post(configuration, url, period);
     };
 
     fn.list = (limit, offset) => {
@@ -71,15 +44,7 @@ const adaptationSets = (configuration, manifestId, periodId) => {
         url = urljoin(url, getParams);
       }
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-        .then((periodList, rawResponse) => {
-          resolve(periodList);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return get(configuration, url);
     };
 
     return fn;
@@ -100,4 +65,4 @@ const adaptationSets = (configuration, manifestId, periodId) => {
   return fn;
 };
 
-module.exports = adaptationSets;
+export default (configuration, manifestId, periodId) => { return adaptationSets(configuration, manifestId, periodId, http) };
