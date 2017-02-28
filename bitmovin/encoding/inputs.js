@@ -47,8 +47,6 @@ export const inputs = (configuration, http) => {
     let rtmpFn = (inputId) => {
       return {
         details: () => {
-          console.info('Getting Details for Output with ID ' + inputId + ' ...');
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl, inputId);
           return get(configuration, url);
         }

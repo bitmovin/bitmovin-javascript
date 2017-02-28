@@ -64,6 +64,10 @@ describe('encoding', () => {
         assertItCallsCorrectUrl('GET', `/v1/encoding/inputs/rtmp`, client.rtmp.list);
         assertItReturnsUnderlyingPromise(mockGet, client.rtmp.list);
       });
+      describe('details', () => {
+        assertItCallsCorrectUrl('GET', `/v1/encoding/inputs/rtmp/input-id`, client.rtmp('input-id').details);
+        assertItReturnsUnderlyingPromise(mockGet, client.rtmp('input-id').details);
+      });
     });
     describe('genericS3', () => {
       const urlPart = 'generic-s3';
