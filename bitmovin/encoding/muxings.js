@@ -7,7 +7,7 @@ export const muxings = (configuration, encodingId, http) => {
   let typeFn = (typeUrl) => {
     let fn = (muxingId) => {
       return {
-        details   : () => {
+        details: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl, muxingId);
           return get(configuration, url);
         },
@@ -15,12 +15,12 @@ export const muxings = (configuration, encodingId, http) => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl, muxingId, 'customData');
           return get(configuration, url);
         },
-        delete    : () => {
+        delete: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl, muxingId);
 
           return delete_(configuration, url);
         },
-        drms      : drms(configuration, encodingId, typeUrl, muxingId)
+        drms: drms(configuration, encodingId, typeUrl, muxingId)
       };
     };
 
