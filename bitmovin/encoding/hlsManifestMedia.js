@@ -1,37 +1,21 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
-import Promise from 'bluebird';
+import http, { utils } from '../http';
 
 
-const mediaContainer = (configuration, manifestId) => {
+export const hlsManifestMedia = (configuration, manifestId, http) => {
+  const { get, post, delete_ } = http;
   let typeFn = (typeUrl) => {
     let fn = (mediaId) => {
       return {
         details: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'media', typeUrl, mediaId);
 
-          return new Promise((resolve, reject) => {
-            get(configuration, url)
-            .then((media, rawResponse) => {
-              resolve(media);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          return get(configuration, url);
         },
         delete : () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'media', typeUrl, mediaId);
 
-          return new Promise((resolve, reject) => {
-            delete_(configuration, url)
-            .then((response, rawResponse) => {
-              resolve(response);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          return delete_(configuration, url);
         }
       };
     };
@@ -39,15 +23,7 @@ const mediaContainer = (configuration, manifestId) => {
     fn.add = (media) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'media', typeUrl);
 
-      return new Promise((resolve, reject) => {
-        post(configuration, url, media)
-        .then((createdMedia, rawResponse) => {
-          resolve(createdMedia);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return post(configuration, url, media);
     };
 
     fn.list = (limit, offset) => {
@@ -61,15 +37,7 @@ const mediaContainer = (configuration, manifestId) => {
         url = urljoin(url, getParams);
       }
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-        .then((mediaList, rawResponse) => {
-          resolve(mediaList);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return get(configuration, url);
     };
 
     return fn;
@@ -83,4 +51,4 @@ const mediaContainer = (configuration, manifestId) => {
   };
 };
 
-module.exports = mediaContainer;
+export default (configuration, manifestId) => { return hlsManifestMedia(configuration, manifestId, http); };
