@@ -12,6 +12,10 @@ Installation
 ``` bash
 npm install bitmovin-javascript
 ```
+or with yarnpkg
+``` bash
+yarn add bitmovin-javascript
+```
 
 Initialization
 ----------
@@ -56,3 +60,14 @@ You sample DASH & HLS encoding sample can be found in [examples/encoding/01_simp
 
 For more examples visit our [example page](https://github.com/bitmovin/bitmovin-javascript/tree/develop/examples/encoding)
 
+Contributing
+-----------
+
+If you want to contribute feel free to send Pull-Requests. Make sure the tests pass and new functions have ample test coverage.
+
+Running tests:
+
+``` bash
+yarn test
+yarn coverage
+```
