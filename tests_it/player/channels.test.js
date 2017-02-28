@@ -11,7 +11,7 @@ describe('[Player Channels]', () => {
 
   it('should list channels', (done) => {
     channelsClient.list().then((result) => {
-      assert(result.items instanceof Array);
+      assert(result.channels instanceof Array);
       done();
     }).catch((error) => {
       done(new Error(error));
