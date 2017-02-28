@@ -1,78 +1,69 @@
-import { after, before, describe, it } from 'mocha';
-import assert from 'assert';
-
 import { getConfiguration } from '../utils';
 
-import account from '../../bitmovin/account/account';
+import { account } from '../../bitmovin/account/account';
 import logger from '../../bitmovin/Logger';
-
-logger.setLogging(true);
+import {
+  mockGet,
+  mockPost,
+  mockDelete,
+  mockHttp,
+  methodToMock,
+  assertPayload,
+  assertItReturnsUnderlyingPromise,
+  assertItCallsCorrectUrl,
+  testSetup
+} from '../assertions';
 
 const testConfigurationWithHeaders = getConfiguration();
-const testConfigurationWithoutHeaders = {
-  httpHeaders: {
-    'Content-Type'        : 'application/json',
-    'X-Api-Client'        : 'bitmovin-javascript',
-    'X-Api-Client-Version': '0.0.1'
-  },
-  apiBaseUrl: testConfigurationWithHeaders.apiBaseUrl,
-  eMail: testConfigurationWithHeaders.eMail,
-  password: testConfigurationWithHeaders.password
-};
 
-describe('Account', () => {
-  const authorizedAccountClient = account(testConfigurationWithHeaders);
-  const unauthorizedAccountClient = account(testConfigurationWithoutHeaders);
+describe('account', () => {
+  beforeEach(() => {
+    testSetup();
+  });
+  const client = account(testConfigurationWithHeaders, mockHttp);
 
-  const isPropertySet = function(property) {
-    return property !== null && property !== undefined;
-  };
 
-  const isPropertySetAndNotEmptyString = function(property) {
-    return isPropertySet(property) && property !== '';
-  };
-
-  it('should return current account information', (done) => {
-    authorizedAccountClient.information().then((response) => {
-      assert(isPropertySetAndNotEmptyString(response.id));
-      assert(isPropertySetAndNotEmptyString(response.email));
-
-      assert(isPropertySet(response.apiKeys));
-      assert(response.apiKeys.length > 0);
-
-      done();
-    }).catch((error) => {
-      done(new Error(error));
-    });
+  describe('information', () => {
+    assertItCallsCorrectUrl('GET', '/v1/account/information', client.information);
+    assertItReturnsUnderlyingPromise(mockGet, client.information);
   });
 
-  it('should return the api key', (done) => {
-    unauthorizedAccountClient.login(testConfigurationWithHeaders.eMail, testConfigurationWithHeaders.password).then((response) => {
-      assert.equal(testConfigurationWithoutHeaders.eMail, response.email);
+  describe('login', () => {
+    const email = "test@email.com";
+    const password = "mypassword";
 
-      assert(isPropertySet(response.apiKeys));
-      assert(response.apiKeys.length > 0);
+    assertItReturnsUnderlyingPromise(mockPost, () => client.login(email, password));
 
-      done();
-    }).catch((error) => {
-      done(new Error(error));
+    it ('should call POST /v1/account/login', () => {
+      return client.login(email, password).then(() => {
+        const callParams = mockPost.mock.calls[0];
+        expect(callParams[1]).toEqual(expect.stringMatching('\/v1\/account\/login$'));
+      });
     });
+
+    it ('should send appropriate login request payload', () => {
+      return client.login(email, password).then(() => {
+        const callParams = mockPost.mock.calls[0];
+        expect(callParams[2]).toEqual({
+          eMail: email,
+          password: password
+        });
+      });
+    });
+
   });
 
-  it('should return the user email on success', (done) => {
-    authorizedAccountClient.changePassword(testConfigurationWithHeaders.eMail, testConfigurationWithHeaders.password, testConfigurationWithHeaders.password).then((response) => {
-      assert(response.eMail === testConfigurationWithHeaders.eMail);
-      done();
-    }).catch((error) => {
-      done(new Error(error));
-    });
-  });
+  describe('changePassword', () => {
+    const email = "test@email.com";
+    const currentPassword = "oldpwd";
+    const newPassword = "newpwd";
 
-  it('should throw an error because of an invalid current password', (done) => {
-    authorizedAccountClient.changePassword(testConfigurationWithHeaders.eMail, "invalidPassword-128308", testConfigurationWithHeaders.password).then((response) => {
-      done(new Error("should throw an Exception"));
-    }).catch((error) => {
-      done();
+    assertItCallsCorrectUrl('POST', '/v1/account/password/change', () => client.changePassword(email, currentPassword, newPassword));
+    assertItReturnsUnderlyingPromise(mockPost, () => client.changePassword(email, currentPassword, newPassword));
+    assertPayload(mockPost, () => client.changePassword(email, currentPassword, newPassword), {
+      eMail: email,
+      currentPassword,
+      newPassword
     });
   });
 });

@@ -1,8 +1,9 @@
 import urljoin from 'url-join';
-import {get, utils} from '../http';
+import http, { utils} from '../http';
 import Promise from 'bluebird';
 
-const channels = (configuration) => {
+export const channels = (configuration, http) => {
+  const { get } = http;
   const fn = (channelName) => {
     const versions = {
       list  : (limit, offset) => {
@@ -40,18 +41,10 @@ const channels = (configuration) => {
       url = urljoin(url, getParams);
     }
 
-    return new Promise((resolve, reject) => {
-      get(configuration, url).then((response) => {
-        resolve({
-          items: response.channels
-        });
-      }).catch((error) => {
-        reject(error);
-      });
-    });
+    return get(configuration, url);
   };
 
   return fn;
 };
 
-module.exports = channels;
+export default (configuration) => { return channels(configuration, http); };

@@ -1,55 +1,23 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
-import Promise from 'bluebird';
+import http, { utils } from '../http';
 
-const codecConfigurations = (configuration) => {
+export const codecConfigurations = (configuration, http) => {
+  const { get, post, delete_ } = http;
   let typeFn = (typeUrl) => {
     let fn = (codecConfigId) => {
       return {
         details   : () => {
-          console.info('Getting Details for Codec Configuration with ID ' + codecConfigId + ' ...');
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', typeUrl, codecConfigId);
-
-          return new Promise((resolve, reject) => {
-            get(configuration, url)
-            .then((codecConfig, rawResponse) => {
-              resolve(codecConfig);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          return get(configuration, url);
         },
         customData: () => {
-          console.info('Getting Custom Data for Codec Configuration with ID ' + codecConfigId + ' ...');
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', typeUrl, codecConfigId, 'customData');
 
-          return new Promise((resolve, reject) => {
-            get(configuration, url)
-            .then((customData, rawResponse) => {
-              resolve(customData);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          return get(configuration, url);
         },
         delete    : () => {
-          console.info('Deleting Codec Configuration with ID ' + codecConfigId + ' ...');
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', typeUrl, codecConfigId);
-
-          return new Promise((resolve, reject) => {
-            delete_(configuration, url)
-            .then((response, rawResponse) => {
-              resolve(response);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          return delete_(configuration, url);
         }
       };
     };
@@ -57,15 +25,7 @@ const codecConfigurations = (configuration) => {
     fn.create = (codecConfig) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', typeUrl);
 
-      return new Promise((resolve, reject) => {
-        post(configuration, url, codecConfig)
-        .then((createdConfig, rawResponse) => {
-          resolve(createdConfig);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return post(configuration, url, codecConfig);
     };
 
     fn.list = (limit, offset) => {
@@ -79,15 +39,7 @@ const codecConfigurations = (configuration) => {
         url = urljoin(url, getParams);
       }
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-        .then((configList, rawResponse) => {
-          resolve(configList);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return get(configuration, url);
     };
 
     return fn;
@@ -109,31 +61,15 @@ const codecConfigurations = (configuration) => {
         url = urljoin(url, getParams);
       }
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-        .then((configList, rawResponse) => {
-          resolve(configList);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return get(configuration, url);
     },
 
     getType: (configurationId) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', configurationId, 'type');
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-        .then((result, rawResponse) => {
-          resolve(result);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return get(configuration, url);
     }
   };
 };
 
-module.exports = codecConfigurations;
+export default (configuration) => { return codecConfigurations(configuration, http); };

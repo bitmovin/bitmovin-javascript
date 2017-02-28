@@ -1,9 +1,10 @@
 import urljoin from 'url-join';
-import {get, utils} from '../http';
+import http, { utils } from '../http';
 
 import domains from './domains';
 
-const licenses = (configuration) => {
+export const licenses = (configuration, http) => {
+  const { get, post } = http;
   const fn = (licenseId) => {
     return {
       details: () => {
@@ -31,4 +32,4 @@ const licenses = (configuration) => {
   return fn;
 };
 
-module.exports = licenses;
+export default (configuration) => { return licenses(configuration, http); };

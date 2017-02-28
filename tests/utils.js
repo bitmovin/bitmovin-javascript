@@ -1,4 +1,7 @@
-const settings = require('./settings.json');
+const settings = {
+  apiKey: 'test-api-key',
+  tenantOrgId: 'test-org-id'
+};
 
 const getConfiguration = () => {
   return {

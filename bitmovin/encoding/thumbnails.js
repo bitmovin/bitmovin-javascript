@@ -1,79 +1,28 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
-import Promise from 'bluebird';
+import http, { utils } from '../http';
 
-const thumbnails = (configuration, encodingId, streamId) => {
+export const thumbnails = (configuration, encodingId, streamId, http) => {
+  const { get, post, delete_ } = http;
   let fn = (thumbnailId) => {
     return {
       details   : () => {
-        console.info(
-          'Getting Details for Thumbnail with ID ' + thumbnailId + ' (Encoding ID ' + encodingId + '; Stream ID '
-          + streamId + ') ...');
-
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails',
-          thumbnailId);
-
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-          .then((details, rawResponse) => {
-            resolve(details);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails', thumbnailId);
+        return get(configuration, url);
       },
       customData: () => {
-        console.info(
-          'Getting Custom Data for Thumbnail with ID ' + thumbnailId + ' (Encoding ID ' + encodingId + '; Stream ID '
-          + streamId + ') ...');
-
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails',
-          thumbnailId, 'customData');
-
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-          .then((customData, rawResponse) => {
-            resolve(customData);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails', thumbnailId, 'customData');
+        return get(configuration, url);
       },
       delete    : () => {
-        console.info(
-          'Deleting Thumbnail with ID ' + thumbnailId + ' (Encoding ID ' + encodingId + '; Stream ID ' + streamId
-          + ') ...');
-
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails',
-          thumbnailId);
-
-        return new Promise((resolve, reject) => {
-          delete_(configuration, url)
-          .then((response, rawResponse) => {
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails', thumbnailId);
+        return delete_(configuration, url);
       }
     };
   };
 
   fn.add = (thumbnail) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails');
-
-    return new Promise((resolve, reject) => {
-      post(configuration, url, thumbnail)
-      .then((createdThumbnail, rawResponse) => {
-        resolve(createdThumbnail);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return post(configuration, url, thumbnail);
   };
 
   fn.list = (limit, offset) => {
@@ -87,18 +36,10 @@ const thumbnails = (configuration, encodingId, streamId) => {
       url = urljoin(url, getParams);
     }
 
-    return new Promise((resolve, reject) => {
-      get(configuration, url)
-      .then((thumbnailList, rawResponse) => {
-        resolve(thumbnailList);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return get(configuration, url);
   };
 
   return fn;
 };
 
-module.exports = thumbnails;
+export default (configuration, encodingId, streamId) => { return thumbnails(configuration, encodingId, streamId); };
