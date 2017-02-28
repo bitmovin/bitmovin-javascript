@@ -1,53 +1,45 @@
-/**
- * Created by ferdinand on 17.02.17.
- */
-import {after, before, describe, it} from 'mocha';
-import assert from 'assert';
+import { organizations } from '../../../bitmovin/account/organizations/organizations.js'
+
+import {
+  mockGet,
+  mockPost,
+  mockDelete,
+  mockHttp,
+  methodToMock,
+  assertPayload,
+  assertItReturnsUnderlyingPromise,
+  assertItCallsCorrectUrl,
+  testSetup,
+  assertItReturnsPromise,
+  assertItReturnsCorrectResponse
+} from '../../assertions';
 
 import {getConfiguration} from '../../utils';
-import account from '../../../bitmovin/account/account'
 
 let testConfiguration = getConfiguration();
 
-describe('[Organizations]', () => {
-  let client = account(testConfiguration).organizations;
-  it('should return a list of organizations', (done) => {
-    client.list().then((response) => {
-      assert((response.totalCount !== null) && response.totalCount !== undefined);
-      assert((response.items.length !== null) && response.items.length > 0);
-      done();
-    }).catch((error) => {
-      done(new Error(error));
+describe('account', () => {
+  beforeEach(testSetup);
+  describe('organizations', () => {
+    const client = organizations(testConfiguration, mockHttp);
+    describe('list', () => {
+      assertItCallsCorrectUrl('GET', '/v1/account/organizations', client.list);
+      assertItReturnsUnderlyingPromise(mockGet, client.list);
     });
-  });
-
-  it('should return the details of the first organization', (done) => {
-    client.list().then((response) => {
-      assert((response.totalCount !== null) && response.totalCount !== undefined);
-      assert((response.items.length !== null) && response.items.length > 0);
-      let organizationId = response.items[0].id;
-      client(organizationId).details().then((response) => {
-        assert((response.id !== null) && response.id === organizationId);
-        assert((response.name !== null) && response.name !== undefined);
-        done();
-      }).catch((error) => {
-        done(new Error(error));
+    describe('add', () => {
+      assertItCallsCorrectUrl('POST', '/v1/account/organizations', client.add);
+      assertItReturnsUnderlyingPromise(mockPost, client.add);
+    });
+    describe('organization', () => {
+      describe('details', () => {
+        assertItCallsCorrectUrl('GET', '/v1/account/organizations/org-id', client('org-id').details);
+        assertItReturnsUnderlyingPromise(mockGet, client('org-id').details);
       });
-    }).catch((error) => {
-      done(new Error(error));
-    });
-  });
-
-  it('Should create and delete an organization', (done) => {
-    client.add({name: 'NewOrganisation', description: 'bitmovin-javascript-client-test'}).then((response) => {
-      assert((response.id !== null) && response.id !== undefined);
-      let organizationId = response.id;
-      client(organizationId).delete().then((response) => {
-        assert((response.id !== null) && response.id === organizationId);
-        done();
-      }).catch((error) => {
-        done(new Error(error));
+      describe('delete', () => {
+        assertItCallsCorrectUrl('DELETE', '/v1/account/organizations/org-id', client('org-id').delete);
+        assertItReturnsUnderlyingPromise(mockDelete, client('org-id').delete);
       });
     });
   });
 });
+

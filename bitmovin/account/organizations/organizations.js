@@ -1,71 +1,34 @@
-/**
- * Created by ferdinand on 17.02.17.
- */
-
 import urljoin from 'url-join';
-import { get, post, delete_ } from '../../http';
-import Promise from 'bluebird';
+import http from '../../http';
 
-const organizations = (configuration) => {
+export const organizations = (configuration, http) => {
+  const { get, post, delete_ } = http;
   const organizationsBaseUrl = urljoin(configuration.apiBaseUrl, 'account', 'organizations');
 
   let fn = (organizationId) => {
     return {
       details: () => {
         let url = urljoin(organizationsBaseUrl, organizationId);
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-            .then((status, rawResponse) => {
-              resolve(status);
-            })
-            .catch(error => {
-              reject(error);
-            });
-        });
+        return get(configuration, url);
       },
-
       delete: () => {
         let url = urljoin(organizationsBaseUrl, organizationId);
-        return new Promise((resolve, reject) => {
-          delete_(configuration, url)
-            .then((status, rawResponse) => {
-              resolve(status);
-            })
-            .catch(error => {
-              reject(error);
-            });
-        });
+        return delete_(configuration, url);
       }
     };
   };
 
   fn.add = (organization) => {
     const url = urljoin(organizationsBaseUrl);
-    return new Promise((resolve, reject) => {
-      post(configuration, url, organization)
-        .then((status, rawResponse) => {
-          resolve(status);
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
+    return post(configuration, url, organization);
   };
 
   fn.list = () => {
     const url = urljoin(organizationsBaseUrl);
-    return new Promise((resolve, reject) => {
-      get(configuration, url)
-        .then((status, rawResponse) => {
-          resolve(status);
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
+    return get(configuration, url);
   };
 
   return fn;
 };
 
-export default organizations;
+export default (configuration) => { return organizations(configuration, http); };
