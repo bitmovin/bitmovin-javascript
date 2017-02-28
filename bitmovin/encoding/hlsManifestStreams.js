@@ -1,52 +1,26 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
+import http, { utils } from '../http';
 import Promise from 'bluebird';
 
 
-const streams = (configuration, manifestId) => {
+export const hlsManifestStreams = (configuration, manifestId, http) => {
+  const { get, post, delete_ } = http;
   let fn = (streamId) => {
     return {
       details: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'streams', streamId);
-
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-          .then((stream, rawResponse) => {
-            resolve(stream);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return get(configuration, url);
       },
       delete : () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'streams', streamId);
-
-        return new Promise((resolve, reject) => {
-          delete_(configuration, url)
-          .then((response, rawResponse) => {
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return delete_(configuration, url);
       }
     };
   };
 
   fn.add = (stream) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'streams');
-
-    return new Promise((resolve, reject) => {
-      post(configuration, url, stream)
-      .then((createdStream, rawResponse) => {
-        resolve(createdStream);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return post(configuration, url, stream);
   };
 
   fn.list = (limit, offset) => {
@@ -60,18 +34,10 @@ const streams = (configuration, manifestId) => {
       url = urljoin(url, getParams);
     }
 
-    return new Promise((resolve, reject) => {
-      get(configuration, url)
-      .then((streamList, rawResponse) => {
-        resolve(streamList);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return get(configuration, url);
   };
 
   return fn;
 };
 
-module.exports = streams;
+export default (configuration, manifestId) => { return hlsManifestStreams(configuration, manifestId, http); }
