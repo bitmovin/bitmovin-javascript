@@ -1,7 +1,8 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
+import http, { utils } from '../http';
 
-const representations = (configuration, manifestId) => {
+export const representations = (configuration, manifestId, http) => {
+  const { get, post, delete_ } = http;
   const typeFn = (typeUrl) => {
     const baseUrl = urljoin(configuration.apiBaseUrl, 'encoding/manifests/smooth', manifestId, 'representations',
       typeUrl);
@@ -45,4 +46,4 @@ const representations = (configuration, manifestId) => {
   };
 };
 
-module.exports = representations;
+export default ( configuration, manifestId ) => { return representations(configuration, manifestId, http); };
