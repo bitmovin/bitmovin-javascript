@@ -8,158 +8,50 @@ export const encodings = (configuration, http) => {
   const { get, post, delete_ } = http;
   let fn = (encodingId) => {
     return {
-      details    : () => {
-        //console.info('Getting Details for Encoding with ID ' + encodingId + ' ...');
-
+      details: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId);
-
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-          .then((details, rawResponse) => {
-            resolve(details);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return get(configuration, url);
       },
       liveDetails: () => {
-        //console.info('Getting Live Details for Encoding with ID ' + encodingId + ' ...');
-
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'live');
-
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-          .then((liveDetails, rawResponse) => {
-            resolve(liveDetails);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return get(configuration, url);
       },
-      customData : () => {
-        //console.info('Getting Custom Data for Encoding with ID ' + encodingId + ' ...');
-
+      customData: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'customData');
-
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-          .then((customData, rawResponse) => {
-            resolve(customData);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return get(configuration, url);
       },
-      delete     : () => {
-        //console.info('Deleting Encoding with ID ' + encodingId + ' ...');
-
+      delete: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId);
-
-        return new Promise((resolve, reject) => {
-          delete_(configuration, url)
-          .then((response, rawResponse) => {
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return delete_(configuration, url);
       },
-      start      : (startConfiguration) => {
-        //console.info('Starting Encoding with ID ' + encodingId + ' ...');
-
+      start: (startConfiguration) => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'start');
-
-        return new Promise((resolve, reject) => {
-          post(configuration, url, startConfiguration)
-          .then((result, rawResponse) => {
-            resolve(result);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return post(configuration, url, startConfiguration);
       },
-      stop       : () => {
-        //console.info('Starting Encoding with ID ' + encodingId + ' ...');
-
+      stop:() => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'stop');
-
-        return new Promise((resolve, reject) => {
-          post(configuration, url)
-          .then((result, rawResponse) => {
-            resolve(result);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return post(configuration, url);
       },
-      startLive  : (startLiveConfiguration) => {
-        //console.info('Starting Encoding with ID ' + encodingId + ' ...');
-
+      startLive: (startLiveConfiguration) => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'live', 'start');
-
-        return new Promise((resolve, reject) => {
-          post(configuration, url, startLiveConfiguration)
-          .then((result, rawResponse) => {
-            resolve(result);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return post(configuration, url, startLiveConfiguration);
       },
-      stopLive   : () => {
-        //console.info('Starting Encoding with ID ' + encodingId + ' ...');
-
+      stopLive: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'live', 'stop');
-
-        return new Promise((resolve, reject) => {
-          post(configuration, url)
-          .then((result, rawResponse) => {
-            resolve(result);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return post(configuration, url);
       },
-      status     : () => {
-        //console.info('Getting Status for Encoding with ID ' + encodingId + ' ...');
-
+      status: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'status');
-
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-          .then((status, rawResponse) => {
-            resolve(status);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return get(configuration, url);
       },
-      streams    : streams(configuration, encodingId),
-      muxings    : muxings(configuration, encodingId)
+      streams: streams(configuration, encodingId),
+      muxings: muxings(configuration, encodingId)
     };
   };
 
   fn.create = (encoding) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings');
-
-    return new Promise((resolve, reject) => {
-      post(configuration, url, encoding)
-      .then((createdEncoding, rawResponse) => {
-        resolve(createdEncoding);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return post(configuration, url, encoding);
   };
 
   fn.list = (limit, offset, sort) => {
@@ -174,15 +66,7 @@ export const encodings = (configuration, http) => {
       url = urljoin(url, getParams);
     }
 
-    return new Promise((resolve, reject) => {
-      get(configuration, url)
-      .then((encodingList, rawResponse) => {
-        resolve(encodingList);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return get(configuration, url);
   };
 
   return fn;
