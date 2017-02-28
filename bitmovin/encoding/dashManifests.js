@@ -1,14 +1,13 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
+import http, { utils } from '../http';
 import periods from './dashManifestPeriods';
 import Promise from 'bluebird';
 
-const dashManifests = (configuration) => {
+export const dashManifests = (configuration, http) => {
+  const { get, post, delete_ } = http;
   let fn = (manifestId) => {
     return {
       details: () => {
-        console.info('Getting Details for DASH Manifest with ID ' + manifestId + ' ...');
-
         let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId);
 
         return new Promise((resolve, reject) => {
@@ -22,64 +21,21 @@ const dashManifests = (configuration) => {
         });
       },
       delete : () => {
-        console.info('Deleting DASH Manifest with ID ' + manifestId + ' ...');
-
         let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId);
 
-        return new Promise((resolve, reject) => {
-          delete_(configuration, url)
-          .then((response, rawResponse) => {
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return delete_(configuration, url);
       },
       start  : () => {
-        console.info('Starting DASH Manifest with ID ' + manifestId + ' ...');
-
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'start');
-
-        return new Promise((resolve, reject) => {
-          post(configuration, url)
-          .then((response, rawResponse) => {
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return post(configuration, url);
       },
       stop   : () => {
-        console.info('Stopping DASH Manifest with ID ' + manifestId + ' ...');
-
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'stop');
-
-        return new Promise((resolve, reject) => {
-          post(configuration, url)
-          .then((response, rawResponse) => {
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return post(configuration, url);
       },
       status : () => {
-        console.info('Retrieving status of DASH Manifest with ID ' + manifestId + ' ...');
-
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'status');
-
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-          .then((response, rawResponse) => {
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return get(configuration, url);
       },
       periods: periods(configuration, manifestId)
     };
@@ -87,16 +43,7 @@ const dashManifests = (configuration) => {
 
   fn.create = (manifest) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash');
-
-    return new Promise((resolve, reject) => {
-      post(configuration, url, manifest)
-      .then((createdManifest, rawResponse) => {
-        resolve(createdManifest);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return post(configuration, url, manifest);
   };
 
   fn.list = (limit, offset) => {
@@ -110,18 +57,10 @@ const dashManifests = (configuration) => {
       url = urljoin(url, getParams);
     }
 
-    return new Promise((resolve, reject) => {
-      get(configuration, url)
-      .then((manifestList, rawResponse) => {
-        resolve(manifestList);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return get(configuration, url);
   };
 
   return fn;
 };
 
-module.exports = dashManifests;
+export default (configuration) => { return dashManifests(configuration, http); };

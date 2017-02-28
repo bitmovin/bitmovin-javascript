@@ -62,3 +62,7 @@ export const assertItCallsCorrectUrl = (method, expectedUrl, fn) => {
     });
   });
 }
+export const assertItCallsUrlAndReturnsPromise = (method, url, fn) => {
+  assertItCallsCorrectUrl(method, url, fn);
+  assertItReturnsUnderlyingPromise(methodToMock(method), fn);
+};
