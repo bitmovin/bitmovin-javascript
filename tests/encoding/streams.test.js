@@ -29,6 +29,7 @@ describe('encoding', () => {
       assertItCallsCorrectUrl('POST', '/v1/encoding/encodings/encoding-id/streams', () => client.add({}));
       assertItReturnsUnderlyingPromise(mockPost, () => client.add({}));
     });
+
     describe('stream', () => {
       describe('details', () => {
         assertItCallsCorrectUrl('GET', '/v1/encoding/encodings/encoding-id/streams/stream-id', client('stream-id').details);
@@ -46,28 +47,7 @@ describe('encoding', () => {
         assertItCallsCorrectUrl('GET', '/v1/encoding/encodings/encoding-id/streams/stream-id/input', client('stream-id').inputDetails);
         assertItReturnsUnderlyingPromise(mockGet, client('stream-id').inputDetails);
       });
-      describe('filters', () => {
-        describe('listAll', () => {
-          // Should we really call this listAll
-          assertItCallsCorrectUrl('GET', '/v1/encoding/encodings/encoding-id/streams/stream-id/filters', client('stream-id').filters.listAll);
-          assertItReturnsUnderlyingPromise(mockGet, client('stream-id').filters.listAll);
-        });
-        describe('add', () => {
-          assertItCallsCorrectUrl('POST', '/v1/encoding/encodings/encoding-id/streams/stream-id/filters', () => client('stream-id').filters.add({}));
-          assertItReturnsUnderlyingPromise(mockPost, () => client('stream-id').filters.add({}));
-          assertPayload(mockPost, () => client('stream-id').filters.add({ foo: 'bar' }), { foo: 'bar' });
-        });
-        describe('deleteAll', () => {
-          assertItCallsCorrectUrl('DELETE', '/v1/encoding/encodings/encoding-id/streams/stream-id/filters', client('stream-id').filters.deleteAll);
-          assertItReturnsUnderlyingPromise(mockDelete, client('stream-id').filters.deleteAll);
-        });
-        describe('filter', () => {
-          describe('delete', () => {
-            assertItCallsCorrectUrl('DELETE', '/v1/encoding/encodings/encoding-id/streams/stream-id/filters/filter-id', client('stream-id').filters('filter-id').delete);
-            assertItReturnsUnderlyingPromise(mockDelete, client('stream-id').filters('filter-id').delete);
-          });
-        });
-      });
+
     });
   });
 });
