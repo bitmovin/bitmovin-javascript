@@ -1,78 +1,34 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
-import Promise from 'bluebird';
+import http, { utils } from '../http';
 
-const sprites = (configuration, encodingId, streamId) => {
+export const sprites = (configuration, encodingId, streamId, http) => {
+  const { get, post, delete_ } = http;
   let fn = (spriteId) => {
     return {
       details   : () => {
-        console.info(
-          'Getting Details for Sprite with ID ' + spriteId + ' (Encoding ID ' + encodingId + '; Stream ID ' + streamId
-          + ') ...');
-
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'sprites',
           spriteId);
 
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-          .then((details, rawResponse) => {
-            resolve(details);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return get(configuration, url);
       },
       customData: () => {
-        console.info(
-          'Getting Custom Data for Sprite with ID ' + spriteId + ' (Encoding ID ' + encodingId + '; Stream ID '
-          + streamId + ') ...');
-
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'sprites',
           spriteId, 'customData');
 
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-          .then((customData, rawResponse) => {
-            resolve(customData);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return get(configuration, url);
       },
       delete    : () => {
-        console.info(
-          'Deleting Sprite with ID ' + spriteId + ' (Encoding ID ' + encodingId + '; Stream ID ' + streamId + ') ...');
-
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'sprites',
           spriteId);
 
-        return new Promise((resolve, reject) => {
-          delete_(configuration, url)
-          .then((response, rawResponse) => {
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return delete_(configuration, url);
       }
     };
   };
 
   fn.add = (sprite) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'sprites');
-
-    return new Promise((resolve, reject) => {
-      post(configuration, url, sprite)
-      .then((createdSprite, rawResponse) => {
-        resolve(createdSprite);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return post(configuration, url, sprite);
   };
 
   fn.list = (limit, offset) => {
@@ -86,18 +42,10 @@ const sprites = (configuration, encodingId, streamId) => {
       url = urljoin(url, getParams);
     }
 
-    return new Promise((resolve, reject) => {
-      get(configuration, url)
-      .then((spriteList, rawResponse) => {
-        resolve(spriteList);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return get(configuration, url);
   };
 
   return fn;
 };
 
-module.exports = sprites;
+export default (configuration, encodingId, streamId) => { return sprites(configuration, encodingId, streamId, http); }
