@@ -8,20 +8,10 @@ export const dashManifests = (configuration, http) => {
     return {
       details: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId);
-
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-          .then((details, rawResponse) => {
-            resolve(details);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return get(configuration, url);
       },
       delete : () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId);
-
         return delete_(configuration, url);
       },
       start  : () => {

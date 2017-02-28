@@ -1,40 +1,19 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
+import http, { utils } from '../http';
 import adaptationSets from './dashManifestAdaptationSets';
 import Promise from 'bluebird';
 
-const periods = (configuration, manifestId) => {
+export const dashManifestPeriods = (configuration, manifestId, http) => {
+  const { get, post, delete_ } = http;
   let fn = (periodId) => {
     return {
       details       : () => {
-        console.info('Getting Details for DASH Manifest Period with ID ' + periodId + ' ...');
-
         let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId);
-
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-          .then((details, rawResponse) => {
-            resolve(details);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return get(configuration, url);
       },
       delete        : () => {
-        console.info('Deleting DASH Manifest Period with ID ' + periodId + ' ...');
-
         let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId);
-
-        return new Promise((resolve, reject) => {
-          delete_(configuration, url)
-          .then((response, rawResponse) => {
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return delete_(configuration, url);
       },
       adaptationSets: adaptationSets(configuration, manifestId, periodId)
     };
@@ -42,16 +21,7 @@ const periods = (configuration, manifestId) => {
 
   fn.add = (period) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods');
-
-    return new Promise((resolve, reject) => {
-      post(configuration, url, period)
-      .then((createdPeriod, rawResponse) => {
-        resolve(createdPeriod);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return post(configuration, url, period);
   };
 
   fn.list = (limit, offset) => {
@@ -65,18 +35,10 @@ const periods = (configuration, manifestId) => {
       url = urljoin(url, getParams);
     }
 
-    return new Promise((resolve, reject) => {
-      get(configuration, url)
-      .then((periodList, rawResponse) => {
-        resolve(periodList);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return get(configuration, url);
   };
 
   return fn;
 };
 
-module.exports = periods;
+export default (configuration, manifestId) => { return dashManifestPeriods(configuration, manifestId, http); };
