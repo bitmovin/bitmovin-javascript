@@ -1,14 +1,15 @@
 import urljoin from 'url-join';
 import streams from './streams';
 import muxings from './muxings';
-import {get, post, delete_, utils} from '../http';
+import http, { utils } from '../http';
 import Promise from 'bluebird';
 
-const encodings = (configuration) => {
+export const encodings = (configuration, http) => {
+  const { get, post, delete_ } = http;
   let fn = (encodingId) => {
     return {
       details    : () => {
-        console.info('Getting Details for Encoding with ID ' + encodingId + ' ...');
+        //console.info('Getting Details for Encoding with ID ' + encodingId + ' ...');
 
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId);
 
@@ -23,7 +24,7 @@ const encodings = (configuration) => {
         });
       },
       liveDetails: () => {
-        console.info('Getting Live Details for Encoding with ID ' + encodingId + ' ...');
+        //console.info('Getting Live Details for Encoding with ID ' + encodingId + ' ...');
 
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'live');
 
@@ -38,7 +39,7 @@ const encodings = (configuration) => {
         });
       },
       customData : () => {
-        console.info('Getting Custom Data for Encoding with ID ' + encodingId + ' ...');
+        //console.info('Getting Custom Data for Encoding with ID ' + encodingId + ' ...');
 
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'customData');
 
@@ -53,7 +54,7 @@ const encodings = (configuration) => {
         });
       },
       delete     : () => {
-        console.info('Deleting Encoding with ID ' + encodingId + ' ...');
+        //console.info('Deleting Encoding with ID ' + encodingId + ' ...');
 
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId);
 
@@ -68,7 +69,7 @@ const encodings = (configuration) => {
         });
       },
       start      : (startConfiguration) => {
-        console.info('Starting Encoding with ID ' + encodingId + ' ...');
+        //console.info('Starting Encoding with ID ' + encodingId + ' ...');
 
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'start');
 
@@ -83,7 +84,7 @@ const encodings = (configuration) => {
         });
       },
       stop       : () => {
-        console.info('Starting Encoding with ID ' + encodingId + ' ...');
+        //console.info('Starting Encoding with ID ' + encodingId + ' ...');
 
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'stop');
 
@@ -98,7 +99,7 @@ const encodings = (configuration) => {
         });
       },
       startLive  : (startLiveConfiguration) => {
-        console.info('Starting Encoding with ID ' + encodingId + ' ...');
+        //console.info('Starting Encoding with ID ' + encodingId + ' ...');
 
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'live', 'start');
 
@@ -113,7 +114,7 @@ const encodings = (configuration) => {
         });
       },
       stopLive   : () => {
-        console.info('Starting Encoding with ID ' + encodingId + ' ...');
+        //console.info('Starting Encoding with ID ' + encodingId + ' ...');
 
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'live', 'stop');
 
@@ -128,7 +129,7 @@ const encodings = (configuration) => {
         });
       },
       status     : () => {
-        console.info('Getting Status for Encoding with ID ' + encodingId + ' ...');
+        //console.info('Getting Status for Encoding with ID ' + encodingId + ' ...');
 
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'status');
 
@@ -187,5 +188,4 @@ const encodings = (configuration) => {
   return fn;
 };
 
-
-module.exports = encodings;
+export default (configuration) => { return encodings(configuration, http); };
