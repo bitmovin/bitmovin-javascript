@@ -1,6 +1,5 @@
 import urljoin from 'url-join';
 import http, { utils } from '../http';
-import Promise from 'bluebird';
 
 import representations from './dashManifestRepresentations';
 import contentProtections from './dashManifestContentProtections';

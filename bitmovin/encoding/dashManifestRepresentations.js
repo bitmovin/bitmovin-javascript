@@ -1,44 +1,21 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
+import http, { utils } from '../http';
 import Promise from 'bluebird';
 
 import contentProtections from './dashManifestContentProtections';
 
-const representations = (configuration, manifestId, periodId, adaptationSetId) => {
+export const representations = (configuration, manifestId, periodId, adaptationSetId, http) => {
+  const { get, post, delete_ } = http;
   let typeFn = (typeUrl) => {
     let fn = (representationId) => {
       return {
         details           : () => {
-          console.info('Getting Details for Representation with ID ' + representationId + ' ...');
-
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods',
-            periodId, 'adaptationsets', adaptationSetId, 'representations', typeUrl, representationId);
-
-          return new Promise((resolve, reject) => {
-            get(configuration, url)
-            .then((representation, rawResponse) => {
-              resolve(representation);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId, 'adaptationsets', adaptationSetId, 'representations', typeUrl, representationId);
+          return get(configuration, url);
         },
         delete            : () => {
-          console.info('Deleting Representation with ID ' + representationId + ' ...');
-
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods',
-            periodId, 'adaptationsets', adaptationSetId, 'representations', typeUrl, representationId);
-
-          return new Promise((resolve, reject) => {
-            delete_(configuration, url)
-            .then((response, rawResponse) => {
-              resolve(response);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId, 'adaptationsets', adaptationSetId, 'representations', typeUrl, representationId);
+          return delete_(configuration, url);
         },
         contentProtections: contentProtections(configuration, manifestId, periodId, adaptationSetId, {
           type: typeUrl,
@@ -48,18 +25,8 @@ const representations = (configuration, manifestId, periodId, adaptationSetId) =
     };
 
     fn.add = (representation) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods',
-        periodId, 'adaptationsets', adaptationSetId, 'representations', typeUrl);
-
-      return new Promise((resolve, reject) => {
-        post(configuration, url, representation)
-        .then((createdRepresentation, rawResponse) => {
-          resolve(createdRepresentation);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId, 'adaptationsets', adaptationSetId, 'representations', typeUrl);
+      return post(configuration, url, representation);
     };
 
     fn.list = (limit, offset) => {
@@ -74,15 +41,7 @@ const representations = (configuration, manifestId, periodId, adaptationSetId) =
         url = urljoin(url, getParams);
       }
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-        .then((representationList, rawResponse) => {
-          resolve(representationList);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return get(configuration, url);
     };
 
     return fn;
@@ -95,4 +54,4 @@ const representations = (configuration, manifestId, periodId, adaptationSetId) =
   };
 };
 
-module.exports = representations;
+export default (configuration, manifestId, periodId, adaptationSetId) => { return representations(configuration, manifestId, periodId, adaptationSetId, http); };
