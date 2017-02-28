@@ -1,47 +1,26 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
+import http, { utils } from '../http';
 
 import thumbnails from './thumbnails';
 import sprites from './sprites';
 
-const streams = (configuration, encodingId) => {
-
+export const streams = (configuration, encodingId, http) => {
+  const { get, post, delete_ } = http;
   let filterFn = (streamId) => {
     let fn = (filterId) => {
       return {
         delete: () => {
-          console.info(
-            'Deleting Filter with ID ' + filterId + ' from Stream with ID ' + streamId + '(Encoding ID ' + encodingId
-            + ') ...');
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'filters',
             filterId);
 
-          return new Promise((resolve, reject) => {
-            delete_(configuration, url)
-            .then((response, rawResponse) => {
-              resolve(response);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          return delete_(configuration, url);
         }
       };
     };
 
     fn.add = (filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'filters');
-
-      return new Promise((resolve, reject) => {
-        post(configuration, url, filter)
-        .then((response, rawResponse) => {
-          resolve(response);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return post(configuration, url, filter);
     };
 
     fn.listAll = (limit, offset) => {
@@ -55,29 +34,12 @@ const streams = (configuration, encodingId) => {
         url = urljoin(url, getParams);
       }
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-        .then((filterList, rawResponse) => {
-          resolve(filterList);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return get(configuration, url);
     };
 
     fn.deleteAll = () => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'filters');
-
-      return new Promise((resolve, reject) => {
-        delete_(configuration, url)
-        .then((result, rawResponse) => {
-          resolve(result);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return delete_(configuration, url);
     };
 
     return fn;
@@ -86,65 +48,21 @@ const streams = (configuration, encodingId) => {
   let fn = (streamId) => {
     return {
       details     : () => {
-        console.info('Getting Details for Stream with ID ' + streamId + ' (Encoding ID ' + encodingId + ') ...');
-
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId);
 
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-          .then((details, rawResponse) => {
-            resolve(details);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return get(configuration, url);
       },
       customData  : () => {
-        console.info('Getting Custom Data for Stream with ID ' + streamId + ' (Encoding ID ' + encodingId + ') ...');
-
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId,
-          'customData');
-
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-          .then((customData, rawResponse) => {
-            resolve(customData);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'customData');
+        return get(configuration, url);
       },
       delete      : () => {
-        console.info('Deleting Stream with ID ' + streamId + ' (Encoding ID ' + encodingId + ') ...');
-
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId);
-
-        return new Promise((resolve, reject) => {
-          delete_(configuration, url)
-          .then((response, rawResponse) => {
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return delete_(configuration, url);
       },
       inputDetails: () => {
-        console.info('Getting Input Details for Stream with ID ' + streamId + ' (Encoding ID ' + encodingId + ') ...');
-
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'input');
-
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-          .then((inputDetails, rawResponse) => {
-            resolve(inputDetails);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return get(configuration, url);
       },
       filters     : filterFn(streamId),
       thumbnails  : thumbnails(configuration, encodingId, streamId),
@@ -155,15 +73,7 @@ const streams = (configuration, encodingId) => {
   fn.add = (stream) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams');
 
-    return new Promise((resolve, reject) => {
-      post(configuration, url, stream)
-      .then((createdStream, rawResponse) => {
-        resolve(createdStream);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return post(configuration, url, stream);
   };
 
   fn.list = (limit, offset) => {
@@ -177,18 +87,10 @@ const streams = (configuration, encodingId) => {
       url = urljoin(url, getParams);
     }
 
-    return new Promise((resolve, reject) => {
-      get(configuration, url)
-      .then((streamList, rawResponse) => {
-        resolve(streamList);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return get(configuration, url);
   };
 
   return fn;
 };
 
-module.exports = streams;
+export default (configuration, encodingId) => { return streams(configuration, encodingId, http); };
