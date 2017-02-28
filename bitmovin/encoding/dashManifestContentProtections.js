@@ -1,8 +1,9 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
+import http, { utils } from '../http';
 import Promise from 'bluebird';
 
-const contentProtections = (configuration, manifestId, periodId, adaptationSetId, representationInfo) => {
+export const contentProtections = (configuration, manifestId, periodId, adaptationSetId, representationInfo, http) => {
+  const { get, post, delete_ } = http;
 
   let baseUrl = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId,
     'adaptationsets', adaptationSetId);
@@ -14,50 +15,19 @@ const contentProtections = (configuration, manifestId, periodId, adaptationSetId
   let fn = (contentProtectionId) => {
     return {
       details: () => {
-        console.info('Getting Details for Content Protection with ID ' + contentProtectionId + ' ...');
-
         let url = urljoin(baseUrl, contentProtectionId);
-
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-          .then((details, rawResponse) => {
-            resolve(details);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return get(configuration, url);
       },
       delete : () => {
-        console.info('Deleting Content Protection with ID ' + contentProtectionId + ' ...');
-
         let url = urljoin(baseUrl, contentProtectionId);
-
-        return new Promise((resolve, reject) => {
-          delete_(configuration, url)
-          .then((response, rawResponse) => {
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return delete_(configuration, url);
       }
     };
   };
 
   fn.add = (contentProtection) => {
     let url = baseUrl;
-
-    return new Promise((resolve, reject) => {
-      post(configuration, url, contentProtection)
-      .then((createdContentProtection, rawResponse) => {
-        resolve(createdContentProtection);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return post(configuration, url, contentProtection);
   };
 
   fn.list = (limit, offset) => {
@@ -71,18 +41,10 @@ const contentProtections = (configuration, manifestId, periodId, adaptationSetId
       url = urljoin(url, getParams);
     }
 
-    return new Promise((resolve, reject) => {
-      get(configuration, url)
-      .then((contentProtectionList, rawResponse) => {
-        resolve(contentProtectionList);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return get(configuration, url);
   };
 
   return fn;
 };
 
-module.exports = contentProtections;
+export default (configuration, manifestId, periodId, adaptationSetId, representationInfo) => { return contentProtections(configuration, manifestId, periodId, adaptationSetId, representationInfo, http); };
