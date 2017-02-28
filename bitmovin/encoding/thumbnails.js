@@ -42,4 +42,4 @@ export const thumbnails = (configuration, encodingId, streamId, http) => {
   return fn;
 };
 
-export default (configuration, encodingId, streamId) => { return thumbnails(configuration, encodingId, streamId); };
+export default (configuration, encodingId, streamId) => { return thumbnails(configuration, encodingId, streamId, http); };
