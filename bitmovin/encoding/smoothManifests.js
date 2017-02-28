@@ -1,10 +1,11 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
+import http, { utils } from '../http';
 
 import representations from './smoothManifestRepresentations';
 import contentProtections from './smoothManifestContentProtections';
 
-const smoothManifests = (configuration) => {
+export const smoothManifests = (configuration, http) => {
+  const { get, post, delete_ } = http;
   let fn = (manifestId) => {
     return {
       details        : () => {
@@ -54,4 +55,4 @@ const smoothManifests = (configuration) => {
   return fn;
 };
 
-module.exports = smoothManifests;
+export default (configuration) => { return smoothManifests(configuration, http); };
