@@ -1,13 +1,13 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
-import Promise from 'bluebird';
+import http, { utils } from '../http';
 
 import dashManifests from './dashManifests';
 import hlsManifests from './hlsManifests';
 import smoothManifests from './smoothManifests';
 
 
-const manifests = (configuration) => {
+export const manifests = (configuration, http) => {
+  const { get, post, delete_ } = http;
   return {
     listAll: (limit, offset) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests');
@@ -20,15 +20,7 @@ const manifests = (configuration) => {
         url = urljoin(url, getParams);
       }
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-        .then((manifestList, rawResponse) => {
-          resolve(manifestList);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return get(configuration, url);
     },
     dash   : dashManifests(configuration),
     hls    : hlsManifests(configuration),
@@ -36,4 +28,4 @@ const manifests = (configuration) => {
   };
 };
 
-module.exports = manifests;
+export default (configuration) => { return manifests(configuration, http); };
