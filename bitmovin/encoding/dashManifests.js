@@ -1,7 +1,6 @@
 import urljoin from 'url-join';
 import http, { utils } from '../http';
 import periods from './dashManifestPeriods';
-import Promise from 'bluebird';
 
 export const dashManifests = (configuration, http) => {
   const { get, post, delete_ } = http;

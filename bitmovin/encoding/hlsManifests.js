@@ -1,87 +1,33 @@
 import urljoin from 'url-join';
-import {get, post, delete_, utils} from '../http';
+import http, { utils } from '../http';
 import Promise from 'bluebird';
 
 import media from './hlsManifestMedia';
 import streams from './hlsManifestStreams';
 
-const hlsManifests = (configuration) => {
+export const hlsManifests = (configuration, http) => {
+  const { get, post, delete_ } = http;
   let fn = (manifestId) => {
     return {
       details: () => {
-        console.info('Getting Details for HLS Manifest with ID ' + manifestId + ' ...');
-
         let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId);
-
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-          .then((details, rawResponse) => {
-            resolve(details);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return get(configuration, url);
       },
       delete : () => {
-        console.info('Deleting HLS Manifest with ID ' + manifestId + ' ...');
-
         let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId);
-
-        return new Promise((resolve, reject) => {
-          delete_(configuration, url)
-          .then((response, rawResponse) => {
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return delete_(configuration, url);
       },
       start  : () => {
-        console.info('Starting HLS Manifest with ID ' + manifestId + ' ...');
-
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'start');
-
-        return new Promise((resolve, reject) => {
-          post(configuration, url)
-          .then((response, rawResponse) => {
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return post(configuration, url)
       },
       stop   : () => {
-        console.info('Stopping HLS Manifest with ID ' + manifestId + ' ...');
-
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'stop');
-
-        return new Promise((resolve, reject) => {
-          post(configuration, url)
-          .then((response, rawResponse) => {
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return post(configuration, url)
       },
       status : () => {
-        console.info('Retrieving status of HLS Manifest with ID ' + manifestId + ' ...');
-
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'status');
-
-        return new Promise((resolve, reject) => {
-          get(configuration, url)
-          .then((response, rawResponse) => {
-            resolve(response);
-          })
-          .catch(error => {
-            reject(error);
-          });
-        });
+        return get(configuration, url);
       },
       media: media(configuration, manifestId),
       streams: streams(configuration, manifestId)
@@ -90,16 +36,7 @@ const hlsManifests = (configuration) => {
 
   fn.create = (manifest) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls');
-
-    return new Promise((resolve, reject) => {
-      post(configuration, url, manifest)
-      .then((createdManifest, rawResponse) => {
-        resolve(createdManifest);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return post(configuration, url, manifest);
   };
 
   fn.list = (limit, offset) => {
@@ -113,18 +50,10 @@ const hlsManifests = (configuration) => {
       url = urljoin(url, getParams);
     }
 
-    return new Promise((resolve, reject) => {
-      get(configuration, url)
-      .then((manifestList, rawResponse) => {
-        resolve(manifestList);
-      })
-      .catch(error => {
-        reject(error);
-      });
-    });
+    return get(configuration, url);
   };
 
   return fn;
 };
 
-module.exports = hlsManifests;
+export default (configuration) => { return hlsManifests(configuration, http); };
