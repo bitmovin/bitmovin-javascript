@@ -75,11 +75,11 @@ describe('encoding', () => {
       describe('item', () => {
         describe('details', () => {
           assertItCallsCorrectUrl('GET', `/v1/encoding/inputs/${urlPart}/input-id`, client[type]('input-id').details);
-          assertItReturnsUnderlyingPromise(mockPost, client[type]('input-id').details);
+          assertItReturnsUnderlyingPromise(mockGet, () => client[type]('input-id').details());
         });
         describe('customData', () => {
           assertItCallsCorrectUrl('GET', `/v1/encoding/inputs/${urlPart}/input-id/customData`, client[type]('input-id').customData);
-          assertItReturnsUnderlyingPromise(mockPost, client[type]('input-id').customData);
+          assertItReturnsUnderlyingPromise(mockGet, client[type]('input-id').customData);
         });
         describe('delete', () => {
           assertItCallsCorrectUrl('DELETE', `/v1/encoding/inputs/${urlPart}/input-id`, client[type]('input-id').delete);
