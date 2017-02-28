@@ -1,56 +1,24 @@
 import urljoin from 'url-join';
 import drms from './drms';
-import {get, post, delete_, utils} from '../http';
+import http, { utils } from '../http';
 
-const muxings = (configuration, encodingId) => {
+export const muxings = (configuration, encodingId, http) => {
+  const { get, post, delete_ } = http;
   let typeFn = (typeUrl) => {
     let fn = (muxingId) => {
       return {
         details   : () => {
-          console.info('Getting Details for Muxing with ID ' + muxingId + ' (Encoding ID ' + encodingId + ') ...');
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl, muxingId);
-
-          return new Promise((resolve, reject) => {
-            get(configuration, url)
-            .then((details, rawResponse) => {
-              resolve(details);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          return get(configuration, url);
         },
         customData: () => {
-          console.info('Getting Custom Data for Muxing with ID ' + muxingId + ' (Encoding ID ' + encodingId + ') ...');
-
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl, muxingId,
-            'customData');
-
-          return new Promise((resolve, reject) => {
-            get(configuration, url)
-            .then((customData, rawResponse) => {
-              resolve(customData);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl, muxingId, 'customData');
+          return get(configuration, url);
         },
         delete    : () => {
-          console.info('Deleting Muxing with ID ' + muxingId + ' (Encoding ID ' + encodingId + ') ...');
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl, muxingId);
 
-          return new Promise((resolve, reject) => {
-            delete_(configuration, url)
-            .then((response, rawResponse) => {
-              resolve(response);
-            })
-            .catch(error => {
-              reject(error);
-            });
-          });
+          return delete_(configuration, url);
         },
         drms      : drms(configuration, encodingId, typeUrl, muxingId)
       };
@@ -58,16 +26,7 @@ const muxings = (configuration, encodingId) => {
 
     fn.add = (muxing) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl);
-
-      return new Promise((resolve, reject) => {
-        post(configuration, url, muxing)
-        .then((createdMuxing, rawResponse) => {
-          resolve(createdMuxing);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return post(configuration, url, muxing);
     };
 
     fn.list = (limit, offset) => {
@@ -81,15 +40,7 @@ const muxings = (configuration, encodingId) => {
         url = urljoin(url, getParams);
       }
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-        .then((muxingList, rawResponse) => {
-          resolve(muxingList);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return get(configuration, url);
     };
 
     return fn;
@@ -102,4 +53,4 @@ const muxings = (configuration, encodingId) => {
   };
 };
 
-module.exports = muxings;
+export default (configuration, encodingId) => { return muxings(configuration, encodingId, http); };
