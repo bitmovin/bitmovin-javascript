@@ -65,15 +65,7 @@ export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, http) =
         url = urljoin(url, getParams);
       }
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-        .then((drmList, rawResponse) => {
-          resolve(drmList);
-        })
-        .catch(error => {
-          reject(error);
-        });
-      });
+      return get(configuration, url);
     }
   };
 };
