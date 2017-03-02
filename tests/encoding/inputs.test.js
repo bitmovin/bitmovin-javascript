@@ -93,8 +93,8 @@ describe('encoding', () => {
     });
 
     describe('list', () => {
-      assertItCallsCorrectUrl('GET', '/v1/encoding/inputs', client.listAll);
-      assertItReturnsUnderlyingPromise(mockGet, client.listAll);
+      assertItCallsCorrectUrl('GET', '/v1/encoding/inputs', client.list);
+      assertItReturnsUnderlyingPromise(mockGet, client.list);
     });
     describe('getType', () => {
       assertItCallsCorrectUrl('GET', '/v1/encoding/inputs/input-id/type', () => client.getType('input-id'));

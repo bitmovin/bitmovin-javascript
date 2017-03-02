@@ -81,7 +81,7 @@ describe('[CodecConfigurations]', () => {
   };
 
   it('should list all codec configurations', (done) => {
-    codecConfigurationsClient.listAll(5).then((response) => {
+    codecConfigurationsClient.list(5).then((response) => {
       assert((response.totalCount !== null) && response.totalCount !== undefined);
       assert((response.previous !== null) && response.previous !== undefined);
       assert((response.next !== null) && response.next !== undefined);

@@ -378,7 +378,7 @@ describe('[DRMs]', () => {
       createdOutput   = results[1];
       return createFmp4Muxing(createdEncoding.id, createdOutput.id);
     }).then((createdMuxing) => {
-      return encodingsClient(createdEncoding.id).muxings.fmp4(createdMuxing.id).drms.listAll();
+      return encodingsClient(createdEncoding.id).muxings.fmp4(createdMuxing.id).drms.list();
     }).then((response) => {
       assert((response.totalCount !== null) && response.totalCount !== undefined);
       assert((response.items !== null) && response.items !== undefined);
@@ -400,7 +400,7 @@ describe('[DRMs]', () => {
       createdOutput   = results[1];
       return createTsMuxing(createdEncoding.id, createdOutput.id);
     }).then((createdMuxing) => {
-      return encodingsClient(createdEncoding.id).muxings.ts(createdMuxing.id).drms.listAll();
+      return encodingsClient(createdEncoding.id).muxings.ts(createdMuxing.id).drms.list();
     }).then((response) => {
       assert((response.totalCount !== null) && response.totalCount !== undefined);
       assert((response.items !== null) && response.items !== undefined);
@@ -422,7 +422,7 @@ describe('[DRMs]', () => {
       createdOutput   = results[1];
       return createTsMuxing(createdEncoding.id, createdOutput.id);
     }).then((createdMuxing) => {
-      return encodingsClient(createdEncoding.id).muxings.ts(createdMuxing.id).drms.listAll();
+      return encodingsClient(createdEncoding.id).muxings.ts(createdMuxing.id).drms.list();
     }).then((response) => {
       assert((response.totalCount !== null) && response.totalCount !== undefined);
       assert((response.items !== null) && response.items !== undefined);
@@ -444,7 +444,7 @@ describe('[DRMs]', () => {
       createdOutput   = results[1];
       return createMp4Muxing(createdEncoding.id, createdOutput.id);
     }).then((createdMuxing) => {
-      return encodingsClient(createdEncoding.id).muxings.mp4(createdMuxing.id).drms.listAll();
+      return encodingsClient(createdEncoding.id).muxings.mp4(createdMuxing.id).drms.list();
     }).then((response) => {
       assert((response.totalCount !== null) && response.totalCount !== undefined);
       assert((response.items !== null) && response.items !== undefined);

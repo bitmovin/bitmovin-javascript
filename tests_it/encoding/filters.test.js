@@ -55,7 +55,7 @@ describe('[Filters]', () => {
   let filtersClient = filters(testConfiguration);
 
   it('should return a list of filters', (done) => {
-    filtersClient.listAll(5).then((response) => {
+    filtersClient.list(5).then((response) => {
       assert((response.totalCount !== null) && response.totalCount !== undefined);
       assert((response.previous !== null) && response.previous !== undefined);
       assert((response.next !== null) && response.next !== undefined);

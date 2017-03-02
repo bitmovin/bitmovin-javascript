@@ -92,7 +92,7 @@ describe('[Outputs]', () => {
   let outputClient = outputs(testConfiguration);
 
   it('should list all outputs', (done) => {
-    outputClient.listAll(5).then((response) => {
+    outputClient.list(5).then((response) => {
       assert((response.totalCount !== null) && response.totalCount !== undefined);
       assert((response.items !== null) && response.items !== undefined);
       done();

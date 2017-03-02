@@ -23,10 +23,10 @@ describe('encoding', () => {
 
     describe('stream', () => {
       describe('filters', () => {
-        describe('listAll', () => {
-          // Should we really call this listAll
-          assertItCallsCorrectUrl('GET', '/v1/encoding/encodings/encoding-id/streams/stream-id/filters', client('stream-id').filters.listAll);
-          assertItReturnsUnderlyingPromise(mockGet, client('stream-id').filters.listAll);
+        describe('list', () => {
+          // Should we really call this list
+          assertItCallsCorrectUrl('GET', '/v1/encoding/encodings/encoding-id/streams/stream-id/filters', client('stream-id').filters.list);
+          assertItReturnsUnderlyingPromise(mockGet, client('stream-id').filters.list);
         });
         describe('add', () => {
           assertItCallsCorrectUrl('POST', '/v1/encoding/encodings/encoding-id/streams/stream-id/filters', () => client('stream-id').filters.add({}));

@@ -471,7 +471,7 @@ describe('[Streams]', () => {
       return streamsClient.add(stream);
     }).then((createdStream) => {
       compareStreams(createdStream, stream);
-      return streamsClient(createdStream.id).filters.listAll();
+      return streamsClient(createdStream.id).filters.list();
     }).then((response) => {
       // TODO!
       //assert((response.totalCount !== null) && response.totalCount !== undefined);
@@ -544,14 +544,14 @@ describe('[Streams]', () => {
         position: 0,
         id      : createdCropFilter.id
       }]);
-      return streamsClient(stream.id).filters.listAll();
+      return streamsClient(stream.id).filters.list();
     }).then((response) => {
       assert.equal(response.filters.length, 1);
       return streamsClient(stream.id).filters.deleteAll();
     }).then((filtersDeletedResponse) => {
       console.log(filtersDeletedResponse);
       assert.equal(filtersDeletedResponse[0].id, createdCropFilter.id);
-      return streamsClient(stream.id).filters.listAll();
+      return streamsClient(stream.id).filters.list();
     }).then((response) => {
       assert.equal(response.filters.length, 0);
       done();
@@ -621,14 +621,14 @@ describe('[Streams]', () => {
         position: 0,
         id      : createdCropFilter.id
       }]);
-      return streamsClient(stream.id).filters.listAll();
+      return streamsClient(stream.id).filters.list();
     }).then((response) => {
       assert.equal(response.filters.length, 1);
       return streamsClient(stream.id).filters(createdCropFilter.id).delete();
     }).then((filtersDeletedResponse) => {
       console.log(filtersDeletedResponse);
       assert.equal(filtersDeletedResponse.id, createdCropFilter.id);
-      return streamsClient(stream.id).filters.listAll();
+      return streamsClient(stream.id).filters.list();
     }).then((response) => {
       assert.equal(response.filters.length, 0);
       done();

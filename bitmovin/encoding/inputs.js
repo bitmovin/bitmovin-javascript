@@ -82,7 +82,7 @@ export const inputs = (configuration, http) => {
     genericS3: typeFn('generic-s3'),
     sftp     : typeFn('sftp'),
 
-    listAll: (limit, offset) => {
+    list: (limit, offset) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs');
 
       let getParams = utils.buildGetParamString({

@@ -25,9 +25,9 @@ describe('encoding', () => {
       const drm = drms(testConfiguration, 'encoding-id', muxingType, 'muxing-id', mockHttp);
       describe(muxingType, () => {
         describe('drms', () => {
-          describe('listAll', () => {
-            assertItCallsCorrectUrl('GET', `/v1/encoding/encodings/encoding-id/muxings/${muxingType}/muxing-id`, drm.listAll);
-            assertItReturnsUnderlyingPromise(mockGet, drm.listAll);
+          describe('list', () => {
+            assertItCallsCorrectUrl('GET', `/v1/encoding/encodings/encoding-id/muxings/${muxingType}/muxing-id`, drm.list);
+            assertItReturnsUnderlyingPromise(mockGet, drm.list);
           });
           const testDrm = (type) => {
             describe(type, () => {

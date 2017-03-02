@@ -129,7 +129,7 @@ describe('[Inputs]', () => {
   let inputsClient = inputs(testConfiguration);
 
   it('should return a list of inputs', (done) => {
-    inputsClient.listAll(5).then((response) => {
+    inputsClient.list(5).then((response) => {
       assert((response.totalCount !== null) && response.totalCount !== undefined);
       assert((response.previous !== null) && response.previous !== undefined);
       assert((response.next !== null) && response.next !== undefined);

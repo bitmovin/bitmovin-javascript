@@ -23,9 +23,9 @@ describe('encoding', () => {
 
     const client = codecConfigurations(testConfiguration, mockHttp);
 
-    describe('listAll', () => {
-      assertItCallsCorrectUrl('GET', '/v1/encoding/configurations', client.listAll);
-      assertItReturnsUnderlyingPromise(mockGet, client.listAll);
+    describe('list', () => {
+      assertItCallsCorrectUrl('GET', '/v1/encoding/configurations', client.list);
+      assertItReturnsUnderlyingPromise(mockGet, client.list);
     });
     describe('getType', () => {
       assertItCallsCorrectUrl('GET', `/v1/encoding/configurations/encoding-id/type`, () => client.getType('encoding-id'));

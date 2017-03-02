@@ -50,7 +50,7 @@ export const codecConfigurations = (configuration, http) => {
     h265: typeFn('video/h265'),
     aac : typeFn('audio/aac'),
 
-    listAll: (limit, offset) => {
+    list: (limit, offset) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations');
 
       let getParams = utils.buildGetParamString({
