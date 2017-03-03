@@ -1,6 +1,6 @@
 {
   "name": "bitmovin-javascript",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "scripts": {
     "lint": "./node_modules/eslint/bin/eslint.js --color ./bitmovin",
     "test": "node scripts/test.js tests/",
