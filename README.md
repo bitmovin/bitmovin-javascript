@@ -46,7 +46,7 @@ So for example the list all inputs call is defined as `GET v1/encoding/inputs` i
 ```js
 const limit = 100;
 const offset = 0;
-bitmovin.encoding.inputs.listAll(limit, offset).then((inputs) => {
+bitmovin.encoding.inputs.list(limit, offset).then((inputs) => {
   inputs.forEach((input) => {
     console.log(input.name);
   });
