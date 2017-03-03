@@ -22,8 +22,8 @@ describe('encoding', () => {
   describe('manifests', () => {
     beforeEach(testSetup);
     const client = manifests(testConfiguration, mockHttp);
-    describe('listAll', () => {
-      assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/manifests', client.listAll);
+    describe('list', () => {
+      assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/manifests', client.list);
     });
   });
 });

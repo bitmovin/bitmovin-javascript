@@ -99,7 +99,7 @@ const filters = (configuration) => {
     rotate     : typeFn('rotate'),
     watermark  : typeFn('watermark'),
 
-    listAll: (limit, offset) => {
+    list: (limit, offset) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/filters');
 
       let getParams = utils.buildGetParamString({

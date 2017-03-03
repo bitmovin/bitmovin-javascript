@@ -23,9 +23,9 @@ describe('encoding', () => {
 
     const client = codecConfigurations(testConfiguration, mockHttp);
 
-    describe('listAll', () => {
-      assertItCallsCorrectUrl('GET', '/v1/encoding/configurations', client.listAll);
-      assertItReturnsUnderlyingPromise(mockGet, client.listAll);
+    describe('list', () => {
+      assertItCallsCorrectUrl('GET', '/v1/encoding/configurations', client.list);
+      assertItReturnsUnderlyingPromise(mockGet, client.list);
     });
     describe('getType', () => {
       assertItCallsCorrectUrl('GET', `/v1/encoding/configurations/encoding-id/type`, () => client.getType('encoding-id'));
@@ -58,14 +58,6 @@ describe('encoding', () => {
             assertItCallsCorrectUrl('DELETE', `/v1/encoding/configurations/${type}/config-id`, typeClient('config-id').delete);
             assertItReturnsUnderlyingPromise(mockDelete, typeClient('config-id').delete);
           });
-          //describe('customData', () => {
-          //  assertItCallsCorrectUrl('GET', `/v1/encoding/codecConfigurations/${urlPart}/codecConfiguration-id/customData`, client[type]('codecConfiguration-id').customData);
-          //  assertItReturnsUnderlyingPromise(mockPost, client[type]('codecConfiguration-id').customData);
-          //});
-          //describe('delete', () => {
-          //  assertItCallsCorrectUrl('DELETE', `/v1/encoding/codecConfigurations/${urlPart}/codecConfiguration-id`, client[type]('codecConfiguration-id').delete);
-          //  assertItReturnsUnderlyingPromise(mockDelete, client[type]('codecConfiguration-id').delete);
-          //});
         });
       });
     };

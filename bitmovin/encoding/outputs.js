@@ -84,7 +84,7 @@ export const outputs = (configuration, http) => {
       gcp: bitmovinTypeFn('bitmovin/gcp')
     },
 
-    listAll: (limit, offset) => {
+    list: (limit, offset) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs');
 
       let getParams = utils.buildGetParamString({

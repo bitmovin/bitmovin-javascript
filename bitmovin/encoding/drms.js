@@ -53,7 +53,7 @@ export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, http) =
     primeTime: typeFn('primetime'),
     widevine : typeFn('widevine'),
 
-    listAll: (limit, offset) => {
+    list: (limit, offset) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', muxingTypeUrl, muxingId,
         'drm');
 

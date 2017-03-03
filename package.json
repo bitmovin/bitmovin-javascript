@@ -1,10 +1,12 @@
 {
   "name": "bitmovin-javascript",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "scripts": {
     "lint": "./node_modules/eslint/bin/eslint.js --color ./bitmovin",
-    "test": "./node_modules/.bin/jest",
-    "coverage": "rm -rf ./coverage && npm run analyze-coverage && npm run check-coverage",
+    "test": "node scripts/test.js tests/",
+    "coverage": "node scripts/test.js tests/ --coverage",
+    "it-coverage": "rm -rf ./coverage && npm run analyze-coverage && npm run check-coverage",
+    "it": "./node_modules/mocha/bin/mocha --compilers js:babel-core/register --require babel-polyfill --recursive tests_it --timeout 30000",
     "debug": "./node_modules/webpack/bin/webpack.js --config=webpack.config.debug.js",
     "release": "./node_modules/webpack/bin/webpack.js --config=webpack.config.release.js",
     "publish-release": "cd ./build/release && npm publish"
@@ -25,6 +27,7 @@
     "istanbul": "v1.1.0-alpha.1",
     "jest": "^19.0.2",
     "json-loader": "^0.5.4",
+    "mocha": "^3.2.0",
     "nodelint": "^0.6.2",
     "regenerator-runtime": "^0.10.3",
     "url-join": "^1.1.0",

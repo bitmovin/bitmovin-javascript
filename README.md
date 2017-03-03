@@ -1,4 +1,8 @@
-# [![bitmovin](https://cloudfront-prod.bitmovin.com/wp-content/themes/Bitmovin-V-0.1/images/logo3.png)](http://www.bitmovin.com)
+# Bitmovin Javascript API Client 
+[![bitmovin](https://cloudfront-prod.bitmovin.com/wp-content/themes/Bitmovin-V-0.1/images/logo3.png)](http://www.bitmovin.com)
+[![codecov](https://codecov.io/gh/bitmovin/bitmovin-javascript/branch/develop/graph/badge.svg?token=XNzQalljOE)](https://codecov.io/gh/bitmovin/bitmovin-javascript)
+[![npm version](https://badge.fury.io/js/bitmovin-javascript.svg)](https://badge.fury.io/js/bitmovin-javascript)
+
 Javascript-API-Client which enables you to seamlessly integrate the [Bitmovin API](https://bitmovin.com/video-infrastructure-service-bitmovin-api/) into your projects.
 Using this API client requires an active account. [Sign up for a Bitmovin API key](https://bitmovin.com/bitmovins-video-api/).
 
@@ -9,6 +13,10 @@ Installation
 
 ``` bash
 npm install bitmovin-javascript
+```
+or with yarnpkg
+``` bash
+yarn add bitmovin-javascript
 ```
 
 Initialization
@@ -40,7 +48,7 @@ So for example the list all inputs call is defined as `GET v1/encoding/inputs` i
 ```js
 const limit = 100;
 const offset = 0;
-bitmovin.encoding.inputs.listAll(limit, offset).then((inputs) => {
+bitmovin.encoding.inputs.list(limit, offset).then((inputs) => {
   inputs.forEach((input) => {
     console.log(input.name);
   });
@@ -50,7 +58,18 @@ bitmovin.encoding.inputs.listAll(limit, offset).then((inputs) => {
 Examples
 -----------
 
-You sample DASH & HLS encoding sample can be found in [examples/encoding/01_simple_encoding_dash_manifest.js](https://github.com/bitmovin/bitmovin-javascript/blob/develop/examples/encoding/01_simple_encoding_dash_manifest.js)
+An sample DASH & HLS encoding sample can be found in [examples/encoding/01_simple_encoding_dash_manifest.js](https://github.com/bitmovin/bitmovin-javascript/blob/develop/examples/encoding/01_simple_encoding_dash_manifest.js)
 
-For more examples visit our [example page](https://github.com/bitmovin/bitmovin-javascript/tree/develop/examples/encoding)
+For more examples visit our [example page](https://github.com/bitmovin/bitmovin-javascript/tree/develop/examples/encoding) or look at the [integration tests](https://github.com/bitmovin/bitmovin-javascript/tree/develop/tests_it)
 
+Contributing
+-----------
+
+If you want to contribute feel free to send Pull-Requests. Make sure the tests pass and new functions have ample test coverage.
+
+Running tests:
+
+``` bash
+yarn test
+yarn coverage
+```

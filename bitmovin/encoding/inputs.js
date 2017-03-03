@@ -47,8 +47,6 @@ export const inputs = (configuration, http) => {
     let rtmpFn = (inputId) => {
       return {
         details: () => {
-          console.info('Getting Details for Output with ID ' + inputId + ' ...');
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl, inputId);
           return get(configuration, url);
         }
@@ -84,7 +82,7 @@ export const inputs = (configuration, http) => {
     genericS3: typeFn('generic-s3'),
     sftp     : typeFn('sftp'),
 
-    listAll: (limit, offset) => {
+    list: (limit, offset) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs');
 
       let getParams = utils.buildGetParamString({

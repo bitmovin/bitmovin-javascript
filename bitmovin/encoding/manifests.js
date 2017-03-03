@@ -9,7 +9,7 @@ import smoothManifests from './smoothManifests';
 export const manifests = (configuration, http) => {
   const { get, post, delete_ } = http;
   return {
-    listAll: (limit, offset) => {
+    list: (limit, offset) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests');
 
       let getParams = utils.buildGetParamString({

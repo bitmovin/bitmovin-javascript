@@ -23,7 +23,7 @@ export const streams = (configuration, encodingId, http) => {
       return post(configuration, url, filter);
     };
 
-    fn.listAll = (limit, offset) => {
+    fn.list = (limit, offset) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'filters');
 
       let getParams = utils.buildGetParamString({
