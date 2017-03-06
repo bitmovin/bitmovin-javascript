@@ -1,10 +1,10 @@
 import urljoin from 'url-join';
-import http from '../http';
+import http, {utils} from '../http';
 import Promise from 'bluebird';
 
-const filters = (configuration, http) => {
+export const filters = (configuration, http) => {
 
-  const {get, post, delete_, utils} = http;
+  const {get, post, delete_} = http;
 
   let typeFn = (typeUrl) => {
     let fn = (filterId) => {

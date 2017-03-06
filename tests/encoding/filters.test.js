@@ -1,24 +1,31 @@
-import {getConfiguration} from '../utils';
+import { getConfiguration } from '../utils';
 import { streams } from '../../bitmovin/encoding/streams';
+import { filters } from '../../bitmovin/encoding/filters';
 
 import {
   mockGet,
   mockPost,
   mockDelete,
   mockHttp,
-  methodToMock,
   assertPayload,
   assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
   testSetup,
-  assertItReturnsPromise,
-  assertItReturnsCorrectResponse
 } from '../assertions';
 
-let testConfiguration = getConfiguration();
+const testConfiguration = getConfiguration();
 describe('encoding', () => {
+  beforeEach(testSetup);
+
+  describe('filters', () => {
+    const client = filters(testConfiguration, mockHttp);
+    describe('list', () => {
+      assertItCallsCorrectUrl('GET', '/v1/encoding/filters', client.list);
+      assertItReturnsUnderlyingPromise(mockGet, client.list);
+    });
+  });
+
   describe('streams', () => {
-    beforeEach(testSetup);
     const client = streams(testConfiguration, 'encoding-id', mockHttp);
 
     describe('stream', () => {
