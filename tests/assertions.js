@@ -10,14 +10,14 @@ export const methodToMock = (method) => {
   if (method.toLowerCase() === 'delete')
     return mockDelete;
   return mockPost;
-}
+};
 
 
 export const testSetup = () => {
   mockGet.mockClear();
   mockPost.mockClear();
   mockDelete.mockClear();
-}
+};
 
 export const assertPayload = (mock, call, expectedPayload) => {
   it ('should send appropriate payload', () => {
@@ -25,7 +25,8 @@ export const assertPayload = (mock, call, expectedPayload) => {
       expect(mock.mock.calls[0][2]).toEqual(expectedPayload);
     });
   });
-}
+};
+
 export const assertItReturnsPromise = (mock, call) => {
   it ('should return promise', () => {
     mock.mockReturnValue(Promise.resolve("success"));
