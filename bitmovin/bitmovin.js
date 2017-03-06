@@ -5,6 +5,8 @@ import codecConfigurations from './encoding/codecConfigurations';
 import inputs from './encoding/inputs';
 import outputs from './encoding/outputs';
 import manifests from './encoding/manifests';
+import filters from './encoding/filters';
+import statistics from './encoding/statistics'
 import account from './account/account';
 import playerChannels from './player/channels';
 import playerLicenses from './player/licenses';
@@ -69,7 +71,9 @@ export default class Bitmovin {
       codecConfigurations: codecConfigurations(this.configuration),
       inputs             : inputs(this.configuration),
       outputs            : outputs(this.configuration),
-      manifests          : manifests(this.configuration)
+      manifests          : manifests(this.configuration),
+      filters            : filters(this.configuration),
+      statistics         : statistics(this.configuration)
     };
 
     this.player = {
