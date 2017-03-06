@@ -59,7 +59,7 @@ export default class Bitmovin {
       'X-Api-Key'           : configuration.apiKey,
       'X-Tenant-Org-Id'     : configuration.tenantOrgId,
       'X-Api-Client'        : 'bitmovin-javascript',
-      'X-Api-Client-Version': '1.0.1'
+      'X-Api-Client-Version': '1.0.2'
     };
 
     this.configuration = configuration;
