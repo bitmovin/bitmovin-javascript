@@ -19,11 +19,50 @@ describe('encoding', () => {
 
   describe('filters', () => {
     const client = filters(testConfiguration, mockHttp);
+
     describe('list', () => {
       assertItCallsCorrectUrl('GET', '/v1/encoding/filters', client.list);
       assertItReturnsUnderlyingPromise(mockGet, client.list);
     });
+
+    const testFilterType = (type) => {
+      describe(type, () => {
+
+        describe('list', () => {
+          assertItCallsCorrectUrl('GET', `/v1/encoding/filters/${type}`, client[type].list);
+          assertItReturnsUnderlyingPromise(mockGet, client[type].list);
+        });
+
+        describe('add', () => {
+          assertItCallsCorrectUrl('POST', `/v1/encoding/filters/${type}`, client[type].create);
+          assertItReturnsUnderlyingPromise(mockPost, client[type].create);
+        });
+
+        describe('filter', () => {
+          describe('details', () => {
+            assertItCallsCorrectUrl('GET', `/v1/encoding/filters/${type}/filter-id`, client[type]('filter-id').details);
+            assertItReturnsUnderlyingPromise(mockGet, client[type]('filter-id').details);
+          });
+
+          describe('customData', () => {
+            assertItCallsCorrectUrl('GET', `/v1/encoding/filters/${type}/filter-id/customData`, client[type]('filter-id').customData);
+            assertItReturnsUnderlyingPromise(mockGet, client[type]('filter-id').customData);
+          });
+
+          describe('delete', () => {
+            assertItCallsCorrectUrl('DELETE', `/v1/encoding/filters/${type}/filter-id`, client[type]('filter-id').delete);
+            assertItReturnsUnderlyingPromise(mockDelete, client[type]('filter-id').delete);
+          });
+        });
+      });
+    };
+    testFilterType('crop');
+    testFilterType('watermark');
+    testFilterType('deinterlace');
+    testFilterType('rotate');
   });
+
+
 
   describe('streams', () => {
     const client = streams(testConfiguration, 'encoding-id', mockHttp);

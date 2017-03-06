@@ -48,7 +48,7 @@ describe('encoding', () => {
           });
         });
       });
-    }
+    };
 
     testInputType('aspera');
     testInputType('azure');
