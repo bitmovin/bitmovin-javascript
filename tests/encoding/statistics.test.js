@@ -16,5 +16,10 @@ describe('encoding', () => {
     describe('overall', () => {
       assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/statistics', client.overall);
     });
+    describe('encoding', () => {
+      describe('live-statistics', () => {
+        assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/statistics/encodings/encoding-id/live-statistics', client.encodings('encoding-id').liveStatistics);
+      });
+    });
   });
 });

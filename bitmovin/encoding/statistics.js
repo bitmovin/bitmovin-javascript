@@ -7,6 +7,14 @@ export const statistics = (configuration, http) => {
     overall : () => {
       const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics');
       return get(configuration, url);
+    },
+    encodings: (encodingId) => {
+      return {
+        liveStatistics: () => {
+          const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings', encodingId, 'live-statistics');
+          return get(configuration, url);
+        }
+      }
     }
   }
 };
