@@ -7,6 +7,8 @@ const Bitmovin = require('bitmovin-javascript').default;
 const BITMOVIN_API_KEY = '';
 const bitmovin = new Bitmovin({apiKey: BITMOVIN_API_KEY, debug: true});
 
+const ENCODING_NAME = 'TEST_ENCODING_' + new Date().toISOString();
+
 const INPUT_HTTP_HOST = '';
 const INPUT_HTTP_PATH = '';
 
@@ -32,9 +34,9 @@ const main = () => {
     const httpInputCreationPromise = createInput();
     const s3OutputCreationPromise = createOutput();
     const encodingResourceCreationPromise = createEncoding();
-    const codecConfigurationH264At816pPromise = createH264CodecConfiguration(1920, 816, 4800000, 24.0);
-    const codecConfigurationH264At544pPromise = createH264CodecConfiguration(1280, 544, 2400000, 24.0);
-    const codecConfigurationH264At272pPromise = createH264CodecConfiguration(640, 272, 1200000, 24.0);
+    const codecConfigurationH264At816pPromise = createH264CodecConfiguration(1920, 1080, 4800000, 25.0);
+    const codecConfigurationH264At544pPromise = createH264CodecConfiguration(1280, 720, 2400000, 25.0);
+    const codecConfigurationH264At272pPromise = createH264CodecConfiguration(640, 360, 1200000, 25.0);
     const codecConfigurationAACPromise = createAACCodecConfiguration(128000, 48000);
 
     Promise.all(
@@ -103,10 +105,7 @@ const main = () => {
               resolve(result);
             });
           });
-        }).catch((error) => {
-          console.error('An error occured: ', error);
-          reject(error);
-        });
+        }).catch(logErrorPromise(reject, 'An error occured: '));
       });
     });
   });
@@ -122,10 +121,7 @@ const createInput = () => {
     bitmovin.encoding.inputs.http.create(httpInput).then((createdInput) => {
       console.log('Successfully created HTTP Input.', createdInput);
       resolve(createdInput);
-    }).catch((error) => {
-      console.error('Unable to create HTTP Input.', error);
-      reject(error);
-    })
+    }).catch(logErrorPromise(reject, 'Unable to create HTTP Input.'));
   });
 };
 
@@ -141,10 +137,7 @@ const createOutput = () => {
     bitmovin.encoding.outputs.s3.create(s3Output).then((createdOutput) => {
       console.log('Successfully created S3 Output.', createdOutput);
       resolve(createdOutput);
-    }).catch((error) => {
-      console.error('Unable to create S3 Output.', error);
-      reject(error);
-    });
+    }).catch(logErrorPromise(reject, 'Unable to create S3 Output.'));
   });
 };
 
@@ -157,10 +150,7 @@ const createEncoding = () => {
     bitmovin.encoding.encodings.create(encoding).then((createdEncoding) => {
       console.log('Successfully created Encoding resource.', createdEncoding);
       resolve(createdEncoding);
-    }).catch((error) => {
-      console.error('Unable to create Encoding Resource.', error);
-      reject(error);
-    });
+    }).catch(logErrorPromise(reject, 'Unable to create Encoding Resource.'));
   });
 };
 
@@ -177,10 +167,7 @@ const createH264CodecConfiguration = (width, height, bitrate, fps) => {
     bitmovin.encoding.codecConfigurations.h264.create(h264CodecConfiguration).then((createdCodecConfiguration) => {
       console.log('Successfully created H264 Codec Configuration.', createdCodecConfiguration);
       resolve(createdCodecConfiguration);
-    }).catch((error) => {
-      console.error('Unable to create H264 Codec Configuration.', error);
-      reject(error);
-    });
+    }).catch(logErrorPromise(reject, 'Unable to create H264 Codec Configuration'));
   });
 };
 
@@ -194,10 +181,7 @@ const createAACCodecConfiguration = (bitrate, rate) => {
     bitmovin.encoding.codecConfigurations.aac.create(aacCodecConfiguration).then((createdCodecConfiguration) => {
       console.log('Successfully created AAC Codec Configuration.', createdCodecConfiguration);
       resolve(createdCodecConfiguration);
-    }).catch((error) => {
-      console.error('Unable to create AAC Codec Configuration.', error);
-      reject(error);
-    });
+    }).catch(logErrorPromise(reject, 'Unable to create AAC Codec Configuration'));
   });
 };
 
@@ -219,10 +203,7 @@ const createDashManifestWithPeriodAndAdaptationSets = (outputId) => {
       createDashManifestPeriodWithAdaptationSets(createdManifest).then(([createdPeriod, createdAudioAdaptationSet, createdVideoAdaptationSet]) => {
         resolve([createdManifest, createdPeriod, createdAudioAdaptationSet, createdVideoAdaptationSet]);
       });
-    }).catch((error) => {
-      console.error('Unable to create DASH manifest.', error);
-      reject(error);
-    });
+    }).catch(logErrorPromise(reject, 'Unable to create DASH Manifest'));
   });
 };
 
@@ -236,10 +217,7 @@ const createDashManifestPeriodWithAdaptationSets = (dashManifest) => {
       Promise.all([videoAdaptationSetCreationPromise, audioAdaptationSetCreationPromise]).then(([createdVideoAdaptationSet, createdAudioAdaptationSet]) => {
         resolve([createdPeriod, createdAudioAdaptationSet, createdVideoAdaptationSet]);
       });
-    }).catch((error) => {
-      console.error('Unable to create DASH Manifest Period for ' + dashManifest.name, error);
-      reject(error);
-    });
+    }).catch(logErrorPromise(reject, 'Unable to create DASH Manifest Period for ' + dashManifest.name));
   });
 };
 
@@ -252,10 +230,7 @@ const createDashManifestAudioAdaptationSet = (dashManifest, period) => {
     bitmovin.encoding.manifests.dash(dashManifest.id).periods(period.id).adaptationSets.audio.create(audioAdaptationSet).then((createdAudioAdaptationSet) => {
       console.log('Successfully created Audio Adaptation Set for ' + period.name, createdAudioAdaptationSet);
       resolve(createdAudioAdaptationSet);
-    }).catch((error) => {
-      console.error('Unable to create Audio Adaptation Set for ' + period.name, error);
-      reject(error);
-    });
+    }).catch(logErrorPromise(reject, 'Unable to create Audio Adaptation Set for ' + period.name));
   });
 };
 
@@ -267,10 +242,7 @@ const createDashManifestVideoAdaptationSet = (dashManifest, period) => {
     bitmovin.encoding.manifests.dash(dashManifest.id).periods(period.id).adaptationSets.video.create(videoAdaptationSet).then((createdVideoAdaptationSet) => {
       console.log('Successfully created Video Adaptation Set for ' + period.name, createdVideoAdaptationSet);
       resolve(createdVideoAdaptationSet);
-    }).catch((error) => {
-      console.error('Unable to create Video Adaptation Set for ' + period.name, error);
-      reject(error);
-    });
+    }).catch(logErrorPromise(reject, 'Unable to create Video Adaptation Set for ' + period.name));
   });
 };
 
@@ -290,10 +262,7 @@ const createHlsManifest = (outputId) => {
     bitmovin.encoding.manifests.hls.create(hlsManifest).then((createdManifest) => {
       console.log('Successfully created HLS Manifest Resource.', createdManifest);
       resolve(createdManifest);
-    }).catch((error) => {
-      console.error('Unable to create HLS manifest.', error);
-      reject(error);
-    });
+    }).catch(logErrorPromise(reject, 'Unable to create HLS manifest.'));
   });
 };
 
@@ -331,10 +300,7 @@ const createStreamWithMuxingsAndDRMsAndManifestResources = (codecConfiguration, 
           ]);
         });
       });
-    }).catch((error) => {
-      console.error('Unable to create Stream with Codec Configuration ' + codecConfiguration.name + '.', error);
-      reject(error);
-    });
+    }).catch(logErrorPromise(reject, 'Unable to create Stream with Codec Configuration ' + codecConfiguration.name + '.'));
   });
 };
 
@@ -355,10 +321,7 @@ const createFMP4MuxingWithCENCDRMAndManifestResources = (stream_, outputPath, co
       .then(([createdDrm, createdRepresentation]) => {
         resolve([createdMuxing, createdDrm, createdRepresentation]);
       });
-    }).catch((error) => {
-      console.error('Unable to create FMP4 Muxing ' + fmp4Muxing.name + '.', error);
-      reject(error);
-    });
+    }).catch(logErrorPromise(reject, 'Unable to create FMP4 Muxing ' + fmp4Muxing.name + '.'));
   });
 };
 
@@ -377,11 +340,7 @@ const createTSMuxingWithFairPlayDRMAndManifestResources = (stream_, outputPath, 
       createFairPlayDRMAndManifestResources(stream_, codecConfiguration, outputPath, createdMuxing, output, encoding, hlsManifest).then(([createdDrm, createdRepresentation]) => {
         resolve([createdMuxing, createdDrm, createdRepresentation]);
       });
-    }).catch((error) => {
-      console.error('Unable to create TS Muxing ' + tsMuxing.name, + '.', error);
-    });
-
-
+    }).catch(logErrorPromise(reject, 'Unable to create TS Muxing ' + tsMuxing.name, + '.'));
   });
 };
 
@@ -414,10 +373,7 @@ const createCENCDRMAndManifestResources = (stream_, codecConfiguration, outputPa
       createDashManifestRepresentation(encoding, stream_, fmp4Muxing, createdDrm, dashManifest, dashManifestPeriod, dashManifestAdaptationSet, drmOutputPath).then((createdRepresentation) => {
         resolve([createdDrm, createdRepresentation]);
       });
-    }).catch((error) => {
-      console.error('Unable to create CENC DRM ' + cencDRM.name + '.', error);
-      reject(error);
-    });
+    }).catch(logErrorPromise(reject, 'Unable to create CENC DRM ' + cencDRM.name + '.'));
   });
 };
 
@@ -443,10 +399,7 @@ const createFairPlayDRMAndManifestResources = (stream_, codecConfiguration, outp
       createHlsManifestRepresentation(encoding, stream_, tsMuxing, createdDrm, hlsManifest, drmOutputPath).then((createdRepresentation) => {
         resolve([createdDrm, createdRepresentation]);
       });
-    }).catch((error) => {
-      console.error('Unable to create FairPlay DRM ' + fairPlayDRM.name + '.', error);
-      reject(error);
-    });
+    }).catch(logErrorPromise(reject, 'Unable to create FairPlay DRM ' + fairPlayDRM.name + '.'));
   });
 };
 
@@ -462,10 +415,7 @@ const createDashManifestRepresentation = (encoding, stream_, fmp4Muxing, cencDrm
     bitmovin.encoding.manifests.dash(dashManifest.id).periods(period.id).adaptationSets(adaptationSet.id).representations.drmFmp4.add(drmFmp4Representation).then((createdRepresentation) => {
       console.log('Successfully created DRM FMP4 Representation for Muxing with ID ' + fmp4Muxing.id + '.', createdRepresentation);
       resolve(createdRepresentation);
-    }).catch((error) => {
-      console.error('Unable to create DRM FMP4 Representation for Muxing with ID ' + fmp4Muxing.id + '.', error);
-      reject(error);
-    });
+    }).catch(logErrorPromise(reject, 'Unable to create DRM FMP4 Representation for Muxing with ID ' + fmp4Muxing.id + '.'));
   });
 };
 
@@ -503,10 +453,7 @@ const createHlsAudioMedia = (encoding, stream_, tsMuxing, fairPlayDrm, hlsManife
     bitmovin.encoding.manifests.hls(hlsManifest.id).media.audio.add(audioMedia).then((createdAudioMedia) => {
       console.log('Successfully created HLS Audio Media', createdAudioMedia);
       resolve(createdAudioMedia);
-    }).catch((error) => {
-      console.error('Unable to create HLS Audio Media', error);
-      reject(error);
-    });
+    }).catch(logErrorPromise(reject, 'Unable to create HLS Audio Media'));
   });
 };
 
@@ -526,10 +473,7 @@ const createHlsVariantStream = (encoding, stream_, tsMuxing, fairPlayDrm, hlsMan
     bitmovin.encoding.manifests.hls(hlsManifest.id).streams.add(variantStream).then((createdVariantStream) => {
       console.log('Successfully created Variant Stream for DRM with ID ' + fairPlayDrm.id + '.', createdVariantStream);
       resolve(createdVariantStream);
-    }).catch((error) => {
-      console.error('Unable to create Variant Stream for DRM with ID ' + fairPlayDrm.id + '.', error);
-      reject(error);
-    });
+    }).catch(logErrorPromise(reject, 'Unable to create Variant Stream for DRM with ID ' + fairPlayDrm.id + '.'));
   });
 };
 
@@ -541,10 +485,7 @@ const startEncodingAndWaitForItToBeFinished = (encoding) => {
       waitUntilEncodingFinished(encoding).then((success) => {
         console.log('Encoding finished', success);
         resolve(true);
-      }).catch((error) => {
-        console.log('Encoding failed', error);
-        reject(error);
-      })
+      }).catch(logErrorPromise(reject, 'Encoding failed'));
     });
   });
 };
@@ -579,10 +520,7 @@ const startDashManifestCreationAndWaitForItToBeFinished = (manifest) => {
       waitUntilDashManifestFinished(manifest).then((success) => {
         console.log('manifest finished', success);
         resolve(true);
-      }).catch((error) => {
-        console.log('manifest errored', error);
-        reject(error);
-      })
+      }).catch(logErrorPromise(reject, 'DASH Manifest creation failed'));
     });
   });
 };
@@ -617,10 +555,7 @@ const startHlsManifestCreationAndWaitForItToBeFinished = (manifest) => {
       waitUntilHlsManifestFinished(manifest).then((success) => {
         console.log('hls manifest finished', success);
         resolve(true);
-      }).catch((error) => {
-        console.log('hls manifest errored', error);
-        reject(error);
-      })
+      }).catch(logErrorPromise(reject, 'HLS Manifest creation failed'));
     });
   });
 };
@@ -645,6 +580,13 @@ const waitUntilHlsManifestFinished = (manifest) => {
     };
     waitForManifestToBeFinished();
   });
+};
+
+const logErrorPromise = (reject, errorMessage) => {
+  return (error) => {
+    console.error(errorMessage, error);
+    reject(error);
+  };
 };
 
 main().then(() => {
