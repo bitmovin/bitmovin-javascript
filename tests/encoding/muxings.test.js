@@ -11,7 +11,8 @@ import {
   assertItCallsCorrectUrl,
   testSetup,
   assertItReturnsPromise,
-  assertItReturnsCorrectResponse
+  assertItReturnsCorrectResponse,
+  assertItCallsUrlAndReturnsPromise
 } from '../assertions';
 
 import {getConfiguration} from '../utils';
@@ -54,6 +55,15 @@ describe('encoding', () => {
     testMuxing('fmp4');
     testMuxing('mp4');
     testMuxing('ts');
+    testMuxing('webm');
 
   });
+
+  describe('Muxings list all', () => {
+    beforeEach(testSetup);
+    const client = muxings(testConfiguration, 'encoding-id', mockHttp);
+    describe('list', () => {
+      assertItCallsUrlAndReturnsPromise('GET', `/v1/encoding/encodings/encoding-id/muxings`, client.list);
+    });
+  })
 });
