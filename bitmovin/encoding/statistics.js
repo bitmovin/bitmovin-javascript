@@ -1,5 +1,5 @@
 import urljoin from 'url-join';
-import {utils} from '../http';
+import http, { utils} from '../http';
 
 export const statistics = (configuration, http) => {
   const { get } = http;

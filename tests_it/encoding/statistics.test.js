@@ -19,4 +19,27 @@ describe('[Statistics]', () => {
       done(new Error(error));
     });
   });
+
+  it('should return vod statistics', (done) => {
+    statisticsClient.vod.list().then((response) => {
+      assert(response !== undefined && response !== null);
+      assert(response.next !== undefined && response.next !== null);
+      assert(response.previous !== undefined && response.previous !== null);
+      done();
+    }).catch((error) => {
+      done(new Error(error));
+    });
+  });
+
+  it('should return vod statistics with limit offset', (done) => {
+    statisticsClient.vod.list(10, 5).then((response) => {
+      assert(response !== undefined && response !== null);
+      assert(response.next !== undefined && response.next !== null);
+      assert(response.previous !== undefined && response.previous !== null);
+      done();
+    }).catch((error) => {
+      done(new Error(error));
+    });
+  });
+
 });
