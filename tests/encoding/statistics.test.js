@@ -35,12 +35,12 @@ describe('encoding', () => {
         const expectedUrl = `/v1/encoding/statistics/encodings/vod/${startDate}/${endDate}`;
 
         it(`Should call GET with ${expectedUrl} once.`, () => {
-          return client.vod.listWithinDates(startDate, endDate).then(() => {
+          return client.vod.list({ from: startDate, to: endDate }).then(() => {
             expect(mockGet).toBeCalled();
           });
         });
         it(`should call GET with ${expectedUrl}`, () => {
-          return client.vod.listWithinDates(startDate, endDate).then(() => {
+          return client.vod.list({ from: startDate, to: endDate }).then(() => {
             expect(mockGet.mock.calls[0][1]).toEqual(expect.stringMatching(expectedUrl));
           });
         });
@@ -57,13 +57,13 @@ describe('encoding', () => {
         const expectedUrl = `/v1/encoding/statistics/encodings/live/${startDate}/${endDate}`;
 
         it(`Should call GET with ${expectedUrl} once.`, () => {
-          return client.live.listWithinDates(startDate, endDate).then(() => {
+          return client.live.list({ from: startDate, to: endDate }).then(() => {
             expect(mockGet).toBeCalled();
           });
         });
 
         it(`should call GET with ${expectedUrl}`, () => {
-          return client.live.listWithinDates(startDate, endDate).then(() => {
+          return client.live.list({ from: startDate, to: endDate }).then(() => {
             const calledUrl = mockGet.mock.calls[0][1];
             expect(calledUrl).toEqual(expect.stringMatching(expectedUrl));
           });
