@@ -22,3 +22,11 @@ export const dateToApiRequestString = (date) => {
   const dateStr = date.getDate()< 10? ('0' + date.getDate()): date.getDate();
   return date.getFullYear() + '-' + monthStr + '-' + dateStr;
 };
+
+export const isValidApiRequestDateString = (dateString) => {
+  if(typeof dateString !== "string")
+    return false;
+
+  const regex = /^\d{4}-\d{2}-\d{2}$/;
+  return dateString.match(regex) != null;
+};

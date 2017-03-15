@@ -1,51 +1,43 @@
 import urljoin from 'url-join';
-import http, { utils} from '../http';
+import http, {utils} from '../http';
 import BitmovinError from "../BitmovinError";
+import {isValidApiRequestDateString} from '../DateUtils'
 
 export const statistics = (configuration, http) => {
   const { get } = http;
 
-  const isValidDate = (dateString) => {
-
-    if(typeof dateString !== "string")
-      return false;
-
-    const regex = /^\d{4}-\d{2}-\d{2}$/;
-    return dateString.match(regex) != null;
-  };
-
-  const fn = (url) => {
+  const fn = (baseUrl) => {
     return {
       list: (limit, offset) => {
-        let urlChanged = url;
+        let url = baseUrl;
         const getParams = utils.buildGetParamString({
           limit : limit,
           offset: offset
         });
         if (getParams.length > 0) {
-          urlChanged = urljoin(url, getParams);
+          url = urljoin(baseUrl, getParams);
         }
 
-        return get(configuration, urlChanged)
+        return get(configuration, url)
       },
-      specific: (startDate, endDate, limit, offset) => {
+      listWithinDates: (startDate, endDate, limit, offset) => {
 
-        if(!isValidDate(startDate) || !isValidDate(endDate)){
+        if(!isValidApiRequestDateString(startDate) || !isValidApiRequestDateString(endDate)){
           console.error("Wrong date format! Correct format is 'yyyy-MM-dd'");
           return Promise.reject(new BitmovinError("Wrong date format! Correct format is 'yyyy-MM-dd'", {}));
         }
 
-        let urlChanged = urljoin(url, startDate, endDate);
+        let url = urljoin(baseUrl, startDate, endDate);
 
         const getParams = utils.buildGetParamString({
           limit : limit,
           offset: offset
         });
         if (getParams.length > 0) {
-          urlChanged = urljoin(urlChanged, getParams);
+          url = urljoin(url, getParams);
         }
 
-        return get(configuration, urlChanged)
+        return get(configuration, url)
       }
     }
   };
