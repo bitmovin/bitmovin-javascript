@@ -16,10 +16,17 @@ describe('encoding', () => {
     describe('overall', () => {
       assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/statistics', client.overall);
     });
-    describe('encoding', () => {
+    describe('encodings', () => {
       describe('live-statistics', () => {
         assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/statistics/encodings/encoding-id/live-statistics', client.encodings('encoding-id').liveStatistics);
       });
+      describe('vod', () => {
+        assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/statistics/encodings/vod', client.vod.list);
+      });
+      describe('live', () => {
+        assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/statistics/encodings/live', client.live.list);
+      });
     });
+
   });
 });

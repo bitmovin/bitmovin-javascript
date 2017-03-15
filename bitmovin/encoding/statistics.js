@@ -39,22 +39,16 @@ export const statistics = (configuration, http) => {
       const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics');
       return get(configuration, url);
     },
+    vod: fn(urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings/vod')),
+    live: fn(urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings/live')),
     encodings: (encodingId) => {
       return {
         liveStatistics: () => {
           const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings', encodingId, 'live-statistics');
           return get(configuration, url);
-        },
-        vod: () => {
-          const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings/vod');
-          return fn(url);
-        },
-        live: () => {
-          const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings/live');
-          return fn(url);
         }
       }
-    }
+    },
   }
 };
 
