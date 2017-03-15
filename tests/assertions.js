@@ -62,7 +62,8 @@ export const assertItCallsCorrectUrl = (method, expectedUrl, fn) => {
       expect(methodToMock(method).mock.calls[0][1]).toEqual(expect.stringMatching(expectedUrl));
     });
   });
-}
+};
+
 export const assertItCallsUrlAndReturnsPromise = (method, url, fn) => {
   assertItCallsCorrectUrl(method, url, fn);
   assertItReturnsUnderlyingPromise(methodToMock(method), fn);
