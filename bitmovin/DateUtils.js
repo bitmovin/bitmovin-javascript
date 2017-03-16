@@ -1,26 +1,23 @@
-export const getFirstDayOfCurrentMonth = (currentDate = new Date()) => {
-  return new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+import moment from 'moment';
+
+export const getFirstDayOfMonthFromDate = (date = new Date()) => {
+  return moment.utc(date).startOf('month').toDate();
 };
 
-export const getLastDayOfCurrentMonth = (currentDate = new Date()) => {
-  return new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+export const getLastDayOfMonthFromDate = (date = new Date()) => {
+  return moment.utc(date).endOf('month').toDate();
 };
 
-export const getMondayOfCurrentWeek = (currentDate = new Date()) => {
-  const day = currentDate.getDay();
-  return new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + (day == 0?-6:1) - day );
+export const getFirstDayOfTheWeekFromDate = (date = new Date()) => {
+  return moment.utc(date).startOf('isoWeek').toDate();
 };
 
-export const getSundayOfCurrentWeek = (currentDate = new Date()) => {
-  const day = currentDate.getDay();
-  return new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() + (day == 0?0:7)-day );
+export const getLastDayOfWeekFromDate = (date = new Date()) => {
+  return moment.utc(date).endOf('isoWeek').toDate();
 };
 
 export const dateToApiRequestString = (date) => {
-  const month = (date.getMonth()+1);
-  const monthStr = month<10? ('0' + month): month;
-  const dateStr = date.getDate()< 10? ('0' + date.getDate()): date.getDate();
-  return date.getFullYear() + '-' + monthStr + '-' + dateStr;
+  return moment(date).format('YYYY-MM-DD').toString();
 };
 
 export const isValidApiRequestDateString = (dateString) => {

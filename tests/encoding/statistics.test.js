@@ -1,7 +1,7 @@
 import bluebird from 'bluebird';
 import { getConfiguration } from '../utils';
 import { statistics } from '../../bitmovin/encoding/statistics';
-import {dateToApiRequestString, getMondayOfCurrentWeek} from "../../bitmovin/DateUtils";
+import {dateToApiRequestString, getFirstDayOfTheWeekFromDate} from "../../bitmovin/DateUtils";
 
 import {
   mockHttp,
@@ -29,7 +29,7 @@ describe('encoding', () => {
       });
 
       describe('vod within dates', () => {
-        const startDate = dateToApiRequestString(getMondayOfCurrentWeek());
+        const startDate = dateToApiRequestString(getFirstDayOfTheWeekFromDate());
         const endDate = dateToApiRequestString(new Date());
 
         const expectedUrl = `/v1/encoding/statistics/encodings/vod/${startDate}/${endDate}`;
@@ -51,7 +51,7 @@ describe('encoding', () => {
       });
 
       describe('live within dates', () => {
-        const startDate = dateToApiRequestString(getMondayOfCurrentWeek());
+        const startDate = dateToApiRequestString(getFirstDayOfTheWeekFromDate());
         const endDate = dateToApiRequestString(new Date());
 
         const expectedUrl = `/v1/encoding/statistics/encodings/live/${startDate}/${endDate}`;
