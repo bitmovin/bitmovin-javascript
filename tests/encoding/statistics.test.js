@@ -1,10 +1,12 @@
+import bluebird from 'bluebird';
 import { getConfiguration } from '../utils';
 import { statistics } from '../../bitmovin/encoding/statistics';
+import {dateToApiRequestString, getFirstDayOfTheWeekFromDate} from "../../bitmovin/DateUtils";
 
 import {
   mockHttp,
   assertItCallsUrlAndReturnsPromise,
-  testSetup,
+  testSetup, mockGet
 } from '../assertions';
 
 let testConfiguration = getConfiguration();
@@ -16,10 +18,59 @@ describe('encoding', () => {
     describe('overall', () => {
       assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/statistics', client.overall);
     });
-    describe('encoding', () => {
+
+    describe('encodings', () => {
       describe('live-statistics', () => {
         assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/statistics/encodings/encoding-id/live-statistics', client.encodings('encoding-id').liveStatistics);
       });
+
+      describe('vod', () => {
+        assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/statistics/encodings/vod', client.vod.list);
+      });
+
+      describe('vod within dates', () => {
+        const startDate = dateToApiRequestString(getFirstDayOfTheWeekFromDate());
+        const endDate = dateToApiRequestString(new Date());
+
+        const expectedUrl = `/v1/encoding/statistics/encodings/vod/${startDate}/${endDate}`;
+
+        it(`Should call GET with ${expectedUrl} once.`, () => {
+          return client.vod.list({ from: startDate, to: endDate }).then(() => {
+            expect(mockGet).toBeCalled();
+          });
+        });
+        it(`should call GET with ${expectedUrl}`, () => {
+          return client.vod.list({ from: startDate, to: endDate }).then(() => {
+            expect(mockGet.mock.calls[0][1]).toEqual(expect.stringMatching(expectedUrl));
+          });
+        });
+      });
+
+      describe('live', () => {
+        assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/statistics/encodings/live', client.live.list);
+      });
+
+      describe('live within dates', () => {
+        const startDate = dateToApiRequestString(getFirstDayOfTheWeekFromDate());
+        const endDate = dateToApiRequestString(new Date());
+
+        const expectedUrl = `/v1/encoding/statistics/encodings/live/${startDate}/${endDate}`;
+
+        it(`Should call GET with ${expectedUrl} once.`, () => {
+          return client.live.list({ from: startDate, to: endDate }).then(() => {
+            expect(mockGet).toBeCalled();
+          });
+        });
+
+        it(`should call GET with ${expectedUrl}`, () => {
+          return client.live.list({ from: startDate, to: endDate }).then(() => {
+            const calledUrl = mockGet.mock.calls[0][1];
+            expect(calledUrl).toEqual(expect.stringMatching(expectedUrl));
+          });
+        });
+
+      });
     });
+
   });
 });
