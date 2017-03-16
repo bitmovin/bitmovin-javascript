@@ -49,7 +49,22 @@ export const muxings = (configuration, encodingId, http) => {
   return {
     fmp4: typeFn('fmp4'),
     ts  : typeFn('ts'),
-    mp4 : typeFn('mp4')
+    mp4 : typeFn('mp4'),
+    webm: typeFn('webm'),
+
+    list: (limit, offset) => {
+      let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings');
+
+      let getParams = utils.buildGetParamString({
+        limit : limit,
+        offset: offset
+      });
+      if (getParams.length > 0) {
+        url = urljoin(url, getParams);
+      }
+
+      return get(configuration, url);
+    },
   };
 };
 

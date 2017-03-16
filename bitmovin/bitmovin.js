@@ -6,7 +6,7 @@ import inputs from './encoding/inputs';
 import outputs from './encoding/outputs';
 import manifests from './encoding/manifests';
 import filters from './encoding/filters';
-import statistics from './encoding/statistics'
+import statistics from './encoding/statistics';
 import account from './account/account';
 import playerChannels from './player/channels';
 import playerLicenses from './player/licenses';
@@ -61,7 +61,7 @@ export default class Bitmovin {
       'X-Api-Key'           : configuration.apiKey,
       'X-Tenant-Org-Id'     : configuration.tenantOrgId,
       'X-Api-Client'        : 'bitmovin-javascript',
-      'X-Api-Client-Version': '1.0.5'
+      'X-Api-Client-Version': '1.0.7'
     };
 
     this.configuration = configuration;
