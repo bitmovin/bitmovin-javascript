@@ -1,7 +1,7 @@
 import {after, before, describe, it} from 'mocha';
 import assert from 'assert';
 import {getConfiguration} from '../utils';
-import {getMondayOfCurrentWeek, dateToApiRequestString} from '../../bitmovin/DateUtils'
+import {getFirstDayOfTheWeekFromDate, dateToApiRequestString} from '../../bitmovin/DateUtils'
 
 import statistics from '../../bitmovin/encoding/statistics';
 
@@ -44,10 +44,10 @@ describe('[Statistics]', () => {
   });
 
   it('should return vod statistics within specific dates', (done) => {
-    const startDate = dateToApiRequestString(getMondayOfCurrentWeek());
-    const endDate = dateToApiRequestString(new Date());
+    const from = dateToApiRequestString(getFirstDayOfTheWeekFromDate());
+    const to = dateToApiRequestString(new Date());
 
-    statisticsClient.vod.listWithinDates(startDate, endDate, 10, 5).then((response) => {
+    statisticsClient.vod.list({from, to}, 10, 5).then((response) => {
       assert(response !== undefined && response !== null);
       assert(response.next !== undefined && response.next !== null);
       assert(response.previous !== undefined && response.previous !== null);
@@ -58,10 +58,10 @@ describe('[Statistics]', () => {
   });
 
   it('should return error because of wrong time format for vod statistics within specific dates', (done) => {
-    const startDate = dateToApiRequestString(getMondayOfCurrentWeek());
-    const endDate = new Date();
+    const from = dateToApiRequestString(getFirstDayOfTheWeekFromDate());
+    const to = new Date();
 
-    statisticsClient.vod.listWithinDates(startDate, endDate, 10, 5).then((response) => {
+    statisticsClient.vod.list({from, to}, 10, 5).then((response) => {
       done(new Error('Should not be reached'));
     }).catch((error) => {
       done();
@@ -91,10 +91,10 @@ describe('[Statistics]', () => {
   });
 
   it('should return live statistics within specific dates', (done) => {
-    const startDate = dateToApiRequestString(getMondayOfCurrentWeek());
-    const endDate = dateToApiRequestString(new Date());
+    const from = dateToApiRequestString(getFirstDayOfTheWeekFromDate());
+    const to = dateToApiRequestString(new Date());
 
-    statisticsClient.live.listWithinDates(startDate, endDate, 10, 5).then((response) => {
+    statisticsClient.live.list({from, to}, 10, 5).then((response) => {
       assert(response !== undefined && response !== null);
       assert(response.next !== undefined && response.next !== null);
       assert(response.previous !== undefined && response.previous !== null);
@@ -105,10 +105,10 @@ describe('[Statistics]', () => {
   });
 
   it('should return error because of wrong time format for live statistics for specific dates', (done) => {
-    const startDate = dateToApiRequestString(getMondayOfCurrentWeek());
-    const endDate = new Date();
+    const from = dateToApiRequestString(getFirstDayOfTheWeekFromDate());
+    const to = new Date();
 
-    statisticsClient.live.listWithinDates(startDate, endDate, 10, 5).then((response) => {
+    statisticsClient.live.list({from, to}, 10, 5).then((response) => {
       done(new Error('Should not be reached'));
     }).catch((error) => {
       done();
