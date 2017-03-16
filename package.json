@@ -1,6 +1,6 @@
 {
   "name": "bitmovin-javascript",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "scripts": {
     "lint": "./node_modules/eslint/bin/eslint.js --color ./bitmovin",
     "test": "node scripts/test.js tests/",
@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "bluebird": "^3.4.7",
+    "moment": "^2.17.1",
     "node-fetch": "^1.6.3"
   }
 }
