@@ -65,7 +65,7 @@ describe('Test getLastDayOfWeekFromDate', () => {
 
 describe('Test dateToApiRequestString', () => {
   const dateString = dateToApiRequestString(date);
-  it('Should be the fomat YYYY-MM-DD', () => {
+  it('Should be the format YYYY-MM-DD', () => {
     expect(dateString).toBe('2017-01-05');
   });
 });
