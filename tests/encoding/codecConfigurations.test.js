@@ -64,6 +64,7 @@ describe('encoding', () => {
     testConfigType('h264', 'video/h264');
     testConfigType('h265', 'video/h265');
     testConfigType('aac', 'audio/aac');
+    testConfigType('vp9', 'video/vp9');
 
   });
 });
