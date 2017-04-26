@@ -69,40 +69,45 @@ const main = () => {
               codecConfiguration: codecConfigurationAAC,
               adaptationSet: createdDashManifestAudioAdaptationSet,
               type: STREAMTYPE.AUDIO,
-              outputPathDiscriminator: 'audio/128',
-              m3u8Uri: 'audio_128.m3u8',
+              dashSegmentsPath: 'dash/audio_128kb/',
+              hlsSegmentsPath: 'hls/audio_128kb/',
+              m3u8Uri: 'audio_128kb.m3u8',
               position: 1
             },
             {
               codecConfiguration: codecConfigurationH264At1080p,
               adaptationSet: createdDashManifestVideoAdaptationSet,
               type: STREAMTYPE.VIDEO,
-              outputPathDiscriminator: 'video/1080',
-              m3u8Uri: 'video_1080.m3u8',
+              dashSegmentsPath: 'dash/video_1080p/',
+              hlsSegmentsPath: 'hls/video_1080p/',
+              m3u8Uri: 'video_1080p.m3u8',
               position: 0
             },
             {
               codecConfiguration: codecConfigurationH264At720p,
               adaptationSet: createdDashManifestVideoAdaptationSet,
               type: STREAMTYPE.VIDEO,
-              outputPathDiscriminator: 'video/720',
-              m3u8Uri: 'video_720.m3u8',
+              dashSegmentsPath: 'dash/video_720p/',
+              hlsSegmentsPath: 'hls/video_720p/',
+              m3u8Uri: 'video_720p.m3u8',
               position: 0
             },
             {
               codecConfiguration: codecConfigurationH264At480p,
               adaptationSet: createdDashManifestVideoAdaptationSet,
               type: STREAMTYPE.VIDEO,
-              outputPathDiscriminator: 'video/480',
-              m3u8Uri: 'video_480.m3u8',
+              dashSegmentsPath: 'dash/video_480p/',
+              hlsSegmentsPath: 'hls/video_480p/',
+              m3u8Uri: 'video_480p.m3u8',
               position: 0
             },
             {
               codecConfiguration: codecConfigurationH264At360p,
               adaptationSet: createdDashManifestVideoAdaptationSet,
               type: STREAMTYPE.VIDEO,
-              outputPathDiscriminator: 'video/360',
-              m3u8Uri: 'video_360.m3u8',
+              dashSegmentsPath: 'dash/video_360p/',
+              hlsSegmentsPath: 'hls/video_360p/',
+              m3u8Uri: 'video_360p.m3u8',
               position: 0
             }
           ];
@@ -116,7 +121,7 @@ const main = () => {
             const streams = response.streams;
 
             const dashManifestPromiseMap = Promise.map(fmp4Muxings, (fmp4Muxing, index) => {
-              return createDashManifestFMP4Representation(createdDashManifest, createdDashManifestPeriod, streamDefinition[index].adaptationSet, encoding, fmp4Muxing, streamDefinition[index].outputPathDiscriminator);
+              return createDashManifestFMP4Representation(createdDashManifest, createdDashManifestPeriod, streamDefinition[index].adaptationSet, encoding, fmp4Muxing, streamDefinition[index].dashSegmentsPath);
             }, {concurrency: 1});
 
             dashManifestPromiseMap.then((createdRepresentations) => {
@@ -124,9 +129,9 @@ const main = () => {
 
               const hlsManifestPromiseMap = Promise.map(tsMuxings, (tsMuxing, index) => {
                 if(index === 0) {
-                  return createHlsAudioMedia(hlsManifest, 'audio_group', 'audio', encoding, streams[index], tsMuxing, streamDefinition[index].m3u8Uri, streamDefinition[index].outputPathDiscriminator);
+                  return createHlsAudioMedia(hlsManifest, 'audio_group', 'audio', encoding, streams[index], tsMuxing, streamDefinition[index].m3u8Uri, streamDefinition[index].hlsSegmentsPath);
                 }
-                return createHlsVideoVariantStream(hlsManifest, 'audio_group', streamDefinition[index].outputPathDiscriminator, streamDefinition[index].m3u8Uri, encoding, streams[index], tsMuxing);
+                return createHlsVideoVariantStream(hlsManifest, 'audio_group', streamDefinition[index].hlsSegmentsPath, streamDefinition[index].m3u8Uri, encoding, streams[index], tsMuxing);
               }, {concurrency: 1});
 
               hlsManifestPromiseMap.then((manifestInformation) => {
@@ -308,13 +313,13 @@ const createStream = (encoding, streamDefinition, input) => {
  */
 const createFmp4MuxingsForStreams = (encoding, streams, output, streamDefinitions) => {
   return Promise.map(streams, (stream, index) => {
-    return addFmp4MuxingToStream(encoding, stream, output, streamDefinitions[index].outputPathDiscriminator);
+    return addFmp4MuxingToStream(encoding, stream, output, streamDefinitions[index].dashSegmentsPath);
   }, {concurrency: 1});
 };
 
 const createTsMuxingsForStreams = (encoding, streams, output, streamDefinitions) => {
   return Promise.map(streams, (stream, index) => {
-    return addTsMuxingForStream(encoding, stream, output, streamDefinitions[index].outputPathDiscriminator);
+    return addTsMuxingForStream(encoding, stream, output, streamDefinitions[index].hlsSegmentsPath);
   }, {concurrency: 1})
 };
 
@@ -462,7 +467,7 @@ const createHlsAudioMedia = (manifest, groupId, name, encoding, stream, muxing, 
     streamId: stream.id,
     muxingId: muxing.id,
     uri: uri,
-    segmentPath: segmentPath + '/',
+    segmentPath: segmentPath,
     language: 'en',
     assocLanguage: 'en',
     autoselect: false,
@@ -480,7 +485,7 @@ const createHlsVideoVariantStream = (manifest, audioGroupId, segmentPath, uri, e
     streamId: stream.id,
     muxingId: muxing.id,
     uri: uri,
-    segmentPath: segmentPath + '/'
+    segmentPath: segmentPath
   };
 
   return bitmovin.encoding.manifests.hls(manifest.id).streams.add(variantStream);
