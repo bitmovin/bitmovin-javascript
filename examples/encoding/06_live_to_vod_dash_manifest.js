@@ -152,7 +152,7 @@ const createDashManifestWithPeriodAndAdaptationSets = (outputId) => {
           permission: 'PUBLIC_READ'
         }],
       }],
-      manifestName: 'dashManifest.mpd'
+      manifestName: 'vodDashManifest.mpd'
     };
     bitmovin.encoding.manifests.dash.create(dashManifest).then((createdManifest) => {
       console.log('Successfully created DASH Manifest Resource.', createdManifest);
