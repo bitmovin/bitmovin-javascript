@@ -4,7 +4,7 @@ const Bitmovin = require('bitmovin-javascript').default;
 const Promise = require('bluebird');
 
 const BITMOVIN_API_KEY = 'YOUR_API_KEY';
-const bitmovin         = new Bitmovin({'apiKey': BITMOVIN_API_KEY, debug: false});
+const bitmovin         = new Bitmovin({'apiKey': BITMOVIN_API_KEY});
 
 const GCS_ACCESS_KEY   = 'YOUR_GCS_ACCESS_KEY';
 const GCS_SECRET_KEY   = 'YOUR_GCS_SECRET_KEY';
