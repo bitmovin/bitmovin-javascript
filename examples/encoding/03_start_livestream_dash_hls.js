@@ -4,7 +4,7 @@ const Promise = require('bluebird');
 const Bitmovin = require('bitmovin-javascript').default;
 
 const BITMOVIN_API_KEY = 'INSERT_YOUR_API_KEY';
-const bitmovin = new Bitmovin({apiKey: BITMOVIN_API_KEY, debug: true});
+const bitmovin = new Bitmovin({apiKey: BITMOVIN_API_KEY});
 
 const MAX_LIVESTREAM_DETAILS_FETCH_RETRIES = 20;
 
