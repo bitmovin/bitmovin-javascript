@@ -43,7 +43,7 @@ const MANIFEST_CREATION_STATUS_POLLING_INTERVAL = 10000;
 
 const main = () => new Promise((resolve, reject) => {
   const encodingId = ENCODING_ID;
-  const output = {...gcsOutput};
+  const output = Object.assign({}, gcsOutput);
   createGcsOutput(output).then((createdOutput) => {
     getMuxingsFromEncoding(encodingId).then((response) => {
       const audioManifestInfoPromise = getAudioManifestInfos(encodingId, response.items);
