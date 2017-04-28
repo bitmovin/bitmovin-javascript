@@ -8,7 +8,10 @@ const bitmovin = new Bitmovin({apiKey: BITMOVIN_API_KEY, debug: true});
 
 const MAX_LIVESTREAM_DETAILS_FETCH_RETRIES = 20;
 
-const ENCODING_NAME = 'LIVE_ENCODING_JAVASCRIPT_CLIENT_' + new Date().toISOString();
+const encodingAndOutputPathPostfix = new Date().toISOString();
+
+const ENCODING_NAME = 'LIVE_ENCODING_JAVASCRIPT_CLIENT_' + encodingAndOutputPathPostfix;
+const ENCODER_VERSION = 'STABLE';
 const STREAM_KEY = 'livestream';
 const TIMESHIFT = 120;
 const LIVE_EDGE_OFFSET = 60;
@@ -16,12 +19,20 @@ const LIVE_EDGE_OFFSET = 60;
 const OUTPUT_GCS_ACCESS_KEY = 'YOUR_GCS_ACCESS_KEY';
 const OUTPUT_GCS_SECRET_KEY = 'YOUR_GCS_SECRET_KEY';
 const OUTPUT_GCS_BUCKET_NAME = 'YOUR_GCS_BUCKET_NAME';
-const OUTPUT_PATH = '/output/livestreams/' + new Date().toISOString();
+const OUTPUT_PATH = '/output/livestreams/' + encodingAndOutputPathPostfix;
 
 const STREAMTYPE = {
   AUDIO: 'AUDIO',
   VIDEO: 'VIDEO'
 };
+
+const ENCODING_CREATION_STATUS = {
+  RUNNING: 'RUNNING',
+  ERROR: 'ERROR'
+};
+
+const ENCODING_CREATION_STATUS_POLLING_INTERVAL = 10000;
+const LIVE_ENCODING_DETAILS_POLLING_INTERVAL = 10000;
 
 const main = () => {
   return new Promise((resolve, reject) => {
@@ -64,7 +75,7 @@ const main = () => {
         Promise.all([dashManifestCreationPromise, hlsManifestCreationPromise]).then(([dashManifest, hlsManifest]) => {
           [createdDashManifest, createdDashManifestPeriod, createdDashManifestAudioAdaptationSet, createdDashManifestVideoAdaptationSet] = dashManifest;
 
-          let streamDefinition = [
+          const streamDefinition = [
             {
               codecConfiguration: codecConfigurationAAC,
               adaptationSet: createdDashManifestAudioAdaptationSet,
@@ -116,9 +127,7 @@ const main = () => {
             console.log("Successfully created streams and muxings", response);
             console.log("Generating HLS and DASH manifests...");
 
-            const fmp4Muxings = response.fmp4Muxings;
-            const tsMuxings = response.tsMuxings;
-            const streams = response.streams;
+            const {fmp4Muxings, tsMuxings, streams} = response;
 
             const dashManifestPromiseMap = Promise.map(fmp4Muxings, (fmp4Muxing, index) => {
               return createDashManifestFMP4Representation(createdDashManifest, createdDashManifestPeriod, streamDefinition[index].adaptationSet, encoding, fmp4Muxing, streamDefinition[index].dashSegmentsPath);
@@ -178,7 +187,7 @@ const createEncoding = () => {
   return new Promise((resolve, reject) => {
     const encoding = {
       name: ENCODING_NAME,
-      encoderVersion: 'STABLE'
+      encoderVersion: ENCODER_VERSION
     };
     bitmovin.encoding.encodings.create(encoding).then((createdEncoding) => {
       console.log('Successfully created Encoding resource.', createdEncoding);
@@ -190,7 +199,7 @@ const createEncoding = () => {
 const createStreamsAndMuxings = (encoding, streamDefinitions, output, input) => {
 
   const promiseMap = Promise.map(streamDefinitions, (streamDefinition) => {
-    return createStream(encoding, streamDefinition, input, output);
+    return createStream(encoding, streamDefinition, input);
   }, {concurrency: 1});
 
   return new Promise((resolve, reject) => {
@@ -263,11 +272,11 @@ const createH264CodecConfiguration = (width, height, bitrate, fps) => {
   return new Promise((resolve, reject) => {
     const h264CodecConfiguration = {
       name: 'H264 ' + height,
-      bitrate: bitrate,
+      bitrate,
       rate: fps,
       profile: 'HIGH',
-      width: width,
-      height: height
+      width,
+      height
     };
     bitmovin.encoding.codecConfigurations.h264.create(h264CodecConfiguration).then((createdCodecConfiguration) => {
       console.log('Successfully created H264 Codec Configuration.', createdCodecConfiguration);
@@ -280,8 +289,8 @@ const createAACCodecConfiguration = (bitrate, rate) => {
   return new Promise((resolve, reject) => {
     const aacCodecConfiguration = {
       name: 'English',
-      bitrate: bitrate,
-      rate: rate
+      bitrate,
+      rate
     };
     bitmovin.encoding.codecConfigurations.aac.create(aacCodecConfiguration).then((createdCodecConfiguration) => {
       console.log('Successfully created AAC Codec Configuration.', createdCodecConfiguration);
@@ -324,7 +333,7 @@ const createTsMuxingsForStreams = (encoding, streams, output, streamDefinitions)
 };
 
 const addFmp4MuxingToStream = (encoding, stream, output, outputPrefix) => {
-  let fmp4Muxing = {
+  const fmp4Muxing = {
     name: 'FMP4 Muxing ' + stream.codecConfigId,
     streams: [{
       streamId: stream.id
@@ -345,7 +354,7 @@ const addFmp4MuxingToStream = (encoding, stream, output, outputPrefix) => {
 };
 
 const addTsMuxingForStream = (encoding, stream, output, outputPrefix) => {
-  let tsMuxing = {
+  const tsMuxing = {
     name: 'TS Muxing ' + stream.codecConfigId,
     streams: [{
       streamId: stream.id
@@ -372,7 +381,7 @@ const createDashManifestWithPeriodAndAdaptationSets = (outputId) => {
     const dashManifest = {
       name: 'DASH Manifest for ' + ENCODING_NAME,
       outputs: [{
-        outputId: outputId,
+        outputId,
         outputPath: OUTPUT_PATH,
         acl: [{
           permission: 'PUBLIC_READ'
@@ -433,7 +442,7 @@ const createHlsManifest = (outputId) => {
     const hlsManifest = {
       name: 'HLS Manifest for ' + ENCODING_NAME,
       outputs: [{
-        outputId: outputId,
+        outputId,
         outputPath: OUTPUT_PATH,
         acl: [{
           permission: 'PUBLIC_READ'
@@ -453,7 +462,7 @@ const createDashManifestFMP4Representation = (manifest, period, adaptationSet, e
     type: 'TEMPLATE',
     encodingId: encoding.id,
     muxingId: fmp4Muxing.id,
-    segmentPath: segmentPath
+    segmentPath
   };
 
   return bitmovin.encoding.manifests.dash(manifest.id).periods(period.id).adaptationSets(adaptationSet.id).representations.fmp4.add(fmp4Representation);
@@ -461,13 +470,13 @@ const createDashManifestFMP4Representation = (manifest, period, adaptationSet, e
 
 const createHlsAudioMedia = (manifest, groupId, name, encoding, stream, muxing, uri, segmentPath) => {
   const audioMedia = {
-    groupId: groupId,
-    name: name,
+    groupId,
+    name,
     encodingId: encoding.id,
     streamId: stream.id,
     muxingId: muxing.id,
-    uri: uri,
-    segmentPath: segmentPath,
+    uri,
+    segmentPath,
     language: 'en',
     assocLanguage: 'en',
     autoselect: false,
@@ -484,8 +493,8 @@ const createHlsVideoVariantStream = (manifest, audioGroupId, segmentPath, uri, e
     encodingId: encoding.id,
     streamId: stream.id,
     muxingId: muxing.id,
-    uri: uri,
-    segmentPath: segmentPath
+    uri,
+    segmentPath
   };
 
   return bitmovin.encoding.manifests.hls(manifest.id).streams.add(variantStream);
@@ -504,13 +513,13 @@ const waitUntilEncodingRunning = (encoding) => {
       console.log('Getting Status for Encoding with ID ', encoding.id);
       bitmovin.encoding.encodings(encoding.id).status().then((response) => {
         console.log('Encoding Status is ' + response.status + '.');
-        if (response.status === 'RUNNING') {
+        if (response.status === ENCODING_CREATION_STATUS.RUNNING) {
           return resolve(response.status);
         }
-        if (response.status === 'ERROR') {
+        if (response.status === ENCODING_CREATION_STATUS.ERROR) {
           return reject(response.status);
         }
-        setTimeout(waitForEncodingToBeRunningOrError, 10000);
+        setTimeout(waitForEncodingToBeRunningOrError, ENCODING_CREATION_STATUS_POLLING_INTERVAL);
       });
     };
     waitForEncodingToBeRunningOrError();
@@ -525,7 +534,7 @@ const waitForLiveEncodingDetails = (encoding) => {
         resolve(liveEncodingDetails);
       }).catch((error) => {
         if (retries > 0){
-          setTimeout(waitForLiveEncodingDetails, 10000);
+          setTimeout(waitForLiveEncodingDetails, LIVE_ENCODING_DETAILS_POLLING_INTERVAL);
           retries --;
         }
         else {
