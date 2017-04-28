@@ -1,7 +1,6 @@
 // 05_live_to_vod_hls_manifest
 
 const Bitmovin = require('bitmovin-javascript').default;
-console.log(Bitmovin);
 const Promise = require('bluebird');
 
 const BITMOVIN_API_KEY = 'YOUR_API_KEY';
@@ -24,9 +23,27 @@ const gcsOutput = {
   bucketName : GCS_BUCKET_NAME
 };
 
+const MUXING_TYPE = {
+  TS: 'TS'
+};
+
+const CODEC_CONFIGURATION_TYPE = {
+  AAC: 'AAC',
+  H264: 'H264',
+  H265: 'H265',
+  VP9: 'VP9'
+};
+
+const MANIFEST_CREATION_STATUS = {
+  FINISHED: 'FINISHED',
+  ERROR: 'ERROR'
+};
+
+const MANIFEST_CREATION_STATUS_POLLING_INTERVAL = 10000;
+
 const main = () => new Promise((resolve, reject) => {
   const encodingId = ENCODING_ID;
-  let output = Object.assign({}, gcsOutput);
+  const output = {...gcsOutput};
   createGcsOutput(output).then((createdOutput) => {
     getMuxingsFromEncoding(encodingId).then((response) => {
       const audioManifestInfoPromise = getAudioManifestInfos(encodingId, response.items);
@@ -34,13 +51,13 @@ const main = () => new Promise((resolve, reject) => {
       Promise.all([audioManifestInfoPromise, videoManifestInfoPromise]).then(([audioManifestInfos, videoManifestInfos]) => {
         createHlsManifest(createdOutput.id).then((hlsManifest) => {
           Promise.map(audioManifestInfos, (audioManifestInfo) => {
-            if(audioManifestInfo.muxing.type === 'TS') {
+            if(audioManifestInfo.muxing.type === MUXING_TYPE.TS) {
               return createHlsAudioMedia(hlsManifest, 'audio_group', 'Audio', audioManifestInfo.encodingId, audioManifestInfo.stream.id, audioManifestInfo.muxing, 'audio_' + audioManifestInfo.stream.id + '.m3u8', createSegmentsPath(audioManifestInfo.muxing.outputs[0].outputPath), START_SEGMENT_NUMBER, END_SEGMENT_NUMBER);
             }
           }, {concurrency: 1}).then((createdHlsAudioMedia) => {
             console.log('Successfully created audio media!', createdHlsAudioMedia);
             Promise.map(videoManifestInfos, (videoManifestInfo) => {
-              if(videoManifestInfo.muxing.type === 'TS') {
+              if(videoManifestInfo.muxing.type === MUXING_TYPE.TS) {
                 return createHlsVideoVariantStream(hlsManifest, 'audio_group', createSegmentsPath(videoManifestInfo.muxing.outputs[0].outputPath), 'video_' + videoManifestInfo.stream.id + '.m3u8', videoManifestInfo.encodingId, videoManifestInfo.stream.id, videoManifestInfo.muxing, START_SEGMENT_NUMBER, END_SEGMENT_NUMBER);
               }
             }).then(() => {
@@ -72,7 +89,7 @@ const getAudioManifestInfos = (encodingId, muxings) => {
     }).then((firstStreamsOfMuxings) => {
       Promise.map(firstStreamsOfMuxings, (firstStream, index) => {
         return bitmovin.encoding.codecConfigurations.getType(firstStream.codecConfigId).then((response) => {
-          if(response.type === 'AAC') {
+          if(response.type === CODEC_CONFIGURATION_TYPE.AAC) {
             audioManifestInfos.push({
               muxing: muxings[index],
               stream: firstStream,
@@ -97,11 +114,13 @@ const getVideoManifestInfos = (encodingId, muxings) => {
     }).then((firstStreamsOfMuxings) => {
       Promise.map(firstStreamsOfMuxings, (firstStream, index) => {
         return bitmovin.encoding.codecConfigurations.getType(firstStream.codecConfigId).then((response) => {
-          if(response.type === 'H264' || response.type === 'H265' || response.type === 'VP9') {
+          if(response.type === CODEC_CONFIGURATION_TYPE.H264 ||
+            response.type === CODEC_CONFIGURATION_TYPE.H265 ||
+            response.type === CODEC_CONFIGURATION_TYPE.VP9) {
             videoManifestInfos.push({
               muxing: muxings[index],
               stream: firstStream,
-              encodingId: encodingId
+              encodingId
             });
           }
         }).catch(() => {});
@@ -122,7 +141,7 @@ const createHlsManifest = (outputId) => {
     const hlsManifest = {
       name: 'VoD HLS manifest',
       outputs: [{
-        outputId: outputId,
+        outputId,
         outputPath: OUTPUT_PATH,
         acl: [{
           permission: 'PUBLIC_READ'
@@ -139,23 +158,23 @@ const createHlsManifest = (outputId) => {
 
 const createHlsAudioMedia = (manifest, groupId, name, encodingId, streamId, muxing, uri, segmentPath, startSegmentNumber, endSegmentNumber) => {
   const audioMedia = {
-    groupId: groupId,
-    name: name,
-    encodingId: encodingId,
-    streamId: streamId,
+    groupId,
+    name,
+    encodingId,
+    streamId,
     muxingId: muxing.id,
-    uri: uri,
-    segmentPath: segmentPath,
+    uri,
+    segmentPath,
     language: 'en',
     assocLanguage: 'en',
-    startSegmentNumber: startSegmentNumber,
-    endSegmentNumber: endSegmentNumber,
+    startSegmentNumber,
+    endSegmentNumber,
     autoselect: false,
     isDefault: false,
     forced: false
   };
 
-  console.log('ASDF', audioMedia);
+  console.log('Audio media to be added', audioMedia);
 
   return bitmovin.encoding.manifests.hls(manifest.id).media.audio.add(audioMedia);
 };
@@ -163,13 +182,13 @@ const createHlsAudioMedia = (manifest, groupId, name, encodingId, streamId, muxi
 const createHlsVideoVariantStream = (manifest, audioGroupId, segmentPath, uri, encodingId, streamId, muxing, startSegmentNumber, endSegmentNumber) => {
   const variantStream = {
     audio: audioGroupId,
-    encodingId: encodingId,
-    streamId: streamId,
+    encodingId,
+    streamId,
     muxingId: muxing.id,
-    startSegmentNumber: startSegmentNumber,
-    endSegmentNumber: endSegmentNumber,
-    uri: uri,
-    segmentPath: segmentPath
+    startSegmentNumber,
+    endSegmentNumber,
+    uri,
+    segmentPath
   };
 
   return bitmovin.encoding.manifests.hls(manifest.id).streams.add(variantStream);
@@ -181,10 +200,10 @@ const startHlsManifestCreation = (manifest) => {
   return new Promise((resolve, reject) => {
     startPromise.then((startResponse) => {
       waitUntilHlsManifestFinished(manifest).then((success) => {
-        console.log('hls manifest finished', success);
+        console.log('Hls manifest creation finished: ', success);
         resolve(true);
       }).catch((error) => {
-        console.log('hls manifest errored', error);
+        console.log('Hls manifest creation errored: ', error);
         reject(error);
       })
     });
@@ -198,15 +217,15 @@ const waitUntilHlsManifestFinished = (manifest) => {
       bitmovin.encoding.manifests.hls(manifest.id).status().then((response) => {
         console.log('HLS Manifest status is ' + response.status);
 
-        if (response.status === 'FINISHED') {
+        if (response.status === MANIFEST_CREATION_STATUS.FINISHED) {
           return resolve(response.status);
         }
 
-        if (response.status === 'ERROR') {
+        if (response.status === MANIFEST_CREATION_STATUS.ERROR) {
           return reject(response.status);
         }
 
-        setTimeout(waitForManifestToBeFinished, 10000);
+        setTimeout(waitForManifestToBeFinished, MANIFEST_CREATION_STATUS_POLLING_INTERVAL);
       });
     };
     waitForManifestToBeFinished();
@@ -214,7 +233,7 @@ const waitUntilHlsManifestFinished = (manifest) => {
 };
 
 const createSegmentsPath = (outputPath) => {
-  let newOutputPath = outputPath.replace(OUTPUT_PATH, '');
+  const newOutputPath = outputPath.replace(OUTPUT_PATH, '');
   return newOutputPath.replace(/^\/+|\/+$/g, '')
 };
 
