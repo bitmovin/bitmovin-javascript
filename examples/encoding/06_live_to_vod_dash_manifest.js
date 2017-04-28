@@ -1,7 +1,6 @@
 // 06_live_to_vod_dash_manifest
 
 const Bitmovin = require('bitmovin-javascript').default;
-console.log(Bitmovin);
 const Promise = require('bluebird');
 
 const BITMOVIN_API_KEY = 'YOUR_API_KEY';
@@ -24,9 +23,27 @@ const gcsOutput = {
   bucketName : GCS_BUCKET_NAME
 };
 
+const MUXING_TYPE = {
+  FMP4: 'FMP4'
+};
+
+const CODEC_CONFIGURATION_TYPE = {
+  AAC: 'AAC',
+  H264: 'H264',
+  H265: 'H265',
+  VP9: 'VP9'
+};
+
+const MANIFEST_CREATION_STATUS = {
+  FINISHED: 'FINISHED',
+  ERROR: 'ERROR'
+};
+
+const MANIFEST_CREATION_STATUS_POLLING_INTERVAL = 10000;
+
 const main = () => new Promise((resolve, reject) => {
   const encodingId = ENCODING_ID;
-  let output = Object.assign({}, gcsOutput);
+  const output = {...gcsOutput};
   createGcsOutput(output).then((createdOutput) => {
     getMuxingsFromEncoding(encodingId).then((response) => {
       const audioManifestInfoPromise = getAudioManifestInfos(encodingId, response.items);
@@ -37,20 +54,22 @@ const main = () => new Promise((resolve, reject) => {
           [createdDashManifest, createdDashManifestPeriod, createdDashManifestAudioAdaptationSet, createdDashManifestVideoAdaptationSet] = dashManifest;
 
           Promise.map(audioManifestInfos, (audioManifestInfo) => {
-            if(audioManifestInfo.muxing.type === 'FMP4') {
+            if(audioManifestInfo.muxing.type === MUXING_TYPE.FMP4) {
               return createDashManifestFMP4Representation(createdDashManifest, createdDashManifestPeriod, createdDashManifestAudioAdaptationSet, audioManifestInfo.encodingId, audioManifestInfo.muxing, createSegmentsPath(audioManifestInfo.muxing.outputs[0].outputPath), START_SEGMENT_NUMBER, END_SEGMENT_NUMBER);
             }
-          }, {concurrency: 1}).then((createdHlsAudioMedia) => {
-            console.log('Successfully created audio media!', createdHlsAudioMedia);
+          }, {concurrency: 1}).then((createdFmp4AudioRepresentations) => {
+            console.log('Successfully created fmp4 audio representations!', createdFmp4AudioRepresentations);
+
             Promise.map(videoManifestInfos, (videoManifestInfo) => {
-              if(videoManifestInfo.muxing.type === 'FMP4') {
+              if(videoManifestInfo.muxing.type === MUXING_TYPE.FMP4) {
                 return createDashManifestFMP4Representation(createdDashManifest, createdDashManifestPeriod, createdDashManifestVideoAdaptationSet, videoManifestInfo.encodingId, videoManifestInfo.muxing, createSegmentsPath(videoManifestInfo.muxing.outputs[0].outputPath), START_SEGMENT_NUMBER, END_SEGMENT_NUMBER);
               }
-            }).then(() => {
+            }, {concurrency: 1}).then((createdFmp4VideoRepresentations) => {
+              console.log('Successfully created fmp4 video representations!', createdFmp4VideoRepresentations);
               startDashManifestCreation(createdDashManifest).then(() => {
                 console.log('Successfully created dash vod manifest!');
                 resolve(true);
-              }).catch(logErrorPromise(reject, 'Error starting hls manifest generation!'));
+              }).catch(logErrorPromise(reject, 'Error starting dash manifest generation!'));
             }).catch(logErrorPromise(reject, 'Error creating dash video representations!'));
           }).catch(logErrorPromise(reject, 'Error creating dash audio representations!'));
         }).catch(logErrorPromise(reject, 'Error creating dash manifest!'));
@@ -75,11 +94,11 @@ const getAudioManifestInfos = (encodingId, muxings) => {
     }).then((firstStreamsOfMuxings) => {
       Promise.map(firstStreamsOfMuxings, (firstStream, index) => {
         return bitmovin.encoding.codecConfigurations.getType(firstStream.codecConfigId).then((response) => {
-          if(response.type === 'AAC') {
+          if(response.type === CODEC_CONFIGURATION_TYPE.AAC) {
             audioManifestInfos.push({
               muxing: muxings[index],
               stream: firstStream,
-              encodingId: encodingId
+              encodingId
             });
           }
         }).catch(() => {});
@@ -100,11 +119,13 @@ const getVideoManifestInfos = (encodingId, muxings) => {
     }).then((firstStreamsOfMuxings) => {
       Promise.map(firstStreamsOfMuxings, (firstStream, index) => {
         return bitmovin.encoding.codecConfigurations.getType(firstStream.codecConfigId).then((response) => {
-          if(response.type === 'H264' || response.type === 'H265' || response.type === 'VP9') {
+          if(response.type === CODEC_CONFIGURATION_TYPE.H264 ||
+            response.type === CODEC_CONFIGURATION_TYPE.H265 ||
+            response.type === CODEC_CONFIGURATION_TYPE.VP9) {
             videoManifestInfos.push({
               muxing: muxings[index],
               stream: firstStream,
-              encodingId: encodingId
+              encodingId
             });
           }
         }).catch(() => {});
@@ -125,7 +146,7 @@ const createDashManifestWithPeriodAndAdaptationSets = (outputId) => {
     const dashManifest = {
       name: 'VoD DASH manifest',
       outputs: [{
-        outputId: outputId,
+        outputId,
         outputPath: OUTPUT_PATH,
         acl: [{
           permission: 'PUBLIC_READ'
@@ -184,11 +205,11 @@ const createDashManifestVideoAdaptationSet = (dashManifest, period) => {
 const createDashManifestFMP4Representation = (manifest, period, adaptationSet, encodingId, fmp4Muxing, segmentPath, startSegmentNumber, endSegmentNumber) => {
   const fmp4Representation = {
     type: 'TEMPLATE',
-    encodingId: encodingId,
+    encodingId,
     muxingId: fmp4Muxing.id,
-    segmentPath: segmentPath,
-    startSegmentNumber: startSegmentNumber,
-    endSegmentNumber: endSegmentNumber
+    segmentPath,
+    startSegmentNumber,
+    endSegmentNumber
   };
 
   return bitmovin.encoding.manifests.dash(manifest.id).periods(period.id).adaptationSets(adaptationSet.id).representations.fmp4.add(fmp4Representation);
@@ -200,10 +221,10 @@ const startDashManifestCreation = (manifest) => {
   return new Promise((resolve, reject) => {
     startPromise.then((startResponse) => {
       waitUntilDashManifestFinished(manifest).then((success) => {
-        console.log('manifest finished', success);
+        console.log('Manifest creation finished: ', success);
         resolve(true);
       }).catch((error) => {
-        console.log('manifest errored', error);
+        console.log('Manifest creation errored: ', error);
         reject(error);
       })
     });
@@ -217,15 +238,15 @@ const waitUntilDashManifestFinished = (manifest) => {
       bitmovin.encoding.manifests.dash(manifest.id).status().then((response) => {
         console.log('DASH Manifest status is ' + response.status);
 
-        if (response.status === 'FINISHED') {
+        if (response.status === MANIFEST_CREATION_STATUS.FINISHED) {
           return resolve(response.status);
         }
 
-        if (response.status === 'ERROR') {
+        if (response.status === MANIFEST_CREATION_STATUS.ERROR) {
           return reject(response.status);
         }
 
-        setTimeout(waitForManifestToBeFinished, 10000);
+        setTimeout(waitForManifestToBeFinished, MANIFEST_CREATION_STATUS_POLLING_INTERVAL);
       });
     };
     waitForManifestToBeFinished();
@@ -233,7 +254,7 @@ const waitUntilDashManifestFinished = (manifest) => {
 };
 
 const createSegmentsPath = (outputPath) => {
-  let newOutputPath = outputPath.replace(OUTPUT_PATH, '');
+  const newOutputPath = outputPath.replace(OUTPUT_PATH, '');
   return newOutputPath.replace(/^\/+|\/+$/g, '')
 };
 
