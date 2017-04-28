@@ -558,5 +558,5 @@ main().then((response) => {
   console.log('--------------------------------------------------------------');
 }).catch((error) => {
   console.error('ERROR!', error);
-  process.exit(8);
+  process.exit(100);
 });
