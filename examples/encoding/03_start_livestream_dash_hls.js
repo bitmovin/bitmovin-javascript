@@ -124,8 +124,8 @@ const main = () => {
           ];
 
           createStreamsAndMuxings(encoding, streamDefinition, output, input).then((response) => {
-            console.log("Successfully created streams and muxings", response);
-            console.log("Generating HLS and DASH manifests...");
+            console.log('Successfully created streams and muxings', response);
+            console.log('Generating HLS and DASH manifests...');
 
             const {fmp4Muxings, tsMuxings, streams} = response;
 
@@ -204,29 +204,29 @@ const createStreamsAndMuxings = (encoding, streamDefinitions, output, input) => 
 
   return new Promise((resolve, reject) => {
     promiseMap.then((createdStreams) => {
-      console.log("Creating FMP4 muxings...");
+      console.log('Creating FMP4 muxings...');
       const createFmp4PromiseMap = createFmp4MuxingsForStreams(encoding, createdStreams, output, streamDefinitions);
       createFmp4PromiseMap.then((createdFmp4Muxings) => {
-        console.log("Successfully created fmp4 muxings", createdFmp4Muxings);
-        console.log("Creating ts muxings...");
+        console.log('Successfully created fmp4 muxings', createdFmp4Muxings);
+        console.log('Creating ts muxings...');
         const createTsPromiseMap = createTsMuxingsForStreams(encoding, createdStreams, output, streamDefinitions);
         createTsPromiseMap.then((createdTsMuxings) => {
-          console.log("Successfully created ts muxings", createdTsMuxings);
+          console.log('Successfully created ts muxings', createdTsMuxings);
           resolve({
             streams: createdStreams,
             fmp4Muxings: createdFmp4Muxings,
             tsMuxings: createdTsMuxings
           });
         }).catch((error) => {
-          console.error("Error creating ts muxings!", error);
+          console.error('Error creating ts muxings!', error);
           reject(error);
         });
       }).catch((error) => {
-        console.error("Error creating fmp4 muxings!", error);
+        console.error('Error creating fmp4 muxings!', error);
         reject(error);
       });
     }).catch((error) => {
-      console.error("Error creating streams!", error);
+      console.error('Error creating streams!', error);
       reject(error);
     });
   });
@@ -239,7 +239,7 @@ const getRtmpInput = () => {
   return new Promise((resolve, reject) => {
     bitmovin.encoding.inputs.rtmp.list().then((response) => {
       if (response.items.length <= 0) {
-        logErrorPromise(reject, "No RTMP inputs found!");
+        logErrorPromise(reject, 'No RTMP inputs found!');
       }
       resolve(response.items[0]);
     }).catch(logErrorPromise(reject, 'Error retrieving RTMP inputs'));
