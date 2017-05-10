@@ -1,7 +1,6 @@
 /**
  * Created by ferdinand on 17.02.17.
  */
-import {after, before, describe, it} from 'mocha';
 import assert from 'assert';
 
 import {getConfiguration} from '../../utils';
