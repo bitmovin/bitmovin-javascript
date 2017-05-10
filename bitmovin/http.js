@@ -67,7 +67,7 @@ const utils = {
     let paramsString = '';
 
     for (let key in getParams) {
-      if (getParams.hasOwnProperty(key)) {
+      if (getParams.hasOwnProperty(key) ) {
         let value = getParams[key];
         if (value !== undefined && value !== null && value !== '') {
           params.push(key + '=' + getParams[key]);
@@ -88,6 +88,16 @@ const utils = {
     }
 
     return paramsString;
+  },
+
+  buildFilterParamString: (filterParams) => {
+    const processedFilterParams = {};
+    for (let key in filterParams) {
+      if(filterParams.hasOwnProperty(key)) {
+        processedFilterParams[key] = filterParams[key].join('+');
+      }
+    }
+    return processedFilterParams;
   }
 };
 
