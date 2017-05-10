@@ -56,7 +56,7 @@ export const encodings = (configuration, http) => {
 
   fn.list = (limit, offset, sort, filter) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings');
-    
+
     const filterParams = utils.buildFilterParamString(filter);
     let getParams = utils.buildGetParamString({
       limit : limit,

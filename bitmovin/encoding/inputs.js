@@ -82,12 +82,15 @@ export const inputs = (configuration, http) => {
     genericS3: typeFn('generic-s3'),
     sftp     : typeFn('sftp'),
 
-    list: (limit, offset) => {
+    list: (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs');
 
+      const filterParams = utils.buildFilterParamString(filter);
       let getParams = utils.buildGetParamString({
         limit : limit,
-        offset: offset
+        offset: offset,
+        sort: sort,
+        ...filterParams
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);
