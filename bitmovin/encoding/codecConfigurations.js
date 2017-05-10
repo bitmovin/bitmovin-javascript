@@ -28,12 +28,15 @@ export const codecConfigurations = (configuration, http) => {
       return post(configuration, url, codecConfig);
     };
 
-    fn.list = (limit, offset) => {
+    fn.list = (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', typeUrl);
 
+      const filterParams = utils.buildFilterParamString(filter);
       let getParams = utils.buildGetParamString({
         limit : limit,
-        offset: offset
+        offset: offset,
+        sort: sort,
+        ...filterParams
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);
