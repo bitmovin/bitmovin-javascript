@@ -87,10 +87,10 @@ export const inputs = (configuration, http) => {
 
       const filterParams = utils.buildFilterParamString(filter);
       let getParams = utils.buildGetParamString({
+        ...filterParams,
         limit : limit,
         offset: offset,
-        sort: sort,
-        ...filterParams
+        sort: sort
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);
