@@ -1,4 +1,3 @@
-import {after, before, describe, it} from 'mocha';
 import assert from 'assert';
 
 import {getConfiguration} from '../utils';
@@ -244,7 +243,7 @@ describe('[Encoding Control]', () => {
     return codecConfigurationsClient.h264.create(codecConfiguration);
   };
 
-  before((done) => {
+  beforeAll((done) => {
     let encodingPromise    = createEncoding();
     let inputPromise       = createInput();
     let outputPromise      = createOutput();
@@ -413,7 +412,7 @@ describe('[Live Encoding Control]', () => {
     return codecConfigurationsClient.h264.create(codecConfiguration);
   };
 
-  before((done) => {
+  beforeAll((done) => {
     let encodingPromise    = createEncoding();
     let inputPromise       = getLiveInput();
     let outputPromise      = createOutput();
