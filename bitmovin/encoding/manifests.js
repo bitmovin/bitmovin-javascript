@@ -9,12 +9,15 @@ import smoothManifests from './smoothManifests';
 export const manifests = (configuration, http) => {
   const { get, post, delete_ } = http;
   return {
-    list: (limit, offset) => {
+    list: (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests');
 
+      const filterParams = utils.buildFilterParamString(filter);
       let getParams = utils.buildGetParamString({
         limit : limit,
-        offset: offset
+        offset: offset,
+        sort: sort,
+        ...filterParams
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);
