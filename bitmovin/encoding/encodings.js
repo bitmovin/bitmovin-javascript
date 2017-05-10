@@ -54,13 +54,15 @@ export const encodings = (configuration, http) => {
     return post(configuration, url, encoding);
   };
 
-  fn.list = (limit, offset, sort) => {
+  fn.list = (limit, offset, sort, filter) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings');
-
+    
+    const filterParams = utils.buildFilterParamString(filter);
     let getParams = utils.buildGetParamString({
       limit : limit,
       offset: offset,
-      sort: sort
+      sort: sort,
+      ...filterParams
     });
     if (getParams.length > 0) {
       url = urljoin(url, getParams);
