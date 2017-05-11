@@ -94,7 +94,7 @@ const utils = {
     const processedFilterParams = {};
     for (let key in filterParams) {
       if(filterParams.hasOwnProperty(key)) {
-        processedFilterParams[key] = filterParams[key].join('+');
+        processedFilterParams[key] = filterParams[key].join(',');
       }
     }
     return processedFilterParams;

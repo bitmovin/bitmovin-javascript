@@ -55,7 +55,7 @@ describe('encoding', () => {
           status: ['RUNNING', 'QUEUED']
         };
 
-        const expectedGetParameter = 'type=VOD\\+LIVE&status=RUNNING\\+QUEUED';
+        const expectedGetParameter = 'type=VOD,LIVE&status=RUNNING,QUEUED';
         assertItCallsCorrectUrl('GET', '/v1/encoding/encodings\\?' + expectedGetParameter, () => client.list(null, null, null, filter));
         assertItReturnsUnderlyingPromise(mockGet, () => client.list(null, null, null, filter));
       });
@@ -69,7 +69,7 @@ describe('encoding', () => {
           status: ['RUNNING', 'QUEUED']
         };
 
-        const expectedGetParameter = 'type=VOD\\+LIVE&status=RUNNING\\+QUEUED&limit=' + limit + '&offset=' + offset + '&sort=' + sort;
+        const expectedGetParameter = 'type=VOD,LIVE&status=RUNNING,QUEUED&limit=' + limit + '&offset=' + offset + '&sort=' + sort;
         assertItCallsCorrectUrl('GET', '/v1/encoding/encodings\\?' + expectedGetParameter, () => client.list(limit, offset, sort, filter));
         assertItReturnsUnderlyingPromise(mockGet, () => client.list(limit, offset, sort, filter));
       });
