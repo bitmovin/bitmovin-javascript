@@ -103,7 +103,7 @@ describe('Tests creation of url out of given parameters', () => {
         ]
       };
       expect(utils.buildFilterParamString(filterParams)).toEqual({
-        type: 'VOD+LIVE'
+        type: 'VOD,LIVE'
       });
     });
 
