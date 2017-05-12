@@ -31,9 +31,7 @@ export const codecConfigurations = (configuration, http) => {
     fn.list = (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', typeUrl);
 
-      const filterParams = utils.buildFilterParamString(filter);
       let getParams = utils.buildGetParamString({
-        ...filterParams,
         limit : limit,
         offset: offset,
         sort: sort
@@ -54,12 +52,15 @@ export const codecConfigurations = (configuration, http) => {
     aac : typeFn('audio/aac'),
     vp9: typeFn('video/vp9'),
 
-    list: (limit, offset) => {
+    list: (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations');
 
+      const filterParams = utils.buildFilterParamString(filter);
       let getParams = utils.buildGetParamString({
+        ...filterParams,
         limit : limit,
-        offset: offset
+        offset: offset,
+        sort: sort,
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);

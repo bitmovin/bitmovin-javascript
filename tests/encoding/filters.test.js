@@ -21,8 +21,56 @@ describe('encoding', () => {
     const client = filters(testConfiguration, mockHttp);
 
     describe('list', () => {
-      assertItCallsCorrectUrl('GET', '/v1/encoding/filters', client.list);
-      assertItReturnsUnderlyingPromise(mockGet, client.list);
+      describe('un parameterized list call', () => {
+        assertItCallsCorrectUrl('GET', '/v1/encoding/filters', client.list);
+        assertItReturnsUnderlyingPromise(mockGet, client.list);
+      });
+
+      describe('list call with limit only', () => {
+        const limit = 100;
+        const expectedGetParameter = 'limit\=' + limit;
+        assertItCallsCorrectUrl('GET', '/v1/encoding/filters\\?' + expectedGetParameter, () => client.list(limit));
+        assertItReturnsUnderlyingPromise(mockGet, () => client.list(limit));
+      });
+
+      describe('list call with offset only', () => {
+        const offset = 0;
+        const expectedGetParameter = 'offset\=' + offset;
+        assertItCallsCorrectUrl('GET', '/v1/encoding/filters\\?' + expectedGetParameter, () => client.list(null, offset));
+        assertItReturnsUnderlyingPromise(mockGet, () => client.list(null, offset));
+      });
+
+      describe('list call with sort only', () => {
+        const sort = "createdAt:DESC";
+        const expectedGetParameter = 'sort\=' + sort;
+        assertItCallsCorrectUrl('GET', '/v1/encoding/filters\\?' + expectedGetParameter, () => client.list(null, null, sort));
+        assertItReturnsUnderlyingPromise(mockGet, () => client.list(null, null, sort));
+      });
+
+      describe('list call with multiple double filter only', () => {
+        const filter = {
+          type: [ 'VOD', 'LIVE'],
+          status: ['RUNNING', 'QUEUED']
+        };
+
+        const expectedGetParameter = 'type=VOD,LIVE&status=RUNNING,QUEUED';
+        assertItCallsCorrectUrl('GET', '/v1/encoding/filters\\?' + expectedGetParameter, () => client.list(null, null, null, filter));
+        assertItReturnsUnderlyingPromise(mockGet, () => client.list(null, null, null, filter));
+      });
+
+      describe('fully parameterized list call with multiple double filter', () => {
+        const limit = 100;
+        const offset = 0;
+        const sort = 'createdAt:ASC';
+        const filter = {
+          type: [ 'VOD', 'LIVE'],
+          status: ['RUNNING', 'QUEUED']
+        };
+
+        const expectedGetParameter = 'type=VOD,LIVE&status=RUNNING,QUEUED&limit=' + limit + '&offset=' + offset + '&sort=' + sort;
+        assertItCallsCorrectUrl('GET', '/v1/encoding/filters\\?' + expectedGetParameter, () => client.list(limit, offset, sort, filter));
+        assertItReturnsUnderlyingPromise(mockGet, () => client.list(limit, offset, sort, filter));
+      });
     });
 
     const testFilterType = (type) => {
