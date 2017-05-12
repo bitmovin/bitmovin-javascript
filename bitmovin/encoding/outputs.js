@@ -27,12 +27,10 @@ export const outputs = (configuration, http) => {
       return post(configuration, url, output);
     };
 
-    fn.list = (limit, offset, sort, filter) => {
+    fn.list = (limit, offset, sort) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', typeUrl);
 
-      const filterParams = utils.buildFilterParamString(filter);
       let getParams = utils.buildGetParamString({
-        ...filterParams,
         limit : limit,
         offset: offset,
         sort: sort
@@ -87,12 +85,15 @@ export const outputs = (configuration, http) => {
       gcp: bitmovinTypeFn('bitmovin/gcp')
     },
 
-    list: (limit, offset) => {
+    list: (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs');
 
+      const filterParams = utils.buildFilterParamString(filter);
       let getParams = utils.buildGetParamString({
+        ...filterParams,
         limit : limit,
-        offset: offset
+        offset: offset,
+        sort: sort
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);
