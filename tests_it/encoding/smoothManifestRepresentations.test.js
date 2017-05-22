@@ -1,4 +1,3 @@
-import {after, before, describe, it} from 'mocha';
 import assert from 'assert';
 
 import {getConfiguration} from '../utils';
@@ -108,7 +107,7 @@ describe('[Smooth Manifest Representation Tests]', () => {
   let manifestResource    = undefined;
   let drmResource         = undefined;
 
-  before((done) => {
+  beforeAll((done) => {
     let encodingPromise    = createEncoding();
     let inputPromise       = createInput();
     let outputPromise      = createOutput();

@@ -1,4 +1,3 @@
-import {after, before, describe, it} from 'mocha';
 import assert from 'assert';
 
 import {getConfiguration} from '../utils';

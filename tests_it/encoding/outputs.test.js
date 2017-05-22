@@ -1,4 +1,3 @@
-import {after, before, describe, it} from 'mocha';
 import assert from 'assert';
 
 import {getConfiguration} from '../utils';
@@ -91,15 +90,14 @@ describe('[Outputs]', () => {
 
   let outputClient = outputs(testConfiguration);
 
-  it('should list all outputs', (done) => {
-    outputClient.list(5).then((response) => {
+  it('should list all outputs', () => {
+    return outputClient.list(5).then((response) => {
       assert((response.totalCount !== null) && response.totalCount !== undefined);
       assert((response.items !== null) && response.items !== undefined);
-      done();
     }).catch((error) => {
-      done(new Error(error));
+      fail('Unknown reason', error);
     });
-  });
+  }, 10000);
   it('should get the type of an output', (done) => {
     outputClient.s3.create(sampleS3Output).then((response) => {
       assert((response.id !== null) && (response.id !== undefined) && response.id !== '');

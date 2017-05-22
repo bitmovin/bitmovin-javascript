@@ -1,9 +1,10 @@
 {
   "name": "bitmovin-javascript",
-  "version": "1.0.7",
+  "version": "1.0.12",
   "scripts": {
     "lint": "./node_modules/eslint/bin/eslint.js --color ./bitmovin",
-    "test": "node scripts/test.js tests/",
+    "test": "node scripts/testRunner.js tests/",
+    "test_it": "node scripts/test.js tests_it/",
     "coverage": "node scripts/test.js tests/ --coverage",
     "it-coverage": "rm -rf ./coverage && npm run analyze-coverage && npm run check-coverage",
     "it": "./node_modules/mocha/bin/mocha --compilers js:babel-core/register --require babel-polyfill --recursive tests_it --timeout 30000",

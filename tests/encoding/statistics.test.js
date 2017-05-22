@@ -1,4 +1,3 @@
-import bluebird from 'bluebird';
 import { getConfiguration } from '../utils';
 import { statistics } from '../../bitmovin/encoding/statistics';
 import {dateToApiRequestString, getFirstDayOfTheWeekFromDate} from "../../bitmovin/DateUtils";
@@ -46,6 +45,25 @@ describe('encoding', () => {
         });
       });
 
+      describe('vod daily within dates', () => {
+        const startDate = dateToApiRequestString(getFirstDayOfTheWeekFromDate());
+        const endDate = dateToApiRequestString(new Date());
+
+        const expectedUrl = `/v1/encoding/statistics/encodings/vod/daily/${startDate}/${endDate}`;
+
+        it(`Should call GET with ${expectedUrl} once.`, () => {
+          return client.vod.daily({ from: startDate, to: endDate }).then(() => {
+            expect(mockGet).toBeCalled();
+          });
+        });
+        it(`should call GET with ${expectedUrl}`, () => {
+          return client.vod.daily({ from: startDate, to: endDate }).then(() => {
+            expect(mockGet.mock.calls[0][1]).toEqual(expect.stringMatching(expectedUrl));
+          });
+        });
+      });
+
+
       describe('live', () => {
         assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/statistics/encodings/live', client.live.list);
       });
@@ -68,8 +86,28 @@ describe('encoding', () => {
             expect(calledUrl).toEqual(expect.stringMatching(expectedUrl));
           });
         });
-
       });
+
+      describe('live daily within dates', () => {
+        const startDate = dateToApiRequestString(getFirstDayOfTheWeekFromDate());
+        const endDate = dateToApiRequestString(new Date());
+
+        const expectedUrl = `/v1/encoding/statistics/encodings/live/daily/${startDate}/${endDate}`;
+
+        it(`Should call GET with ${expectedUrl} once.`, () => {
+          return client.live.daily({ from: startDate, to: endDate }).then(() => {
+            expect(mockGet).toBeCalled();
+          });
+        });
+
+        it(`should call GET with ${expectedUrl}`, () => {
+          return client.live.daily({ from: startDate, to: endDate }).then(() => {
+            const calledUrl = mockGet.mock.calls[0][1];
+            expect(calledUrl).toEqual(expect.stringMatching(expectedUrl));
+          });
+        });
+      });
+
     });
 
   });

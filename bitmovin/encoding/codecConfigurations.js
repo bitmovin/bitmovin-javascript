@@ -28,12 +28,13 @@ export const codecConfigurations = (configuration, http) => {
       return post(configuration, url, codecConfig);
     };
 
-    fn.list = (limit, offset) => {
+    fn.list = (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', typeUrl);
 
       let getParams = utils.buildGetParamString({
         limit : limit,
-        offset: offset
+        offset: offset,
+        sort: sort
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);
@@ -49,13 +50,17 @@ export const codecConfigurations = (configuration, http) => {
     h264: typeFn('video/h264'),
     h265: typeFn('video/h265'),
     aac : typeFn('audio/aac'),
+    vp9: typeFn('video/vp9'),
 
-    list: (limit, offset) => {
+    list: (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations');
 
+      const filterParams = utils.buildFilterParamString(filter);
       let getParams = utils.buildGetParamString({
+        ...filterParams,
         limit : limit,
-        offset: offset
+        offset: offset,
+        sort: sort,
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);

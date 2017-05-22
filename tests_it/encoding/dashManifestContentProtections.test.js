@@ -1,4 +1,3 @@
-import {after, before, describe, it} from 'mocha';
 import assert from 'assert';
 
 import {getConfiguration} from '../utils';
@@ -135,7 +134,7 @@ describe('[DASH Manifest ContentProtections]', () => {
     };
   };
 
-  before((done) => {
+  beforeAll((done) => {
     let createdInput       = undefined;
     let createdOutput      = undefined;
     let createdCodecConfig = undefined;
