@@ -58,6 +58,7 @@ describe('encoding', () => {
     testInputType('https');
     testInputType('s3');
     testInputType('sftp');
+    testInputType('local');
 
     describe('rtmp', () => {
       describe('list', () => {
