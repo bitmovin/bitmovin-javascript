@@ -36,7 +36,7 @@ describe('encoding', () => {
           });
         });
       });
-    }
+    };
 
     const testOutputType = (type) => {
       describe(type, () => {
@@ -63,7 +63,7 @@ describe('encoding', () => {
           });
         });
       });
-    }
+    };
 
     testOutputType('azure');
     testOutputType('ftp');
@@ -72,8 +72,7 @@ describe('encoding', () => {
     testOutputType('sftp');
     testBitmovinOutput('aws');
     testBitmovinOutput('gcp');
-    //TODO: Is aspera really missing from outputs?
-    //testOutputType('aspera');
+    testOutputType('local');
 
     describe('list', () => {
       describe('un parameterized list call', () => {
