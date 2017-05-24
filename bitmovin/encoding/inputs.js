@@ -81,6 +81,7 @@ export const inputs = (configuration, http) => {
     s3       : typeFn('s3'),
     genericS3: typeFn('generic-s3'),
     sftp     : typeFn('sftp'),
+    local    : typeFn('local'),
 
     list: (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs');
