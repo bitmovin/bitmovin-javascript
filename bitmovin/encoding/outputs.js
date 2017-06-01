@@ -84,6 +84,7 @@ export const outputs = (configuration, http) => {
       aws: bitmovinTypeFn('bitmovin/aws'),
       gcp: bitmovinTypeFn('bitmovin/gcp')
     },
+    local    : typeFn('local'),
 
     list: (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs');

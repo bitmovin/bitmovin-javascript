@@ -30,11 +30,11 @@ const request = (configuration, method, url, body) => {
       if (response.status > 399) {
         const errorMessage = 'HTTP Request was unsuccessful: HTTP Response Code was ' +
           response.status + ' ' + response.statusText;
-        response.text().then((errorText) => {
-          logger.error('Error Response Body: ', errorText);
-        });
         logger.error(errorMessage);
-        throw new BitmovinError(errorMessage, response);
+        return response.json().then((errorText) => {
+          logger.error('Error Response Body: ', JSON.stringify(errorText));
+          throw new BitmovinError(errorMessage, {...response, responseData: errorText});
+        });
       }
       return response.json();
     }).then((responseJson) => {
