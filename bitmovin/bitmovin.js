@@ -7,6 +7,7 @@ import outputs from './encoding/outputs';
 import manifests from './encoding/manifests';
 import filters from './encoding/filters';
 import statistics from './encoding/statistics';
+import infrastructure from './encoding/infrastructure';
 import account from './account/account';
 import playerChannels from './player/channels';
 import playerLicenses from './player/licenses';
@@ -73,7 +74,8 @@ export default class Bitmovin {
       outputs            : outputs(this.configuration),
       manifests          : manifests(this.configuration),
       filters            : filters(this.configuration),
-      statistics         : statistics(this.configuration)
+      statistics         : statistics(this.configuration),
+      infrastructure     : infrastructure(this.configuration)
     };
 
     this.player = {
