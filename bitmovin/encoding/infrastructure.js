@@ -11,8 +11,7 @@ export const infrastructure = (configuration, http) => {
         status: () => {
           const url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type, id, 'status');
           return get(configuration, url);
-        }
-        ,
+        },
         details: () => {
           const url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type, id);
           return get(configuration, url);
