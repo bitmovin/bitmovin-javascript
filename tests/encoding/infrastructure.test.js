@@ -25,6 +25,10 @@ describe('encoding', () => {
           assertItCallsCorrectUrl('GET', `/v1/encoding/infrastructure/${type}`, client[type].list);
           assertItReturnsUnderlyingPromise(mockGet, client[type].list);
         });
+        describe('list limit offset', () => {
+          assertItCallsCorrectUrl('GET', `/v1/encoding/infrastructure/${type}\\?limit=100&offset=15`, () => client[type].list(100, 15));
+          assertItReturnsUnderlyingPromise(mockGet, () => client[type].list(100, 15));
+        });
         describe('create', () => {
           assertItCallsCorrectUrl('POST', `/v1/encoding/infrastructure/${type}`, () => client[type].create({}));
           assertItReturnsUnderlyingPromise(mockPost, () => client[type].create({}));

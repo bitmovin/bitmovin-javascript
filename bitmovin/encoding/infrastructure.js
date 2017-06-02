@@ -1,5 +1,5 @@
 import urljoin from 'url-join';
-import http from '../http';
+import http, {utils} from '../http';
 
 export const infrastructure = (configuration, http) => {
   const { get, post, delete_ } = http;
@@ -32,8 +32,17 @@ export const infrastructure = (configuration, http) => {
       return post(configuration, url, infrastructure);
     };
 
-    fn.list = () => {
-      const url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type);
+    fn.list = (limit, offset) => {
+      let url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type);
+
+      let getParams = utils.buildGetParamString({
+        limit : limit,
+        offset: offset
+      });
+      if (getParams.length > 0) {
+        url = urljoin(url, getParams);
+      }
+
       return get(configuration, url);
     };
 
