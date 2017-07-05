@@ -10,7 +10,6 @@ export const filters = (configuration, http) => {
     let fn = (filterId) => {
       return {
         details   : () => {
-          console.info('Getting Details for Filter with ID ' + filterId + ' ...');
 
           let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId);
 
@@ -25,7 +24,6 @@ export const filters = (configuration, http) => {
           });
         },
         customData: () => {
-          console.info('Getting Custom Data for Filter with ID ' + filterId + ' ...');
 
           let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId, 'customData');
 
@@ -40,7 +38,6 @@ export const filters = (configuration, http) => {
           });
         },
         delete    : () => {
-          console.info('Deleting Filter with ID ' + filterId + ' ...');
 
           let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId);
 
