@@ -5,7 +5,7 @@
     "lint": "./node_modules/eslint/bin/eslint.js --color ./bitmovin",
     "test": "node scripts/testRunner.js tests/",
     "test_it": "node scripts/test.js tests_it/",
-    "coverage": "node scripts/test.js tests/ --coverage",
+    "coverage": "node scripts/testRunner.js tests/ --coverage",
     "it-coverage": "rm -rf ./coverage && npm run analyze-coverage && npm run check-coverage",
     "it": "./node_modules/mocha/bin/mocha --compilers js:babel-core/register --require babel-polyfill --recursive tests_it --timeout 30000",
     "debug": "./node_modules/webpack/bin/webpack.js --config=webpack.config.debug.js",
@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "bluebird": "^3.4.7",
+    "codecov": "^2.2.0",
     "moment": "^2.17.1",
     "node-fetch": "^1.6.3"
   }
