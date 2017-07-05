@@ -1,5 +1,6 @@
 import {getConfiguration} from '../utils';
 import { queries } from '../../bitmovin/analytics/queries';
+import moment from 'moment'
 
 import {
   mockGet,
@@ -10,6 +11,7 @@ import {
   assertPayload,
   assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
+  assertItReturnsPromise,
   testSetup
 } from '../assertions';
 
@@ -51,6 +53,47 @@ describe('analytics', () => {
     describe('stddev', () => {
       assertItCallsCorrectUrl('POST', '/v1/analytics/queries/stddev', queriesClient.stddev);
       assertItReturnsUnderlyingPromise(mockPost, queriesClient.stddev);
+    });
+
+    describe('builder', () => {
+      const start = moment().subtract(1, 'months').toDate();
+      const end = moment().toDate();
+      const testBuilderFunction = (func) => {
+        const fn = func('STARTUPTIME')
+          .between(start, end)
+          .interval('DAY')
+          .filter('STARTUPTIME', 'GT', 0)
+          .filter('CDN_PROVIDER', 'EQ', 'akamai')
+          .groupBy('VIDEOID')
+          .groupBy('CDN_PROVIDER')
+          .orderBy('DAY', 'DESC')
+          .orderBy('VIDEOID', 'ASC');
+        assertItReturnsPromise(mockPost, () => { return fn.query() });
+        assertPayload(mockPost, () => { return fn.query() }, {
+          dimension: 'STARTUPTIME',
+          start: start,
+          end: end,
+          filters: [
+            { name: 'STARTUPTIME', operator: 'GT', value: 0 },
+            { name: 'CDN_PROVIDER', operator: 'EQ', value: 'akamai' }
+          ],
+          groupBy: [ 'VIDEOID', 'CDN_PROVIDER' ],
+          interval: 'DAY',
+          orderBy: [
+            { name: 'DAY', order: 'DESC' },
+            { name: 'VIDEOID', order: 'ASC' }
+          ]
+        });
+      }
+      testBuilderFunction(queriesClient.builder.max);
+      testBuilderFunction(queriesClient.builder.min);
+      testBuilderFunction(queriesClient.builder.avg);
+      testBuilderFunction(queriesClient.builder.sum);
+      testBuilderFunction(queriesClient.builder.count);
+      testBuilderFunction(queriesClient.builder.median);
+      testBuilderFunction(queriesClient.builder.variance);
+      testBuilderFunction(queriesClient.builder.percentile);
+      testBuilderFunction(queriesClient.builder.stddev);
     });
   });
 });

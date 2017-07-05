@@ -1,5 +1,6 @@
 import urljoin from 'url-join';
 import http, { utils } from '../http';
+import { queryBuilder } from './query_builder';
 
 export const queries = (configuration, http) => {
   const { get, post } = http;
@@ -49,6 +50,8 @@ export const queries = (configuration, http) => {
     const url = urljoin(baseUrl, 'variance');
     return post(configuration, url, query);
   }
+
+  fn.builder = queryBuilder(fn);
 
   return fn;
 };

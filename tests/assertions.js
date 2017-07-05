@@ -29,9 +29,10 @@ export const assertPayload = (mock, call, expectedPayload) => {
 
 export const assertItReturnsPromise = (mock, call) => {
   it ('should return promise', () => {
+    expect(typeof call).toEqual('function');
     mock.mockReturnValue(Promise.resolve("success"));
     const retVal = call();
-    expect(typeof retVal.then).toBe('function');
+    expect(typeof retVal.then).toEqual('function');
     return retVal;
   });
 };
