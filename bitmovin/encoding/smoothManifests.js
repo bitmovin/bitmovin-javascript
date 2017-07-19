@@ -38,12 +38,13 @@ export const smoothManifests = (configuration, http) => {
     return post(configuration, url, manifest);
   };
 
-  fn.list = (limit, offset) => {
+  fn.list = (limit, offset, encodingId) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/smooth');
 
     let getParams = utils.buildGetParamString({
-      limit : limit,
-      offset: offset
+      limit     : limit,
+      offset    : offset,
+      encodingId: encodingId
     });
     if (getParams.length > 0) {
       url = urljoin(url, getParams);
