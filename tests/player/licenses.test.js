@@ -16,6 +16,7 @@ import {
   assertItReturnsPromise,
   assertItReturnsCorrectResponse
 } from '../assertions';
+import {thirdPartyLicensing} from '../../bitmovin/player/thirdPartyLicensing';
 
 let testConfiguration = getConfiguration();
 
@@ -53,6 +54,34 @@ describe('player', () => {
         assertItCallsCorrectUrl('DELETE', '/v1/player/licenses/license-id/domains/domain-id', domainClient('domain-id').delete);
         assertItReturnsUnderlyingPromise(mockDelete, domainClient('domain-id').delete);
       });
+    });
+
+    describe('third-party-licensing', () => {
+      const licenseId = 'someLicenseId';
+      const thirdPartyLicensingClient = thirdPartyLicensing(testConfiguration, licenseId, mockHttp);
+
+      describe('add', () => {
+        const thirdPartyLicensing = {
+          licenseCheckServer: 'https://your.server.to',
+          licenseCheckTimeout: 5000,
+          errorAction: 'yourErrorAction',
+          timeoutAction: 'yourTimeoutAction'
+        };
+
+        assertItCallsCorrectUrl('POST', '/v1/player/licenses/' + licenseId + '/third-party-licensing', thirdPartyLicensingClient.add);
+        assertItReturnsUnderlyingPromise(mockPost, () => thirdPartyLicensingClient.add(thirdPartyLicensing));
+        assertPayload(mockPost, () => thirdPartyLicensingClient.add(thirdPartyLicensing), thirdPartyLicensing);
+      });
+
+      describe('get', () => {
+        assertItCallsCorrectUrl('GET', '/v1/player/licenses/' + licenseId + '/third-party-licensing', thirdPartyLicensingClient.get);
+        assertItReturnsUnderlyingPromise(mockGet, thirdPartyLicensingClient.get);
+      });
+
+      describe('delete', () => {
+        assertItCallsCorrectUrl('DELETE', '/v1/player/licenses/' + licenseId + '/third-party-licensing', thirdPartyLicensingClient.delete);
+        assertItReturnsUnderlyingPromise(mockGet, thirdPartyLicensingClient.delete);
+      })
     });
   });
 
