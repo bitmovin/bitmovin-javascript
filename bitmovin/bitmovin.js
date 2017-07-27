@@ -11,6 +11,7 @@ import infrastructure from './encoding/infrastructure';
 import account from './account/account';
 import playerChannels from './player/channels';
 import playerLicenses from './player/licenses';
+import playerStatistics from './player/statistics';
 import analyticsLicenses from './analytics/licenses';
 import analyticsQueries from './analytics/queries';
 
@@ -62,7 +63,7 @@ export default class Bitmovin {
       'X-Api-Key'           : configuration.apiKey,
       'X-Tenant-Org-Id'     : configuration.tenantOrgId,
       'X-Api-Client'        : 'bitmovin-javascript',
-      'X-Api-Client-Version': '1.1.7'
+      'X-Api-Client-Version': '1.1.8'
     };
 
     this.configuration = configuration;
@@ -80,7 +81,8 @@ export default class Bitmovin {
 
     this.player = {
       channels: playerChannels(this.configuration),
-      licenses: playerLicenses(this.configuration)
+      licenses: playerLicenses(this.configuration),
+      statistics: playerStatistics(this.configuration)
     };
 
     this.analytics = {
