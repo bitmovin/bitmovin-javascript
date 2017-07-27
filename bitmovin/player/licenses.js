@@ -2,6 +2,7 @@ import urljoin from 'url-join';
 import http, { utils } from '../http';
 
 import domains from './domains';
+import thirdPartyLicensing from './thirdPartyLicensing';
 
 export const licenses = (configuration, http) => {
   const { get, post } = http;
@@ -11,7 +12,8 @@ export const licenses = (configuration, http) => {
         const url = urljoin(configuration.apiBaseUrl, 'player/licenses', licenseId);
         return get(configuration, url);
       },
-      domains: domains(configuration, licenseId)
+      domains: domains(configuration, licenseId),
+      thirdPartyLicensing: thirdPartyLicensing(configuration, licenseId)
     };
   };
 
