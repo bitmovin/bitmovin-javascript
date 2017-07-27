@@ -1,8 +1,9 @@
 import urljoin from 'url-join';
-import {post} from '../http';
+import http, { utils } from '../http';
+import { queryBuilder } from './query_builder';
 
-const queries = (configuration) => {
-
+export const queries = (configuration, http) => {
+  const { get, post } = http;
   const baseUrl = urljoin(configuration.apiBaseUrl, 'analytics/queries');
 
   const fn = (queryId) => {
@@ -33,8 +34,26 @@ const queries = (configuration) => {
     const url = urljoin(baseUrl, 'max');
     return post(configuration, url, query);
   };
+  fn.median = (query) => {
+    const url = urljoin(baseUrl, 'median');
+    return post(configuration, url, query);
+  }
+  fn.percentile = (query) => {
+    const url = urljoin(baseUrl, 'percentile');
+    return post(configuration, url, query);
+  }
+  fn.stddev = (query) => {
+    const url = urljoin(baseUrl, 'stddev');
+    return post(configuration, url, query);
+  }
+  fn.variance = (query) => {
+    const url = urljoin(baseUrl, 'variance');
+    return post(configuration, url, query);
+  }
+
+  fn.builder = queryBuilder(fn);
 
   return fn;
 };
 
-module.exports = queries;
+export default (configuration) => { return queries(configuration, http); };
