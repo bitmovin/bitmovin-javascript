@@ -11,6 +11,7 @@ import infrastructure from './encoding/infrastructure';
 import account from './account/account';
 import playerChannels from './player/channels';
 import playerLicenses from './player/licenses';
+import playerStatistics from './player/statistics';
 import analyticsLicenses from './analytics/licenses';
 import analyticsQueries from './analytics/queries';
 
@@ -80,7 +81,8 @@ export default class Bitmovin {
 
     this.player = {
       channels: playerChannels(this.configuration),
-      licenses: playerLicenses(this.configuration)
+      licenses: playerLicenses(this.configuration),
+      statistics: playerStatistics(this.configuration)
     };
 
     this.analytics = {
