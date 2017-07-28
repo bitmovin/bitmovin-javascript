@@ -6,15 +6,15 @@ export const statistics = (configuration, http) => {
   const { get } = http;
 
   return {
-    impressions: (licenseKey, start, end, offset, limit) => {
-      if (!licenseKey || !start || !end) {
+    impressions: (licenseKeyId, start, end, offset, limit) => {
+      if (!licenseKeyId || !start || !end) {
         return Promise.reject(new BitmovinError('Not all required params given.'))
       }
 
       const playerStatisticsBaseUrl = urljoin(configuration.apiBaseUrl, '/player/statistics/impressions');
 
       const getParams = utils.buildGetParamString({
-        licenseKey,
+        licenseKeyId,
         start,
         end,
         offset,
