@@ -66,8 +66,8 @@ export default class Bitmovin {
       'Content-Type'        : 'application/json',
       'X-Api-Key'           : configuration.apiKey,
       'X-Tenant-Org-Id'     : configuration.tenantOrgId,
-      'X-Api-Client'        : configuration.xApiClient,
-      'X-Api-Client-Version': '1.1.9'
+      'X-Api-Client'        : 'bitmovin-javascript',
+      'X-Api-Client-Version': '1.1.10'
     };
 
     this.configuration = configuration;
