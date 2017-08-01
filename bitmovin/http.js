@@ -62,7 +62,7 @@ const post = (configuration, url, object, fetchMethod = fetch) => {
 };
 
 const delete_ = (configuration, url, fetchMethod = fetch) => {
-  return request(configuration, DELETE, url , undefined, fetchMethod);
+  return request(configuration, DELETE, url, undefined, fetchMethod);
 };
 
 const utils = {
