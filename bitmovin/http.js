@@ -36,6 +36,10 @@ const request = (configuration, method, url, body) => {
           throw new BitmovinError(errorMessage, {...response, responseData: errorText});
         });
       }
+      if (response.status === 204) {
+        logger.log('Response: 204 - No Content');
+        resolve();
+      }
       return response.json();
     }).then((responseJson) => {
       logger.log('Response: data -> result: ' + JSON.stringify(responseJson.data.result, undefined, 2));
