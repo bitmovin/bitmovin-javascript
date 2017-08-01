@@ -58,4 +58,43 @@ describe('Test HTTP Client', () => {
       expect(bitmovinError.response.responseData).toEqual(errorData);
     });
   });
+
+  it('Should resolve the response if status is 200',() => {
+    const constMockConfiguration = {
+      httpHeaders: ['X-Api-Key: someApiKey'],
+      requestTimeOut: 5000
+    };
+
+    const successData = {
+      requestId: '33fc02af-5b81-4948-81ef-71c999c017f2',
+      status: 'SUCCESS',
+      data: {
+        result: {
+          name: 'Production-ID-678',
+          description: 'Project ID: 567',
+          id: 'cb90b80c-8867-4e3b-8479-174aa2843f62',
+          createdAt: '2016-06-25T20:09:23.69Z',
+          modifiedAt: '2016-06-25T20:09:23.69Z'
+        }
+      }
+    };
+
+    const mockResponse = {
+      status: 200,
+      statusText: 'OK',
+      json: () => {
+        return Promise.resolve(successData);
+      }
+    };
+
+    const mockFetch = jest.fn(() => {
+      return Promise.resolve(mockResponse)
+    });
+
+    return get(constMockConfiguration, "http://someurl.com/some/resources", mockFetch).then((response) => {
+      expect(response).toEqual(successData.data.result);
+    }).catch((error) => {
+      expect(false).toEqual(true)
+    });
+  })
 });
