@@ -26,12 +26,16 @@ const FTP_TRANSFER_VERSION            = '1.1.0';
 const FTP_MAX_CONCURRENT_CONNECTIONS  = 20;
 
 const OUTPUT_PATH     = '/output/bitmovin-javascript-examples/' + ENCODING_NAME + '/';
+
+// Thumbnail settings
+// See https://bitmovin.com/encoding-documentation/bitmovin-api/#/reference/encoding/encodings/add-thumbnail for more information
 const THUMBNAIL_OUTPUT_PATH = OUTPUT_PATH + 'thumbnails/';
+const THUMBNAIL_POSITIONS = [10, 15, 25]; //If this array is empty the thumbnail generation will be omitted
 
 console.log('OUTPUT_PATH', OUTPUT_PATH);
 
 const s3Input = {
-  name       :  'Sintel 2010 1080p MKV',
+  name       :  'Sample Input',
   description:  'This is a demo s3 input',
   accessKey:    S3_ACCESS_KEY,
   secretKey:    S3_SECRET_KEY,
@@ -53,15 +57,13 @@ const ftpOutput = {
 const aacAudioCodecConfiguration       = {
   name   : 'Audio',
   bitrate: 128000,
-  rate   : 44100
+  rate   : 48000
 };
 
 // Video Codec Configurations
 const h264VideoCodecConfiguration720p  = {
   name   : 'H264 720p',
   bitrate: 2400000,
-  rate   : 24.0,
-  width  : 1280,
   height : 720,
   profile: 'HIGH'
 };
@@ -69,8 +71,6 @@ const h264VideoCodecConfiguration720p  = {
 const h264VideoCodecConfiguration480p = {
   name   : 'H264 480p',
   bitrate: 1200000,
-  rate   : 24.0,
-  width  : 854,
   height : 480,
   profile: 'HIGH'
 };
@@ -78,8 +78,6 @@ const h264VideoCodecConfiguration480p = {
 const h264VideoCodecConfiguration360p = {
   name   : 'H264 360p',
   bitrate: 800000,
-  rate   : 24.0,
-  width  : 640,
   height : 360,
   profile: 'HIGH'
 };
@@ -87,8 +85,6 @@ const h264VideoCodecConfiguration360p = {
 const h264VideoCodecConfiguration240p = {
   name   : 'H264 240p',
   bitrate: 400000,
-  rate   : 24.0,
-  width  : 426,
   height : 240,
   profile: 'HIGH'
 };
@@ -100,15 +96,11 @@ const encodingResource = {
 };
 
 const thumbnailResource = {
-  name: 'My Thumbnail 1',
+  name: 'My Thumbnail',
   description: 'Demo thumbnail',
   height: 320,
   unit: 'SECONDS',
-  positions: [
-    10,
-    15,
-    20
-  ],
+  positions: THUMBNAIL_POSITIONS,
   pattern: 'thumbnail-%number%.png'
 };
 
@@ -230,15 +222,21 @@ const main = () => new Promise((resolve, reject) => {
         videoMuxings
       );
 
-      const thumbnailPromise = createThumbnail(
-        output,
-        encoding,
-        addedVideoStream720p,
-        thumbnail
-      );
+      let thumbnailPromise = Promise.resolve();
+      if (thumbnail.positions.length > 0) {
+        thumbnailPromise = createThumbnail(
+          output,
+          encoding,
+          addedVideoStream720p,
+          thumbnail
+        ).then(() => {
+          console.log('Successfully created thumbnail')
+        }).catch(() => {
+          console.log('Error creating thumbnail')
+        });
+      }
 
-      Promise.all([dashManifestPromise, hlsManifestPromise, thumbnailPromise]).then(([createdDashManifest, createdHlsManifest, createdThumbnail]) => {
-        console.log('Successfully created Thumbnail', createdThumbnail);
+      Promise.all([dashManifestPromise, hlsManifestPromise, thumbnailPromise]).then(([createdDashManifest, createdHlsManifest]) => {
         startEncodingAndWaitForItToBeFinished(encoding).then(() => {
           console.log('Successfully finished encoding');
 
