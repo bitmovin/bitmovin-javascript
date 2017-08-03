@@ -16,7 +16,7 @@ const buildParams = (method, configuration, body) => {
   };
 };
 
-const request = (configuration, method, url, body, fetchMethod = fetch) => {
+const request = (configuration, method, url, fetchMethod = fetch, body) => {
   logger.log('Request: ' + method + ' ' + url + '  ...');
 
   if (body !== undefined) {
@@ -51,18 +51,18 @@ const request = (configuration, method, url, body, fetchMethod = fetch) => {
 };
 
 const get = (configuration, url, fetchMethod = fetch) => {
-  return request(configuration, GET, url, undefined, fetchMethod);
+  return request(configuration, GET, url, fetchMethod);
 };
 
 const post = (configuration, url, object, fetchMethod = fetch) => {
   logger.log('Request payload will be: ' + JSON.stringify(object, undefined, 2));
   const body = JSON.stringify(object);
 
-  return request(configuration, POST, url, body, fetchMethod);
+  return request(configuration, POST, url, fetchMethod, body);
 };
 
 const delete_ = (configuration, url, fetchMethod = fetch) => {
-  return request(configuration, DELETE, url, undefined, fetchMethod);
+  return request(configuration, DELETE, url, fetchMethod);
 };
 
 const utils = {
