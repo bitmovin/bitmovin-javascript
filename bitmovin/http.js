@@ -16,7 +16,7 @@ const buildParams = (method, configuration, body) => {
   };
 };
 
-const request = (configuration, method, url, body) => {
+const request = (configuration, method, url, fetchMethod = fetch, body) => {
   logger.log('Request: ' + method + ' ' + url + '  ...');
 
   if (body !== undefined) {
@@ -26,7 +26,7 @@ const request = (configuration, method, url, body) => {
   const params = buildParams(method, configuration, body);
 
   return new Promise((resolve, reject) => {
-    fetch(url, params).then((response) => {
+    fetchMethod(url, params).then((response) => {
       if (response.status > 399) {
         const errorMessage = 'HTTP Request was unsuccessful: HTTP Response Code was ' +
           response.status + ' ' + response.statusText;
@@ -35,6 +35,10 @@ const request = (configuration, method, url, body) => {
           logger.error('Error Response Body: ', JSON.stringify(errorText));
           throw new BitmovinError(errorMessage, {...response, responseData: errorText});
         });
+      }
+      if (response.status === 204) {
+        logger.log('Response: 204 - No Content');
+        resolve();
       }
       return response.json();
     }).then((responseJson) => {
@@ -46,19 +50,19 @@ const request = (configuration, method, url, body) => {
   });
 };
 
-const get = (configuration, url) => {
-  return request(configuration, GET, url);
+const get = (configuration, url, fetchMethod = fetch) => {
+  return request(configuration, GET, url, fetchMethod);
 };
 
-const post = (configuration, url, object) => {
+const post = (configuration, url, object, fetchMethod = fetch) => {
   logger.log('Request payload will be: ' + JSON.stringify(object, undefined, 2));
   const body = JSON.stringify(object);
 
-  return request(configuration, POST, url, body);
+  return request(configuration, POST, url, fetchMethod, body);
 };
 
-const delete_ = (configuration, url) => {
-  return request(configuration, DELETE, url);
+const delete_ = (configuration, url, fetchMethod = fetch) => {
+  return request(configuration, DELETE, url, fetchMethod);
 };
 
 const utils = {
