@@ -80,6 +80,10 @@ export const statistics = (configuration, http) => {
 
     encodings: (encodingId) => {
       return {
+        statistics: () => {
+          const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings', encodingId);
+          return get(configuration, url);
+        },
         liveStatistics: () => {
           const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings', encodingId, 'live-statistics');
           return get(configuration, url);
