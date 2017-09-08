@@ -92,7 +92,7 @@ export default class Bitmovin {
 
     this.analytics = {
       licenses: analyticsLicenses(this.configuration),
-      queries : analyticsQueries(this.configuration),
+      queries: analyticsQueries(this.configuration),
       impressions: analyticsImpressions(this.configuration)
     };
 
