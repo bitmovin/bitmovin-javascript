@@ -17,4 +17,4 @@ export const impressions = (configuration, http) => {
   return fn;
 };
 
-export default (configuration) => { return domains(configuration, http); };
+export default (configuration) => { return impressions(configuration, http); };
