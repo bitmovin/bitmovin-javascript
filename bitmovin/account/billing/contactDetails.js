@@ -1,8 +1,8 @@
 import urljoin from 'url-join';
-import { http } from '../../http';
+import http from '../../http';
 
 export const contactDetails = (configuration, http) => {
-  const contactDetailsBaseUrl = urljoin(configuration.apiBaseUrl, 'account', 'billing', 'account-details');
+  const contactDetailsBaseUrl = urljoin(configuration.apiBaseUrl, 'account', 'billing', 'contact-details');
   const {get, put} = http;
 
   return {

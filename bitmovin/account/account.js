@@ -1,6 +1,7 @@
 import urljoin from 'url-join';
 import http from '../http';
 import organizations from './organizations/organizations.js';
+import contactDetails from './billing/contactDetails.js';
 
 export const account = (configuration, http) => {
   const { get, post } = http;
@@ -32,16 +33,11 @@ export const account = (configuration, http) => {
     return post(configuration, url, changePasswordPayload);
   };
 
-  const billing = () => {
-    const url = urljoin(accountBaseUrl, '/billing/contact-details');
-    return get(configuration, url);
-  };
-
   return {
     information,
     login,
     changePassword,
-    billing,
+    contactDetails: contactDetails(configuration),
     organizations: organizations(configuration)
   };
 };

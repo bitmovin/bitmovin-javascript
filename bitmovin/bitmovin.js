@@ -96,6 +96,6 @@ export default class Bitmovin {
       impressions: analyticsImpressions(this.configuration)
     };
 
-    this.account = account(configuration);
+    this.account = account(this.configuration);
   }
 }
