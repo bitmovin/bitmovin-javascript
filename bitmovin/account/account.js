@@ -32,10 +32,16 @@ export const account = (configuration, http) => {
     return post(configuration, url, changePasswordPayload);
   };
 
+  const billing = () => {
+    const url = urljoin(accountBaseUrl, '/billing/contact-details');
+    return get(configuration, url);
+  };
+
   return {
     information,
     login,
     changePassword,
+    billing,
     organizations: organizations(configuration)
   };
 };

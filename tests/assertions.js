@@ -2,13 +2,16 @@ import bluebird from 'bluebird';
 export const mockGet = jest.fn().mockReturnValue(Promise.resolve({}));
 export const mockPost = jest.fn().mockReturnValue(Promise.resolve({}));
 export const mockDelete = jest.fn().mockReturnValue(Promise.resolve({}));
-export const mockHttp = { get: mockGet, post: mockPost, delete_: mockDelete };
+export const mockPut = jest.fn().mockReturnValue(Promise.resolve({}));
+export const mockHttp = { get: mockGet, post: mockPost, delete_: mockDelete, put: mockPut };
 
 export const methodToMock = (method) => {
   if (method.toLowerCase() === 'get')
     return mockGet;
   if (method.toLowerCase() === 'delete')
     return mockDelete;
+  if (method.toLowerCase() === 'put')
+    return mockPut;
   return mockPost;
 };
 
@@ -16,6 +19,7 @@ export const methodToMock = (method) => {
 export const testSetup = () => {
   mockGet.mockClear();
   mockPost.mockClear();
+  mockPut.mockClear();
   mockDelete.mockClear();
 };
 
