@@ -6,7 +6,7 @@ export const statistics = (configuration, http) => {
   const { get } = http;
 
   return {
-    impressions: (licenseKeyId, start, end, offset, limit) => {
+    impressions: (licenseKeyId, start, end, interval, offset, limit) => {
       if (!licenseKeyId || !start || !end) {
         return Promise.reject(new BitmovinError('Not all required params given.'))
       }
@@ -17,6 +17,7 @@ export const statistics = (configuration, http) => {
         licenseKeyId,
         start,
         end,
+        interval,
         offset,
         limit
       });
