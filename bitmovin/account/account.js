@@ -2,6 +2,8 @@ import urljoin from 'url-join';
 import http from '../http';
 import organizations from './organizations/organizations.js';
 import contactDetails from './billing/contactDetails.js';
+import invoices from './billing/invoices';
+import statements from './billing/statements';
 
 export const account = (configuration, http) => {
   const { get, post } = http;
@@ -37,6 +39,8 @@ export const account = (configuration, http) => {
     information,
     login,
     changePassword,
+    statements: statements(configuration),
+    invoices: invoices(configuration),
     contactDetails: contactDetails(configuration),
     organizations: organizations(configuration)
   };
