@@ -68,7 +68,7 @@ export default class Bitmovin {
       'X-Api-Key'           : configuration.apiKey,
       'X-Tenant-Org-Id'     : configuration.tenantOrgId,
       'X-Api-Client'        : configuration.xApiClient,
-      'X-Api-Client-Version': '1.1.14'
+      'X-Api-Client-Version': '1.1.17'
     };
 
     this.configuration = configuration;
@@ -96,6 +96,6 @@ export default class Bitmovin {
       impressions: analyticsImpressions(this.configuration)
     };
 
-    this.account = account(configuration);
+    this.account = account(this.configuration);
   }
 }
