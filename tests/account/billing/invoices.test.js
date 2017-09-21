@@ -42,7 +42,7 @@ describe('account', () => {
         const offset = 15;
         const expectedGetParameters = '\\?limit\=' + limit + '\&offset=' + offset;
 
-        assertItCallsCorrectUrl('GET', '/v1/account/billing/invoices/encoding' + expectedGetParameters, () => client.player.list(limit, offset));
+        assertItCallsCorrectUrl('GET', '/v1/account/billing/invoices/player' + expectedGetParameters, () => client.player.list(limit, offset));
         assertItReturnsUnderlyingPromise(mockGet, client.encoding.list);
       });
     });
@@ -59,7 +59,7 @@ describe('account', () => {
         const offset = 15;
         const expectedGetParameters = '\\?limit\=' + limit + '\&offset=' + offset;
 
-        assertItCallsCorrectUrl('GET', '/v1/account/billing/invoices/encoding' + expectedGetParameters, () => client.analytics.list(limit, offset));
+        assertItCallsCorrectUrl('GET', '/v1/account/billing/invoices/analytics' + expectedGetParameters, () => client.analytics.list(limit, offset));
         assertItReturnsUnderlyingPromise(mockGet, client.encoding.list);
       });
     });
