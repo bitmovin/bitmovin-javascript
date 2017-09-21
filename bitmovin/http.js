@@ -6,6 +6,7 @@ import Promise from 'bluebird';
 const GET    = 'GET';
 const POST   = 'POST';
 const DELETE = 'DELETE';
+const PUT    = 'PUT';
 
 const buildParams = (method, configuration, body) => {
   return {
@@ -61,6 +62,13 @@ const post = (configuration, url, object, fetchMethod = fetch) => {
   return request(configuration, POST, url, fetchMethod, body);
 };
 
+const put = (configuration, url, object, fetchMethod = fetch) => {
+  logger.log('Request payload will be: ' + JSON.stringify(object, undefined, 2));
+  const body = JSON.stringify(object);
+
+  return request(configuration, PUT, url, fetchMethod, body);
+};
+
 const delete_ = (configuration, url, fetchMethod = fetch) => {
   return request(configuration, DELETE, url, fetchMethod);
 };
@@ -108,6 +116,7 @@ const utils = {
 module.exports = {
   get,
   post,
+  put,
   delete_,
   utils
 };

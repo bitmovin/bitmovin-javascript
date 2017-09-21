@@ -7,54 +7,54 @@ export const statistics = (configuration, http) => {
   const { get } = http;
 
   const typeFn = (type) => {
-      return {
-        daily: (options = {}) => {
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings/', type , '/daily');
-          let { limit, offset } = options;
+    return {
+      daily: (options = {}) => {
+        let url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings/', type, '/daily');
+        let { limit, offset } = options;
 
-          if (options !== {} && options.from && options.to) {
-            if (!isValidApiRequestDateString(options.from) || !isValidApiRequestDateString(options.to)) {
-              console.error('Wrong date format! Correct format is yyyy-MM-dd');
-              return Promise.reject(new BitmovinError('Wrong date format! Correct format is yyyy-MM-dd', {}));
-            }
-            url = urljoin(url, options.from, options.to);
+        if (options !== {} && options.from && options.to) {
+          if (!isValidApiRequestDateString(options.from) || !isValidApiRequestDateString(options.to)) {
+            console.error('Wrong date format! Correct format is yyyy-MM-dd');
+            return Promise.reject(new BitmovinError('Wrong date format! Correct format is yyyy-MM-dd', {}));
           }
-
-          const getParams = utils.buildGetParamString({
-            limit : limit,
-            offset: offset
-          });
-
-          if (getParams.length > 0) {
-            url = urljoin(url, getParams);
-          }
-          return get(configuration, url);
-        },
-
-        list: (options = {}) => {
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings/', type);
-          let { limit, offset } = options;
-
-          if (options !== {} && options.from && options.to) {
-            if (!isValidApiRequestDateString(options.from) || !isValidApiRequestDateString(options.to)) {
-              console.error('Wrong date format! Correct format is yyyy-MM-dd');
-              return Promise.reject(new BitmovinError('Wrong date format! Correct format is yyyy-MM-dd', {}));
-            }
-            url = urljoin(url, options.from, options.to);
-          }
-
-          const getParams = utils.buildGetParamString({
-            limit : limit,
-            offset: offset
-          });
-
-          if (getParams.length > 0) {
-            url = urljoin(url, getParams);
-          }
-
-          return get(configuration, url);
+          url = urljoin(url, options.from, options.to);
         }
+
+        const getParams = utils.buildGetParamString({
+          limit : limit,
+          offset: offset
+        });
+
+        if (getParams.length > 0) {
+          url = urljoin(url, getParams);
+        }
+        return get(configuration, url);
+      },
+
+      list: (options = {}) => {
+        let url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings/', type);
+        let { limit, offset } = options;
+
+        if (options !== {} && options.from && options.to) {
+          if (!isValidApiRequestDateString(options.from) || !isValidApiRequestDateString(options.to)) {
+            console.error('Wrong date format! Correct format is yyyy-MM-dd');
+            return Promise.reject(new BitmovinError('Wrong date format! Correct format is yyyy-MM-dd', {}));
+          }
+          url = urljoin(url, options.from, options.to);
+        }
+
+        const getParams = utils.buildGetParamString({
+          limit : limit,
+          offset: offset
+        });
+
+        if (getParams.length > 0) {
+          url = urljoin(url, getParams);
+        }
+
+        return get(configuration, url);
       }
+    }
   };
 
   return {
@@ -70,8 +70,11 @@ export const statistics = (configuration, http) => {
      * from: Date
      * to: Date
     */
-    overall : () => {
-      const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics');
+    overall : (from = null, to = null) => {
+      let url = urljoin(configuration.apiBaseUrl, 'encoding/statistics');
+      if (from && to) {
+        url = urljoin(url, from, to);
+      }
       return get(configuration, url);
     },
 
@@ -80,6 +83,10 @@ export const statistics = (configuration, http) => {
 
     encodings: (encodingId) => {
       return {
+        statistics: () => {
+          const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings', encodingId);
+          return get(configuration, url);
+        },
         liveStatistics: () => {
           const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings', encodingId, 'live-statistics');
           return get(configuration, url);
