@@ -14,7 +14,7 @@ export const statements = (configuration, http) => {
           offset: offset
         });
         if (getParams.length > 0) {
-          url = urljoin(statementsBaseUrl, getParams);
+          url = urljoin(url, getParams);
         }
         return get(configuration, url);
       }
@@ -27,7 +27,7 @@ export const statements = (configuration, http) => {
           offset: offset
         });
         if (getParams.length > 0) {
-          url = urljoin(statementsBaseUrl, getParams);
+          url = urljoin(url, getParams);
         }
         return get(configuration, url);
       }
@@ -40,7 +40,7 @@ export const statements = (configuration, http) => {
           offset: offset
         });
         if (getParams.length > 0) {
-          url = urljoin(statementsBaseUrl, getParams);
+          url = urljoin(url, getParams);
         }
         return get(configuration, url);
       }
