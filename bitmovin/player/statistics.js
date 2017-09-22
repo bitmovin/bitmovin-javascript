@@ -24,6 +24,9 @@ export const statistics = (configuration, http) => {
 
       const url = urljoin(playerStatisticsBaseUrl, getParams);
       return get(configuration, url);
+    },
+    INTERVAL: {
+      DAILY: 'DAILY'
     }
   };
 };

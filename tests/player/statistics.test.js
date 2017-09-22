@@ -17,8 +17,18 @@ describe('player', () => {
 
   describe('statistics', () => {
     describe('impressions', () => {
-      assertItCallsCorrectUrl('GET', '/v1/player/statistics/impressions', statisticsClient.impressions.bind(this, 'asdf', '2017-01-01', '2017-01-02'));
-      assertItReturnsUnderlyingPromise(mockGet, statisticsClient.impressions.bind(this, 'asdf', '2017-01-01', '2017-01-02'));
+      describe('impressions default interval', () => {
+        assertItCallsCorrectUrl('GET', '/v1/player/statistics/impressions',
+          statisticsClient.impressions.bind(this, 'asdf', '2017-01-01', '2017-01-02'));
+        assertItReturnsUnderlyingPromise(mockGet,
+          statisticsClient.impressions.bind(this, 'asdf', '2017-01-01', '2017-01-02'));
+      });
+      describe('impressions daily interval', () => {
+        assertItCallsCorrectUrl('GET', '/v1/player/statistics/impressions',
+          statisticsClient.impressions.bind(this, 'asdf', '2017-01-01', '2017-01-02', statisticsClient.INTERVAL.DAILY));
+        assertItReturnsUnderlyingPromise(mockGet,
+          statisticsClient.impressions.bind(this, 'asdf', '2017-01-01', '2017-01-02', statisticsClient.INTERVAL.DAILY));
+      });
     });
   });
 });
