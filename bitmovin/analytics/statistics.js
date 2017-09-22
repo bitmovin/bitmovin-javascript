@@ -11,7 +11,7 @@ export const statistics = (configuration, http) => {
         return Promise.reject(new BitmovinError('Not all required params given.'))
       }
 
-      const playerStatisticsBaseUrl = urljoin(configuration.apiBaseUrl, '/player/statistics/impressions');
+      const analyticsStatisticsBaseUrl = urljoin(configuration.apiBaseUrl, '/analytics/statistics/impressions');
 
       const getParams = utils.buildGetParamString({
         licenseKeyId,
@@ -22,7 +22,7 @@ export const statistics = (configuration, http) => {
         limit
       });
 
-      const url = urljoin(playerStatisticsBaseUrl, getParams);
+      const url = urljoin(analyticsStatisticsBaseUrl, getParams);
       return get(configuration, url);
     },
     INTERVAL: {
