@@ -1,7 +1,7 @@
 import urljoin from 'url-join';
 import http from '../../http';
 
-export const permissions = (configuration, organizationId, groupId, http) => {
+export const tenants = (configuration, organizationId, groupId, http) => {
   const { get, post, delete_ } = http;
   const tenantsBaseUrl = urljoin(configuration.apiBaseUrl, 'account', 'organizations', organizationId, 'groups', groupId, 'tenants');
 
