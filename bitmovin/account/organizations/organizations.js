@@ -1,5 +1,6 @@
 import urljoin from 'url-join';
 import http from '../../http';
+import groups from './groups';
 
 export const organizations = (configuration, http) => {
   const { get, post, delete_ } = http;
@@ -14,7 +15,8 @@ export const organizations = (configuration, http) => {
       delete: () => {
         let url = urljoin(organizationsBaseUrl, organizationId);
         return delete_(configuration, url);
-      }
+      },
+      groups: groups(configuration, organizationId)
     };
   };
 
