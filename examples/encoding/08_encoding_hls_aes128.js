@@ -4,23 +4,23 @@ const Promise = require('bluebird');
 const Bitmovin = require('bitmovin-javascript').default;
 
 
-const BITMOVIN_API_KEY = '';
+const BITMOVIN_API_KEY = '<INSERT_YOUR_API_KEY>';
 const bitmovin = new Bitmovin({apiKey: BITMOVIN_API_KEY, debug: true});
 
 const ENCODING_NAME = 'TEST_ENCODING_' + new Date().toISOString();
 
-const INPUT_S3_ACCESS_KEY = '';
-const INPUT_S3_SECRET_KEY = '';
-const INPUT_S3_BUCKET_NAME = '';
+const INPUT_S3_ACCESS_KEY = '<YOUR_S3_ACCESS_KEY>';
+const INPUT_S3_SECRET_KEY = '<YOUR_S3_SECRET_KEY>';
+const INPUT_S3_BUCKET_NAME = '<YOUR_S3_BUCKET>';
 const INPUT_S3_PATH = '/path/to/your/input/file.mp4';
 
-const OUTPUT_S3_ACCESS_KEY = '';
-const OUTPUT_S3_SECRET_KEY = '';
-const OUTPUT_S3_BUCKET_NAME = '';
+const OUTPUT_S3_ACCESS_KEY = '<YOUR_S3_ACCESS_KEY>';
+const OUTPUT_S3_SECRET_KEY = '<YOUR_S3_SECRET_KEY>';
+const OUTPUT_S3_BUCKET_NAME = '<YOUR_S3_BUCKET>';
 const OUTPUT_S3_BASE_PATH = '/path/to/your/output/destination';
 
-const DRM_AES_KEY = '';
-const DRM_AES_IV = '';
+const DRM_AES_KEY = '<YOUR_AES_KEY>';
+const DRM_AES_IV = '<YOUR_AES_IV>';
 
 
 const main = () => {
