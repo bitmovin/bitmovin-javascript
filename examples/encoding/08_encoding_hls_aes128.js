@@ -142,7 +142,7 @@ const createEncoding = () => {
   return new Promise((resolve, reject) => {
     const encoding = {
       name: ENCODING_NAME,
-      encoderVersion: 'BETA'
+      encoderVersion: 'STABLE'
     };
     bitmovin.encoding.encodings.create(encoding).then((createdEncoding) => {
       console.log('Successfully created Encoding resource.', createdEncoding);
