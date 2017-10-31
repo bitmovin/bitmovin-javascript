@@ -3,7 +3,7 @@ import http from '../../http';
 import groups from './groups';
 
 export const organizations = (configuration, http) => {
-  const { get, post, delete_ } = http;
+  const { get, post, delete_, put } = http;
   const organizationsBaseUrl = urljoin(configuration.apiBaseUrl, 'account', 'organizations');
 
   let fn = (organizationId) => {
@@ -15,6 +15,10 @@ export const organizations = (configuration, http) => {
       delete: () => {
         let url = urljoin(organizationsBaseUrl, organizationId);
         return delete_(configuration, url);
+      },
+      update: (organization) => {
+        let url = urljoin(organizationsBaseUrl, organizationId);
+        return put(configuration, url, organization);
       },
       groups: groups(configuration, organizationId)
     };
