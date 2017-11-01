@@ -60,6 +60,7 @@ describe('analytics', () => {
       const end = moment().toDate();
       const testBuilderFunction = (func) => {
         const fn = func('STARTUPTIME')
+          .licenseKey('license-key')
           .between(start, end)
           .interval('DAY')
           .filter('STARTUPTIME', 'GT', 0)
@@ -71,6 +72,7 @@ describe('analytics', () => {
         assertItReturnsPromise(mockPost, () => { return fn.query() });
         assertPayload(mockPost, () => { return fn.query() }, {
           dimension: 'STARTUPTIME',
+          licenseKey: 'license-key',
           start: start,
           end: end,
           filters: [
