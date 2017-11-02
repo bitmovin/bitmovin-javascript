@@ -47,7 +47,8 @@ export const hlsManifestMedia = (configuration, manifestId, http) => {
     video         : typeFn('video'),
     audio         : typeFn('audio'),
     subtitles     : typeFn('subtitles'),
-    closedCaptions: typeFn('closed-captions')
+    closedCaptions: typeFn('closed-captions'),
+    vtt           : typeFn('vtt')
   };
 };
 
