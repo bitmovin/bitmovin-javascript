@@ -69,6 +69,13 @@ class Builder {
     }
     return this;
   }
+  licenseKey(licenseKey) {
+    this.query_ = {
+      ...this.query_,
+      licenseKey
+    }
+    return this;
+  }
   query() {
     return this.target_(this.query_)
   }
