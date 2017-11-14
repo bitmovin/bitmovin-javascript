@@ -40,4 +40,6 @@ export const hlsManifestStreams = (configuration, manifestId, http) => {
   return fn;
 };
 
-export default (configuration, manifestId) => { return hlsManifestStreams(configuration, manifestId, http); }
+export default (configuration, manifestId) => {
+  return hlsManifestStreams(configuration, manifestId, http);
+};

@@ -53,4 +53,6 @@ export const dashManifests = (configuration, http) => {
   return fn;
 };
 
-export default (configuration) => { return dashManifests(configuration, http); };
+export default (configuration) => {
+  return dashManifests(configuration, http);
+};

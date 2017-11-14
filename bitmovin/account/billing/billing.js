@@ -7,7 +7,7 @@ const billing = (configuration) => {
     statements: statements(configuration),
     invoices: invoices(configuration),
     contactDetails: contactDetails(configuration)
-  }
+  };
 };
 
 export default billing;

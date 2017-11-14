@@ -70,4 +70,6 @@ export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, http) =
   };
 };
 
-export default (configuration, encodingId, muxingTypeUrl, muxingId) => { return drms(configuration, encodingId, muxingTypeUrl, muxingId, http); };
+export default (configuration, encodingId, muxingTypeUrl, muxingId) => {
+  return drms(configuration, encodingId, muxingTypeUrl, muxingId, http);
+};

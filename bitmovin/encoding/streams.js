@@ -93,4 +93,6 @@ export const streams = (configuration, encodingId, http) => {
   return fn;
 };
 
-export default (configuration, encodingId) => { return streams(configuration, encodingId, http); };
+export default (configuration, encodingId) => {
+  return streams(configuration, encodingId, http);
+};

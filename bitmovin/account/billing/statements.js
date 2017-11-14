@@ -45,8 +45,10 @@ export const statements = (configuration, http) => {
         return get(configuration, url);
       }
     }
-  }
+  };
 };
 
-export default (configuration) => { return statements(configuration, http); };
+export default (configuration) => {
+  return statements(configuration, http);
+};
 

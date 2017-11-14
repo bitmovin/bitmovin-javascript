@@ -42,4 +42,6 @@ export const account = (configuration, http) => {
   };
 };
 
-export default (configuration) => { return account(configuration, http); };
+export default (configuration) => {
+  return account(configuration, http);
+};
