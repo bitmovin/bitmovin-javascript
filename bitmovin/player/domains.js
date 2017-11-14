@@ -35,5 +35,7 @@ export const domains = (configuration, licenseId, http) => {
   return fn;
 };
 
-export default (configuration, licenseId) => { return domains(configuration, licenseId, http); };
-//module.exports = domains;
+export default (configuration, licenseId) => {
+  return domains(configuration, licenseId, http);
+};
+// Module.exports = domains;

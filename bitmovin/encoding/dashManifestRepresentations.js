@@ -54,4 +54,6 @@ export const representations = (configuration, manifestId, periodId, adaptationS
   };
 };
 
-export default (configuration, manifestId, periodId, adaptationSetId) => { return representations(configuration, manifestId, periodId, adaptationSetId, http); };
+export default (configuration, manifestId, periodId, adaptationSetId) => {
+  return representations(configuration, manifestId, periodId, adaptationSetId, http);
+};

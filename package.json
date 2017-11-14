@@ -2,7 +2,8 @@
   "name": "bitmovin-javascript",
   "version": "1.2.2",
   "scripts": {
-    "lint": "./node_modules/eslint/bin/eslint.js --color ./bitmovin",
+    "lint": "./node_modules/.bin/eslint --color ./bitmovin",
+    "lint-fix": "./node_modules/.bin/eslint --color --fix ./bitmovin",
     "test": "node scripts/testRunner.js tests/",
     "test_it": "node scripts/test.js tests_it/",
     "coverage": "node scripts/testRunner.js tests/ --coverage",

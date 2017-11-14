@@ -41,4 +41,6 @@ export const dashManifestPeriods = (configuration, manifestId, http) => {
   return fn;
 };
 
-export default (configuration, manifestId) => { return dashManifestPeriods(configuration, manifestId, http); };
+export default (configuration, manifestId) => {
+  return dashManifestPeriods(configuration, manifestId, http);
+};

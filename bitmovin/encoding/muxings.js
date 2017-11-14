@@ -64,8 +64,10 @@ export const muxings = (configuration, encodingId, http) => {
       }
 
       return get(configuration, url);
-    },
+    }
   };
 };
 
-export default (configuration, encodingId) => { return muxings(configuration, encodingId, http); };
+export default (configuration, encodingId) => {
+  return muxings(configuration, encodingId, http);
+};

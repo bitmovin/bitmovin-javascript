@@ -35,4 +35,6 @@ export const groups = (configuration, organizationId, http) => {
   return fn;
 };
 
-export default (configuration, organizationId) => { return groups(configuration, organizationId, http); };
+export default (configuration, organizationId) => {
+  return groups(configuration, organizationId, http);
+};

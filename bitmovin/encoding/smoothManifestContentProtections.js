@@ -39,4 +39,6 @@ export const contentProtection = (configuration, manifestId, http) => {
   return fn;
 };
 
-export default (configuration, manifestId) => { return contentProtection(configuration, manifestId, http); };
+export default (configuration, manifestId) => {
+  return contentProtection(configuration, manifestId, http);
+};

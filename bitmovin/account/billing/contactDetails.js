@@ -7,13 +7,15 @@ export const contactDetails = (configuration, http) => {
 
   return {
     details: () => {
-      return get(configuration, contactDetailsBaseUrl)
+      return get(configuration, contactDetailsBaseUrl);
     },
     update: (contactDetails) => {
       return put(configuration, contactDetailsBaseUrl, contactDetails);
     }
-  }
+  };
 };
 
-export default (configuration) => { return contactDetails(configuration, http); };
+export default (configuration) => {
+  return contactDetails(configuration, http);
+};
 

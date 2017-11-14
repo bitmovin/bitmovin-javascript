@@ -37,23 +37,25 @@ export const queries = (configuration, http) => {
   fn.median = (query) => {
     const url = urljoin(baseUrl, 'median');
     return post(configuration, url, query);
-  }
+  };
   fn.percentile = (query) => {
     const url = urljoin(baseUrl, 'percentile');
     return post(configuration, url, query);
-  }
+  };
   fn.stddev = (query) => {
     const url = urljoin(baseUrl, 'stddev');
     return post(configuration, url, query);
-  }
+  };
   fn.variance = (query) => {
     const url = urljoin(baseUrl, 'variance');
     return post(configuration, url, query);
-  }
+  };
 
   fn.builder = queryBuilder(fn);
 
   return fn;
 };
 
-export default (configuration) => { return queries(configuration, http); };
+export default (configuration) => {
+  return queries(configuration, http);
+};

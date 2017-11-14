@@ -64,4 +64,6 @@ export const adaptationSets = (configuration, manifestId, periodId, http) => {
   return fn;
 };
 
-export default (configuration, manifestId, periodId) => { return adaptationSets(configuration, manifestId, periodId, http) };
+export default (configuration, manifestId, periodId) => {
+  return adaptationSets(configuration, manifestId, periodId, http);
+};
