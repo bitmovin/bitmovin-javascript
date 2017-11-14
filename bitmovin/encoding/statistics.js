@@ -4,57 +4,52 @@ import BitmovinError from '../BitmovinError';
 import {isValidApiRequestDateString} from '../DateUtils';
 
 export const statistics = (configuration, http) => {
-  const { get } = http;
+  const {get} = http;
+
+  const addOptionsToUrl = (url, options) => {
+    let newUrl = url;
+    let {limit, offset} = options;
+
+    if (options !== {} && options.from && options.to) {
+      if (!isValidApiRequestDateString(options.from) || !isValidApiRequestDateString(options.to)) {
+        console.error('Wrong date format! Correct format is yyyy-MM-dd');
+        return Promise.reject(new BitmovinError('Wrong date format! Correct format is yyyy-MM-dd', {}));
+      }
+      newUrl = urljoin(newUrl, options.from, options.to);
+    }
+
+    const getParams = utils.buildGetParamString({
+      limit: limit,
+      offset: offset
+    });
+
+    if (getParams.length > 0) {
+      newUrl = urljoin(newUrl, getParams);
+    }
+
+    return newUrl;
+  };
+
+  const daily = (options = {}) => {
+    let url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/daily');
+    url = addOptionsToUrl(url, options);
+    return get(configuration, url);
+  };
 
   const typeFn = (type) => {
     return {
       daily: (options = {}) => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings/', type, '/daily');
-        let { limit, offset } = options;
-
-        if (options !== {} && options.from && options.to) {
-          if (!isValidApiRequestDateString(options.from) || !isValidApiRequestDateString(options.to)) {
-            console.error('Wrong date format! Correct format is yyyy-MM-dd');
-            return Promise.reject(new BitmovinError('Wrong date format! Correct format is yyyy-MM-dd', {}));
-          }
-          url = urljoin(url, options.from, options.to);
-        }
-
-        const getParams = utils.buildGetParamString({
-          limit : limit,
-          offset: offset
-        });
-
-        if (getParams.length > 0) {
-          url = urljoin(url, getParams);
-        }
+        url = addOptionsToUrl(url, options);
         return get(configuration, url);
       },
 
       list: (options = {}) => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings/', type);
-        let { limit, offset } = options;
-
-        if (options !== {} && options.from && options.to) {
-          if (!isValidApiRequestDateString(options.from) || !isValidApiRequestDateString(options.to)) {
-            console.error('Wrong date format! Correct format is yyyy-MM-dd');
-            return Promise.reject(new BitmovinError('Wrong date format! Correct format is yyyy-MM-dd', {}));
-          }
-          url = urljoin(url, options.from, options.to);
-        }
-
-        const getParams = utils.buildGetParamString({
-          limit : limit,
-          offset: offset
-        });
-
-        if (getParams.length > 0) {
-          url = urljoin(url, getParams);
-        }
-
+        url = addOptionsToUrl(url, options);
         return get(configuration, url);
       }
-    }
+    };
   };
 
   return {
@@ -70,7 +65,7 @@ export const statistics = (configuration, http) => {
      * from: Date
      * to: Date
     */
-    overall : (from = null, to = null) => {
+    overall: (from = null, to = null) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/statistics');
       if (from && to) {
         url = urljoin(url, from, to);
@@ -80,6 +75,7 @@ export const statistics = (configuration, http) => {
 
     vod: typeFn('vod'),
     live: typeFn('live'),
+    daily,
 
     encodings: (encodingId) => {
       return {
