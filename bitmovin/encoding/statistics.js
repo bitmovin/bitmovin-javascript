@@ -31,23 +31,23 @@ export const statistics = (configuration, http) => {
   };
 
   const daily = (options = {}) => {
-    let url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/daily');
-    url = addOptionsToUrl(url, options);
-    return get(configuration, url);
+    const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/daily');
+    const urlWithOptions = addOptionsToUrl(url, options);
+    return get(configuration, urlWithOptions);
   };
 
   const typeFn = (type) => {
     return {
       daily: (options = {}) => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings/', type, '/daily');
-        url = addOptionsToUrl(url, options);
-        return get(configuration, url);
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings/', type, '/daily');
+        const urlWithOptions = addOptionsToUrl(url, options);
+        return get(configuration, urlWithOptions);
       },
 
       list: (options = {}) => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings/', type);
-        url = addOptionsToUrl(url, options);
-        return get(configuration, url);
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings/', type);
+        const urlWithOptions = addOptionsToUrl(url, options);
+        return get(configuration, urlWithOptions);
       }
     };
   };
