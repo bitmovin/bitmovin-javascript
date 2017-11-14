@@ -48,4 +48,6 @@ export const sprites = (configuration, encodingId, streamId, http) => {
   return fn;
 };
 
-export default (configuration, encodingId, streamId) => { return sprites(configuration, encodingId, streamId, http); }
+export default (configuration, encodingId, streamId) => {
+  return sprites(configuration, encodingId, streamId, http);
+};

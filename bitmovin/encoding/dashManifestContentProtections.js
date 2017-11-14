@@ -47,4 +47,6 @@ export const contentProtections = (configuration, manifestId, periodId, adaptati
   return fn;
 };
 
-export default (configuration, manifestId, periodId, adaptationSetId, representationInfo) => { return contentProtections(configuration, manifestId, periodId, adaptationSetId, representationInfo, http); };
+export default (configuration, manifestId, periodId, adaptationSetId, representationInfo) => {
+  return contentProtections(configuration, manifestId, periodId, adaptationSetId, representationInfo, http);
+};

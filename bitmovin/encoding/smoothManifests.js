@@ -56,4 +56,6 @@ export const smoothManifests = (configuration, http) => {
   return fn;
 };
 
-export default (configuration) => { return smoothManifests(configuration, http); };
+export default (configuration) => {
+  return smoothManifests(configuration, http);
+};

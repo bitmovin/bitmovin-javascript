@@ -19,11 +19,11 @@ export const hlsManifests = (configuration, http) => {
       },
       start  : () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'start');
-        return post(configuration, url)
+        return post(configuration, url);
       },
       stop   : () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'stop');
-        return post(configuration, url)
+        return post(configuration, url);
       },
       status : () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'status');
@@ -57,4 +57,6 @@ export const hlsManifests = (configuration, http) => {
   return fn;
 };
 
-export default (configuration) => { return hlsManifests(configuration, http); };
+export default (configuration) => {
+  return hlsManifests(configuration, http);
+};

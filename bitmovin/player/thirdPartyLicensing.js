@@ -20,4 +20,6 @@ export const thirdPartyLicensing = (configuration, licenseId, http) => {
   };
 };
 
-export default (configuration, licenseId) => { return thirdPartyLicensing(configuration, licenseId, http); };
+export default (configuration, licenseId) => {
+  return thirdPartyLicensing(configuration, licenseId, http);
+};

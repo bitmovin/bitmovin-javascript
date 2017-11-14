@@ -52,4 +52,6 @@ export const hlsManifestMedia = (configuration, manifestId, http) => {
   };
 };
 
-export default (configuration, manifestId) => { return hlsManifestMedia(configuration, manifestId, http); };
+export default (configuration, manifestId) => {
+  return hlsManifestMedia(configuration, manifestId, http);
+};

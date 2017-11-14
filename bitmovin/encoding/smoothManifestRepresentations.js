@@ -46,4 +46,6 @@ export const representations = (configuration, manifestId, http) => {
   };
 };
 
-export default ( configuration, manifestId ) => { return representations(configuration, manifestId, http); };
+export default (configuration, manifestId) => {
+  return representations(configuration, manifestId, http);
+};
