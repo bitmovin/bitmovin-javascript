@@ -114,6 +114,13 @@ describe('encoding', () => {
     testConfigType('h265', 'video/h265');
     testConfigType('aac', 'audio/aac');
     testConfigType('vp9', 'video/vp9');
-
+    testConfigType('ac3', 'audio/ac3');
+    testConfigType('eac3', 'audio/eac3');
+    testConfigType('vorbis', 'audio/vorbis');
+    testConfigType('opus', 'audio/opus');
+    testConfigType('mp2', 'audio/mp2');
+    testConfigType('mp3', 'audio/mp3');
+    testConfigType('vp8', 'video/vp8');
+    testConfigType('mjpeg', 'video/mjpeg');
   });
 });
