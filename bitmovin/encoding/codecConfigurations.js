@@ -51,6 +51,14 @@ export const codecConfigurations = (configuration, http) => {
     h265: typeFn('video/h265'),
     aac : typeFn('audio/aac'),
     vp9: typeFn('video/vp9'),
+    ac3: typeFn('audio/ac3'),
+    eac3: typeFn('audio/eac3'),
+    vorbis: typeFn('audio/vorbis'),
+    opus: typeFn('audio/opus'),
+    mp2: typeFn('audio/mp2'),
+    mp3: typeFn('audio/mp3'),
+    vp8: typeFn('video/vp8'),
+    mjpeg: typeFn('video/mjpeg'),
 
     list: (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations');
