@@ -76,6 +76,20 @@ class Builder {
     }
     return this;
   }
+  limit(limit) {
+    this.query_ = {
+      ...this.query_,
+      limit
+    }
+    return this;
+  }
+  offset(offset) {
+    this.query_ = {
+      ...this.query_,
+      offset
+    }
+    return this;
+  }
   query() {
     return this.target_(this.query_)
   }

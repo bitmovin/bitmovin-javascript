@@ -68,7 +68,9 @@ describe('analytics', () => {
           .groupBy('VIDEOID')
           .groupBy('CDN_PROVIDER')
           .orderBy('DAY', 'DESC')
-          .orderBy('VIDEOID', 'ASC');
+          .orderBy('VIDEOID', 'ASC')
+          .limit(10)
+          .offset(20);
         assertItReturnsPromise(mockPost, () => { return fn.query() });
         assertPayload(mockPost, () => { return fn.query() }, {
           dimension: 'STARTUPTIME',
@@ -84,7 +86,9 @@ describe('analytics', () => {
           orderBy: [
             { name: 'DAY', order: 'DESC' },
             { name: 'VIDEOID', order: 'ASC' }
-          ]
+          ],
+          limit: 10,
+          offset: 20
         });
       }
       testBuilderFunction(queriesClient.builder.max);
