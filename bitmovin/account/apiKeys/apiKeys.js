@@ -1,7 +1,7 @@
 import urljoin from 'url-join';
 import http, {utils} from '../../http';
 
-const apiKeys = configuration => {
+const apiKeys = (configuration, http) => {
   const apiKeysBaseUrl = urljoin(configuration.apiBaseUrl, 'account', 'api-keys');
   const {get, post, delete_} = http;
 
@@ -31,6 +31,8 @@ const apiKeys = configuration => {
     const url = urljoin(apiKeysBaseUrl, apiKeyId);
     return delete_(configuration, url);
   };
+
+  return fn;
 };
 
 export default apiKeys;

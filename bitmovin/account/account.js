@@ -40,7 +40,7 @@ export const account = (configuration, http) => {
     changePassword,
     billing: billing(configuration),
     organizations: organizations(configuration),
-    apiKeys: apiKeys(configuration)
+    apiKeys: apiKeys(configuration, http)
   };
 };
 
