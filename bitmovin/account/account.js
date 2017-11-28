@@ -2,6 +2,7 @@ import urljoin from 'url-join';
 import http from '../http';
 import organizations from './organizations/organizations.js';
 import billing from './billing/billing';
+import apiKeys from './apiKeys/apiKeys';
 
 export const account = (configuration, http) => {
   const { get, post } = http;
@@ -38,7 +39,8 @@ export const account = (configuration, http) => {
     login,
     changePassword,
     billing: billing(configuration),
-    organizations: organizations(configuration)
+    organizations: organizations(configuration),
+    apiKeys: apiKeys(configuration, http)
   };
 };
 
