@@ -4,7 +4,7 @@ const Promise = require('bluebird');
 const BITMOVIN_API_KEY = '<INSERT_YOUR_API_KEY>';
 const bitmovin         = new Bitmovin({'apiKey': BITMOVIN_API_KEY, debug: false});
 
-const ENCODING_NAME = 'simple_smooth_encoding_' + (new Date().getTime()/1000);
+const ENCODING_NAME = 'simple_smooth_encoding';
 
 const INPUT_FILE_HOST = '<INPUT_FILE_HOST>';
 const INPUT_FILE_PATH = '/path/to/your/input/file.mp4';
@@ -12,7 +12,6 @@ const INPUT_FILE_PATH = '/path/to/your/input/file.mp4';
 const S3_ACCESS_KEY   = '<YOUR_S3_ACCESS_KEY>';
 const S3_SECRET_KEY   = '<YOUR_S3_SECRET_KEY>';
 const S3_BUCKET_NAME  = '<YOUR_S3_BUCKET>';
-const S3_CLOUD_REGION = '<YOUR_S3_CLOUD_REGION>';
 const OUTPUT_PATH     = '/path/to/your/output/destination/';
 
 const httpInput = {
@@ -24,8 +23,7 @@ const s3Output = {
   name       : 'S3 output',
   accessKey  : S3_ACCESS_KEY,
   secretKey  : S3_SECRET_KEY,
-  bucketName : S3_BUCKET_NAME,
-  cloudRegion: S3_CLOUD_REGION
+  bucketName : S3_BUCKET_NAME
 };
 
 const aacConfigurations = [{
@@ -319,9 +317,7 @@ const waitUntilSmoothManifestFinished = (manifest) => {
 const createSmoothManifest = (output, encoding, audioMuxingsWithPath, videoMuxingsWithPath) => {
   return new Promise((resolve, reject) => {
     createSmoothManifestResource(output).then(createdManifest => {
-
       const muxings = [...audioMuxingsWithPath, ...videoMuxingsWithPath];
-
 
       Promise.map(muxings, (muxingWithPath) => {
         const mp4Muxing = muxingWithPath.mp4Muxing;
@@ -331,8 +327,8 @@ const createSmoothManifest = (output, encoding, audioMuxingsWithPath, videoMuxin
           encodingId: encoding.id,
           muxingId: mp4Muxing.id,
           mediaFile: mp4Muxing.name,
-          trackName: 'track_' + mp4Muxing.trackName,
-          language: 'lang_' + mp4Muxing.trackName
+          trackName: (mp4Muxing.filename.startsWith('audio') ? 'track_' + mp4Muxing.filename : null),
+          language: (mp4Muxing.filename.startsWith('audio') ?'lang_' + mp4Muxing.filename : null)
         };
 
 
