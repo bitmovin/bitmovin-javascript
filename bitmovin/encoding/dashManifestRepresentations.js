@@ -1,20 +1,21 @@
 import urljoin from 'url-join';
 import http, { utils } from '../http';
-import Promise from 'bluebird';
 
 import contentProtections from './dashManifestContentProtections';
 
 export const representations = (configuration, manifestId, periodId, adaptationSetId, http) => {
   const { get, post, delete_ } = http;
+  const dashManifestsBaseUrl = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash');
+
   let typeFn = (typeUrl) => {
     let fn = (representationId) => {
       return {
         details           : () => {
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId, 'adaptationsets', adaptationSetId, 'representations', typeUrl, representationId);
+          let url = urljoin(dashManifestsBaseUrl, manifestId, 'periods', periodId, 'adaptationsets', adaptationSetId, 'representations', typeUrl, representationId);
           return get(configuration, url);
         },
         delete            : () => {
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId, 'adaptationsets', adaptationSetId, 'representations', typeUrl, representationId);
+          let url = urljoin(dashManifestsBaseUrl, manifestId, 'periods', periodId, 'adaptationsets', adaptationSetId, 'representations', typeUrl, representationId);
           return delete_(configuration, url);
         },
         contentProtections: contentProtections(configuration, manifestId, periodId, adaptationSetId, {
@@ -25,12 +26,12 @@ export const representations = (configuration, manifestId, periodId, adaptationS
     };
 
     fn.add = (representation) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId, 'adaptationsets', adaptationSetId, 'representations', typeUrl);
+      let url = urljoin(dashManifestsBaseUrl, manifestId, 'periods', periodId, 'adaptationsets', adaptationSetId, 'representations', typeUrl);
       return post(configuration, url, representation);
     };
 
     fn.list = (limit, offset) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods',
+      let url = urljoin(dashManifestsBaseUrl, manifestId, 'periods',
         periodId, 'adaptationsets', adaptationSetId, 'representations', typeUrl);
 
       let getParams = utils.buildGetParamString({
@@ -50,7 +51,8 @@ export const representations = (configuration, manifestId, periodId, adaptationS
   return {
     fmp4   : typeFn('fmp4'),
     drmFmp4: typeFn('fmp4/drm'),
-    sidecar: typeFn('sidecar')
+    sidecar: typeFn('sidecar'),
+    vtt    : typeFn('vtt')
   };
 };
 
