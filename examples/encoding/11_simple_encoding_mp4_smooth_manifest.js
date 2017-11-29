@@ -220,14 +220,13 @@ const addStreamToEncoding = (input, output, selectionMode, index, position, code
   const inputStream = {
     inputId: input.id,
     inputPath: INPUT_FILE_PATH,
-    selectionMode: 'AUTO'
+    selectionMode,
+    position
   };
 
   let stream = {
     inputStreams: [inputStream],
-    codecConfigId: codecConfiguration.id,
-    selectionMode,
-    position
+    codecConfigId: codecConfiguration.id
   };
 
   return new Promise((resolve, reject) => {
