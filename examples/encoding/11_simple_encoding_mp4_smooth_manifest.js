@@ -33,12 +33,14 @@ const aacConfigurations = [{
     rate   : 48000
   },
   streams: [{
-      position: 0,
-      selectionMode: 'AUDIO_RELATIVE'
-    }, {
-      position: 1,
-      selectionMode: 'AUDIO_RELATIVE'
-    }]
+    position: 0,
+    selectionMode: 'AUDIO_RELATIVE',
+    language: 'english'
+  }, {
+    position: 1,
+    selectionMode: 'AUDIO_RELATIVE',
+    language: 'spanish'
+  }]
 }];
 
 const h264Configurations = [{
@@ -151,7 +153,7 @@ const main = () => {
 
       return Promise.map(streams, (stream, streamIndex) => {
 
-        return addStreamToEncoding(input, output, stream.selectionMode, configIndex + '_' + streamIndex, stream.position, config[1], encoding);
+        return addStreamToEncoding(input, output, stream, configIndex + '_' + streamIndex, config[1], encoding);
 
       }, {concurrency: 1});
     }, {concurrency: 1});
@@ -161,7 +163,7 @@ const main = () => {
 
       return Promise.map(streams, (stream, streamIndex) => {
 
-        return addStreamToEncoding(input, output, stream.selectionMode, configIndex + '_' + streamIndex, stream.position, config[1], encoding);
+        return addStreamToEncoding(input, output, stream, configIndex + '_' + streamIndex, config[1], encoding);
 
       }, {concurrency: 1});
     }, {concurrency: 1});
@@ -216,12 +218,12 @@ const main = () => {
   });
 };
 
-const addStreamToEncoding = (input, output, selectionMode, index, position, codecConfiguration, encoding) => {
+const addStreamToEncoding = (input, output, streamConfig, index, codecConfiguration, encoding) => {
   const inputStream = {
     inputId: input.id,
     inputPath: INPUT_FILE_PATH,
-    selectionMode,
-    position
+    selectionMode: streamConfig.selectionMode,
+    position: streamConfig.position
   };
 
   let stream = {
@@ -230,7 +232,7 @@ const addStreamToEncoding = (input, output, selectionMode, index, position, code
   };
 
   return new Promise((resolve, reject) => {
-    addStream(encoding, stream, output, codecConfiguration, index).then(([addedStream, addedMuxing]) => {
+    addStream(encoding, stream, output, codecConfiguration, index, streamConfig.language).then(([addedStream, addedMuxing]) => {
       console.log('Successfully created stream and muxing!');
       resolve([addedStream, addedMuxing]);
     }).catch((error) => {
@@ -260,10 +262,10 @@ const startEncodingAndWaitForItToBeFinished = (encoding) => {
   return new Promise((resolve, reject) => {
     startPromise.then((startResponse) => {
       waitUntilEncodingFinished(encoding).then((success) => {
-        console.log('dash encoding finished', success);
+        console.log('encoding finished', success);
         resolve(true);
       }).catch((error) => {
-        console.log('dash encoding errored', error);
+        console.log('encoding errored', error);
         reject(error);
       })
     });
@@ -325,11 +327,10 @@ const createSmoothManifest = (output, encoding, audioMuxingsWithPath, videoMuxin
         const smoothRepresentation = {
           encodingId: encoding.id,
           muxingId: mp4Muxing.id,
-          mediaFile: mp4Muxing.name,
-          trackName: (mp4Muxing.filename.startsWith('audio') ? 'track_' + mp4Muxing.filename : null),
-          language: (mp4Muxing.filename.startsWith('audio') ?'lang_' + mp4Muxing.filename : null)
+          mediaFile: mp4Muxing.filename,
+          trackName: (mp4Muxing.filename.startsWith('audio') ? muxingWithPath.trackName : null),
+          language: (mp4Muxing.filename.startsWith('audio') ? muxingWithPath.trackName : null)
         };
-
 
         return bitmovin.encoding.manifests.smooth(createdManifest.id).representations.mp4.add(smoothRepresentation);
       }).then(() => {
@@ -368,29 +369,27 @@ const createSmoothManifestResource = (output) => {
   });
 };
 
-const addStream = (encoding, stream, output, codecConfiguration, index) => {
+const addStream = (encoding, stream, output, codecConfiguration, index, language) => {
   const addStreamPromise = bitmovin.encoding.encodings(encoding.id).streams.add(stream);
 
   return new Promise((resolve, reject) => {
     addStreamPromise.then((addedStream) => {
       console.log('stream resource successfully added');
 
-      let name;
+      let fileName;
       let trackName;
 
       if (codecConfiguration.height || codecConfiguration.width) {
-        name = 'video_' + index + '.mp4';
-        trackName = 'video' + index;
-      }
-      else {
-        name = 'audio_' + index + '.mp4';
-        trackName = 'audio' + index;
+        fileName  = 'video_' + index + '.mp4';
+        trackName = 'video_' + index;
+      } else {
+        fileName  = 'audio_' + index + '.mp4';
+        trackName = language;
       }
 
-      addMp4MuxingForStream(encoding, addedStream, name, output).then((addedMp4Muxing) => {
+      addMp4MuxingForStream(encoding, addedStream, trackName, fileName, output).then((addedMp4Muxing) => {
         const muxingWithPath = {
           mp4Muxing: addedMp4Muxing,
-          name,
           trackName
         };
         resolve([addedStream, muxingWithPath])
@@ -402,9 +401,9 @@ const addStream = (encoding, stream, output, codecConfiguration, index) => {
   });
 };
 
-const addMp4MuxingForStream = (encoding, stream, name, output) => {
+const addMp4MuxingForStream = (encoding, stream, name, fileName, output) => {
   let mp4Muxing = {
-    name: name,
+    name,
     streams: [{
       streamId: stream.id
     }],
@@ -415,7 +414,7 @@ const addMp4MuxingForStream = (encoding, stream, name, output) => {
         permission: 'PUBLIC_READ'
       }]
     }],
-    filename: name,
+    filename: fileName,
     fragmentDuration: 4000
   };
 
