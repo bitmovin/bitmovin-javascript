@@ -1,10 +1,10 @@
 import assert from 'assert';
 
 import {getConfiguration} from '../utils';
-import manifests from '../../bitmovin/encoding/dashManifests';
+import manifests from '../../bitmovin/encoding/manifests/dash/dashManifests';
 import outputs from '../../bitmovin/encoding/outputs';
 import inputs from '../../bitmovin/encoding/inputs';
-import encodings from '../../bitmovin/encoding/encodings';
+import encodings from '../../bitmovin/encoding/encodings/encodings';
 import codecConfigurations from '../../bitmovin/encoding/codecConfigurations';
 
 let testConfiguration = getConfiguration();

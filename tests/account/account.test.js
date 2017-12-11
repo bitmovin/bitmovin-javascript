@@ -1,7 +1,7 @@
 import { getConfiguration } from '../utils';
 
 import { account } from '../../bitmovin/account/account';
-import logger from '../../bitmovin/Logger';
+import logger from '../../bitmovin/utils/Logger';
 import {
   mockGet,
   mockPost,

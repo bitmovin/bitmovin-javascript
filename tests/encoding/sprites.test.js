@@ -1,5 +1,5 @@
 import {getConfiguration} from '../utils';
-import { sprites } from '../../bitmovin/encoding/sprites';
+import { sprites } from '../../bitmovin/encoding/encodings/sprites';
 
 import {
   mockGet,

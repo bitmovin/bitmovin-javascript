@@ -15,7 +15,7 @@ import {
   assertItCallsUrlAndReturnsPromise
 } from '../assertions';
 
-import { hlsManifestMedia } from '../../bitmovin/encoding/hlsManifestMedia';
+import { hlsManifestMedia } from '../../bitmovin/encoding/manifests/hls/hlsManifestMedia';
 
 let testConfiguration = getConfiguration();
 

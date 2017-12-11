@@ -15,7 +15,7 @@ import {
   assertItCallsUrlAndReturnsPromise
 } from '../assertions';
 
-import { dashManifests } from '../../bitmovin/encoding/dashManifests';
+import { dashManifests } from '../../bitmovin/encoding/manifests/dash/dashManifests';
 
 let testConfiguration = getConfiguration();
 

@@ -1,6 +1,6 @@
 import assert from 'assert';
 import {getConfiguration} from '../utils';
-import {getFirstDayOfTheWeekFromDate, dateToApiRequestString} from '../../bitmovin/DateUtils'
+import {getFirstDayOfTheWeekFromDate, dateToApiRequestString} from '../../bitmovin/utils/DateUtils'
 
 import statistics from '../../bitmovin/encoding/statistics';
 

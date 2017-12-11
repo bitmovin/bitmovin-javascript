@@ -17,7 +17,7 @@ import {
 
 let testConfiguration = getConfiguration();
 
-import { dashManifestPeriods } from '../../bitmovin/encoding/dashManifestPeriods';
+import { dashManifestPeriods } from '../../bitmovin/encoding/manifests/dash/dashManifestPeriods';
 
 describe('encoding', () => {
   describe('manifests.dash', () => {

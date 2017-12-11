@@ -14,7 +14,7 @@ import {
 } from '../assertions';
 
 import {getConfiguration} from '../utils';
-import { representations } from '../../bitmovin/encoding/dashManifestRepresentations.js';
+import { representations } from '../../bitmovin/encoding/manifests/dash/dashManifestRepresentations.js';
 
 let testConfiguration = getConfiguration();
 

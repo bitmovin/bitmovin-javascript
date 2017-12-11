@@ -1,5 +1,5 @@
 import {getConfiguration} from '../utils';
-import { thumbnails } from '../../bitmovin/encoding/thumbnails';
+import { thumbnails } from '../../bitmovin/encoding/encodings/thumbnails';
 
 import {
   mockGet,

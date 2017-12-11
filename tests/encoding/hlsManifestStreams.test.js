@@ -15,7 +15,7 @@ import {
   assertItCallsUrlAndReturnsPromise
 } from '../assertions';
 
-import { hlsManifestStreams } from '../../bitmovin/encoding/hlsManifestStreams';
+import { hlsManifestStreams } from '../../bitmovin/encoding/manifests/hls/hlsManifestStreams';
 
 let testConfiguration = getConfiguration();
 

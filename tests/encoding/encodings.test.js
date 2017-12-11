@@ -13,7 +13,7 @@ import {
 } from '../assertions';
 
 import {getConfiguration} from '../utils';
-import { encodings } from '../../bitmovin/encoding/encodings';
+import { encodings } from '../../bitmovin/encoding/encodings/encodings';
 
 let testConfiguration = getConfiguration();
 

@@ -1,7 +1,7 @@
 import assert from 'assert';
 
 import {getConfiguration} from '../utils';
-import manifests from '../../bitmovin/encoding/hlsManifests';
+import manifests from '../../bitmovin/encoding/manifests/hls/hlsManifests';
 import outputs from '../../bitmovin/encoding/outputs';
 
 let testConfiguration = getConfiguration();

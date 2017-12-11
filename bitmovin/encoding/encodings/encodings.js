@@ -1,7 +1,7 @@
 import urljoin from 'url-join';
 import streams from './streams';
 import muxings from './muxings';
-import http, { utils } from '../http';
+import http, { utils } from '../../utils/http';
 import Promise from 'bluebird';
 
 export const encodings = (configuration, http) => {

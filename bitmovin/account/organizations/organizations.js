@@ -1,5 +1,5 @@
 import urljoin from 'url-join';
-import http from '../../http';
+import http from '../../utils/http';
 import groups from './groups';
 
 export const organizations = (configuration, http) => {
