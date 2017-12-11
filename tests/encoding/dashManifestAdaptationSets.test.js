@@ -14,7 +14,7 @@ import {
 } from '../assertions';
 
 import {getConfiguration} from '../utils';
-import { adaptationSets } from '../../bitmovin/encoding/dashManifestAdaptationSets';
+import { adaptationSets } from '../../bitmovin/encoding/manifests/dash/dashManifestAdaptationSets';
 
 let testConfiguration = getConfiguration();
 

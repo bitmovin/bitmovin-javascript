@@ -14,7 +14,7 @@ import {
   assertItReturnsCorrectResponse,
   assertItCallsUrlAndReturnsPromise
 } from '../assertions';
-import { smoothManifests } from '../../bitmovin/encoding/smoothManifests';
+import { smoothManifests } from '../../bitmovin/encoding/manifests/smooth/smoothManifests';
 
 let testConfiguration = getConfiguration();
 

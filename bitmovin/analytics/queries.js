@@ -1,5 +1,5 @@
 import urljoin from 'url-join';
-import http, { utils } from '../http';
+import http, { utils } from '../utils/http';
 import { queryBuilder } from './query_builder';
 
 export const queries = (configuration, http) => {

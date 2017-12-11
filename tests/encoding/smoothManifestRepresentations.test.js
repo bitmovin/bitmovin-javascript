@@ -14,7 +14,7 @@ import {
 } from '../assertions';
 
 import {getConfiguration} from '../utils';
-import { representations } from '../../bitmovin/encoding/smoothManifestRepresentations.js';
+import { representations } from '../../bitmovin/encoding/manifests/smooth/smoothManifestRepresentations.js';
 
 let testConfiguration = getConfiguration();
 

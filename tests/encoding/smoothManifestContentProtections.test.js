@@ -14,7 +14,7 @@ import {
 } from '../assertions';
 
 import {getConfiguration} from '../utils';
-import { contentProtection } from '../../bitmovin/encoding/smoothManifestContentProtections.js';
+import { contentProtection } from '../../bitmovin/encoding/manifests/smooth/smoothManifestContentProtections.js';
 
 let testConfiguration = getConfiguration();
 

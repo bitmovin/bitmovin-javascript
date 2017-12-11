@@ -1,5 +1,5 @@
 import urljoin from 'url-join';
-import http from '../../http';
+import http from '../../utils/http';
 
 export const tenants = (configuration, organizationId, groupId, http) => {
   const { get, post, delete_ } = http;

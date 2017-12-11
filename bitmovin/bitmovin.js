@@ -1,10 +1,10 @@
 import urljoin from 'url-join';
 
-import encodings from './encoding/encodings';
+import encodings from './encoding/encodings/encodings';
 import codecConfigurations from './encoding/codecConfigurations';
 import inputs from './encoding/inputs';
 import outputs from './encoding/outputs';
-import manifests from './encoding/manifests';
+import manifests from './encoding/manifests/manifests';
 import filters from './encoding/filters';
 import statistics from './encoding/statistics';
 import infrastructure from './encoding/infrastructure';
@@ -17,8 +17,8 @@ import analyticsQueries from './analytics/queries';
 import analyticsImpressions from './analytics/impressions';
 import analyticsStatistics from './analytics/statistics';
 
-import logger from './Logger';
-import utils from './Utils';
+import logger from './utils/Logger';
+import utils from './utils/Utils';
 
 const checkAuthorizationInConfiguration = function(configuration) {
   if (utils.isNoEmptyString(configuration.apiKey)) {

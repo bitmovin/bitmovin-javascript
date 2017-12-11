@@ -1,4 +1,4 @@
-import { muxings } from '../../bitmovin/encoding/muxings';
+import { muxings } from '../../bitmovin/encoding/encodings/muxings';
 
 import {
   mockGet,

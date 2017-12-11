@@ -1,8 +1,8 @@
 import assert from 'assert';
 
 import {getConfiguration} from '../utils';
-import encodings from '../../bitmovin/encoding/encodings';
-import streams from '../../bitmovin/encoding/streams';
+import encodings from '../../bitmovin/encoding/encodings/encodings';
+import streams from '../../bitmovin/encoding/encodings/streams';
 import inputs from '../../bitmovin/encoding/inputs';
 import filters from '../../bitmovin/encoding/filters';
 import codecConfigurations from '../../bitmovin/encoding/codecConfigurations';

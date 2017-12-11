@@ -1,14 +1,14 @@
 import assert from 'assert';
 
 import {getConfiguration} from '../utils';
-import encodings from '../../bitmovin/encoding/encodings';
+import encodings from '../../bitmovin/encoding/encodings/encodings';
 import inputs from '../../bitmovin/encoding/inputs';
 import codecConfigurations from '../../bitmovin/encoding/codecConfigurations';
 import outputs from '../../bitmovin/encoding/outputs';
-import streams from '../../bitmovin/encoding/streams';
-import muxings from '../../bitmovin/encoding/muxings';
-import drms from '../../bitmovin/encoding/drms';
-import hlsManifests from '../../bitmovin/encoding/hlsManifests';
+import streams from '../../bitmovin/encoding/encodings/streams';
+import muxings from '../../bitmovin/encoding/encodings/muxings';
+import drms from '../../bitmovin/encoding/encodings/drms';
+import hlsManifests from '../../bitmovin/encoding/manifests/hls/hlsManifests';
 
 let testConfiguration = getConfiguration();
 
