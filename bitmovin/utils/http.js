@@ -2,6 +2,7 @@ import fetch from 'node-fetch';
 import BitmovinError from './BitmovinError';
 import logger from './Logger';
 import Promise from 'bluebird';
+import urljoin from 'url-join';
 
 const GET    = 'GET';
 const POST   = 'POST';
@@ -110,6 +111,22 @@ const utils = {
       }
     }
     return processedFilterParams;
+  },
+
+  buildUrlParams: (baseUrl, params) => {
+    const filterParams = utils.buildFilterParamString(params.filter);
+    let getParams = utils.buildGetParamString({
+      ...filterParams,
+      limit : params.limit,
+      offset: params.offset,
+      sort: params.sort
+    });
+
+    if (getParams.length > 0) {
+      return urljoin(baseUrl, getParams);
+    }
+
+    return baseUrl;
   }
 };
 
