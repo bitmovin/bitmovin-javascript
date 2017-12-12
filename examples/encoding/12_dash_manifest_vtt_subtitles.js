@@ -189,21 +189,21 @@ const main = () => {
         });
       });
 
-      const smoothManifestPromise = createDashManifest(
+      const dasManifestPromise = createDashManifest(
         output,
         encoding,
         audioMuxingsWithId,
         videoMuxingsWithId
       );
 
-      return smoothManifestPromise.then(createdSmoothManifest => {
+      return dasManifestPromise.then(createdDashManifest => {
         return startEncodingAndWaitForItToBeFinished(encoding).then(_ => {
           console.log('Successfully finished encoding');
 
-          const smoothManifestCreation = startDashManifestCreation(createdSmoothManifest);
+          const dashManifestCreation = startDashManifestCreation(createdDashManifest);
 
-          return smoothManifestCreation.then(_ => {
-            console.log('Successfully created smooth Manifests');
+          return dashManifestCreation.then(_ => {
+            console.log('Successfully created dash Manifests');
           });
         });
       }).catch(error => {
