@@ -1,15 +1,69 @@
 import urljoin from 'url-join';
 
 class Builder {
-  constructor(target, dimension) {
-    this.target_ = target;
+  constructor(queries) {
+    this.queries = queries
+    this.target_ = null;
     this.query_ = {
       filters: [],
       groupBy: [],
       orderBy: [],
-      dimension
     };
-    this.that_ = this
+
+    this.max = this.max.bind(this);
+    this.min = this.min.bind(this);
+    this.avg = this.avg.bind(this);
+    this.sum = this.sum.bind(this);
+    this.count = this.count.bind(this);
+    this.median = this.median.bind(this);
+    this.variance = this.variance.bind(this);
+    this.percentile = this.percentile.bind(this);
+    this.stddev = this.stddev.bind(this);
+  }
+  max(dimension) {
+    this.target_ = this.queries.max;
+    this.query_.dimension = dimension;
+    return this;
+  }
+  min(dimension) {
+    this.target_ = this.queries.min;
+    this.query_.dimension = dimension;
+    return this;
+  }
+  avg(dimension) {
+    this.target_ = this.queries.avg;
+    this.query_.dimension = dimension;
+    return this;
+  }
+  sum(dimension) {
+    this.target_ = this.queries.sum;
+    this.query_.dimension = dimension;
+    return this;
+  }
+  count(dimension) {
+    this.target_ = this.queries.count;
+    this.query_.dimension = dimension;
+    return this;
+  }
+  median(dimension) {
+    this.target_ = this.queries.median;
+    this.query_.dimension = dimension;
+    return this;
+  }
+  variance(dimension) {
+    this.target_ = this.queries.variance;
+    this.query_.dimension = dimension;
+    return this;
+  }
+  percentile(dimension, percentile) {
+    this.target_ = this.queries.percentile;
+    this.query_.dimension = dimension;
+    return this._percentile(percentile);
+  }
+  stddev(dimension) {
+    this.target_ = this.queries.stddev;
+    this.query_.dimension = dimension;
+    return this;
   }
   between(start, end) {
     this.query_ = {
@@ -62,7 +116,7 @@ class Builder {
     }
     return this;
   }
-  percentile(percentile) {
+  _percentile(percentile) {
     this.query_ = {
       ...this.query_,
       percentile
@@ -96,35 +150,7 @@ class Builder {
 }
 
 export const queryBuilder = (queries) => {
-  const fn = {};
-  fn.max = (dimension) => {
-    return new Builder(queries.max, dimension);
-  }
-  fn.min = (dimension) => {
-    return new Builder(queries.min, dimension);
-  }
-  fn.avg = (dimension) => {
-    return new Builder(queries.avg, dimension);
-  }
-  fn.sum = (dimension) => {
-    return new Builder(queries.sum, dimension);
-  }
-  fn.count = (dimension) => {
-    return new Builder(queries.count, dimension);
-  }
-  fn.median = (dimension) => {
-    return new Builder(queries.median, dimension);
-  }
-  fn.variance = (dimension) => {
-    return new Builder(queries.variance, dimension);
-  }
-  fn.percentile = (dimension, percentile) => {
-    return new Builder(queries.percentile, dimension).percentile(percentile);
-  }
-  fn.stddev = (dimension) => {
-    return new Builder(queries.stddev, dimension);
-  }
-  return fn
+  return new Builder(queries);
 }
 
 

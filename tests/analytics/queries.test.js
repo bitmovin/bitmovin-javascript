@@ -100,6 +100,31 @@ describe('analytics', () => {
       testBuilderFunction(queriesClient.builder.variance);
       testBuilderFunction(queriesClient.builder.percentile);
       testBuilderFunction(queriesClient.builder.stddev);
+
+      const testBuilderFunctionAtTheEnd = (funcName) => {
+        const query = queriesClient.builder
+          .licenseKey('my-license')
+          .between(start, end)[funcName]('ERROR_RATE');
+
+        assertPayload(mockPost, () => query.query(), {
+          dimension: 'ERROR_RATE',
+          licenseKey: 'my-license',
+          start,
+          end,
+          filters: [],
+          groupBy: [],
+          orderBy: []
+        });
+      };
+      testBuilderFunctionAtTheEnd('max');
+      testBuilderFunctionAtTheEnd('min');
+      testBuilderFunctionAtTheEnd('avg');
+      testBuilderFunctionAtTheEnd('sum');
+      testBuilderFunctionAtTheEnd('count');
+      testBuilderFunctionAtTheEnd('median');
+      testBuilderFunctionAtTheEnd('variance');
+      testBuilderFunctionAtTheEnd('percentile');
+      testBuilderFunctionAtTheEnd('stddev');
     });
   });
 });
