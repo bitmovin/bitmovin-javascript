@@ -58,8 +58,8 @@ describe('analytics', () => {
     describe('builder', () => {
       const start = moment().subtract(1, 'months').toDate();
       const end = moment().toDate();
-      const testBuilderFunction = (func) => {
-        const fn = func('STARTUPTIME')
+      const testBuilderFunction = (func, percentile) => {
+        let fn = func('STARTUPTIME', percentile)
           .licenseKey('license-key')
           .between(start, end)
           .interval('DAY')
@@ -71,6 +71,7 @@ describe('analytics', () => {
           .orderBy('VIDEOID', 'ASC')
           .limit(10)
           .offset(20);
+
         assertItReturnsPromise(mockPost, () => { return fn.query() });
         assertPayload(mockPost, () => { return fn.query() }, {
           dimension: 'STARTUPTIME',
@@ -88,7 +89,8 @@ describe('analytics', () => {
             { name: 'VIDEOID', order: 'ASC' }
           ],
           limit: 10,
-          offset: 20
+          offset: 20,
+          percentile
         });
       }
       testBuilderFunction(queriesClient.builder.max);
@@ -98,7 +100,7 @@ describe('analytics', () => {
       testBuilderFunction(queriesClient.builder.count);
       testBuilderFunction(queriesClient.builder.median);
       testBuilderFunction(queriesClient.builder.variance);
-      testBuilderFunction(queriesClient.builder.percentile);
+      testBuilderFunction(queriesClient.builder.percentile, 95);
       testBuilderFunction(queriesClient.builder.stddev);
 
       const testBuilderFunctionAtTheEnd = (funcName) => {

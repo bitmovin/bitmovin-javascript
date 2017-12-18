@@ -2,68 +2,21 @@ import urljoin from 'url-join';
 
 class Builder {
   constructor(queries) {
-    this.queries = queries
-    this.target_ = null;
     this.query_ = {
       filters: [],
       groupBy: [],
       orderBy: [],
     };
 
-    this.max = this.max.bind(this);
-    this.min = this.min.bind(this);
-    this.avg = this.avg.bind(this);
-    this.sum = this.sum.bind(this);
-    this.count = this.count.bind(this);
-    this.median = this.median.bind(this);
-    this.variance = this.variance.bind(this);
-    this.percentile = this.percentile.bind(this);
-    this.stddev = this.stddev.bind(this);
-  }
-  max(dimension) {
-    this.target_ = this.queries.max;
-    this.query_.dimension = dimension;
-    return this;
-  }
-  min(dimension) {
-    this.target_ = this.queries.min;
-    this.query_.dimension = dimension;
-    return this;
-  }
-  avg(dimension) {
-    this.target_ = this.queries.avg;
-    this.query_.dimension = dimension;
-    return this;
-  }
-  sum(dimension) {
-    this.target_ = this.queries.sum;
-    this.query_.dimension = dimension;
-    return this;
-  }
-  count(dimension) {
-    this.target_ = this.queries.count;
-    this.query_.dimension = dimension;
-    return this;
-  }
-  median(dimension) {
-    this.target_ = this.queries.median;
-    this.query_.dimension = dimension;
-    return this;
-  }
-  variance(dimension) {
-    this.target_ = this.queries.variance;
-    this.query_.dimension = dimension;
-    return this;
-  }
-  percentile(dimension, percentile) {
-    this.target_ = this.queries.percentile;
-    this.query_.dimension = dimension;
-    return this._percentile(percentile);
-  }
-  stddev(dimension) {
-    this.target_ = this.queries.stddev;
-    this.query_.dimension = dimension;
-    return this;
+    Object.keys(queries).forEach(key => {
+      this[key] = (dimension) => {
+        this.target_ = queries[key];
+        this.query_.dimension = dimension;
+        return this;
+      }
+    });
+    const defaultPercentile = this.percentile;
+    this.percentile = (dimension, percentile) => defaultPercentile(dimension)._percentile(percentile);
   }
   between(start, end) {
     this.query_ = {
@@ -117,6 +70,7 @@ class Builder {
     return this;
   }
   _percentile(percentile) {
+    console.log('percentile', percentile);
     this.query_ = {
       ...this.query_,
       percentile
