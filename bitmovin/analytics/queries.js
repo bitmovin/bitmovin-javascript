@@ -6,52 +6,13 @@ export const queries = (configuration, http) => {
   const { get, post } = http;
   const baseUrl = urljoin(configuration.apiBaseUrl, 'analytics/queries');
 
-  const fn = (queryId) => {
-    return {};
-  };
+  const queryMethods = ['count', 'sum', 'avg', 'min', 'max', 'median', 'percentile', 'stddev', 'variance']
+    .reduce((obj, method) =>
+      ({ ...obj, [method]: (query) => post(configuration, urljoin(baseUrl, method), query) }), {});
 
-  fn.count = (query) => {
-    const url = urljoin(baseUrl, 'count');
-    return post(configuration, url, query);
-  };
+  const fn = Object.assign(() => ({}), queryMethods);
 
-  fn.sum = (query) => {
-    const url = urljoin(baseUrl, 'sum');
-    return post(configuration, url, query);
-  };
-
-  fn.avg = (query) => {
-    const url = urljoin(baseUrl, 'avg');
-    return post(configuration, url, query);
-  };
-
-  fn.min = (query) => {
-    const url = urljoin(baseUrl, 'min');
-    return post(configuration, url, query);
-  };
-
-  fn.max = (query) => {
-    const url = urljoin(baseUrl, 'max');
-    return post(configuration, url, query);
-  };
-  fn.median = (query) => {
-    const url = urljoin(baseUrl, 'median');
-    return post(configuration, url, query);
-  };
-  fn.percentile = (query) => {
-    const url = urljoin(baseUrl, 'percentile');
-    return post(configuration, url, query);
-  };
-  fn.stddev = (query) => {
-    const url = urljoin(baseUrl, 'stddev');
-    return post(configuration, url, query);
-  };
-  fn.variance = (query) => {
-    const url = urljoin(baseUrl, 'variance');
-    return post(configuration, url, query);
-  };
-
-  fn.builder = queryBuilder(fn);
+  Object.defineProperty(fn, 'builder', { get() { return queryBuilder(queryMethods) } });
 
   return fn;
 };
