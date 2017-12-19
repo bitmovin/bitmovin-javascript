@@ -59,7 +59,7 @@ describe('analytics', () => {
       const start = moment().subtract(1, 'months').toDate();
       const end = moment().toDate();
       const testBuilderFunction = (func, percentile) => {
-        let fn = func('STARTUPTIME', percentile)
+        const fn = func('STARTUPTIME', percentile)
           .licenseKey('license-key')
           .between(start, end)
           .interval('DAY')
