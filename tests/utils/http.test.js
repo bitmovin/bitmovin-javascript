@@ -1,4 +1,4 @@
-import {delete_, get, post} from '../../bitmovin/http'
+import {delete_, get, post} from '../../bitmovin/utils/http'
 
 describe('Test HTTP Client', () => {
   it('should resolve the promise if the response status is 204', () => {

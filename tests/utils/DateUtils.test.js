@@ -5,7 +5,7 @@ import {
   getLastDayOfWeekFromDate,
   dateToApiRequestString,
   isValidApiRequestDateString
-} from '../../bitmovin/DateUtils'
+} from '../../bitmovin/utils/DateUtils'
 
 const date = new Date(2017, 0, 5);
 

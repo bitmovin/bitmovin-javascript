@@ -1,5 +1,6 @@
 import urljoin from 'url-join';
-import http, {utils} from '../http';
+import http, {utils} from '../../utils/http';
+import {aws as awsInfra} from './aws';
 
 export const infrastructure = (configuration, http) => {
   const { get, post, delete_ } = http;
@@ -51,8 +52,13 @@ export const infrastructure = (configuration, http) => {
     return fn;
   };
 
+  const kubernetes = typeFn('kubernetes');
+
+  const aws = awsInfra(configuration, http);
+
   return {
-    kubernetes: typeFn('kubernetes')
+    kubernetes,
+    aws
   }
 };
 

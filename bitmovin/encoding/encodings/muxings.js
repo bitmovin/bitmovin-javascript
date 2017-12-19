@@ -1,6 +1,6 @@
 import urljoin from 'url-join';
 import drms from './drms';
-import http, { utils } from '../http';
+import http, { utils } from '../../utils/http';
 
 export const muxings = (configuration, encodingId, http) => {
   const { get, post, delete_ } = http;

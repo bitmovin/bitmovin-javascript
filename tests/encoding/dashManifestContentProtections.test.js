@@ -14,7 +14,7 @@ import {
 } from '../assertions';
 
 import {getConfiguration} from '../utils';
-import { contentProtections } from '../../bitmovin/encoding/dashManifestContentProtections';
+import { contentProtections } from '../../bitmovin/encoding/manifests/dash/dashManifestContentProtections';
 
 let testConfiguration = getConfiguration();
 

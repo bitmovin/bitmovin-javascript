@@ -1,7 +1,7 @@
 import urljoin from 'url-join';
-import http, {utils} from '../http';
-import BitmovinError from '../BitmovinError';
-import {isValidApiRequestDateString} from '../DateUtils';
+import http, {utils} from '../utils/http';
+import BitmovinError from '../utils/BitmovinError';
+import {isValidApiRequestDateString} from '../utils/DateUtils';
 
 export const statistics = (configuration, http) => {
   const {get} = http;

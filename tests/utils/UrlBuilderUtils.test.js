@@ -1,4 +1,4 @@
-import http, { utils } from '../../bitmovin/http';
+import http, { utils } from '../../bitmovin/utils/http';
 describe('Tests creation of url out of given parameters', () => {
   describe('Test Url creation with limit, offset and sorting', () => {
     it('Test with given limit', () => {

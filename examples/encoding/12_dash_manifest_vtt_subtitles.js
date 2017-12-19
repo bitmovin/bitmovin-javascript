@@ -4,7 +4,7 @@ const Promise  = require('bluebird');
 const BITMOVIN_API_KEY = '<YOUR_API_KEY>';
 const bitmovin         = new Bitmovin({'apiKey': BITMOVIN_API_KEY, debug: false});
 
-const ENCODING_NAME = 'simple_dash_vtt_encoding_' + (new Date().getTime() / 1000);
+const ENCODING_NAME = 'simple_dash_vtt_encoding';
 
 const INPUT_FILE_HOST = '<INPUT_HOST>';
 const INPUT_FILE_PATH = '/path/to/input/file.mp4';
@@ -189,21 +189,21 @@ const main = () => {
         });
       });
 
-      const smoothManifestPromise = createDashManifest(
+      const dashManifestPromise = createDashManifest(
         output,
         encoding,
         audioMuxingsWithId,
         videoMuxingsWithId
       );
 
-      return smoothManifestPromise.then(createdSmoothManifest => {
+      return dashManifestPromise.then(createdDashManifest => {
         return startEncodingAndWaitForItToBeFinished(encoding).then(_ => {
           console.log('Successfully finished encoding');
 
-          const smoothManifestCreation = startDashManifestCreation(createdSmoothManifest);
+          const dashManifestCreation = startDashManifestCreation(createdDashManifest);
 
-          return smoothManifestCreation.then(_ => {
-            console.log('Successfully created smooth Manifests');
+          return dashManifestCreation.then(_ => {
+            console.log('Successfully created dash Manifests');
           });
         });
       }).catch(error => {
