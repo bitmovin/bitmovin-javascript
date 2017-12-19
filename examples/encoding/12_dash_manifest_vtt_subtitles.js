@@ -189,14 +189,14 @@ const main = () => {
         });
       });
 
-      const dasManifestPromise = createDashManifest(
+      const dashManifestPromise = createDashManifest(
         output,
         encoding,
         audioMuxingsWithId,
         videoMuxingsWithId
       );
 
-      return dasManifestPromise.then(createdDashManifest => {
+      return dashManifestPromise.then(createdDashManifest => {
         return startEncodingAndWaitForItToBeFinished(encoding).then(_ => {
           console.log('Successfully finished encoding');
 
