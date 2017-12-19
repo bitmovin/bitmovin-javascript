@@ -127,6 +127,42 @@ describe('analytics', () => {
       testBuilderFunctionAtTheEnd('variance');
       testBuilderFunctionAtTheEnd('percentile');
       testBuilderFunctionAtTheEnd('stddev');
+
+      const testImmutableBuilder = () => {
+        const query = queriesClient.builder.count('USER_ID').between(start, end);
+
+        const start1 = moment().subtract(1, 'months').toDate();
+        const end1 = moment().toDate();
+        const query1 = query.filter('STARTUPTIME', 'GT', 0);
+        const query2 = query.filter('CDN_PROVIDER', 'EQ', 'akamai');
+
+        assertPayload(mockPost, () => query1.query(), {
+          dimension: 'USER_ID',
+          start,
+          end,
+          filters: [{
+            name: 'STARTUPTIME',
+            operator: 'GT',
+            value: 0
+          }],
+          groupBy: [],
+          orderBy: []
+        });
+
+        assertPayload(mockPost, () => query2.query(), {
+          dimension: 'USER_ID',
+          start,
+          end,
+          filters: [{
+            name: 'CDN_PROVIDER',
+            operator: 'EQ',
+            value: 'akamai'
+          }],
+          groupBy: [],
+          orderBy: []
+        });
+      };
+      testImmutableBuilder();
     });
   });
 });

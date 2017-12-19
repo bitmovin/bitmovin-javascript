@@ -1,111 +1,55 @@
 import urljoin from 'url-join';
 
 class Builder {
-  constructor(queries) {
-    this.query_ = {
+  constructor(aggregations, query) {
+    this.aggregations_ = aggregations;
+    this.query_ = query || Object.freeze({
       filters: [],
       groupBy: [],
       orderBy: [],
-    };
+    });
 
-    Object.keys(queries).forEach(key => {
-      this[key] = (dimension) => {
-        this.target_ = queries[key];
-        this.query_.dimension = dimension;
-        return this;
-      }
+    Object.keys(aggregations).forEach(key => {
+      this[key] = (dimension) => this.extendQuery_({ target: aggregations[key], dimension });
     });
     const defaultPercentile = this.percentile;
-    this.percentile = (dimension, percentile) => defaultPercentile(dimension)._percentile(percentile);
+    this.percentile = (dimension, percentile) => defaultPercentile(dimension).percentile_(percentile);
   }
-  between(start, end) {
-    this.query_ = {
-      ...this.query_,
-      start, end
-    }
-    return this;
+
+  between(start, end) { return this.extendQuery_({ start, end }); }
+
+  interval(interval) { return this.extendQuery_({ interval }); }
+
+  filter(name, operator, value) {
+    const filter = Object.freeze({ name, operator, value });
+    return this.extendQuery_({ filters: Object.freeze([...this.query_.filters, filter]) });
   }
-  interval(int) {
-    this.query_ = {
-      ...this.query_,
-      interval: int
-    }
-    return this;
-  }
-  filter(dimension, operator, value) {
-    this.query_ = {
-      ...this.query_,
-      filters: [
-        ...this.query_.filters,
-        {
-          name: dimension,
-          operator: operator,
-          value: value
-        }
-      ]
-    }
-    return this;
-  }
+
   groupBy(dimension) {
-    this.query_ = {
-      ...this.query_,
-      groupBy: [
-        ...this.query_.groupBy,
-        dimension
-      ]
-    }
-    return this;
+    return this.extendQuery_({ groupBy: Object.freeze([...this.query_.groupBy, dimension]) });
   }
-  orderBy(dimension, direction) {
-    this.query_ = {
-      ...this.query_,
-      orderBy: [
-        ...this.query_.orderBy,
-        {
-          name: dimension,
-          order: direction
-        }
-      ]
-    }
-    return this;
+
+  orderBy(name, order) {
+    const newOrder = Object.freeze({ name, order });
+    return this.extendQuery_({ orderBy: Object.freeze([...this.query_.orderBy, newOrder]) });
   }
-  _percentile(percentile) {
-    console.log('percentile', percentile);
-    this.query_ = {
-      ...this.query_,
-      percentile
-    }
-    return this;
+
+  percentile_(percentile) { return this.extendQuery_({ percentile }); }
+
+  licenseKey(licenseKey) { return this.extendQuery_({ licenseKey }); }
+
+  limit(limit) { return this.extendQuery_({ limit }); }
+
+  offset(offset) { return this.extendQuery_({ offset }); }
+
+  extendQuery_(extensions) {
+    return new Builder(this.aggregations_, Object.freeze({ ...this.query_, ...extensions }));
   }
-  licenseKey(licenseKey) {
-    this.query_ = {
-      ...this.query_,
-      licenseKey
-    }
-    return this;
-  }
-  limit(limit) {
-    this.query_ = {
-      ...this.query_,
-      limit
-    }
-    return this;
-  }
-  offset(offset) {
-    this.query_ = {
-      ...this.query_,
-      offset
-    }
-    return this;
-  }
+
   query() {
-    return this.target_(this.query_)
+    const { target, ...queryAttrs } = this.query_;
+    return target(queryAttrs);
   }
 }
 
-export const queryBuilder = (queries) => {
-  return new Builder(queries);
-}
-
-
-export default (queries) => { return queries(queries); };
+export default (aggregations) => new Builder(aggregations);
