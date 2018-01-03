@@ -5,12 +5,16 @@ import domains from './domains';
 import thirdPartyLicensing from './thirdPartyLicensing';
 
 export const licenses = (configuration, http) => {
-  const { get, post } = http;
+  const { get, post, put } = http;
   const fn = (licenseId) => {
     return {
       details: () => {
         const url = urljoin(configuration.apiBaseUrl, 'player/licenses', licenseId);
         return get(configuration, url);
+      },
+      updateName: (name) => {
+        const url = urljoin(configuration.apiBaseUrl, 'player/licenses', licenseId);
+        return put(configuration, url, name);
       },
       domains: domains(configuration, licenseId),
       thirdPartyLicensing: thirdPartyLicensing(configuration, licenseId)

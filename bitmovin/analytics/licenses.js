@@ -4,12 +4,16 @@ import http, { utils } from '../utils/http';
 import domains from './domains';
 
 export const licenses = (configuration, http) => {
-  const { get, post } = http;
+  const { get, post, put } = http;
   const fn = (licenseId) => {
     return {
       details: () => {
         const url = urljoin(configuration.apiBaseUrl, 'analytics/licenses', licenseId);
         return get(configuration, url);
+      },
+      updateName: (name) => {
+        const url = urljoin(configuration.apiBaseUrl, 'analytics/licenses', licenseId);
+        return put(configuration, url, name);
       },
       domains: domains(configuration, licenseId)
     };
