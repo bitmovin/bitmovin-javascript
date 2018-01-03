@@ -11,9 +11,9 @@ export const licenses = (configuration, http) => {
         const url = urljoin(configuration.apiBaseUrl, 'analytics/licenses', licenseId);
         return get(configuration, url);
       },
-      updateName: (name) => {
+      update: (license) => {
         const url = urljoin(configuration.apiBaseUrl, 'analytics/licenses', licenseId);
-        return put(configuration, url, name);
+        return put(configuration, url, license);
       },
       domains: domains(configuration, licenseId)
     };
