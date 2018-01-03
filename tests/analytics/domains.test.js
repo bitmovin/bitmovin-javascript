@@ -5,6 +5,7 @@ import { domains } from '../../bitmovin/analytics/domains';
 import {
   mockGet,
   mockPost,
+  mockPut,
   mockDelete,
   mockHttp,
   methodToMock,
@@ -32,6 +33,12 @@ describe('analytics', () => {
     describe('detail', () => {
       assertItCallsCorrectUrl('GET', '/v1/analytics/licenses/my-license-id', () => licensesClient('my-license-id').details());
       assertItReturnsUnderlyingPromise(mockGet, licensesClient('my-license-id').details);
+    });
+
+    describe('update', () => {
+      assertItCallsCorrectUrl('PUT', '/v1/analytics/licenses/my-license-id', () => licensesClient('my-license-id').update());
+      assertItReturnsUnderlyingPromise(mockPut, licensesClient('my-license-id').update);
+      assertPayload(mockPut, () => licensesClient('my-license-id').update({ name: 'foo'}), { name: 'foo' });
     });
 
     describe('domains', () => {

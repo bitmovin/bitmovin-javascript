@@ -6,6 +6,7 @@ import { channels } from '../../bitmovin/player/channels';
 import {
   mockGet,
   mockPost,
+  mockPut,
   mockDelete,
   mockHttp,
   methodToMock,
@@ -33,6 +34,12 @@ describe('player', () => {
     describe('detail', () => {
       assertItCallsCorrectUrl('GET', '/v1/player/licenses/my-license-id', () => licensesClient('my-license-id').details());
       assertItReturnsUnderlyingPromise(mockGet, licensesClient('my-license-id').details);
+    });
+
+    describe('update', () => {
+      assertItCallsCorrectUrl('PUT', '/v1/player/licenses/my-license-id', () => licensesClient('my-license-id').update());
+      assertItReturnsUnderlyingPromise(mockPut, licensesClient('my-license-id').update);
+      assertPayload(mockPut, () => licensesClient('my-license-id').update({ name: 'foo'}), { name: 'foo' });
     });
 
     describe('domains', () => {
@@ -81,7 +88,7 @@ describe('player', () => {
       describe('delete', () => {
         assertItCallsCorrectUrl('DELETE', '/v1/player/licenses/' + licenseId + '/third-party-licensing', thirdPartyLicensingClient.delete);
         assertItReturnsUnderlyingPromise(mockGet, thirdPartyLicensingClient.delete);
-      })
+      });
     });
   });
 
