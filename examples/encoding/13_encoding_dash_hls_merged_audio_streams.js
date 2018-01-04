@@ -1,4 +1,4 @@
-// 07_encoding_dash_hls_thumbnail.js
+// 13_encoding_dash_hls_merged_audio_streams.js
 
 const Bitmovin = require('bitmovin-javascript').default;
 console.log(Bitmovin);
