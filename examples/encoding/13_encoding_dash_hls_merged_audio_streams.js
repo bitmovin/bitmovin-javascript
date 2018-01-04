@@ -18,7 +18,7 @@ const S3_INPUT_BUCKET_NAME  = '<YOUR_S3_BUCKET>';
 const INPUT_FILE_PATH = '/encoding/Sintel-original-short.mkv';
 
 // Output Settings
-// See https://bitmovin.com/encoding-documentation/bitmovin-api/#/reference/encoding/outputs/create-ftp-output for more information
+// See https://bitmovin.com/encoding-documentation/bitmovin-api/#/reference/encoding/outputs/create-s3-output for more information
 const S3_OUTPUT_ACCESS_KEY = '<YOUR_S3_ACCESS_KEY>';
 const S3_OUTPUT_SECRET_KEY = '<YOUR_S3_SECRET_KEY>';
 const S3_OUTPUT_BUCKET_NAME = '<YOUR_S3_BUCKET>';
