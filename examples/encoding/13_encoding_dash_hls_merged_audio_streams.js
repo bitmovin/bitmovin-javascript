@@ -165,7 +165,7 @@ const main = () => new Promise((resolve, reject) => {
     });
 
     console.log('Adding audio stream with codecConfig ' + aacCodecConfiguration.name + ' to encoding...');
-    streamAndMuxingPromises.push(addAudioStreamToEncoding(input, output, aacCodecConfiguration, encoding).delay(1000));
+    streamAndMuxingPromises.push(addAudioStreamToEncoding(input, output, aacCodecConfiguration, encoding));
 
     const configPromise = Promise.all(streamAndMuxingPromises);
     configPromise.then((results) => {
