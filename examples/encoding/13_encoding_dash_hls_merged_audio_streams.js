@@ -15,7 +15,7 @@ const S3_INPUT_ACCESS_KEY   = '<YOUR_S3_ACCESS_KEY>';
 const S3_INPUT_SECRET_KEY   = '<YOUR_S3_SECRET_KEY>';
 const S3_INPUT_BUCKET_NAME  = '<YOUR_S3_BUCKET>';
 
-const INPUT_FILE_PATH = '/encoding/Sintel-original-short.mkv';
+const INPUT_FILE_PATH = '/path/to/your/input/file.mkv';
 
 // Output Settings
 // See https://bitmovin.com/encoding-documentation/bitmovin-api/#/reference/encoding/outputs/create-s3-output for more information
@@ -42,6 +42,26 @@ const s3Output = {
   secretKey:    S3_OUTPUT_SECRET_KEY,
   bucketName:   S3_OUTPUT_BUCKET_NAME
 };
+
+const audioStreams = [{
+    inputStreams: [{
+      position: 0,
+      selectionMode: 'AUDIO_RELATIVE'
+    }, {
+      position: 1,
+      selectionMode: 'AUDIO_RELATIVE'
+    }],
+  lang: 'sp'
+}, {
+  inputStreams: [{
+    position: 2,
+    selectionMode: 'AUDIO_RELATIVE'
+  }, {
+    position: 3,
+    selectionMode: 'AUDIO_RELATIVE'
+  }],
+  lang: 'en'
+}];
 
 // AAC Audio Configuration
 const aacAudioCodecConfiguration       = {
@@ -109,7 +129,7 @@ const main = () => new Promise((resolve, reject) => {
 
   const createAACPromise = createAACCodecConfiguration(aacCodecConfiguration).then((createdCodecConfig) => {
     console.log('Successfully created AAC Audio Codec Configuration');
-    aacCodecConfiguration = createdCodecConfig
+    aacCodecConfiguration = createdCodecConfig;
   });
 
   const create720pPromise = createH264CodecConfiguration(h264CodecConfiguration720p).then((createdCodecConfig) => {
@@ -152,45 +172,44 @@ const main = () => new Promise((resolve, reject) => {
   preparationPromise.then(() => {
     console.log('----\nSuccessfully created input, output, codec configurations and encoding resource.\n----');
 
-    const videoCodecConfigs = [
+    const audioStreamPromises = Promise.map(audioStreams, audioStream => {
+      const inputStreams = audioStream.inputStreams.map(inputStream => {
+        const inputStreamToCreate = {
+          inputId: input.id,
+          inputPath: INPUT_FILE_PATH,
+          position: inputStream.position,
+          selectionMode: inputStream.selectionMode
+        };
+
+        return inputStreamToCreate;
+      });
+
+      return addAudioStreamToEncoding(output, aacCodecConfiguration, inputStreams, encoding, audioStream.lang);
+    }, {concurrency: 1});
+
+    const videoCodecConfigurations = [
       h264CodecConfiguration240p,
       h264CodecConfiguration320p,
       h264CodecConfiguration480p,
       h264CodecConfiguration720p
     ];
 
-    const streamAndMuxingPromises = videoCodecConfigs.map((videoCodecConfig) => {
-      console.log('Adding video stream with codecConfig ' + videoCodecConfig.name + ' to encoding...');
-      return addVideoStreamToEncoding(input, output, videoCodecConfig, encoding);
-    });
+    const videoStreamPromises = Promise.map(videoCodecConfigurations, (codecConfiguration) => {
+      console.log('Adding stream with codecConfig ' + codecConfiguration.name + ' to encoding...');
+      return addVideoStreamToEncoding(input, output, codecConfiguration, encoding);
+    }, {concurrency: 1});
 
-    console.log('Adding audio stream with codecConfig ' + aacCodecConfiguration.name + ' to encoding...');
-    streamAndMuxingPromises.push(addAudioStreamToEncoding(input, output, aacCodecConfiguration, encoding));
-
-    const configPromise = Promise.all(streamAndMuxingPromises);
-    configPromise.then((results) => {
-      const [
-        [addedVideoStream240p, addedVideoMuxing240p],
-        [addedVideoStream320p, addedVideoMuxing320p],
-        [addedVideoStream480p, addedVideoMuxing480p],
-        [addedVideoStream720p, addedVideoMuxing720p],
-        [addedAudioStream, addedAudioMuxing]
-      ] = results;
-
-      addedAudioMuxing.streamId = addedAudioStream.id;
-      addedVideoMuxing240p.streamId = addedVideoStream240p.id;
-      addedVideoMuxing320p.streamId = addedVideoStream320p.id;
-      addedVideoMuxing480p.streamId = addedVideoStream480p.id;
-      addedVideoMuxing720p.streamId = addedVideoStream720p.id;
-
-      console.log('Added audio Muxing', addedAudioMuxing);
-      console.log('Added video Muxing 240p', addedVideoMuxing240p);
-      console.log('Added video Muxing 320p', addedVideoMuxing320p);
-      console.log('Added video Muxing 480p', addedVideoMuxing480p);
-      console.log('Added video Muxing 720p', addedVideoMuxing720p);
-
-      const audioMuxings = [addedAudioMuxing];
-      const videoMuxings = [addedVideoMuxing240p, addedVideoMuxing320p, addedVideoMuxing480p, addedVideoMuxing720p];
+    Promise.all([audioStreamPromises, videoStreamPromises]).then(([audioStreams, videoStrams]) => {
+      const audioMuxings = audioStreams.map(audioStream => {
+        const muxingWithPath = audioStream[1];
+        muxingWithPath.streamId = audioStream[0].id;
+        return muxingWithPath;
+      });
+      const videoMuxings = videoStrams.map(videoStream => {
+        const muxingWithPath = videoStream[1];
+        muxingWithPath.streamId = videoStream[0].id;
+        return muxingWithPath;
+      });
 
       const dashManifestPromise = createDashManifest(
         output,
@@ -229,52 +248,24 @@ const main = () => new Promise((resolve, reject) => {
   });
 });
 
-const addAudioStreamToEncoding = (input, output, aacCodecConfiguration, encoding) => {
-
-  const audioInputStream1 = {
-    inputId: input.id,
-    inputPath: INPUT_FILE_PATH,
-    selectionMode: 'AUDIO_RELATIVE',
-    position: 0
-  };
-
-  const audioInputStream2 = {
-    inputId: input.id,
-    inputPath: INPUT_FILE_PATH,
-    selectionMode: 'AUDIO_RELATIVE',
-    position: 1
-  };
-
-  const audioInputStream3 = {
-    inputId: input.id,
-    inputPath: INPUT_FILE_PATH,
-    selectionMode: 'AUDIO_RELATIVE',
-    position: 2
-  };
-
-  /*
-  You can define more audio channels here, don't forget to add them to the inputStreams array
-  ...
-   */
-
+const addAudioStreamToEncoding = (output, aacCodecConfiguration, inputStreams, encoding, language) => {
   let stream = {
-    inputStreams: [audioInputStream1, audioInputStream2, audioInputStream3],
+    inputStreams: inputStreams,
     codecConfigId: aacCodecConfiguration.id
   };
 
   return new Promise((resolve, reject) => {
-    addStream(encoding, stream, output, aacCodecConfiguration).then(([addedStream, addedMuxing]) => {
+    addStream(encoding, stream, output, aacCodecConfiguration, language).then(([addedStream, addedMuxing]) => {
       console.log('Successfully created audio stream and muxing');
       resolve([addedStream, addedMuxing]);
     }).catch((error) => {
       console.error('Unable to create audio stream and/or muxing.');
       reject(error);
-    })
+    });
   });
 };
 
 const addVideoStreamToEncoding = (input, output, videoCodecConfig, encoding) => {
-
   const inputStream = {
     inputId: input.id,
     inputPath: INPUT_FILE_PATH,
@@ -419,19 +410,19 @@ const createHlsManifest = (output, encoding, audioMuxingsWithPath, videoMuxingsW
       let audioPromise;
 
       if (audioMuxingsWithPath.length > 0) {
-        let promise = Promise.map(audioMuxingsWithPath, (audioMuxingWithPath) => {
+        let promise = Promise.map(audioMuxingsWithPath, (audioMuxingWithPath, index) => {
           const tsMuxing = audioMuxingWithPath.tsMuxing;
           const path = audioMuxingWithPath.path;
 
           const audioMedia = {
             groupId: 'audio_group',
-            name: 'Audio media ' + tsMuxing.name,
+            name: audioStreams[index].lang,
             segmentPath: path,
             encodingId: encoding.id,
             muxingId: tsMuxing.id,
             streamId: audioMuxingWithPath.streamId,
-            language: 'en',
-            uri: 'videomedia.m3u8'
+            language: audioStreams[index].lang,
+            uri: 'audiomedia_' + audioStreams[index].lang + '.m3u8'
           };
           return bitmovin.encoding.manifests.hls(createdHlsManifest.id).media.audio.add(audioMedia);
         });
@@ -488,10 +479,6 @@ const createDashManifest = (output, encoding, audioMuxingsWithPath, videoMuxings
       bitmovin.encoding.manifests.dash(createdManifest.id).periods.add(period).then((createdPeriod) => {
         console.log('successfully created period');
 
-        const audioAdaptationSet = {
-          lang: 'en'
-        };
-
         const videoAdaptationSet = {};
 
         let audioAdaptationSetPromise;
@@ -500,10 +487,17 @@ const createDashManifest = (output, encoding, audioMuxingsWithPath, videoMuxings
         console.log('AudioMuxingsWithPath: ', audioMuxingsWithPath.length);
         console.log('VideoMuxingsWithPath: ', videoMuxingsWithPath.length);
 
-        if (audioMuxingsWithPath.length > 0)
-          audioAdaptationSetPromise = bitmovin.encoding.manifests.dash(createdManifest.id).periods(createdPeriod.id)
-            .adaptationSets.audio.create(audioAdaptationSet);
-        else
+        if (audioMuxingsWithPath.length > 0) {
+
+          const audioAdaptationSetPromises = audioStreams.map(audioStream => {
+            const audioAdaptationSet = {
+              lang: audioStream.lang
+            };
+
+            return bitmovin.encoding.manifests.dash(createdManifest.id).periods(createdPeriod.id).adaptationSets.audio.create(audioAdaptationSet);
+          });
+          audioAdaptationSetPromise = Promise.all(audioAdaptationSetPromises);
+        } else
           audioAdaptationSetPromise = Promise.resolve([]);
 
         if (videoMuxingsWithPath.length > 0)
@@ -512,9 +506,10 @@ const createDashManifest = (output, encoding, audioMuxingsWithPath, videoMuxings
         else
           videoAdaptationSetPromise = Promise.resolve([]);
 
-        Promise.all([audioAdaptationSetPromise, videoAdaptationSetPromise]).then(([createdAudioAdaptationSet, createdVideoAdaptationSet]) => {
+        Promise.all([audioAdaptationSetPromise, videoAdaptationSetPromise])
+        .then(([createdAudioAdaptationSet, createdVideoAdaptationSet]) => {
 
-          Promise.map(audioMuxingsWithPath, (muxingWithPath) => {
+          Promise.map(audioMuxingsWithPath, (muxingWithPath, index) => {
             const fmp4Muxing = muxingWithPath.fmp4Muxing;
             const path = muxingWithPath.path;
 
@@ -525,7 +520,7 @@ const createDashManifest = (output, encoding, audioMuxingsWithPath, videoMuxings
               segmentPath: path
             };
             return bitmovin.encoding.manifests.dash(createdManifest.id).periods(createdPeriod.id)
-              .adaptationSets(createdAudioAdaptationSet.id).representations.fmp4.add(fmp4Representation);
+              .adaptationSets(createdAudioAdaptationSet[index].id).representations.fmp4.add(fmp4Representation);
           }).then(() => {
             console.log('Successfully added Audio representations');
             Promise.map(videoMuxingsWithPath, (muxingWithPath) => {
@@ -603,7 +598,7 @@ const createHlsManifestResource = (output) => {
   });
 };
 
-const addStream = (encoding, stream, output, codecConfiguration) => {
+const addStream = (encoding, stream, output, codecConfiguration, language) => {
   const addStreamPromise = bitmovin.encoding.encodings(encoding.id).streams.add(stream);
 
   return new Promise((resolve, reject) => {
@@ -618,8 +613,8 @@ const addStream = (encoding, stream, output, codecConfiguration) => {
         else if (codecConfiguration.width)
           prefix = 'video/' + codecConfiguration.width;
       }
-      else {
-        prefix = 'audio/' + codecConfiguration.bitrate;
+      else if (language) {
+        prefix = 'audio/' + language + '/' + codecConfiguration.bitrate;
       }
 
       prefix += '/';
