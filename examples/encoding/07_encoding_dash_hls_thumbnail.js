@@ -118,12 +118,12 @@ const main = () => new Promise((resolve, reject) => {
   let thumbnail = Object.assign({}, thumbnailResource);
 
   const createInputPromise = createS3Input(input).then((createdInput) => {
-    console.log('Successfully created HTTP Input');
+    console.log('Successfully created S3 Input');
     input = createdInput;
   });
 
   const createOutputPromise = createFtpOutput(output).then((createdS3Output) => {
-    console.log('Successfully created S3 Output');
+    console.log('Successfully created FTP Output');
     output = createdS3Output;
   });
 
