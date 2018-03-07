@@ -1,9 +1,8 @@
 // 08_encoding_hls_aes128.js
 
 const Promise = require('bluebird');
+
 const Bitmovin = require('bitmovin-javascript').default;
-
-
 const BITMOVIN_API_KEY = '<INSERT_YOUR_API_KEY>';
 const bitmovin = new Bitmovin({apiKey: BITMOVIN_API_KEY, debug: true});
 
@@ -25,7 +24,6 @@ const DRM_AES_IV = '<YOUR_AES_IV>';
 
 const main = () => {
   return new Promise((resolve, reject) => {
-
     const s3InputCreationPromise = createInput();
     const s3OutputCreationPromise = createOutput();
     const encodingResourceCreationPromise = createEncoding();
@@ -109,11 +107,11 @@ const main = () => {
 const createInput = () => {
   return new Promise((resolve, reject) => {
     const s3Input = {
-      name: 'My awesome S3 Input',
+      name       : 'My awesome S3 Input',
       description: 'Little description for my awesome S3 Input',
-      accessKey: INPUT_S3_ACCESS_KEY,
-      secretKey: INPUT_S3_SECRET_KEY,
-      bucketName: INPUT_S3_BUCKET_NAME
+      accessKey  : INPUT_S3_ACCESS_KEY,
+      secretKey  : INPUT_S3_SECRET_KEY,
+      bucketName : INPUT_S3_BUCKET_NAME
     };
     bitmovin.encoding.inputs.s3.create(s3Input).then((createdInput) => {
       console.log('Successfully created S3 Input.', createdInput);
@@ -125,11 +123,11 @@ const createInput = () => {
 const createOutput = () => {
   return new Promise((resolve, reject) => {
     const s3Output = {
-      name: 'My awesome S3 Output',
+      name       : 'My awesome S3 Output',
       description: 'Little description for my awesome S3 Output',
-      accessKey: OUTPUT_S3_ACCESS_KEY,
-      secretKey: OUTPUT_S3_SECRET_KEY,
-      bucketName: OUTPUT_S3_BUCKET_NAME
+      accessKey  : OUTPUT_S3_ACCESS_KEY,
+      secretKey  : OUTPUT_S3_SECRET_KEY,
+      bucketName : OUTPUT_S3_BUCKET_NAME
     };
     bitmovin.encoding.outputs.s3.create(s3Output).then((createdOutput) => {
       console.log('Successfully created S3 Output.', createdOutput);
@@ -153,12 +151,12 @@ const createEncoding = () => {
 const createH264CodecConfiguration = (width, height, bitrate, fps) => {
   return new Promise((resolve, reject) => {
     const h264CodecConfiguration = {
-      name: 'H264 ' + height,
+      name   : 'H264 ' + height,
       bitrate: bitrate,
-      rate: fps,
+      rate   : fps,
       profile: 'HIGH',
-      width: width,
-      height: height
+      width  : width,
+      height : height
     };
     bitmovin.encoding.codecConfigurations.h264.create(h264CodecConfiguration).then((createdCodecConfiguration) => {
       console.log('Successfully created H264 Codec Configuration.', createdCodecConfiguration);
@@ -170,9 +168,9 @@ const createH264CodecConfiguration = (width, height, bitrate, fps) => {
 const createAACCodecConfiguration = (bitrate, rate) => {
   return new Promise((resolve, reject) => {
     const aacCodecConfiguration = {
-      name: 'English',
+      name   : 'English',
       bitrate: bitrate,
-      rate: rate
+      rate   : rate
     };
     bitmovin.encoding.codecConfigurations.aac.create(aacCodecConfiguration).then((createdCodecConfiguration) => {
       console.log('Successfully created AAC Codec Configuration.', createdCodecConfiguration);
@@ -299,15 +297,15 @@ const createHlsManifestRepresentation = (encoding, stream_ , tsMuxing, fairPlayD
 const createHlsAudioMedia = (encoding, stream_, tsMuxing, fairPlayDrm, hlsManifest, segmentPath) => {
   return new Promise((resolve, reject) => {
     const audioMedia = {
-      name: 'HLS Audio Media',
-      groupId: 'audio_group',
+      name       : 'HLS Audio Media',
+      groupId    : 'audio_group',
       segmentPath: segmentPath,
-      encodingId: encoding.id,
-      streamId: stream_.id,
-      muxingId: tsMuxing.id,
-      drmId: fairPlayDrm.id,
-      language: 'en',
-      uri: 'audio_media.m3u8'
+      encodingId : encoding.id,
+      streamId   : stream_.id,
+      muxingId   : tsMuxing.id,
+      drmId      : fairPlayDrm.id,
+      language   : 'en',
+      uri        : 'audio_media.m3u8'
     };
 
     bitmovin.encoding.manifests.hls(hlsManifest.id).media.audio.add(audioMedia).then((createdAudioMedia) => {
@@ -320,14 +318,14 @@ const createHlsAudioMedia = (encoding, stream_, tsMuxing, fairPlayDrm, hlsManife
 const createHlsVariantStream = (encoding, stream_, tsMuxing, fairPlayDrm, hlsManifest, segmentPath) => {
   return new Promise((resolve, reject) => {
     const variantStream = {
-      audio: 'audio_group',
+      audio         : 'audio_group',
       closedCaptions: 'NONE',
-      segmentPath: segmentPath,
-      encodingId: encoding.id,
-      streamId: stream_.id,
-      muxingId: tsMuxing.id,
-      drmId: fairPlayDrm.id,
-      uri: fairPlayDrm.id + '.m3u8'
+      segmentPath   : segmentPath,
+      encodingId    : encoding.id,
+      streamId      : stream_.id,
+      muxingId      : tsMuxing.id,
+      drmId         : fairPlayDrm.id,
+      uri           : fairPlayDrm.id + '.m3u8'
     };
 
     bitmovin.encoding.manifests.hls(hlsManifest.id).streams.add(variantStream).then((createdVariantStream) => {

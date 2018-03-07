@@ -1,11 +1,10 @@
 // 04_stop_livestream.js
 
 const Bitmovin = require('bitmovin-javascript').default;
-
 const BITMOVIN_API_KEY = 'INSERT_YOUR_API_KEY';
-const ENCODING_ID_TO_STOP = 'ENCODING ID TO STOP';
-
 const bitmovin = new Bitmovin({apiKey: BITMOVIN_API_KEY});
+
+const ENCODING_ID_TO_STOP = 'ENCODING ID TO STOP';
 
 const main = () => {
   return bitmovin.encoding.encodings(ENCODING_ID_TO_STOP).stopLive();

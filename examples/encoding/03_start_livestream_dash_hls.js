@@ -1,8 +1,8 @@
 // 03_start_livestream_dash_hls.js
 
 const Promise = require('bluebird');
-const Bitmovin = require('bitmovin-javascript').default;
 
+const Bitmovin = require('bitmovin-javascript').default;
 const BITMOVIN_API_KEY = 'INSERT_YOUR_API_KEY';
 const bitmovin = new Bitmovin({apiKey: BITMOVIN_API_KEY});
 
@@ -36,7 +36,6 @@ const LIVE_ENCODING_DETAILS_POLLING_INTERVAL = 10000;
 
 const main = () => {
   return new Promise((resolve, reject) => {
-
     const rtmpInputPromise = getRtmpInput();
     const s3OutputCreationPromise = createOutput();
     const encodingResourceCreationPromise = createEncoding();
@@ -59,14 +58,14 @@ const main = () => {
       ]
     ).then(
       ([
-              input,
-              output,
-              encoding,
-              codecConfigurationH264At1080p,
-              codecConfigurationH264At720p,
-              codecConfigurationH264At480p,
-              codecConfigurationH264At360p,
-              codecConfigurationAAC
+        input,
+        output,
+        encoding,
+        codecConfigurationH264At1080p,
+        codecConfigurationH264At720p,
+        codecConfigurationH264At480p,
+        codecConfigurationH264At360p,
+        codecConfigurationAAC
        ]) => {
         console.log('Successfully created input, output and codec configurations.');
         const dashManifestCreationPromise = createDashManifestWithPeriodAndAdaptationSets(output.id);
@@ -180,9 +179,8 @@ const main = () => {
   });
 };
 
-/*
- ENCODING
- */
+// ENCODING
+
 const createEncoding = () => {
   return new Promise((resolve, reject) => {
     const encoding = {
@@ -232,9 +230,8 @@ const createStreamsAndMuxings = (encoding, streamDefinitions, output, input) => 
   });
 };
 
-/*
- INPUT
- */
+// INPUT
+
 const getRtmpInput = () => {
   return new Promise((resolve, reject) => {
     bitmovin.encoding.inputs.rtmp.list().then((response) => {
@@ -246,9 +243,8 @@ const getRtmpInput = () => {
   });
 };
 
-/*
- OUTPUT
- */
+// OUTPUT
+
 const createOutput = () => {
   return new Promise((resolve, reject) => {
     const gcsOutput = {
@@ -265,9 +261,8 @@ const createOutput = () => {
   });
 };
 
-/*
- CODEC CONFIGURATION
- */
+// CODEC CONFIGURATION
+
 const createH264CodecConfiguration = (width, height, bitrate, fps) => {
   return new Promise((resolve, reject) => {
     const h264CodecConfiguration = {
@@ -299,9 +294,8 @@ const createAACCodecConfiguration = (bitrate, rate) => {
   });
 };
 
-/*
- STREAMS
- */
+// STREAMS
+
 const createStream = (encoding, streamDefinition, input) => {
   const stream = {
     name: 'Stream with ' + streamDefinition.codecConfiguration.name,
@@ -317,9 +311,8 @@ const createStream = (encoding, streamDefinition, input) => {
   return bitmovin.encoding.encodings(encoding.id).streams.add(stream);
 };
 
-/*
- MUXINGS
- */
+// MUXINGS
+
 const createFmp4MuxingsForStreams = (encoding, streams, output, streamDefinitions) => {
   return Promise.map(streams, (stream, index) => {
     return addFmp4MuxingToStream(encoding, stream, output, streamDefinitions[index].dashSegmentsPath);
@@ -373,9 +366,8 @@ const addTsMuxingForStream = (encoding, stream, output, outputPrefix) => {
   return bitmovin.encoding.encodings(encoding.id).muxings.ts.add(tsMuxing);
 };
 
-/*
- MANIFESTS
- */
+// MANIFESTS
+
 const createDashManifestWithPeriodAndAdaptationSets = (outputId) => {
   return new Promise((resolve, reject) => {
     const dashManifest = {
@@ -500,9 +492,8 @@ const createHlsVideoVariantStream = (manifest, audioGroupId, segmentPath, uri, e
   return bitmovin.encoding.manifests.hls(manifest.id).streams.add(variantStream);
 };
 
-/*
- ENCODING CONTROL
- */
+// ENCODING CONTROL
+
 const startLiveEncoding = (encoding, liveConfiguration) => {
   return bitmovin.encoding.encodings(encoding.id).startLive(liveConfiguration);
 };

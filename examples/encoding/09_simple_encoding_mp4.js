@@ -2,9 +2,9 @@
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-const Bitmovin = require('bitmovin-javascript').default;
 const Promise = require('bluebird');
 
+const Bitmovin = require('bitmovin-javascript').default;
 const BITMOVIN_API_KEY = '<INSERT_YOUR_API_KEY>';
 const bitmovin         = new Bitmovin({'apiKey': BITMOVIN_API_KEY, debug: false});
 
@@ -182,13 +182,13 @@ const main = () => new Promise((resolve, reject) => {
 
 const addAudioStreamToEncoding = (input, output, audioCodecConfiguration, encoding) => {
   const inputStream = {
-    inputId: input.id,
-    inputPath: INPUT_FILE_PATH,
+    inputId      : input.id,
+    inputPath    : INPUT_FILE_PATH,
     selectionMode: 'AUTO'
   };
 
   let stream = {
-    inputStreams: [inputStream],
+    inputStreams : [inputStream],
     codecConfigId: audioCodecConfiguration.id
   };
 
@@ -205,13 +205,13 @@ const addAudioStreamToEncoding = (input, output, audioCodecConfiguration, encodi
 
 const addVideoStreamToEncoding = (input, output, videoCodecConfig, audioStream, encoding) => {
   const inputStream = {
-    inputId: input.id,
-    inputPath: INPUT_FILE_PATH,
+    inputId      : input.id,
+    inputPath    : INPUT_FILE_PATH,
     selectionMode: 'AUTO'
   };
 
   let videoStream = {
-    inputStreams: [inputStream],
+    inputStreams : [inputStream],
     codecConfigId: videoCodecConfig.id
   };
 

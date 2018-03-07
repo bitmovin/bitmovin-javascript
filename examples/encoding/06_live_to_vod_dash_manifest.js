@@ -1,8 +1,8 @@
 // 06_live_to_vod_dash_manifest
 
-const Bitmovin = require('bitmovin-javascript').default;
 const Promise = require('bluebird');
 
+const Bitmovin = require('bitmovin-javascript').default;
 const BITMOVIN_API_KEY = 'YOUR_API_KEY';
 const bitmovin         = new Bitmovin({'apiKey': BITMOVIN_API_KEY});
 
@@ -138,9 +138,8 @@ const getVideoManifestInfos = (encodingId, muxings) => {
   });
 };
 
-/*
- MANIFESTS
- */
+// MANIFESTS
+
 const createDashManifestWithPeriodAndAdaptationSets = (outputId) => {
   return new Promise((resolve, reject) => {
     const dashManifest = {
