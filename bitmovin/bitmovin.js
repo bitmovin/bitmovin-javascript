@@ -1,5 +1,4 @@
 import urljoin from 'url-join';
-
 import encodings from './encoding/encodings/encodings';
 import codecConfigurations from './encoding/codecConfigurations';
 import inputs from './encoding/inputs';
@@ -16,7 +15,6 @@ import analyticsLicenses from './analytics/licenses';
 import analyticsQueries from './analytics/queries';
 import analyticsImpressions from './analytics/impressions';
 import analyticsStatistics from './analytics/statistics';
-
 import logger from './utils/Logger';
 import utils from './utils/Utils';
 

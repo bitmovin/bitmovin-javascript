@@ -10,7 +10,7 @@ export const statistics = (configuration, http) => {
     let newUrl = url;
     let {limit, offset} = options;
 
-    if (options !== {} && options.from && options.to) {
+    if (options && options.from && options.to) {
       if (!isValidApiRequestDateString(options.from) || !isValidApiRequestDateString(options.to)) {
         console.error('Wrong date format! Correct format is yyyy-MM-dd');
         return Promise.reject(new BitmovinError('Wrong date format! Correct format is yyyy-MM-dd', {}));
@@ -22,7 +22,6 @@ export const statistics = (configuration, http) => {
       limit: limit,
       offset: offset
     });
-
     if (getParams.length > 0) {
       newUrl = urljoin(newUrl, getParams);
     }
@@ -92,6 +91,4 @@ export const statistics = (configuration, http) => {
   };
 };
 
-export default (configuration) => {
-  return statistics(configuration, http);
-};
+export default (configuration) => { return statistics(configuration, http); };

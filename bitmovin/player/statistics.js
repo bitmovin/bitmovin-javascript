@@ -31,6 +31,4 @@ export const statistics = (configuration, http) => {
   };
 };
 
-export default (configuration) => {
-  return statistics(configuration, http);
-};
+export default (configuration) => { return statistics(configuration, http); };

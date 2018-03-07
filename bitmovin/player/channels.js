@@ -47,6 +47,4 @@ export const channels = (configuration, http) => {
   return fn;
 };
 
-export default (configuration) => {
-  return channels(configuration, http);
-};
+export default (configuration) => { return channels(configuration, http); };

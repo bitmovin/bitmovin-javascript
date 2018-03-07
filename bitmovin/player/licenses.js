@@ -1,6 +1,5 @@
 import urljoin from 'url-join';
 import http, { utils } from '../utils/http';
-
 import domains from './domains';
 import thirdPartyLicensing from './thirdPartyLicensing';
 
@@ -38,6 +37,4 @@ export const licenses = (configuration, http) => {
   return fn;
 };
 
-export default (configuration) => {
-  return licenses(configuration, http);
-};
+export default (configuration) => { return licenses(configuration, http); };
