@@ -48,7 +48,4 @@ export const invoices = (configuration, http) => {
   };
 };
 
-export default (configuration) => {
-  return invoices(configuration, http);
-};
-
+export default (configuration) => { return invoices(configuration, http); };

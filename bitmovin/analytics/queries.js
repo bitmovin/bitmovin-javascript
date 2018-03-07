@@ -17,6 +17,4 @@ export const queries = (configuration, http) => {
   return fn;
 };
 
-export default (configuration) => {
-  return queries(configuration, http);
-};
+export default (configuration) => { return queries(configuration, http); };
