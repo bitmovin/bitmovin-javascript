@@ -194,20 +194,37 @@ const main = () => new Promise((resolve, reject) => {
 
 const addStreamToEncoding = (input, output, codecConfiguration, encoding) => {
 
+  let stream;
   const inputStream = {
     inputId: input.id,
     inputPath: INPUT_FILE_PATH,
     selectionMode: 'AUTO'
   };
 
-  let stream = {
-    inputStreams: [inputStream],
-    codecConfigId: codecConfiguration.id,
-    conditions: {
-      type: 'CONDITION',
-      attribute : 'INPUTSTREAM',
-      operator: '==',
-      value: 'true'
+// If the current stream is a video one, apply stream condition on video width
+  if (codecConfiguration.width) {
+    stream = {
+      inputStreams: [inputStream],
+      codecConfigId: codecConfiguration.id,
+      conditions: {
+        type: 'CONDITION',
+        attribute : 'WIDTH',
+        operator: '>=',
+        value: JSON.stringify(codecConfiguration.width)
+      }
+    }
+  }
+  else {
+// Else, apply condition audio stream
+    stream = {
+      inputStreams: [inputStream],
+      codecConfigId: codecConfiguration.id,
+      conditions: {
+        type: 'CONDITION',
+        attribute : 'INPUTSTREAM',
+        operator: '==',
+        value: 'true'
+      }
     }
   };
 
