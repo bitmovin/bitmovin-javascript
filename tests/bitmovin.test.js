@@ -1,12 +1,25 @@
 import Bitmovin from '../bitmovin/bitmovin'
 
 describe('Bitmovin default exports', () => {
-  const apiKey = "test-api-key";
-  const client = new Bitmovin({apiKey});
+  const apiKey = 'test-api-key';
+  const additionalHeaders = {'X-Test-Header': 'test'};
+
+  const client = new Bitmovin({
+    apiKey,
+    additionalHeaders
+  });
 
   describe('configuration', () => {
     it('should set correct ApiKey', () => {
       expect(client.configuration.apiKey).toEqual(apiKey)
+    })
+    it('should contain additionalHeaders', () => {
+      expect(client.configuration.additionalHeaders)
+        .toEqual(expect.objectContaining({'X-Test-Header': 'test'}))
+    })
+    it('should add additionalHeaders to httpHeaders', () => {
+      expect(client.configuration.httpHeaders)
+        .toEqual(expect.objectContaining({'X-Test-Header': 'test'}))
     })
   })
   describe('encoding', () => {

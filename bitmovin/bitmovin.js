@@ -62,6 +62,10 @@ export default class Bitmovin {
       configuration.xApiClient = 'bitmovin-javascript';
     }
 
+    if (configuration.additionalHeaders === undefined) {
+      configuration.additionalHeaders = {};
+    }
+
     configuration.apiBaseUrl = urljoin(configuration.protocol + '://' + configuration.host, configuration.basePath);
 
     configuration.httpHeaders = {
@@ -69,7 +73,8 @@ export default class Bitmovin {
       'X-Api-Key'           : configuration.apiKey,
       'X-Tenant-Org-Id'     : configuration.tenantOrgId,
       'X-Api-Client'        : configuration.xApiClient,
-      'X-Api-Client-Version': '1.9.0'
+      'X-Api-Client-Version': '1.9.0',
+      ...configuration.additionalHeaders
     };
 
     this.configuration = configuration;
