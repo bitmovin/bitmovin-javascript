@@ -12,7 +12,7 @@ describe('Bitmovin default exports', () => {
   describe('configuration', () => {
     const emptyConfigsClient = new Bitmovin({apiKey});
     const assertItDefaults = (key, value) => {
-      it('should use default value for ' + additionalHeaders, () => {
+      it('should use default value for ' + key, () => {
         expect(emptyConfigsClient.configuration[key]).toEqual(value)
       })
     }
