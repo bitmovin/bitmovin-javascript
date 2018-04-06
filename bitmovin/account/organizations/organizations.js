@@ -37,6 +37,4 @@ export const organizations = (configuration, http) => {
   return fn;
 };
 
-export default (configuration) => {
-  return organizations(configuration, http);
-};
+export default (configuration) => { return organizations(configuration, http); };

@@ -83,7 +83,7 @@ const utils = {
       if (getParams.hasOwnProperty(key)) {
         let value = getParams[key];
         if (value !== undefined && value !== null && value !== '') {
-          params.push(key + '=' + getParams[key]);
+          params.push(key + '=' + value);
         }
       }
     }

@@ -12,7 +12,6 @@ export const statistics = (configuration, http) => {
       }
 
       const analyticsStatisticsBaseUrl = urljoin(configuration.apiBaseUrl, '/analytics/statistics/impressions');
-
       const getParams = utils.buildGetParamString({
         licenseKeyId,
         start,
@@ -21,8 +20,8 @@ export const statistics = (configuration, http) => {
         offset,
         limit
       });
-
       const url = urljoin(analyticsStatisticsBaseUrl, getParams);
+
       return get(configuration, url);
     },
     INTERVAL: {
@@ -31,6 +30,4 @@ export const statistics = (configuration, http) => {
   };
 };
 
-export default (configuration) => {
-  return statistics(configuration, http);
-};
+export default (configuration) => { return statistics(configuration, http); };

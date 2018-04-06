@@ -31,6 +31,4 @@ export const permissions = (configuration, organizationId, groupId, http) => {
   return fn;
 };
 
-export default (configuration, organizationId, groupId) => {
-  return permissions(configuration, organizationId, groupId, http);
-};
+export default (configuration, organizationId, groupId) => { return permissions(configuration, organizationId, groupId, http); };

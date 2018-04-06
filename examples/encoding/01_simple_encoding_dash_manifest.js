@@ -36,10 +36,9 @@
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-const Bitmovin = require('bitmovin-javascript').default;
-console.log(Bitmovin);
 const Promise = require('bluebird');
 
+const Bitmovin = require('bitmovin-javascript').default;
 const BITMOVIN_API_KEY = '<YOUR_API_KEY>';
 const bitmovin         = new Bitmovin({'apiKey': BITMOVIN_API_KEY, debug: false});
 
@@ -189,11 +188,10 @@ const main = () => new Promise((resolve, reject) => {
       console.log('error creating streams and muxings.');
       reject(error);
     });
-  });
+  })
 });
 
 const addStreamToEncoding = (input, output, codecConfiguration, encoding) => {
-
   const inputStream = {
     inputId: input.id,
     inputPath: INPUT_FILE_PATH,
@@ -333,7 +331,6 @@ const waitUntilHlsManifestFinished = (manifest) => {
 const createHlsManifest = (output, encoding, audioMuxingsWithPath, videoMuxingsWithPath) => {
   return new Promise((resolve, reject) => {
     const mediaPromises = [];
-
 
     createHlsManifestResource(output).then((createdHlsManifest) => {
       let audioPromise;

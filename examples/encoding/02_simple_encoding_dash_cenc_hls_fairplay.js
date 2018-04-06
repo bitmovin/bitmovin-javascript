@@ -1,9 +1,8 @@
 // 02_simple_encoding_dash_cenc_hls_fairplay.js
 
 const Promise = require('bluebird');
+
 const Bitmovin = require('bitmovin-javascript').default;
-
-
 const BITMOVIN_API_KEY = '';
 const bitmovin = new Bitmovin({apiKey: BITMOVIN_API_KEY, debug: true});
 
@@ -30,7 +29,6 @@ const DRM_FAIRPLAY_URI = '';
 
 const main = () => {
   return new Promise((resolve, reject) => {
-
     const httpInputCreationPromise = createInput();
     const s3OutputCreationPromise = createOutput();
     const encodingResourceCreationPromise = createEncoding();

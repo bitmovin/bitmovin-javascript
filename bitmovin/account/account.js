@@ -10,7 +10,6 @@ export const account = (configuration, http) => {
 
   const information = () => {
     const url = urljoin(accountBaseUrl, '/information');
-
     return get(configuration, url);
   };
 
@@ -44,6 +43,4 @@ export const account = (configuration, http) => {
   };
 };
 
-export default (configuration) => {
-  return account(configuration, http);
-};
+export default (configuration) => { return account(configuration, http); };

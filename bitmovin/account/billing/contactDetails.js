@@ -15,7 +15,4 @@ export const contactDetails = (configuration, http) => {
   };
 };
 
-export default (configuration) => {
-  return contactDetails(configuration, http);
-};
-
+export default (configuration) => { return contactDetails(configuration, http); };

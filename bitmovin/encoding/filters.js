@@ -10,7 +10,6 @@ export const filters = (configuration, http) => {
     let fn = (filterId) => {
       return {
         details   : () => {
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId);
 
           return new Promise((resolve, reject) => {
@@ -24,7 +23,6 @@ export const filters = (configuration, http) => {
           });
         },
         customData: () => {
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId, 'customData');
 
           return new Promise((resolve, reject) => {
@@ -38,7 +36,6 @@ export const filters = (configuration, http) => {
           });
         },
         delete    : () => {
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId);
 
           return new Promise((resolve, reject) => {

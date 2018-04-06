@@ -1,9 +1,8 @@
 // 13_encoding_dash_hls_merged_audio_streams.js
 
-const Bitmovin = require('bitmovin-javascript').default;
-console.log(Bitmovin);
 const Promise = require('bluebird');
 
+const Bitmovin = require('bitmovin-javascript').default;
 const BITMOVIN_API_KEY = '<INSERT_YOUR_API_CODE>';
 const bitmovin         = new Bitmovin({'apiKey': BITMOVIN_API_KEY, debug: false});
 
@@ -28,19 +27,19 @@ const OUTPUT_PATH     = '/output/bitmovin-javascript-examples/' + ENCODING_NAME 
 console.log('OUTPUT_PATH', OUTPUT_PATH);
 
 const s3Input = {
-  name       :  'Sample Input',
-  description:  'This is a demo s3 input',
-  accessKey:    S3_INPUT_ACCESS_KEY,
-  secretKey:    S3_INPUT_SECRET_KEY,
-  bucketName:   S3_INPUT_BUCKET_NAME
+  name       : 'Sample Input',
+  description: 'This is a demo s3 input',
+  accessKey  :  S3_INPUT_ACCESS_KEY,
+  secretKey  :  S3_INPUT_SECRET_KEY,
+  bucketName :  S3_INPUT_BUCKET_NAME
 };
 
 const s3Output = {
-  name       :  'S3 Output',
-  description:  'This is a demo S3 output',
-  accessKey:    S3_OUTPUT_ACCESS_KEY,
-  secretKey:    S3_OUTPUT_SECRET_KEY,
-  bucketName:   S3_OUTPUT_BUCKET_NAME
+  name       : 'S3 Output',
+  description: 'This is a demo S3 output',
+  accessKey  : S3_OUTPUT_ACCESS_KEY,
+  secretKey  : S3_OUTPUT_SECRET_KEY,
+  bucketName : S3_OUTPUT_BUCKET_NAME
 };
 
 const audioStreams = [{
@@ -100,8 +99,8 @@ const h264VideoCodecConfiguration240p = {
 };
 
 const encodingResource = {
-  name: ENCODING_NAME,
-  description: 'bitmovin-javascript api client test encoding',
+  name          : ENCODING_NAME,
+  description   : 'bitmovin-javascript api client test encoding',
   encoderVersion: 'STABLE'
 };
 
@@ -175,9 +174,9 @@ const main = () => new Promise((resolve, reject) => {
     const audioStreamPromises = Promise.map(audioStreams, audioStream => {
       const inputStreams = audioStream.inputStreams.map(inputStream => {
         const inputStreamToCreate = {
-          inputId: input.id,
-          inputPath: INPUT_FILE_PATH,
-          position: inputStream.position,
+          inputId      : input.id,
+          inputPath    : INPUT_FILE_PATH,
+          position     : inputStream.position,
           selectionMode: inputStream.selectionMode
         };
 
@@ -250,7 +249,7 @@ const main = () => new Promise((resolve, reject) => {
 
 const addAudioStreamToEncoding = (output, aacCodecConfiguration, inputStreams, encoding, language) => {
   let stream = {
-    inputStreams: inputStreams,
+    inputStreams : inputStreams,
     codecConfigId: aacCodecConfiguration.id
   };
 
@@ -267,13 +266,13 @@ const addAudioStreamToEncoding = (output, aacCodecConfiguration, inputStreams, e
 
 const addVideoStreamToEncoding = (input, output, videoCodecConfig, encoding) => {
   const inputStream = {
-    inputId: input.id,
-    inputPath: INPUT_FILE_PATH,
+    inputId      : input.id,
+    inputPath    : INPUT_FILE_PATH,
     selectionMode: 'AUTO'
   };
 
   let stream = {
-    inputStreams: [inputStream],
+    inputStreams : [inputStream],
     codecConfigId: videoCodecConfig.id
   };
 
@@ -415,14 +414,14 @@ const createHlsManifest = (output, encoding, audioMuxingsWithPath, videoMuxingsW
           const path = audioMuxingWithPath.path;
 
           const audioMedia = {
-            groupId: 'audio_group',
-            name: audioStreams[index].lang,
+            groupId    : 'audio_group',
+            name       : audioStreams[index].lang,
             segmentPath: path,
-            encodingId: encoding.id,
-            muxingId: tsMuxing.id,
-            streamId: audioMuxingWithPath.streamId,
-            language: audioStreams[index].lang,
-            uri: 'audiomedia_' + audioStreams[index].lang + '.m3u8'
+            encodingId : encoding.id,
+            muxingId   : tsMuxing.id,
+            streamId   : audioMuxingWithPath.streamId,
+            language   : audioStreams[index].lang,
+            uri        : 'audiomedia_' + audioStreams[index].lang + '.m3u8'
           };
           return bitmovin.encoding.manifests.hls(createdHlsManifest.id).media.audio.add(audioMedia);
         });
@@ -444,13 +443,13 @@ const createHlsManifest = (output, encoding, audioMuxingsWithPath, videoMuxingsW
             const uri = 'video_' + videoMuxingWithPath.path.split('/')[videoMuxingWithPath.path.split('/').length-2] + '.m3u8';
 
             const variantStream = {
-              audio: audio_group,
+              audio         : audio_group,
               closedCaptions: 'NONE',
-              segmentPath: videoMuxingWithPath.path,
-              uri: uri,
-              encodingId: encoding.id,
-              streamId: videoMuxingWithPath.streamId,
-              muxingId: videoMuxingWithPath.tsMuxing.id
+              segmentPath   : videoMuxingWithPath.path,
+              uri           : uri,
+              encodingId    : encoding.id,
+              streamId      : videoMuxingWithPath.streamId,
+              muxingId      : videoMuxingWithPath.tsMuxing.id
             };
 
             return bitmovin.encoding.manifests.hls(createdHlsManifest.id).streams.add(variantStream);
@@ -514,9 +513,9 @@ const createDashManifest = (output, encoding, audioMuxingsWithPath, videoMuxings
             const path = muxingWithPath.path;
 
             const fmp4Representation = {
-              type: 'TEMPLATE',
-              encodingId: encoding.id,
-              muxingId: fmp4Muxing.id,
+              type       : 'TEMPLATE',
+              encodingId : encoding.id,
+              muxingId   : fmp4Muxing.id,
               segmentPath: path
             };
             return bitmovin.encoding.manifests.dash(createdManifest.id).periods(createdPeriod.id)
@@ -528,9 +527,9 @@ const createDashManifest = (output, encoding, audioMuxingsWithPath, videoMuxings
               const path = muxingWithPath.path;
 
               const fmp4Representation = {
-                type: 'TEMPLATE',
-                encodingId: encoding.id,
-                muxingId: fmp4Muxing.id,
+                type       : 'TEMPLATE',
+                encodingId : encoding.id,
+                muxingId   : fmp4Muxing.id,
                 segmentPath: path
               };
 
@@ -622,8 +621,8 @@ const addStream = (encoding, stream, output, codecConfiguration, language) => {
         addTsMuxingForStream(encoding, addedStream, output, prefix).then((addedTsMuxing) => {
           const muxingWithPath = {
             fmp4Muxing: addedFmp4Muxing,
-            tsMuxing: addedTsMuxing,
-            path: prefix
+            tsMuxing  : addedTsMuxing,
+            path      : prefix
           };
           resolve([addedStream, muxingWithPath])
         });

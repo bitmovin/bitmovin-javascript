@@ -1,6 +1,6 @@
-const Bitmovin = require('bitmovin-javascript').default;
 const Promise = require('bluebird');
 
+const Bitmovin = require('bitmovin-javascript').default;
 const BITMOVIN_API_KEY = '<INSERT_YOUR_API_KEY>';
 const bitmovin         = new Bitmovin({'apiKey': BITMOVIN_API_KEY, debug: false});
 
@@ -220,14 +220,14 @@ const main = () => {
 
 const addStreamToEncoding = (input, output, streamConfig, index, codecConfiguration, encoding) => {
   const inputStream = {
-    inputId: input.id,
-    inputPath: INPUT_FILE_PATH,
+    inputId      : input.id,
+    inputPath    : INPUT_FILE_PATH,
     selectionMode: streamConfig.selectionMode,
-    position: streamConfig.position
+    position     : streamConfig.position
   };
 
   let stream = {
-    inputStreams: [inputStream],
+    inputStreams : [inputStream],
     codecConfigId: codecConfiguration.id
   };
 
@@ -326,10 +326,10 @@ const createSmoothManifest = (output, encoding, audioMuxingsWithPath, videoMuxin
 
         const smoothRepresentation = {
           encodingId: encoding.id,
-          muxingId: mp4Muxing.id,
-          mediaFile: mp4Muxing.filename,
-          trackName: (mp4Muxing.filename.startsWith('audio') ? muxingWithPath.trackName : null),
-          language: (mp4Muxing.filename.startsWith('audio') ? muxingWithPath.trackName : null)
+          muxingId  : mp4Muxing.id,
+          mediaFile : mp4Muxing.filename,
+          trackName : (mp4Muxing.filename.startsWith('audio') ? muxingWithPath.trackName : null),
+          language  : (mp4Muxing.filename.startsWith('audio') ? muxingWithPath.trackName : null)
         };
 
         return bitmovin.encoding.manifests.smooth(createdManifest.id).representations.mp4.add(smoothRepresentation);

@@ -12,7 +12,6 @@ export const outputs = (configuration, http) => {
         },
         customData: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', typeUrl, outputId, 'customData');
-
           return get(configuration, url);
         },
         delete    : () => {
@@ -50,7 +49,6 @@ export const outputs = (configuration, http) => {
       return {
         details: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', typeUrl, outputId);
-
           return get(configuration, url);
         }
       };
@@ -105,7 +103,6 @@ export const outputs = (configuration, http) => {
 
     getType: (outputId) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', outputId, 'type');
-
       return get(configuration, url);
     }
   };

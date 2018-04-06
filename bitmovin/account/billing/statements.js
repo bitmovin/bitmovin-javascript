@@ -48,7 +48,4 @@ export const statements = (configuration, http) => {
   };
 };
 
-export default (configuration) => {
-  return statements(configuration, http);
-};
-
+export default (configuration) => { return statements(configuration, http); };
