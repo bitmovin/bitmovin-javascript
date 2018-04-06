@@ -10,6 +10,13 @@ describe('Bitmovin default exports', () => {
   });
 
   describe('configuration', () => {
+    const emptyConfigsClient = new Bitmovin({apiKey});
+    const assertItDefaults = (key, value) => {
+      it('should use default value for ' + additionalHeaders, () => {
+        expect(emptyConfigsClient.configuration[key]).toEqual(value)
+      })
+    }
+
     it('should set correct ApiKey', () => {
       expect(client.configuration.apiKey).toEqual(apiKey)
     })
@@ -21,10 +28,8 @@ describe('Bitmovin default exports', () => {
       expect(client.configuration.httpHeaders)
         .toEqual(expect.objectContaining({'X-Test-Header': 'test'}))
     })
-    it('should default additionalHeaders to {}', () => {
-      expect(new Bitmovin({apiKey}).configuration.additionalHeaders)
-        .toEqual({})
-    })
+
+    assertItDefaults('additionalHeaders', {});
   })
   describe('encoding', () => {
     const assertItContains = (key) => {
