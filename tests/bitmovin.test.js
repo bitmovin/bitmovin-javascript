@@ -21,6 +21,10 @@ describe('Bitmovin default exports', () => {
       expect(client.configuration.httpHeaders)
         .toEqual(expect.objectContaining({'X-Test-Header': 'test'}))
     })
+    it('should default additionalHeaders to {}', () => {
+      expect(new Bitmovin({apiKey}).configuration.additionalHeaders)
+        .toEqual({})
+    })
   })
   describe('encoding', () => {
     const assertItContains = (key) => {
