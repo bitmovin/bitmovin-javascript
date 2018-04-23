@@ -16,6 +16,7 @@ import analyticsLicenses from './analytics/licenses';
 import analyticsQueries from './analytics/queries';
 import analyticsImpressions from './analytics/impressions';
 import analyticsStatistics from './analytics/statistics';
+import customBuilds from './player/customBuilds';
 
 import logger from './utils/Logger';
 import utils from './utils/Utils';
@@ -93,7 +94,8 @@ export default class Bitmovin {
     this.player = {
       channels: playerChannels(this.configuration),
       licenses: playerLicenses(this.configuration),
-      statistics: playerStatistics(this.configuration)
+      statistics: playerStatistics(this.configuration),
+      customBuilds: customBuilds(this.configuration),
     };
 
     this.analytics = {
