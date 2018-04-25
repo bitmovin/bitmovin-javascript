@@ -23,7 +23,7 @@ const main = () => new Promise((resolve, reject) => {
     const customBuildPromise = createCustomBuild(playerVersion, domainRefs);
 
     customBuildPromise.then((createdCustomPlayerBuild) => {
-      bitmovin.player.customBuilds(createdCustomPlayerBuild.id).start().then((startResponse) => {
+      bitmovin.player.customBuilds.web(createdCustomPlayerBuild.id).start().then((startResponse) => {
         console.log('Successfully started player build', startResponse);
         waitForPlayerBuildFinished(createdCustomPlayerBuild).then(() => {
           console.log('Successfully finished player build');
@@ -46,7 +46,7 @@ const waitForPlayerBuildFinished = (playerBuild) => {
   return new Promise((resolve, reject) => {
     const waitForPlayerBuildToBeFinishedOrError = () => {
       console.log('Getting Status for player build with ID ', playerBuild.id);
-      bitmovin.player.customBuilds(playerBuild.id).status().then((response) => {
+      bitmovin.player.customBuilds.web(playerBuild.id).status().then((response) => {
         console.log('Player build status is ' + response.status + '.');
 
         if (response.status === 'FINISHED') {
@@ -69,7 +69,7 @@ const createPlayerBuildDomain = (domain) => {
     const playerBuildDomain = {
       domain
     };
-    bitmovin.player.customBuilds.domains.add(playerBuildDomain).then((createdPlayerBuildDomain) => {
+    bitmovin.player.customBuilds.web.domains.add(playerBuildDomain).then((createdPlayerBuildDomain) => {
       console.log('Successfully added cutom player build domain', createdPlayerBuildDomain);
       return resolve(createdPlayerBuildDomain);
     }).catch((error) => {
@@ -86,7 +86,7 @@ const createCustomBuild = (playerVersion, domains) => {
       domains
     };
 
-    bitmovin.player.customBuilds.add(customBuild).then((createdCustomBuild) => {
+    bitmovin.player.customBuilds.web.add(customBuild).then((createdCustomBuild) => {
       console.log('Successfully created custom build', createdCustomBuild);
       resolve(createdCustomBuild)
     }).catch((error) => {

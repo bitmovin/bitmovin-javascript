@@ -1,29 +1,29 @@
 import urljoin from 'url-join';
 import http, { utils } from '../utils/http';
 
-export const customPlayerBuildDomain = (configuration) => {
+export const webCustomPlayerBuildDomain = (configuration) => {
   const { get, post, delete_ } = http;
 
   const fn = (domainId) => {
     return {
       details: () => {
-        const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/domains', domainId);
+        const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web/domains', domainId);
         return get(configuration, url);
       },
       delete: () => {
-        const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/domains', domainId);
+        const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web/domains', domainId);
         return delete_(configuration, url);
       }
     };
   };
 
   fn.add = (customPlayerBuildDomain) => {
-    const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/domains');
+    const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web/domains');
     return post(configuration, url, customPlayerBuildDomain);
   };
 
   fn.list = (limit, offset) => {
-    let url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/domains');
+    let url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web/domains');
 
     let getParams = utils.buildGetParamString({
       limit : limit,
@@ -40,5 +40,5 @@ export const customPlayerBuildDomain = (configuration) => {
 };
 
 export default (configuration) => {
-  return customPlayerBuildDomain(configuration);
+  return webCustomPlayerBuildDomain(configuration);
 };
