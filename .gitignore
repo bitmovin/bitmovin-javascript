@@ -28,6 +28,7 @@ jest/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
+*.iml
 
 tests/**/settings.json
 tests_it/**/settings.json

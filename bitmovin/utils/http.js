@@ -3,18 +3,24 @@ import BitmovinError from './BitmovinError';
 import logger from './Logger';
 import Promise from 'bluebird';
 import urljoin from 'url-join';
+import {Agent} from 'https';
 
 const GET    = 'GET';
 const POST   = 'POST';
 const DELETE = 'DELETE';
 const PUT    = 'PUT';
 
+const keepAliveAgent = new Agent({keepAlive: true});
+
+
 const buildParams = (method, configuration, body) => {
   return {
     method : method,
     body   : body,
     headers: configuration.httpHeaders,
-    timeout: configuration.requestTimeout
+    timeout: configuration.requestTimeout,
+    agent: keepAliveAgent
+
   };
 };
 
