@@ -9,12 +9,14 @@ const POST   = 'POST';
 const DELETE = 'DELETE';
 const PUT    = 'PUT';
 
+
 const buildParams = (method, configuration, body) => {
   return {
     method : method,
     body   : body,
     headers: configuration.httpHeaders,
-    timeout: configuration.requestTimeout
+    timeout: configuration.requestTimeout,
+    agent: configuration.agent
   };
 };
 
