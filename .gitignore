@@ -7,7 +7,7 @@ node_modules
 coverage
 
 # production
-# build
+build
 
 # misc
 .DS_Store
@@ -17,6 +17,7 @@ jest/
 
 # User-specific stuff:
 .idea/*
+*.iml
 
 ## File-based project format:
 *.iws
@@ -28,7 +29,6 @@ jest/
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
-*.iml
 
 tests/**/settings.json
 tests_it/**/settings.json

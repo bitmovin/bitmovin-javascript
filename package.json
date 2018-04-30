@@ -1,7 +1,6 @@
 {
-  "name": "smashcut-bitmovin-javascript",
+  "name": "bitmovin-javascript",
   "version": "1.9.0",
-  "main": "build/release/bitmovin-javascript.js",
   "scripts": {
     "lint": "./node_modules/.bin/eslint --color ./bitmovin",
     "lint-fix": "./node_modules/.bin/eslint --color --fix ./bitmovin",
