@@ -1,5 +1,5 @@
 import urljoin from 'url-join';
-import http, { utils } from '../../utils/http';
+import http, {utils} from '../../utils/http';
 
 export const statements = (configuration, http) => {
   const statementsBaseUrl = urljoin(configuration.apiBaseUrl, 'account', 'billing', 'statements');
@@ -10,7 +10,7 @@ export const statements = (configuration, http) => {
       list: (limit, offset) => {
         let url = urljoin(statementsBaseUrl, 'encoding');
         let getParams = utils.buildGetParamString({
-          limit : limit,
+          limit: limit,
           offset: offset
         });
         if (getParams.length > 0) {
@@ -23,7 +23,7 @@ export const statements = (configuration, http) => {
       list: (limit, offset) => {
         let url = urljoin(statementsBaseUrl, 'player');
         let getParams = utils.buildGetParamString({
-          limit : limit,
+          limit: limit,
           offset: offset
         });
         if (getParams.length > 0) {
@@ -36,7 +36,7 @@ export const statements = (configuration, http) => {
       list: (limit, offset) => {
         let url = urljoin(statementsBaseUrl, 'analytics');
         let getParams = utils.buildGetParamString({
-          limit : limit,
+          limit: limit,
           offset: offset
         });
         if (getParams.length > 0) {
@@ -48,7 +48,6 @@ export const statements = (configuration, http) => {
   };
 };
 
-export default (configuration) => {
+export default configuration => {
   return statements(configuration, http);
 };
-

@@ -2,13 +2,13 @@ import urljoin from 'url-join';
 import http, {utils} from '../../utils/http';
 
 export const aws = (configuration, http) => {
-  const { get, post, delete_ } = http;
+  const {get, post, delete_} = http;
 
-  const typeFn = (type) => {
-    let fn = (id) => {
-      const regions = (regionName) => {
+  const typeFn = type => {
+    let fn = id => {
+      const regions = regionName => {
         return {
-          add: (region) => {
+          add: region => {
             const url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type, id, 'regions', regionName);
             return post(configuration, url, region);
           },
@@ -20,7 +20,7 @@ export const aws = (configuration, http) => {
             const url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type, id, 'regions', regionName);
             return get(configuration, url);
           }
-        }
+        };
       };
 
       regions.list = (limit, offset) => {
@@ -43,10 +43,10 @@ export const aws = (configuration, http) => {
           return delete_(configuration, url);
         },
         regions
-      }
+      };
     };
 
-    fn.create =  (infrastructure) => {
+    fn.create = infrastructure => {
       const url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type);
       return post(configuration, url, infrastructure);
     };
@@ -60,8 +60,9 @@ export const aws = (configuration, http) => {
     return fn;
   };
 
-
-  return typeFn('aws')
+  return typeFn('aws');
 };
 
-export default (configuration) => { return aws(configuration, http); };
+export default configuration => {
+  return aws(configuration, http);
+};

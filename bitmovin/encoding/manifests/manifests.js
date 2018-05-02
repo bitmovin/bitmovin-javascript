@@ -1,13 +1,12 @@
 import urljoin from 'url-join';
-import http, { utils } from '../../utils/http';
+import http, {utils} from '../../utils/http';
 
 import dashManifests from './dash/dashManifests';
 import hlsManifests from './hls/hlsManifests';
 import smoothManifests from './smooth/smoothManifests';
 
-
 export const manifests = (configuration, http) => {
-  const { get, post, delete_ } = http;
+  const {get, post, delete_} = http;
   return {
     list: (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests');
@@ -15,7 +14,7 @@ export const manifests = (configuration, http) => {
       const filterParams = utils.buildFilterParamString(filter);
       let getParams = utils.buildGetParamString({
         ...filterParams,
-        limit : limit,
+        limit: limit,
         offset: offset,
         sort: sort
       });
@@ -25,10 +24,12 @@ export const manifests = (configuration, http) => {
 
       return get(configuration, url);
     },
-    dash   : dashManifests(configuration),
-    hls    : hlsManifests(configuration),
-    smooth : smoothManifests(configuration)
+    dash: dashManifests(configuration),
+    hls: hlsManifests(configuration),
+    smooth: smoothManifests(configuration)
   };
 };
 
-export default (configuration) => { return manifests(configuration, http); };
+export default configuration => {
+  return manifests(configuration, http);
+};

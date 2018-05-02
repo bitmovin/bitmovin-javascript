@@ -36,7 +36,7 @@ export const statistics = (configuration, http) => {
     return get(configuration, urlWithOptions);
   };
 
-  const typeFn = (type) => {
+  const typeFn = type => {
     return {
       daily: (options = {}) => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings/', type, '/daily');
@@ -53,7 +53,6 @@ export const statistics = (configuration, http) => {
   };
 
   return {
-
     /*
      * Gets the overall encoding statistics
      *
@@ -77,7 +76,7 @@ export const statistics = (configuration, http) => {
     live: typeFn('live'),
     daily,
 
-    encodings: (encodingId) => {
+    encodings: encodingId => {
       return {
         statistics: () => {
           const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings', encodingId);
@@ -92,6 +91,6 @@ export const statistics = (configuration, http) => {
   };
 };
 
-export default (configuration) => {
+export default configuration => {
   return statistics(configuration, http);
 };

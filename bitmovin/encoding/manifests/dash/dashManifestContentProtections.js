@@ -1,31 +1,38 @@
 import urljoin from 'url-join';
-import http, { utils } from '../../../utils/http';
+import http, {utils} from '../../../utils/http';
 import Promise from 'bluebird';
 
 export const contentProtections = (configuration, manifestId, periodId, adaptationSetId, representationInfo, http) => {
-  const { get, post, delete_ } = http;
+  const {get, post, delete_} = http;
 
-  let baseUrl = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId,
-    'adaptationsets', adaptationSetId);
+  let baseUrl = urljoin(
+    configuration.apiBaseUrl,
+    'encoding/manifests/dash',
+    manifestId,
+    'periods',
+    periodId,
+    'adaptationsets',
+    adaptationSetId
+  );
   if (representationInfo !== null && representationInfo !== undefined) {
     baseUrl = urljoin(baseUrl, 'representations', representationInfo.type, representationInfo.id);
   }
   baseUrl = urljoin(baseUrl, 'contentprotection');
 
-  let fn = (contentProtectionId) => {
+  let fn = contentProtectionId => {
     return {
       details: () => {
         let url = urljoin(baseUrl, contentProtectionId);
         return get(configuration, url);
       },
-      delete : () => {
+      delete: () => {
         let url = urljoin(baseUrl, contentProtectionId);
         return delete_(configuration, url);
       }
     };
   };
 
-  fn.add = (contentProtection) => {
+  fn.add = contentProtection => {
     let url = baseUrl;
     return post(configuration, url, contentProtection);
   };
@@ -34,7 +41,7 @@ export const contentProtections = (configuration, manifestId, periodId, adaptati
     let url = baseUrl;
 
     let getParams = utils.buildGetParamString({
-      limit : limit,
+      limit: limit,
       offset: offset
     });
     if (getParams.length > 0) {

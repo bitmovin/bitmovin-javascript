@@ -4,15 +4,15 @@ import logger from './Logger';
 import Promise from 'bluebird';
 import urljoin from 'url-join';
 
-const GET    = 'GET';
-const POST   = 'POST';
+const GET = 'GET';
+const POST = 'POST';
 const DELETE = 'DELETE';
-const PUT    = 'PUT';
+const PUT = 'PUT';
 
 const buildParams = (method, configuration, body) => {
   return {
-    method : method,
-    body   : body,
+    method: method,
+    body: body,
     headers: configuration.httpHeaders,
     timeout: configuration.requestTimeout
   };
@@ -28,27 +28,30 @@ const request = (configuration, method, url, fetchMethod = fetch, body) => {
   const params = buildParams(method, configuration, body);
 
   return new Promise((resolve, reject) => {
-    fetchMethod(url, params).then((response) => {
-      if (response.status > 399) {
-        const errorMessage = 'HTTP Request was unsuccessful: HTTP Response Code was ' +
-          response.status + ' ' + response.statusText;
-        logger.error(errorMessage);
-        return response.json().then((errorText) => {
-          logger.error('Error Response Body: ', JSON.stringify(errorText));
-          throw new BitmovinError(errorMessage, {...response, responseData: errorText});
-        });
-      }
-      if (response.status === 204) {
-        logger.log('Response: 204 - No Content');
-        resolve();
-      }
-      return response.json();
-    }).then((responseJson) => {
-      logger.log('Response: data -> result: ' + JSON.stringify(responseJson.data.result, undefined, 2));
-      resolve(responseJson.data.result, responseJson);
-    }).catch((error) => {
-      reject(error);
-    });
+    fetchMethod(url, params)
+      .then(response => {
+        if (response.status > 399) {
+          const errorMessage =
+            'HTTP Request was unsuccessful: HTTP Response Code was ' + response.status + ' ' + response.statusText;
+          logger.error(errorMessage);
+          return response.json().then(errorText => {
+            logger.error('Error Response Body: ', JSON.stringify(errorText));
+            throw new BitmovinError(errorMessage, {...response, responseData: errorText});
+          });
+        }
+        if (response.status === 204) {
+          logger.log('Response: 204 - No Content');
+          resolve();
+        }
+        return response.json();
+      })
+      .then(responseJson => {
+        logger.log('Response: data -> result: ' + JSON.stringify(responseJson.data.result, undefined, 2));
+        resolve(responseJson.data.result, responseJson);
+      })
+      .catch(error => {
+        reject(error);
+      });
   });
 };
 
@@ -75,8 +78,8 @@ const delete_ = (configuration, url, fetchMethod = fetch) => {
 };
 
 const utils = {
-  buildGetParamString: (getParams) => {
-    let params       = [];
+  buildGetParamString: getParams => {
+    let params = [];
     let paramsString = '';
 
     for (let key in getParams) {
@@ -103,10 +106,10 @@ const utils = {
     return paramsString;
   },
 
-  buildFilterParamString: (filterParams) => {
+  buildFilterParamString: filterParams => {
     const processedFilterParams = {};
     for (let key in filterParams) {
-      if(filterParams.hasOwnProperty(key)) {
+      if (filterParams.hasOwnProperty(key)) {
         processedFilterParams[key] = filterParams[key].join(',');
       }
     }
@@ -117,7 +120,7 @@ const utils = {
     const filterParams = utils.buildFilterParamString(params.filter);
     let getParams = utils.buildGetParamString({
       ...filterParams,
-      limit : params.limit,
+      limit: params.limit,
       offset: params.offset,
       sort: params.sort
     });

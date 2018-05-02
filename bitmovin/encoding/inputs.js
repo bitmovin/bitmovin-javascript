@@ -1,12 +1,12 @@
 import urljoin from 'url-join';
-import http, { utils} from '../utils/http';
+import http, {utils} from '../utils/http';
 
 export const inputs = (configuration, http) => {
-  const { get, post, delete_ } = http;
-  let typeFn = (typeUrl) => {
-    let fn = (inputId) => {
+  const {get, post, delete_} = http;
+  let typeFn = typeUrl => {
+    let fn = inputId => {
       return {
-        details   : () => {
+        details: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl, inputId);
           return get(configuration, url);
         },
@@ -14,14 +14,14 @@ export const inputs = (configuration, http) => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl, inputId, 'customData');
           return get(configuration, url);
         },
-        delete    : () => {
+        delete: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl, inputId);
           return delete_(configuration, url);
         }
       };
     };
 
-    fn.create = (input) => {
+    fn.create = input => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl);
       return post(configuration, url, input);
     };
@@ -30,7 +30,7 @@ export const inputs = (configuration, http) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl);
 
       let getParams = utils.buildGetParamString({
-        limit : limit,
+        limit: limit,
         offset: offset
       });
       if (getParams.length > 0) {
@@ -43,8 +43,8 @@ export const inputs = (configuration, http) => {
     return fn;
   };
 
-  let rtmpTypeFn = (typeUrl) => {
-    let rtmpFn = (inputId) => {
+  let rtmpTypeFn = typeUrl => {
+    let rtmpFn = inputId => {
       return {
         details: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl, inputId);
@@ -57,7 +57,7 @@ export const inputs = (configuration, http) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl);
 
       let getParams = utils.buildGetParamString({
-        limit : limit,
+        limit: limit,
         offset: offset
       });
       if (getParams.length > 0) {
@@ -71,17 +71,17 @@ export const inputs = (configuration, http) => {
   };
 
   return {
-    aspera   : typeFn('aspera'),
-    azure    : typeFn('azure'),
-    ftp      : typeFn('ftp'),
-    gcs      : typeFn('gcs'),
-    http     : typeFn('http'),
-    https    : typeFn('https'),
-    rtmp     : rtmpTypeFn('rtmp'),
-    s3       : typeFn('s3'),
+    aspera: typeFn('aspera'),
+    azure: typeFn('azure'),
+    ftp: typeFn('ftp'),
+    gcs: typeFn('gcs'),
+    http: typeFn('http'),
+    https: typeFn('https'),
+    rtmp: rtmpTypeFn('rtmp'),
+    s3: typeFn('s3'),
     genericS3: typeFn('generic-s3'),
-    sftp     : typeFn('sftp'),
-    local    : typeFn('local'),
+    sftp: typeFn('sftp'),
+    local: typeFn('local'),
 
     list: (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs');
@@ -89,7 +89,7 @@ export const inputs = (configuration, http) => {
       const filterParams = utils.buildFilterParamString(filter);
       let getParams = utils.buildGetParamString({
         ...filterParams,
-        limit : limit,
+        limit: limit,
         offset: offset,
         sort: sort
       });
@@ -100,11 +100,13 @@ export const inputs = (configuration, http) => {
       return get(configuration, url);
     },
 
-    getType: (inputId) => {
+    getType: inputId => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', inputId, 'type');
       return get(configuration, url);
     }
   };
 };
 
-export default (configuration) => { return inputs(configuration, http); };
+export default configuration => {
+  return inputs(configuration, http);
+};

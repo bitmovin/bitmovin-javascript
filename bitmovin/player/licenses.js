@@ -1,18 +1,18 @@
 import urljoin from 'url-join';
-import http, { utils } from '../utils/http';
+import http, {utils} from '../utils/http';
 
 import domains from './domains';
 import thirdPartyLicensing from './thirdPartyLicensing';
 
 export const licenses = (configuration, http) => {
-  const { get, post, put } = http;
-  const fn = (licenseId) => {
+  const {get, post, put} = http;
+  const fn = licenseId => {
     return {
       details: () => {
         const url = urljoin(configuration.apiBaseUrl, 'player/licenses', licenseId);
         return get(configuration, url);
       },
-      update: (license) => {
+      update: license => {
         const url = urljoin(configuration.apiBaseUrl, 'player/licenses', licenseId);
         return put(configuration, url, license);
       },
@@ -25,7 +25,7 @@ export const licenses = (configuration, http) => {
     let url = urljoin(configuration.apiBaseUrl, 'player/licenses');
 
     const getParams = utils.buildGetParamString({
-      limit : limit,
+      limit: limit,
       offset: offset
     });
     if (getParams.length > 0) {
@@ -38,6 +38,6 @@ export const licenses = (configuration, http) => {
   return fn;
 };
 
-export default (configuration) => {
+export default configuration => {
   return licenses(configuration, http);
 };

@@ -3,7 +3,7 @@ import http, {utils} from '../utils/http';
 import BitmovinError from '../utils/BitmovinError';
 
 export const statistics = (configuration, http) => {
-  const { get } = http;
+  const {get} = http;
 
   return {
     impressions: (licenseKeyId, start, end, interval, offset, limit) => {
@@ -31,6 +31,6 @@ export const statistics = (configuration, http) => {
   };
 };
 
-export default (configuration) => {
+export default configuration => {
   return statistics(configuration, http);
 };
