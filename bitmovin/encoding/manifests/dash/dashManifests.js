@@ -1,28 +1,28 @@
 import urljoin from 'url-join';
-import http, { utils } from '../../../utils/http';
+import http, {utils} from '../../../utils/http';
 import periods from './dashManifestPeriods';
 
 export const dashManifests = (configuration, http) => {
-  const { get, post, delete_ } = http;
-  let fn = (manifestId) => {
+  const {get, post, delete_} = http;
+  let fn = manifestId => {
     return {
       details: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId);
         return get(configuration, url);
       },
-      delete : () => {
+      delete: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId);
         return delete_(configuration, url);
       },
-      start  : () => {
+      start: () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'start');
         return post(configuration, url);
       },
-      stop   : () => {
+      stop: () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'stop');
         return post(configuration, url);
       },
-      status : () => {
+      status: () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'status');
         return get(configuration, url);
       },
@@ -30,7 +30,7 @@ export const dashManifests = (configuration, http) => {
     };
   };
 
-  fn.create = (manifest) => {
+  fn.create = manifest => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash');
     return post(configuration, url, manifest);
   };
@@ -39,8 +39,8 @@ export const dashManifests = (configuration, http) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash');
 
     let getParams = utils.buildGetParamString({
-      limit     : limit,
-      offset    : offset,
+      limit: limit,
+      offset: offset,
       encodingId: encodingId
     });
     if (getParams.length > 0) {
@@ -53,6 +53,6 @@ export const dashManifests = (configuration, http) => {
   return fn;
 };
 
-export default (configuration) => {
+export default configuration => {
   return dashManifests(configuration, http);
 };

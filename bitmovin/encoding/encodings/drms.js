@@ -1,36 +1,85 @@
 import urljoin from 'url-join';
-import http, { utils } from '../../utils/http';
+import http, {utils} from '../../utils/http';
 
 export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, http) => {
-  const { get, post, delete_ } = http;
-  let typeFn = (typeUrl) => {
-    let fn = (drmId) => {
+  const {get, post, delete_} = http;
+  let typeFn = typeUrl => {
+    let fn = drmId => {
       return {
-        details   : () => {
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', muxingTypeUrl, muxingId, 'drm', typeUrl, drmId);
+        details: () => {
+          let url = urljoin(
+            configuration.apiBaseUrl,
+            'encoding/encodings',
+            encodingId,
+            'muxings',
+            muxingTypeUrl,
+            muxingId,
+            'drm',
+            typeUrl,
+            drmId
+          );
           return get(configuration, url);
         },
         customData: () => {
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', muxingTypeUrl, muxingId, 'drm', typeUrl, drmId, 'customData');
+          let url = urljoin(
+            configuration.apiBaseUrl,
+            'encoding/encodings',
+            encodingId,
+            'muxings',
+            muxingTypeUrl,
+            muxingId,
+            'drm',
+            typeUrl,
+            drmId,
+            'customData'
+          );
           return get(configuration, url);
         },
-        delete    : () => {
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', muxingTypeUrl, muxingId, 'drm', typeUrl, drmId);
+        delete: () => {
+          let url = urljoin(
+            configuration.apiBaseUrl,
+            'encoding/encodings',
+            encodingId,
+            'muxings',
+            muxingTypeUrl,
+            muxingId,
+            'drm',
+            typeUrl,
+            drmId
+          );
           return delete_(configuration, url);
         }
       };
     };
 
-    fn.add = (drm) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', muxingTypeUrl, muxingId, 'drm', typeUrl);
+    fn.add = drm => {
+      let url = urljoin(
+        configuration.apiBaseUrl,
+        'encoding/encodings',
+        encodingId,
+        'muxings',
+        muxingTypeUrl,
+        muxingId,
+        'drm',
+        typeUrl
+      );
       return post(configuration, url, drm);
     };
 
     fn.list = (limit, offset) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', muxingTypeUrl, muxingId, 'drm', typeUrl);
+      let url = urljoin(
+        configuration.apiBaseUrl,
+        'encoding/encodings',
+        encodingId,
+        'muxings',
+        muxingTypeUrl,
+        muxingId,
+        'drm',
+        typeUrl
+      );
 
       let getParams = utils.buildGetParamString({
-        limit : limit,
+        limit: limit,
         offset: offset
       });
       if (getParams.length > 0) {
@@ -44,21 +93,28 @@ export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, http) =
   };
 
   return {
-    aes      : typeFn('aes'),
-    cenc     : typeFn('cenc'),
-    clearKey : typeFn('clearkey'),
-    fairPlay : typeFn('fairplay'),
-    marlin   : typeFn('marlin'),
+    aes: typeFn('aes'),
+    cenc: typeFn('cenc'),
+    clearKey: typeFn('clearkey'),
+    fairPlay: typeFn('fairplay'),
+    marlin: typeFn('marlin'),
     playReady: typeFn('playready'),
     primeTime: typeFn('primetime'),
-    widevine : typeFn('widevine'),
+    widevine: typeFn('widevine'),
 
     list: (limit, offset) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', muxingTypeUrl, muxingId,
-        'drm');
+      let url = urljoin(
+        configuration.apiBaseUrl,
+        'encoding/encodings',
+        encodingId,
+        'muxings',
+        muxingTypeUrl,
+        muxingId,
+        'drm'
+      );
 
       let getParams = utils.buildGetParamString({
-        limit : limit,
+        limit: limit,
         offset: offset
       });
       if (getParams.length > 0) {

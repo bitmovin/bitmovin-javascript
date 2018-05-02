@@ -41,9 +41,9 @@ console.log(Bitmovin);
 const Promise = require('bluebird');
 
 const BITMOVIN_API_KEY = '<YOUR_API_KEY>';
-const bitmovin         = new Bitmovin({'apiKey': BITMOVIN_API_KEY, debug: false});
+const bitmovin = new Bitmovin({apiKey: BITMOVIN_API_KEY, debug: false});
 
-const ENCODING_NAME = 'simple_encoding_' + (new Date().getTime()/1000);
+const ENCODING_NAME = 'simple_encoding_' + new Date().getTime() / 1000;
 
 // Our input will be a HTTP one
 // -> https://s3-eu-west-1.amazonaws.com/bucketname/Sintel-original-short.mkv
@@ -51,47 +51,47 @@ const INPUT_FILE_HOST = 's3-eu-west-1.amazonaws.com';
 const INPUT_FILE_PATH = '/bucketname/Sintel-original-short.mkv';
 
 // Our output will be a S3 one
-const S3_ACCESS_KEY   = '<S3_ACCESS_KEY>';
-const S3_SECRET_KEY   = '<S3_SECRET_KEY>';
-const S3_BUCKET_NAME  = '<S3_BUCKET_NAME>';
+const S3_ACCESS_KEY = '<S3_ACCESS_KEY>';
+const S3_SECRET_KEY = '<S3_SECRET_KEY>';
+const S3_BUCKET_NAME = '<S3_BUCKET_NAME>';
 const S3_CLOUD_REGION = 'EU_WEST_1';
-const OUTPUT_PATH     = '/output/bitmovin-javascript-examples/' + ENCODING_NAME + '/';
+const OUTPUT_PATH = '/output/bitmovin-javascript-examples/' + ENCODING_NAME + '/';
 console.log('OUTPUT_PATH', OUTPUT_PATH);
 
 const httpInput = {
-  name       : 'Sintel 2010 1080p MKV',
+  name: 'Sintel 2010 1080p MKV',
   description: 'sample input file for simple encoding test in bitmovin-javascript',
-  host       : INPUT_FILE_HOST
+  host: INPUT_FILE_HOST
 };
 
 const s3Output = {
-  name       : 'S3 Output for simple encoding',
-  accessKey  : S3_ACCESS_KEY,
-  secretKey  : S3_SECRET_KEY,
-  bucketName : S3_BUCKET_NAME,
+  name: 'S3 Output for simple encoding',
+  accessKey: S3_ACCESS_KEY,
+  secretKey: S3_SECRET_KEY,
+  bucketName: S3_BUCKET_NAME,
   cloudRegion: S3_CLOUD_REGION
 };
 
 // CC
-const aacAudioCodecConfiguration       = {
-  name   : 'English',
+const aacAudioCodecConfiguration = {
+  name: 'English',
   bitrate: 128000,
-  rate   : 48000
+  rate: 48000
 };
 const h264VideoCodecConfiguration1080p = {
-  name   : 'simple encoding - H264 1080p',
+  name: 'simple encoding - H264 1080p',
   bitrate: 4800000,
-  rate   : 24.0,
-  width  : 1920,
-  height : 816,
+  rate: 24.0,
+  width: 1920,
+  height: 816,
   profile: 'HIGH'
 };
-const h264VideoCodecConfiguration720p  = {
-  name   : 'simple encoding - H264 720p',
+const h264VideoCodecConfiguration720p = {
+  name: 'simple encoding - H264 720p',
   bitrate: 2400000,
-  rate   : 24.0,
-  width  : 1280,
-  height : 544,
+  rate: 24.0,
+  width: 1280,
+  height: 544,
   profile: 'HIGH'
 };
 
@@ -99,101 +99,131 @@ const encodingResource = {
   name: ENCODING_NAME
 };
 
-const main = () => new Promise((resolve, reject) => {
-  let aacCodecConfiguration = Object.assign({}, aacAudioCodecConfiguration);
-  let h264CodecConfiguration1080p = Object.assign({}, h264VideoCodecConfiguration1080p);
-  let h264CodecConfiguration720p = Object.assign({}, h264VideoCodecConfiguration720p);
-  let input = Object.assign({}, httpInput);
-  let output = Object.assign({}, s3Output);
-  let encoding = Object.assign({}, encodingResource);
+const main = () =>
+  new Promise((resolve, reject) => {
+    let aacCodecConfiguration = Object.assign({}, aacAudioCodecConfiguration);
+    let h264CodecConfiguration1080p = Object.assign({}, h264VideoCodecConfiguration1080p);
+    let h264CodecConfiguration720p = Object.assign({}, h264VideoCodecConfiguration720p);
+    let input = Object.assign({}, httpInput);
+    let output = Object.assign({}, s3Output);
+    let encoding = Object.assign({}, encodingResource);
 
-  const createHttpInputPromise = createHttpInput(input);
-  createHttpInputPromise.then((createdInput) => {
-    console.log('Successfully created HTTP Input');
-    input = createdInput;
-  });
+    const createHttpInputPromise = createHttpInput(input);
+    createHttpInputPromise.then(createdInput => {
+      console.log('Successfully created HTTP Input');
+      input = createdInput;
+    });
 
-  const createS3OutputPromise = createS3Output(output);
-  createS3OutputPromise.then((createdS3Output) => {
-    console.log('Successfully created S3 Output');
-    output = createdS3Output;
-  });
+    const createS3OutputPromise = createS3Output(output);
+    createS3OutputPromise.then(createdS3Output => {
+      console.log('Successfully created S3 Output');
+      output = createdS3Output;
+    });
 
-  const createAACPromise = createAACCodecConfiguration(aacCodecConfiguration);
-  createAACPromise.then((createdCodecConfig) => {
-    console.log('Successfully created AAC Audio Codec Configuration');
-    aacCodecConfiguration = createdCodecConfig;
-  });
+    const createAACPromise = createAACCodecConfiguration(aacCodecConfiguration);
+    createAACPromise.then(createdCodecConfig => {
+      console.log('Successfully created AAC Audio Codec Configuration');
+      aacCodecConfiguration = createdCodecConfig;
+    });
 
-  const createH2641080pPromise = createH264CodecConfiguration(h264CodecConfiguration1080p);
-  createH2641080pPromise.then((createdCodecConfig) => {
-    console.log('Successfully created H264 Video Codec Configuration @1080p');
-    h264CodecConfiguration1080p = createdCodecConfig;
-  });
+    const createH2641080pPromise = createH264CodecConfiguration(h264CodecConfiguration1080p);
+    createH2641080pPromise.then(createdCodecConfig => {
+      console.log('Successfully created H264 Video Codec Configuration @1080p');
+      h264CodecConfiguration1080p = createdCodecConfig;
+    });
 
-  const createH264720pPromise = createH264CodecConfiguration(h264CodecConfiguration720p);
-  createH264720pPromise.then((createdCodecConfig) => {
-    console.log('Successfully created H264 Video Codec Configuration @720p');
-    h264CodecConfiguration720p = createdCodecConfig;
-  });
+    const createH264720pPromise = createH264CodecConfiguration(h264CodecConfiguration720p);
+    createH264720pPromise.then(createdCodecConfig => {
+      console.log('Successfully created H264 Video Codec Configuration @720p');
+      h264CodecConfiguration720p = createdCodecConfig;
+    });
 
-  const createEncodingPromise = createEncoding(encodingResource);
-  createEncodingPromise.then((createdEncoding) => {
-    console.log('Successfully created Encoding Resource with name ' + encodingResource.name);
-    encoding = createdEncoding;
-  });
+    const createEncodingPromise = createEncoding(encodingResource);
+    createEncodingPromise.then(createdEncoding => {
+      console.log('Successfully created Encoding Resource with name ' + encodingResource.name);
+      encoding = createdEncoding;
+    });
 
-  const preparationPromises = [createHttpInputPromise, createS3OutputPromise, createH2641080pPromise,
-    createH264720pPromise, createAACPromise, createEncodingPromise];
+    const preparationPromises = [
+      createHttpInputPromise,
+      createS3OutputPromise,
+      createH2641080pPromise,
+      createH264720pPromise,
+      createAACPromise,
+      createEncodingPromise
+    ];
 
-  const preparationPromise = Promise.all(preparationPromises);
-  preparationPromise.then(() => {
-    console.log('----\nSuccessfully created input, output, codec configurations and encoding resource.\n----');
+    const preparationPromise = Promise.all(preparationPromises);
+    preparationPromise.then(() => {
+      console.log('----\nSuccessfully created input, output, codec configurations and encoding resource.\n----');
 
-    const codecConfigurations = [aacCodecConfiguration, h264CodecConfiguration1080p, h264CodecConfiguration720p];
+      const codecConfigurations = [aacCodecConfiguration, h264CodecConfiguration1080p, h264CodecConfiguration720p];
 
-    Promise.map(codecConfigurations, (codecConfiguration) => {
-      console.log('Adding stream with codecConfig ' + codecConfiguration.name + ' to encoding...');
-      return addStreamToEncoding(input, output, codecConfiguration, encoding);
-    }, {concurrency: 1}).then((results) => {
-      const [[addedAudioStream, addedAudioMuxing], [addedVideoStream1080p, addedVideoMuxing1080p], [addedVideoStream720p, addedVideoMuxing720p]] = results;
+      Promise.map(
+        codecConfigurations,
+        codecConfiguration => {
+          console.log('Adding stream with codecConfig ' + codecConfiguration.name + ' to encoding...');
+          return addStreamToEncoding(input, output, codecConfiguration, encoding);
+        },
+        {concurrency: 1}
+      )
+        .then(results => {
+          const [
+            [addedAudioStream, addedAudioMuxing],
+            [addedVideoStream1080p, addedVideoMuxing1080p],
+            [addedVideoStream720p, addedVideoMuxing720p]
+          ] = results;
 
-      addedAudioMuxing.streamId = addedAudioStream.id;
-      addedVideoMuxing720p.streamId = addedVideoStream720p.id;
-      addedVideoMuxing1080p.streamId = addedVideoStream1080p.id;
+          addedAudioMuxing.streamId = addedAudioStream.id;
+          addedVideoMuxing720p.streamId = addedVideoStream720p.id;
+          addedVideoMuxing1080p.streamId = addedVideoStream1080p.id;
 
-      console.log('Added audio Muxing', addedAudioMuxing);
-      console.log('Added video Muxing 1080p', addedVideoMuxing1080p);
-      console.log('Added video Muxing 720p', addedVideoMuxing720p);
+          console.log('Added audio Muxing', addedAudioMuxing);
+          console.log('Added video Muxing 1080p', addedVideoMuxing1080p);
+          console.log('Added video Muxing 720p', addedVideoMuxing720p);
 
-      const dashManifestPromise = createDashManifest(output, encoding, [addedAudioMuxing], [addedVideoMuxing1080p, addedVideoMuxing720p]);
-      const hlsManifestPromise  = createHlsManifest(output, encoding, [addedAudioMuxing], [addedVideoMuxing1080p, addedVideoMuxing720p]);
+          const dashManifestPromise = createDashManifest(
+            output,
+            encoding,
+            [addedAudioMuxing],
+            [addedVideoMuxing1080p, addedVideoMuxing720p]
+          );
+          const hlsManifestPromise = createHlsManifest(
+            output,
+            encoding,
+            [addedAudioMuxing],
+            [addedVideoMuxing1080p, addedVideoMuxing720p]
+          );
 
-      Promise.all([dashManifestPromise, hlsManifestPromise]).then(([createdDashManifest, createdHlsManifest]) => {
-        startEncodingAndWaitForItToBeFinished(encoding).then(() => {
-          console.log('Successfully finished encoding');
+          Promise.all([dashManifestPromise, hlsManifestPromise])
+            .then(([createdDashManifest, createdHlsManifest]) => {
+              startEncodingAndWaitForItToBeFinished(encoding).then(() => {
+                console.log('Successfully finished encoding');
 
-          const dashManifestCreationPromise = startDashManifestCreation(createdDashManifest);
-          const hlsManifestCreationPromise = startHlsManifestCreation(createdHlsManifest);
+                const dashManifestCreationPromise = startDashManifestCreation(createdDashManifest);
+                const hlsManifestCreationPromise = startHlsManifestCreation(createdHlsManifest);
 
-          Promise.all([dashManifestCreationPromise, hlsManifestCreationPromise]).then((manifestCreationResponses) => {
-            console.log('Successfully created DASH and HLS Manifests');
-            resolve(true);
-          });
+                Promise.all([dashManifestCreationPromise, hlsManifestCreationPromise]).then(
+                  manifestCreationResponses => {
+                    console.log('Successfully created DASH and HLS Manifests');
+                    resolve(true);
+                  }
+                );
+              });
+            })
+            .catch(error => {
+              console.log('error occurred.');
+              reject(error);
+            });
+        })
+        .catch(error => {
+          console.log('error creating streams and muxings.');
+          reject(error);
         });
-      }).catch((error) => {
-        console.log('error occurred.');
-        reject(error);
-      });
-    }).catch((error) => {
-      console.log('error creating streams and muxings.');
-      reject(error);
     });
   });
-});
 
 const addStreamToEncoding = (input, output, codecConfiguration, encoding) => {
-
   const inputStream = {
     inputId: input.id,
     inputPath: INPUT_FILE_PATH,
@@ -206,125 +236,142 @@ const addStreamToEncoding = (input, output, codecConfiguration, encoding) => {
   };
 
   return new Promise((resolve, reject) => {
-    addStream(encoding, stream, output, codecConfiguration).then(([addedStream, addedMuxing]) => {
-      console.log('Successfully created stream and muxing!');
-      resolve([addedStream, addedMuxing]);
-    }).catch((error) => {
-      console.error('Unable to create stream and/or muxing.');
-      reject(error);
-    });
+    addStream(encoding, stream, output, codecConfiguration)
+      .then(([addedStream, addedMuxing]) => {
+        console.log('Successfully created stream and muxing!');
+        resolve([addedStream, addedMuxing]);
+      })
+      .catch(error => {
+        console.error('Unable to create stream and/or muxing.');
+        reject(error);
+      });
   });
 };
 
-const startDashManifestCreation = (manifest) => {
+const startDashManifestCreation = manifest => {
   const startPromise = bitmovin.encoding.manifests.dash(manifest.id).start();
 
   return new Promise((resolve, reject) => {
-    startPromise.then((startResponse) => {
-      waitUntilDashManifestFinished(manifest).then((success) => {
-        console.log('manifest finished', success);
-        resolve(true);
-      }).catch((error) => {
-        console.log('manifest errored', error);
-        reject(error);
-      })
+    startPromise.then(startResponse => {
+      waitUntilDashManifestFinished(manifest)
+        .then(success => {
+          console.log('manifest finished', success);
+          resolve(true);
+        })
+        .catch(error => {
+          console.log('manifest errored', error);
+          reject(error);
+        });
     });
   });
 };
 
-const startHlsManifestCreation = (manifest) => {
+const startHlsManifestCreation = manifest => {
   const startPromise = bitmovin.encoding.manifests.hls(manifest.id).start();
 
   return new Promise((resolve, reject) => {
-    startPromise.then((startResponse) => {
-      waitUntilHlsManifestFinished(manifest).then((success) => {
-        console.log('hls manifest finished', success);
-        resolve(true);
-      }).catch((error) => {
-        console.log('hls manifest errored', error);
-        reject(error);
-      })
+    startPromise.then(startResponse => {
+      waitUntilHlsManifestFinished(manifest)
+        .then(success => {
+          console.log('hls manifest finished', success);
+          resolve(true);
+        })
+        .catch(error => {
+          console.log('hls manifest errored', error);
+          reject(error);
+        });
     });
   });
 };
 
-const startEncodingAndWaitForItToBeFinished = (encoding) => {
+const startEncodingAndWaitForItToBeFinished = encoding => {
   const startPromise = bitmovin.encoding.encodings(encoding.id).start();
 
   return new Promise((resolve, reject) => {
-    startPromise.then((startResponse) => {
-      waitUntilEncodingFinished(encoding).then((success) => {
-        console.log('dash encoding finished', success);
-        resolve(true);
-      }).catch((error) => {
-        console.log('dash encoding errored', error);
-        reject(error);
-      })
+    startPromise.then(startResponse => {
+      waitUntilEncodingFinished(encoding)
+        .then(success => {
+          console.log('dash encoding finished', success);
+          resolve(true);
+        })
+        .catch(error => {
+          console.log('dash encoding errored', error);
+          reject(error);
+        });
     });
   });
 };
 
-const waitUntilEncodingFinished = (encoding) => {
+const waitUntilEncodingFinished = encoding => {
   return new Promise((resolve, reject) => {
     const waitForEncodingToBeFinishedOrError = () => {
       console.log('GET STATUS FOR ENCODING WITH ID ', encoding.id);
-      bitmovin.encoding.encodings(encoding.id).status().then((response) => {
-        console.log('Encoding status is ' + response.status);
+      bitmovin.encoding
+        .encodings(encoding.id)
+        .status()
+        .then(response => {
+          console.log('Encoding status is ' + response.status);
 
-        if (response.status === 'FINISHED') {
-          return resolve(response.status);
-        }
+          if (response.status === 'FINISHED') {
+            return resolve(response.status);
+          }
 
-        if (response.status === 'ERROR') {
-          return reject(response.status);
-        }
+          if (response.status === 'ERROR') {
+            return reject(response.status);
+          }
 
-        setTimeout(waitForEncodingToBeFinishedOrError, 10000);
-      });
+          setTimeout(waitForEncodingToBeFinishedOrError, 10000);
+        });
     };
     waitForEncodingToBeFinishedOrError();
   });
 };
 
-const waitUntilDashManifestFinished = (manifest) => {
+const waitUntilDashManifestFinished = manifest => {
   return new Promise((resolve, reject) => {
     const waitForManifestToBeFinished = () => {
       console.log('GET STATUS FOR DASH MANIFEST WITH ID ', manifest.id);
-      bitmovin.encoding.manifests.dash(manifest.id).status().then((response) => {
-        console.log('DASH Manifest status is ' + response.status);
+      bitmovin.encoding.manifests
+        .dash(manifest.id)
+        .status()
+        .then(response => {
+          console.log('DASH Manifest status is ' + response.status);
 
-        if (response.status === 'FINISHED') {
-          return resolve(response.status);
-        }
+          if (response.status === 'FINISHED') {
+            return resolve(response.status);
+          }
 
-        if (response.status === 'ERROR') {
-          return reject(response.status);
-        }
+          if (response.status === 'ERROR') {
+            return reject(response.status);
+          }
 
-        setTimeout(waitForManifestToBeFinished, 10000);
-      });
+          setTimeout(waitForManifestToBeFinished, 10000);
+        });
     };
     waitForManifestToBeFinished();
   });
 };
 
-const waitUntilHlsManifestFinished = (manifest) => {
+const waitUntilHlsManifestFinished = manifest => {
   return new Promise((resolve, reject) => {
     const waitForManifestToBeFinished = () => {
       console.log('GET STATUS FOR HLS MANIFEST WITH ID ', manifest.id);
-      bitmovin.encoding.manifests.hls(manifest.id).status().then((response) => {
-        console.log('HLS Manifest status is ' + response.status);
+      bitmovin.encoding.manifests
+        .hls(manifest.id)
+        .status()
+        .then(response => {
+          console.log('HLS Manifest status is ' + response.status);
 
-        if (response.status === 'FINISHED') {
-          return resolve(response.status);
-        }
+          if (response.status === 'FINISHED') {
+            return resolve(response.status);
+          }
 
-        if (response.status === 'ERROR') {
-          return reject(response.status);
-        }
+          if (response.status === 'ERROR') {
+            return reject(response.status);
+          }
 
-        setTimeout(waitForManifestToBeFinished, 10000);
-      });
+          setTimeout(waitForManifestToBeFinished, 10000);
+        });
     };
     waitForManifestToBeFinished();
   });
@@ -334,12 +381,11 @@ const createHlsManifest = (output, encoding, audioMuxingsWithPath, videoMuxingsW
   return new Promise((resolve, reject) => {
     const mediaPromises = [];
 
-
-    createHlsManifestResource(output).then((createdHlsManifest) => {
+    createHlsManifestResource(output).then(createdHlsManifest => {
       let audioPromise;
 
       if (audioMuxingsWithPath.length > 0) {
-        let promise = Promise.map(audioMuxingsWithPath, (audioMuxingWithPath) => {
+        let promise = Promise.map(audioMuxingsWithPath, audioMuxingWithPath => {
           const tsMuxing = audioMuxingWithPath.tsMuxing;
           const path = audioMuxingWithPath.path;
 
@@ -360,7 +406,7 @@ const createHlsManifest = (output, encoding, audioMuxingsWithPath, videoMuxingsW
         audioPromise = Promise.resolve(null);
       }
 
-      audioPromise.then((result) => {
+      audioPromise.then(result => {
         let audio_group = 'audio_group';
         if (result === null) {
           audio_group = null;
@@ -368,9 +414,9 @@ const createHlsManifest = (output, encoding, audioMuxingsWithPath, videoMuxingsW
 
         let videoPromise;
         if (videoMuxingsWithPath.length > 0) {
-
-          videoPromise = Promise.map(videoMuxingsWithPath, (videoMuxingWithPath) => {
-            const uri = 'video_' + videoMuxingWithPath.path.split('/')[videoMuxingWithPath.path.split('/').length-2] + '.m3u8';
+          videoPromise = Promise.map(videoMuxingsWithPath, videoMuxingWithPath => {
+            const uri =
+              'video_' + videoMuxingWithPath.path.split('/')[videoMuxingWithPath.path.split('/').length - 2] + '.m3u8';
 
             const variantStream = {
               audio: audio_group,
@@ -384,18 +430,17 @@ const createHlsManifest = (output, encoding, audioMuxingsWithPath, videoMuxingsW
 
             return bitmovin.encoding.manifests.hls(createdHlsManifest.id).streams.add(variantStream);
           });
-        }
-        else {
+        } else {
           videoPromise = Promise.resolve(null);
         }
 
-        videoPromise.then((result) => {
+        videoPromise.then(result => {
           console.log('Successfully created HLS Manifest with Video/Audio Media entries.');
           resolve(createdHlsManifest);
         });
       });
     });
-  }).catch((error) => {
+  }).catch(error => {
     console.log('Unable to create HLS manifest', error);
     reject(error);
   });
@@ -403,123 +448,151 @@ const createHlsManifest = (output, encoding, audioMuxingsWithPath, videoMuxingsW
 
 const createDashManifest = (output, encoding, audioMuxingsWithPath, videoMuxingsWithPath) => {
   return new Promise((resolve, reject) => {
-    createDashManifestResource(output).then((createdManifest) => {
-      const period = {};
-      bitmovin.encoding.manifests.dash(createdManifest.id).periods.add(period).then((createdPeriod) => {
-        console.log('successfully created period');
+    createDashManifestResource(output)
+      .then(createdManifest => {
+        const period = {};
+        bitmovin.encoding.manifests
+          .dash(createdManifest.id)
+          .periods.add(period)
+          .then(createdPeriod => {
+            console.log('successfully created period');
 
-        const audioAdaptationSet = {
-          lang: 'en'
-        };
-
-        const videoAdaptationSet = {};
-
-        let audioAdaptationSetPromise;
-        let videoAdaptationSetPromise;
-
-        console.log('AudioMuxingsWithPath: ', audioMuxingsWithPath.length);
-        console.log('VideoMuxingsWithPath: ', videoMuxingsWithPath.length);
-
-        if (audioMuxingsWithPath.length > 0)
-          audioAdaptationSetPromise = bitmovin.encoding.manifests.dash(createdManifest.id).periods(createdPeriod.id)
-          .adaptationSets.audio.create(audioAdaptationSet);
-        else
-          audioAdaptationSetPromise = Promise.resolve([]);
-
-        if (videoMuxingsWithPath.length > 0)
-          videoAdaptationSetPromise = bitmovin.encoding.manifests.dash(createdManifest.id).periods(createdPeriod.id)
-          .adaptationSets.video.create(videoAdaptationSet);
-        else
-          videoAdaptationSetPromise = Promise.resolve([]);
-
-        Promise.all([audioAdaptationSetPromise, videoAdaptationSetPromise]).then(([createdAudioAdaptationSet, createdVideoAdaptationSet]) => {
-
-          Promise.map(audioMuxingsWithPath, (muxingWithPath) => {
-            const fmp4Muxing = muxingWithPath.fmp4Muxing;
-            const path = muxingWithPath.path;
-
-            const fmp4Representation = {
-              type: 'TEMPLATE',
-              encodingId: encoding.id,
-              muxingId: fmp4Muxing.id,
-              segmentPath: path
+            const audioAdaptationSet = {
+              lang: 'en'
             };
-            return bitmovin.encoding.manifests.dash(createdManifest.id).periods(createdPeriod.id)
-            .adaptationSets(createdAudioAdaptationSet.id).representations.fmp4.add(fmp4Representation);
-          }).then(() => {
-            console.log('Successfully added Audio representations');
-            Promise.map(videoMuxingsWithPath, (muxingWithPath) => {
-              const fmp4Muxing = muxingWithPath.fmp4Muxing;
-              const path = muxingWithPath.path;
 
-              const fmp4Representation = {
-                type: 'TEMPLATE',
-                encodingId: encoding.id,
-                muxingId: fmp4Muxing.id,
-                segmentPath: path
-              };
+            const videoAdaptationSet = {};
 
-              return bitmovin.encoding.manifests.dash(createdManifest.id).periods(createdPeriod.id)
-              .adaptationSets(createdVideoAdaptationSet.id).representations.fmp4.add(fmp4Representation);
-            }).then(() => {
-              console.log('successfully added Video representations');
-              resolve(createdManifest);
-            });
+            let audioAdaptationSetPromise;
+            let videoAdaptationSetPromise;
+
+            console.log('AudioMuxingsWithPath: ', audioMuxingsWithPath.length);
+            console.log('VideoMuxingsWithPath: ', videoMuxingsWithPath.length);
+
+            if (audioMuxingsWithPath.length > 0)
+              audioAdaptationSetPromise = bitmovin.encoding.manifests
+                .dash(createdManifest.id)
+                .periods(createdPeriod.id)
+                .adaptationSets.audio.create(audioAdaptationSet);
+            else audioAdaptationSetPromise = Promise.resolve([]);
+
+            if (videoMuxingsWithPath.length > 0)
+              videoAdaptationSetPromise = bitmovin.encoding.manifests
+                .dash(createdManifest.id)
+                .periods(createdPeriod.id)
+                .adaptationSets.video.create(videoAdaptationSet);
+            else videoAdaptationSetPromise = Promise.resolve([]);
+
+            Promise.all([audioAdaptationSetPromise, videoAdaptationSetPromise]).then(
+              ([createdAudioAdaptationSet, createdVideoAdaptationSet]) => {
+                Promise.map(audioMuxingsWithPath, muxingWithPath => {
+                  const fmp4Muxing = muxingWithPath.fmp4Muxing;
+                  const path = muxingWithPath.path;
+
+                  const fmp4Representation = {
+                    type: 'TEMPLATE',
+                    encodingId: encoding.id,
+                    muxingId: fmp4Muxing.id,
+                    segmentPath: path
+                  };
+                  return bitmovin.encoding.manifests
+                    .dash(createdManifest.id)
+                    .periods(createdPeriod.id)
+                    .adaptationSets(createdAudioAdaptationSet.id)
+                    .representations.fmp4.add(fmp4Representation);
+                }).then(() => {
+                  console.log('Successfully added Audio representations');
+                  Promise.map(videoMuxingsWithPath, muxingWithPath => {
+                    const fmp4Muxing = muxingWithPath.fmp4Muxing;
+                    const path = muxingWithPath.path;
+
+                    const fmp4Representation = {
+                      type: 'TEMPLATE',
+                      encodingId: encoding.id,
+                      muxingId: fmp4Muxing.id,
+                      segmentPath: path
+                    };
+
+                    return bitmovin.encoding.manifests
+                      .dash(createdManifest.id)
+                      .periods(createdPeriod.id)
+                      .adaptationSets(createdVideoAdaptationSet.id)
+                      .representations.fmp4.add(fmp4Representation);
+                  }).then(() => {
+                    console.log('successfully added Video representations');
+                    resolve(createdManifest);
+                  });
+                });
+              }
+            );
           });
-        });
+      })
+      .catch(error => {
+        console.log('Unable to create DASH manifest', error);
+        reject(error);
       });
-    }).catch((error) => {
-      console.log('Unable to create DASH manifest', error);
-      reject(error);
-    })
   });
 };
 
-const createDashManifestResource = (output) => {
+const createDashManifestResource = output => {
   const manifest = {
     name: 'Sample Encoding Manifest ' + ENCODING_NAME,
-    outputs: [{
-      outputId: output.id,
-      outputPath: OUTPUT_PATH,
-      acl: [{
-        permission: 'PUBLIC_READ'
-      }]
-    }],
+    outputs: [
+      {
+        outputId: output.id,
+        outputPath: OUTPUT_PATH,
+        acl: [
+          {
+            permission: 'PUBLIC_READ'
+          }
+        ]
+      }
+    ],
     manifestName: 'myencoding.mpd'
   };
 
   return new Promise((resolve, reject) => {
-    bitmovin.encoding.manifests.dash.create(manifest).then((createdManifest) => {
-      console.log('successfully created dash manifest resource');
-      resolve(createdManifest);
-    }).catch((error) => {
-      console.error('error creating dash manifest resource', error);
-      reject(error);
-    });
+    bitmovin.encoding.manifests.dash
+      .create(manifest)
+      .then(createdManifest => {
+        console.log('successfully created dash manifest resource');
+        resolve(createdManifest);
+      })
+      .catch(error => {
+        console.error('error creating dash manifest resource', error);
+        reject(error);
+      });
   });
 };
 
-const createHlsManifestResource = (output) => {
+const createHlsManifestResource = output => {
   const manifest = {
     name: 'Sample Encoding Manifest ' + ENCODING_NAME,
-    outputs: [{
-      outputId: output.id,
-      outputPath: OUTPUT_PATH,
-      acl: [{
-        permission: 'PUBLIC_READ'
-      }]
-    }],
+    outputs: [
+      {
+        outputId: output.id,
+        outputPath: OUTPUT_PATH,
+        acl: [
+          {
+            permission: 'PUBLIC_READ'
+          }
+        ]
+      }
+    ],
     manifestName: 'myencoding.m3u8'
   };
 
   return new Promise((resolve, reject) => {
-    bitmovin.encoding.manifests.hls.create(manifest).then((createdManifest) => {
-      console.log('successfully created hls manifest resource');
-      resolve(createdManifest);
-    }).catch((error) => {
-      console.error('error creating hls manifest resource', error);
-      reject(error);
-    });
+    bitmovin.encoding.manifests.hls
+      .create(manifest)
+      .then(createdManifest => {
+        console.log('successfully created hls manifest resource');
+        resolve(createdManifest);
+      })
+      .catch(error => {
+        console.error('error creating hls manifest resource', error);
+        reject(error);
+      });
   });
 };
 
@@ -527,52 +600,57 @@ const addStream = (encoding, stream, output, codecConfiguration) => {
   const addStreamPromise = bitmovin.encoding.encodings(encoding.id).streams.add(stream);
 
   return new Promise((resolve, reject) => {
-    addStreamPromise.then((addedStream) => {
-      console.log('stream resource successfully added');
+    addStreamPromise
+      .then(addedStream => {
+        console.log('stream resource successfully added');
 
-      let prefix;
+        let prefix;
 
-      if (codecConfiguration.height || codecConfiguration.width) {
-        if (codecConfiguration.height)
-          prefix = 'video/' + codecConfiguration.height;
-        else if (codecConfiguration.width)
-          prefix = 'video/' + codecConfiguration.width;
-      }
-      else {
-        prefix = 'audio/' + codecConfiguration.bitrate;
-      }
+        if (codecConfiguration.height || codecConfiguration.width) {
+          if (codecConfiguration.height) prefix = 'video/' + codecConfiguration.height;
+          else if (codecConfiguration.width) prefix = 'video/' + codecConfiguration.width;
+        } else {
+          prefix = 'audio/' + codecConfiguration.bitrate;
+        }
 
-      prefix += '/';
-      addFmp4MuxingForStream(encoding, addedStream, output, prefix).then((addedFmp4Muxing) => {
-        addTsMuxingForStream(encoding, addedStream, output, prefix).then((addedTsMuxing) => {
-          const muxingWithPath = {
-            fmp4Muxing: addedFmp4Muxing,
-            tsMuxing: addedTsMuxing,
-            path: prefix
-          };
-          resolve([addedStream, muxingWithPath])
+        prefix += '/';
+        addFmp4MuxingForStream(encoding, addedStream, output, prefix).then(addedFmp4Muxing => {
+          addTsMuxingForStream(encoding, addedStream, output, prefix).then(addedTsMuxing => {
+            const muxingWithPath = {
+              fmp4Muxing: addedFmp4Muxing,
+              tsMuxing: addedTsMuxing,
+              path: prefix
+            };
+            resolve([addedStream, muxingWithPath]);
+          });
         });
+      })
+      .catch(error => {
+        console.error('unable to add stream to encoding', error);
+        reject(error);
       });
-    }).catch((error) => {
-      console.error('unable to add stream to encoding', error);
-      reject(error);
-    });
   });
 };
 
 const addFmp4MuxingForStream = (encoding, stream, output, output_prefix) => {
   let fmp4Muxing = {
     name: 'FMP4 ' + output_prefix,
-    streams: [{
-      streamId: stream.id
-    }],
-    outputs: [{
-      outputId: output.id,
-      outputPath: OUTPUT_PATH + output_prefix,
-      acl: [{
-        permission: 'PUBLIC_READ'
-      }]
-    }],
+    streams: [
+      {
+        streamId: stream.id
+      }
+    ],
+    outputs: [
+      {
+        outputId: output.id,
+        outputPath: OUTPUT_PATH + output_prefix,
+        acl: [
+          {
+            permission: 'PUBLIC_READ'
+          }
+        ]
+      }
+    ],
     segmentLength: 4,
     segmentNaming: 'seg_%number%.m4s',
     initSegmentName: 'init.mp4'
@@ -581,29 +659,37 @@ const addFmp4MuxingForStream = (encoding, stream, output, output_prefix) => {
   const addMuxingPromise = bitmovin.encoding.encodings(encoding.id).muxings.fmp4.add(fmp4Muxing);
 
   return new Promise((resolve, reject) => {
-    addMuxingPromise.then((addedFMP4Muxing) => {
-      console.log('added fmp4 muxing ' + fmp4Muxing.name);
-      resolve(addedFMP4Muxing);
-    }).catch((error) => {
-      console.error('error adding fmp4 muxing ' + fmp4Muxing.name, error);
-      reject(error);
-    });
+    addMuxingPromise
+      .then(addedFMP4Muxing => {
+        console.log('added fmp4 muxing ' + fmp4Muxing.name);
+        resolve(addedFMP4Muxing);
+      })
+      .catch(error => {
+        console.error('error adding fmp4 muxing ' + fmp4Muxing.name, error);
+        reject(error);
+      });
   });
 };
 
 const addTsMuxingForStream = (encoding, stream, output, output_prefix) => {
   let tsMuxing = {
     name: 'TS ' + output_prefix,
-    streams: [{
-      streamId: stream.id
-    }],
-    outputs: [{
-      outputId: output.id,
-      outputPath: OUTPUT_PATH + output_prefix,
-      acl: [{
-        permission: 'PUBLIC_READ'
-      }]
-    }],
+    streams: [
+      {
+        streamId: stream.id
+      }
+    ],
+    outputs: [
+      {
+        outputId: output.id,
+        outputPath: OUTPUT_PATH + output_prefix,
+        acl: [
+          {
+            permission: 'PUBLIC_READ'
+          }
+        ]
+      }
+    ],
     segmentLength: 4,
     segmentNaming: 'seg_%number%.ts'
   };
@@ -611,84 +697,95 @@ const addTsMuxingForStream = (encoding, stream, output, output_prefix) => {
   const addMuxingPromise = bitmovin.encoding.encodings(encoding.id).muxings.ts.add(tsMuxing);
 
   return new Promise((resolve, reject) => {
-    addMuxingPromise.then((addedTSMuxing) => {
-      console.log('added ts muxing ' + tsMuxing.name);
-      resolve(addedTSMuxing);
-    }).catch((error) => {
-      console.error('error adding ts muxing ' + tsMuxing.name, error);
-      reject(error);
-    });
+    addMuxingPromise
+      .then(addedTSMuxing => {
+        console.log('added ts muxing ' + tsMuxing.name);
+        resolve(addedTSMuxing);
+      })
+      .catch(error => {
+        console.error('error adding ts muxing ' + tsMuxing.name, error);
+        reject(error);
+      });
   });
 };
 
-
-const createHttpInput = (input) => {
-  const inputCreatePromise      = bitmovin.encoding.inputs.http.create(input);
+const createHttpInput = input => {
+  const inputCreatePromise = bitmovin.encoding.inputs.http.create(input);
 
   return new Promise((resolve, reject) => {
-    inputCreatePromise.then((createdInput) => {
-      console.log('http input successfully created');
-      resolve(createdInput);
-    }).catch((error) => {
-      console.error('error creating http input', error);
-      reject(error);
-    });
+    inputCreatePromise
+      .then(createdInput => {
+        console.log('http input successfully created');
+        resolve(createdInput);
+      })
+      .catch(error => {
+        console.error('error creating http input', error);
+        reject(error);
+      });
   });
 };
 
-const createS3Output = (output) => {
-  const outputCreatePromise     = bitmovin.encoding.outputs.s3.create(s3Output);
+const createS3Output = output => {
+  const outputCreatePromise = bitmovin.encoding.outputs.s3.create(s3Output);
 
   return new Promise((resolve, reject) => {
-    outputCreatePromise.then((createdOutput) => {
-      console.log('S3 output successfully created');
-      resolve(createdOutput);
-    }).catch((error) => {
-      console.error('error creating s3 output', error);
-      reject(error);
-    });
+    outputCreatePromise
+      .then(createdOutput => {
+        console.log('S3 output successfully created');
+        resolve(createdOutput);
+      })
+      .catch(error => {
+        console.error('error creating s3 output', error);
+        reject(error);
+      });
   });
 };
 
-const createH264CodecConfiguration = (codecConfig) => {
+const createH264CodecConfiguration = codecConfig => {
   const codecConfigPromise = bitmovin.encoding.codecConfigurations.h264.create(codecConfig);
 
   return new Promise((resolve, reject) => {
-    codecConfigPromise.then((createdConfig) => {
-      console.log('h264 Codec configuration ' + codecConfig.name + ' successfully created');
-      resolve(createdConfig);
-    }).catch((error) => {
-      console.error('error creating h264 codec config ' + codecConfig.name);
-      reject(error);
-    });
+    codecConfigPromise
+      .then(createdConfig => {
+        console.log('h264 Codec configuration ' + codecConfig.name + ' successfully created');
+        resolve(createdConfig);
+      })
+      .catch(error => {
+        console.error('error creating h264 codec config ' + codecConfig.name);
+        reject(error);
+      });
   });
 };
 
-const createAACCodecConfiguration = (codecConfig) => {
+const createAACCodecConfiguration = codecConfig => {
   const codecConfigPromise = bitmovin.encoding.codecConfigurations.aac.create(codecConfig);
 
   return new Promise((resolve, reject) => {
-    codecConfigPromise.then((createdConfig) => {
-      console.log('aac Codec configuration ' + codecConfig.name + ' successfully created');
-      resolve(createdConfig);
-    }).catch((error) => {
-      console.error('error creating aac codec config ' + codecConfig.name);
-      reject(error);
-    });
+    codecConfigPromise
+      .then(createdConfig => {
+        console.log('aac Codec configuration ' + codecConfig.name + ' successfully created');
+        resolve(createdConfig);
+      })
+      .catch(error => {
+        console.error('error creating aac codec config ' + codecConfig.name);
+        reject(error);
+      });
   });
 };
 
-const createEncoding = (encoding) => {
+const createEncoding = encoding => {
   const encodingPromise = bitmovin.encoding.encodings.create(encoding);
 
   return new Promise((resolve, reject) => {
-    encodingPromise.then((createdEncoding) => {
-      console.log('encoding ' + encoding.name + ' successfully created');
-      resolve(createdEncoding);
-    }).catch((error) => {
-      console.error('error creating encoding ' + encoding.name);
-      reject(error);
-    });
+    encodingPromise
+      .then(createdEncoding => {
+        console.log('encoding ' + encoding.name + ' successfully created');
+        resolve(createdEncoding);
+      })
+      .catch(error => {
+        console.error('error creating encoding ' + encoding.name);
+        reject(error);
+      });
   });
 };
 
@@ -697,8 +794,10 @@ const exit = (code, message) => {
   process.exit(code);
 };
 
-main().then((result) => {
-  console.log('finished!');
-}).catch((error) => {
-  exit(100, error);
-});
+main()
+  .then(result => {
+    console.log('finished!');
+  })
+  .catch(error => {
+    exit(100, error);
+  });

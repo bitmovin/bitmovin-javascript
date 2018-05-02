@@ -11,11 +11,13 @@ const main = () => {
   return bitmovin.encoding.encodings(ENCODING_ID_TO_STOP).stopLive();
 };
 
-main().then((stopResponse) => {
-  console.log('----------------------------------------------------------------------');
-  console.log('Successfully stopped live encoding with id ' + stopResponse.id + '!');
-  console.log('----------------------------------------------------------------------');
-}).catch((error) => {
-  console.error('ERROR!', error);
-  process.exit(100);
-});
+main()
+  .then(stopResponse => {
+    console.log('----------------------------------------------------------------------');
+    console.log('Successfully stopped live encoding with id ' + stopResponse.id + '!');
+    console.log('----------------------------------------------------------------------');
+  })
+  .catch(error => {
+    console.error('ERROR!', error);
+    process.exit(100);
+  });

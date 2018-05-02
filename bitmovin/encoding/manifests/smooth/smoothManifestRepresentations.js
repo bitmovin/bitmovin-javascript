@@ -1,26 +1,31 @@
 import urljoin from 'url-join';
-import http, { utils } from '../../../utils/http';
+import http, {utils} from '../../../utils/http';
 
 export const representations = (configuration, manifestId, http) => {
-  const { get, post, delete_ } = http;
-  const typeFn = (typeUrl) => {
-    const baseUrl = urljoin(configuration.apiBaseUrl, 'encoding/manifests/smooth', manifestId, 'representations',
-      typeUrl);
+  const {get, post, delete_} = http;
+  const typeFn = typeUrl => {
+    const baseUrl = urljoin(
+      configuration.apiBaseUrl,
+      'encoding/manifests/smooth',
+      manifestId,
+      'representations',
+      typeUrl
+    );
 
-    const fn = (representationId) => {
+    const fn = representationId => {
       return {
         details: () => {
           const url = urljoin(baseUrl, representationId);
           return get(configuration, url);
         },
-        delete : () => {
+        delete: () => {
           let url = urljoin(baseUrl, representationId);
           return delete_(configuration, url);
         }
       };
     };
 
-    fn.add = (representation) => {
+    fn.add = representation => {
       return post(configuration, baseUrl, representation);
     };
 
@@ -28,7 +33,7 @@ export const representations = (configuration, manifestId, http) => {
       let url = baseUrl;
 
       let getParams = utils.buildGetParamString({
-        limit : limit,
+        limit: limit,
         offset: offset
       });
       if (getParams.length > 0) {

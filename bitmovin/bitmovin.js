@@ -33,9 +33,7 @@ const checkAuthorizationInConfiguration = function(configuration) {
 };
 
 export default class Bitmovin {
-
   constructor(configuration = {}) {
-
     checkAuthorizationInConfiguration(configuration);
 
     if (configuration.debug && configuration.debug === true) {
@@ -69,10 +67,10 @@ export default class Bitmovin {
     configuration.apiBaseUrl = urljoin(configuration.protocol + '://' + configuration.host, configuration.basePath);
 
     configuration.httpHeaders = {
-      'Content-Type'        : 'application/json',
-      'X-Api-Key'           : configuration.apiKey,
-      'X-Tenant-Org-Id'     : configuration.tenantOrgId,
-      'X-Api-Client'        : configuration.xApiClient,
+      'Content-Type': 'application/json',
+      'X-Api-Key': configuration.apiKey,
+      'X-Tenant-Org-Id': configuration.tenantOrgId,
+      'X-Api-Client': configuration.xApiClient,
       'X-Api-Client-Version': '1.9.0',
       ...configuration.additionalHeaders
     };
@@ -80,14 +78,14 @@ export default class Bitmovin {
     this.configuration = configuration;
 
     this.encoding = {
-      encodings          : encodings(this.configuration),
+      encodings: encodings(this.configuration),
       codecConfigurations: codecConfigurations(this.configuration),
-      inputs             : inputs(this.configuration),
-      outputs            : outputs(this.configuration),
-      manifests          : manifests(this.configuration),
-      filters            : filters(this.configuration),
-      statistics         : statistics(this.configuration),
-      infrastructure     : infrastructure(this.configuration)
+      inputs: inputs(this.configuration),
+      outputs: outputs(this.configuration),
+      manifests: manifests(this.configuration),
+      filters: filters(this.configuration),
+      statistics: statistics(this.configuration),
+      infrastructure: infrastructure(this.configuration)
     };
 
     this.player = {

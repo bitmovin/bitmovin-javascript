@@ -3,11 +3,10 @@ import http, {utils} from '../../utils/http';
 import {aws as awsInfra} from './aws';
 
 export const infrastructure = (configuration, http) => {
-  const { get, post, delete_ } = http;
+  const {get, post, delete_} = http;
 
-  const typeFn = (type) => {
-
-    let fn = (id) => {
+  const typeFn = type => {
+    let fn = id => {
       return {
         status: () => {
           const url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type, id, 'status');
@@ -25,10 +24,10 @@ export const infrastructure = (configuration, http) => {
           const url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type, id, 'customData');
           return get(configuration, url);
         }
-      }
+      };
     };
 
-    fn.create =  (infrastructure) => {
+    fn.create = infrastructure => {
       const url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type);
       return post(configuration, url, infrastructure);
     };
@@ -38,7 +37,7 @@ export const infrastructure = (configuration, http) => {
       const filterParams = utils.buildFilterParamString(filter);
       let getParams = utils.buildGetParamString({
         ...filterParams,
-        limit : limit,
+        limit: limit,
         offset: offset,
         sort: sort
       });
@@ -59,7 +58,9 @@ export const infrastructure = (configuration, http) => {
   return {
     kubernetes,
     aws
-  }
+  };
 };
 
-export default (configuration) => { return infrastructure(configuration, http); };
+export default configuration => {
+  return infrastructure(configuration, http);
+};

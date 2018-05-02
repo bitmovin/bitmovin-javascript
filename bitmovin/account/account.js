@@ -5,7 +5,7 @@ import billing from './billing/billing';
 import apiKeys from './apiKeys/apiKeys';
 
 export const account = (configuration, http) => {
-  const { get, post } = http;
+  const {get, post} = http;
   const accountBaseUrl = urljoin(configuration.apiBaseUrl, 'account');
 
   const information = () => {
@@ -44,6 +44,6 @@ export const account = (configuration, http) => {
   };
 };
 
-export default (configuration) => {
+export default configuration => {
   return account(configuration, http);
 };

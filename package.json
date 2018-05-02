@@ -12,7 +12,7 @@
     "debug": "./node_modules/webpack/bin/webpack.js --config=webpack.config.debug.js",
     "release": "./node_modules/webpack/bin/webpack.js --config=webpack.config.release.js",
     "publish-release": "cd ./build/release && npm publish",
-    "format": "./node_modules/.bin/prettier --config ./.prettierrc --write \"./**/*.{js,scss}\""
+    "format": "./node_modules/.bin/prettier --config ./.prettierrc --write \"./{bitmovin,examples}/**/*.{js,scss}\""
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",

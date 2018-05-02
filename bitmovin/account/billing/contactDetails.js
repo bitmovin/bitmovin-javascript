@@ -9,13 +9,12 @@ export const contactDetails = (configuration, http) => {
     details: () => {
       return get(configuration, contactDetailsBaseUrl);
     },
-    update: (contactDetails) => {
+    update: contactDetails => {
       return put(configuration, contactDetailsBaseUrl, contactDetails);
     }
   };
 };
 
-export default (configuration) => {
+export default configuration => {
   return contactDetails(configuration, http);
 };
-

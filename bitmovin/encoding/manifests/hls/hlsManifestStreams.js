@@ -1,24 +1,23 @@
 import urljoin from 'url-join';
-import http, { utils } from '../../../utils/http';
+import http, {utils} from '../../../utils/http';
 import Promise from 'bluebird';
 
-
 export const hlsManifestStreams = (configuration, manifestId, http) => {
-  const { get, post, delete_ } = http;
-  let fn = (streamId) => {
+  const {get, post, delete_} = http;
+  let fn = streamId => {
     return {
       details: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'streams', streamId);
         return get(configuration, url);
       },
-      delete : () => {
+      delete: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'streams', streamId);
         return delete_(configuration, url);
       }
     };
   };
 
-  fn.add = (stream) => {
+  fn.add = stream => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'streams');
     return post(configuration, url, stream);
   };
@@ -27,7 +26,7 @@ export const hlsManifestStreams = (configuration, manifestId, http) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'streams');
 
     let getParams = utils.buildGetParamString({
-      limit : limit,
+      limit: limit,
       offset: offset
     });
     if (getParams.length > 0) {
