@@ -39,7 +39,6 @@ const main = () => new Promise((resolve, reject) => {
   }).catch((error) => {
     reject(error);
   });
-
 });
 
 const waitForPlayerBuildFinished = (playerBuild) => {
