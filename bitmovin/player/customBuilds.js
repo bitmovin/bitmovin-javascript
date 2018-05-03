@@ -3,7 +3,7 @@ import http, { utils } from '../utils/http';
 
 import webCustomPlayerBuildDomain from './webCustomPlayerBuildDomain';
 
-export const customBuilds = (configuration) => {
+export const customBuilds = (configuration, http) => {
   const { get, post, delete_ } = http;
 
   const web = () => {
@@ -51,7 +51,7 @@ export const customBuilds = (configuration) => {
       return get(configuration, url);
     };
 
-    fn.domains = webCustomPlayerBuildDomain(configuration);
+    fn.domains = webCustomPlayerBuildDomain(configuration, http);
     return fn;
   };
 
@@ -61,5 +61,5 @@ export const customBuilds = (configuration) => {
 };
 
 export default (configuration) => {
-  return customBuilds(configuration);
+  return customBuilds(configuration, http);
 };

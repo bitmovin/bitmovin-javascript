@@ -1,7 +1,7 @@
 import urljoin from 'url-join';
-import http, { utils } from '../utils/http';
+import { utils } from '../utils/http';
 
-export const webCustomPlayerBuildDomain = (configuration) => {
+export const webCustomPlayerBuildDomain = (configuration, http) => {
   const { get, post, delete_ } = http;
 
   const fn = (domainId) => {
@@ -39,6 +39,6 @@ export const webCustomPlayerBuildDomain = (configuration) => {
   return fn;
 };
 
-export default (configuration) => {
-  return webCustomPlayerBuildDomain(configuration);
+export default (configuration, http) => {
+  return webCustomPlayerBuildDomain(configuration, http);
 };
