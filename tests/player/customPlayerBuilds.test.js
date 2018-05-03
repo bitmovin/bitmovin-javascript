@@ -57,6 +57,10 @@ describe('player', () => {
         }));
         assertPayload(mockPost, () => customBuildsClient.web.domains.add({url: 'foo'}), {url: 'foo'});
       });
+      describe('details', () => {
+        assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/domains/example-id', customBuildsClient.web.domains('example-id').details);
+        assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web.domains('example-id').details);
+      });
       describe('delete', () => {
         assertItCallsCorrectUrl('DELETE', '/v1/player/custom-builds/web/domains/domain-id', customBuildsClient.web.domains('domain-id').delete);
         assertItReturnsUnderlyingPromise(mockDelete, customBuildsClient.web.domains('domain-id').delete);
