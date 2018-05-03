@@ -30,6 +30,21 @@ describe('player', () => {
       assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web('example-id').details);
     });
 
+    describe('download', () => {
+      assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/example-id/download', () => customBuildsClient.web('example-id').download());
+      assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web('example-id').download);
+    });
+
+    describe('status', () => {
+      assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/example-id/status', () => customBuildsClient.web('example-id').status());
+      assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web('example-id').status);
+    });
+
+    describe('start', () => {
+      assertItCallsCorrectUrl('POST', '/v1/player/custom-builds/web/example-id/start', () => customBuildsClient.web('example-id').start());
+      assertItReturnsUnderlyingPromise(mockPost, customBuildsClient.web('example-id').start);
+    });
+
     describe('domains', () => {
       describe('list', () => {
         assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/domains', customBuildsClient.web.domains.list);
