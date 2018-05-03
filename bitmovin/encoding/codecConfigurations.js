@@ -1,12 +1,12 @@
 import urljoin from 'url-join';
-import http, { utils } from '../utils/http';
+import http, {utils} from '../utils/http';
 
 export const codecConfigurations = (configuration, http) => {
-  const { get, post, delete_ } = http;
-  let typeFn = (typeUrl) => {
-    let fn = (codecConfigId) => {
+  const {get, post, delete_} = http;
+  let typeFn = typeUrl => {
+    let fn = codecConfigId => {
       return {
-        details   : () => {
+        details: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', typeUrl, codecConfigId);
           return get(configuration, url);
         },
@@ -15,14 +15,14 @@ export const codecConfigurations = (configuration, http) => {
 
           return get(configuration, url);
         },
-        delete    : () => {
+        delete: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', typeUrl, codecConfigId);
           return delete_(configuration, url);
         }
       };
     };
 
-    fn.create = (codecConfig) => {
+    fn.create = codecConfig => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', typeUrl);
 
       return post(configuration, url, codecConfig);
@@ -32,7 +32,7 @@ export const codecConfigurations = (configuration, http) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', typeUrl);
 
       let getParams = utils.buildGetParamString({
-        limit : limit,
+        limit: limit,
         offset: offset,
         sort: sort
       });
@@ -49,7 +49,7 @@ export const codecConfigurations = (configuration, http) => {
   return {
     h264: typeFn('video/h264'),
     h265: typeFn('video/h265'),
-    aac : typeFn('audio/aac'),
+    aac: typeFn('audio/aac'),
     vp9: typeFn('video/vp9'),
     ac3: typeFn('audio/ac3'),
     eac3: typeFn('audio/eac3'),
@@ -66,9 +66,9 @@ export const codecConfigurations = (configuration, http) => {
       const filterParams = utils.buildFilterParamString(filter);
       let getParams = utils.buildGetParamString({
         ...filterParams,
-        limit : limit,
+        limit: limit,
         offset: offset,
-        sort: sort,
+        sort: sort
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);
@@ -77,7 +77,7 @@ export const codecConfigurations = (configuration, http) => {
       return get(configuration, url);
     },
 
-    getType: (configurationId) => {
+    getType: configurationId => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', configurationId, 'type');
 
       return get(configuration, url);
@@ -85,4 +85,6 @@ export const codecConfigurations = (configuration, http) => {
   };
 };
 
-export default (configuration) => { return codecConfigurations(configuration, http); };
+export default configuration => {
+  return codecConfigurations(configuration, http);
+};

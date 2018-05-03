@@ -1,18 +1,26 @@
 import urljoin from 'url-join';
 import drms from './drms';
-import http, { utils } from '../../utils/http';
+import http, {utils} from '../../utils/http';
 
 export const muxings = (configuration, encodingId, http) => {
-  const { get, post, delete_ } = http;
-  let typeFn = (typeUrl) => {
-    let fn = (muxingId) => {
+  const {get, post, delete_} = http;
+  let typeFn = typeUrl => {
+    let fn = muxingId => {
       return {
         details: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl, muxingId);
           return get(configuration, url);
         },
         customData: () => {
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl, muxingId, 'customData');
+          let url = urljoin(
+            configuration.apiBaseUrl,
+            'encoding/encodings',
+            encodingId,
+            'muxings',
+            typeUrl,
+            muxingId,
+            'customData'
+          );
           return get(configuration, url);
         },
         delete: () => {
@@ -24,7 +32,7 @@ export const muxings = (configuration, encodingId, http) => {
       };
     };
 
-    fn.add = (muxing) => {
+    fn.add = muxing => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl);
       return post(configuration, url, muxing);
     };
@@ -33,7 +41,7 @@ export const muxings = (configuration, encodingId, http) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl);
 
       let getParams = utils.buildGetParamString({
-        limit : limit,
+        limit: limit,
         offset: offset
       });
       if (getParams.length > 0) {
@@ -48,15 +56,15 @@ export const muxings = (configuration, encodingId, http) => {
 
   return {
     fmp4: typeFn('fmp4'),
-    ts  : typeFn('ts'),
-    mp4 : typeFn('mp4'),
+    ts: typeFn('ts'),
+    mp4: typeFn('mp4'),
     webm: typeFn('webm'),
 
     list: (limit, offset) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings');
 
       let getParams = utils.buildGetParamString({
-        limit : limit,
+        limit: limit,
         offset: offset
       });
       if (getParams.length > 0) {

@@ -1,16 +1,16 @@
 import urljoin from 'url-join';
-import http, { utils} from '../utils/http';
+import http, {utils} from '../utils/http';
 import Promise from 'bluebird';
 
 export const channels = (configuration, http) => {
-  const { get } = http;
-  const fn = (channelName) => {
+  const {get} = http;
+  const fn = channelName => {
     const versions = {
-      list  : (limit, offset) => {
+      list: (limit, offset) => {
         let url = urljoin(configuration.apiBaseUrl, 'player/channels', channelName, 'versions');
 
         let getParams = utils.buildGetParamString({
-          limit : limit,
+          limit: limit,
           offset: offset
         });
         if (getParams.length > 0) {
@@ -34,7 +34,7 @@ export const channels = (configuration, http) => {
     let url = urljoin(configuration.apiBaseUrl, 'player/channels');
 
     let getParams = utils.buildGetParamString({
-      limit : limit,
+      limit: limit,
       offset: offset
     });
     if (getParams.length > 0) {
@@ -47,6 +47,6 @@ export const channels = (configuration, http) => {
   return fn;
 };
 
-export default (configuration) => {
+export default configuration => {
   return channels(configuration, http);
 };

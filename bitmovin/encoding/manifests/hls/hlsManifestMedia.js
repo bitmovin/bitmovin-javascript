@@ -1,18 +1,17 @@
 import urljoin from 'url-join';
-import http, { utils } from '../../../utils/http';
-
+import http, {utils} from '../../../utils/http';
 
 export const hlsManifestMedia = (configuration, manifestId, http) => {
-  const { get, post, delete_ } = http;
-  let typeFn = (typeUrl) => {
-    let fn = (mediaId) => {
+  const {get, post, delete_} = http;
+  let typeFn = typeUrl => {
+    let fn = mediaId => {
       return {
         details: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'media', typeUrl, mediaId);
 
           return get(configuration, url);
         },
-        delete : () => {
+        delete: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'media', typeUrl, mediaId);
 
           return delete_(configuration, url);
@@ -20,7 +19,7 @@ export const hlsManifestMedia = (configuration, manifestId, http) => {
       };
     };
 
-    fn.add = (media) => {
+    fn.add = media => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'media', typeUrl);
 
       return post(configuration, url, media);
@@ -30,7 +29,7 @@ export const hlsManifestMedia = (configuration, manifestId, http) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'media', typeUrl);
 
       let getParams = utils.buildGetParamString({
-        limit : limit,
+        limit: limit,
         offset: offset
       });
       if (getParams.length > 0) {
@@ -44,11 +43,11 @@ export const hlsManifestMedia = (configuration, manifestId, http) => {
   };
 
   return {
-    video         : typeFn('video'),
-    audio         : typeFn('audio'),
-    subtitles     : typeFn('subtitles'),
+    video: typeFn('video'),
+    audio: typeFn('audio'),
+    subtitles: typeFn('subtitles'),
     closedCaptions: typeFn('closed-captions'),
-    vtt           : typeFn('vtt')
+    vtt: typeFn('vtt')
   };
 };
 

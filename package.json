@@ -11,11 +11,14 @@
     "it": "./node_modules/mocha/bin/mocha --compilers js:babel-core/register --require babel-polyfill --recursive tests_it --timeout 30000",
     "debug": "./node_modules/webpack/bin/webpack.js --config=webpack.config.debug.js",
     "release": "./node_modules/webpack/bin/webpack.js --config=webpack.config.release.js",
-    "publish-release": "cd ./build/release && npm publish"
+    "publish-release": "cd ./build/release && npm publish",
+    "format": "./node_modules/.bin/prettier --config ./.prettierrc --write \"./{bitmovin,examples}/**/*.{js,scss}\"",
+    "format-check": "./node_modules/.bin/prettier --config ./.prettierrc --list-different \"./{bitmovin,examples}/**/*.{js,scss}\""
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-core": "^6.21.0",
+    "babel-eslint": "^8.2.3",
     "babel-jest": "^19.0.0",
     "babel-loader": "^6.2.10",
     "babel-plugin-transform-object-rest-spread": "^6.20.2",
@@ -35,7 +38,8 @@
     "url-join": "^1.1.0",
     "webpack": "^1.14.0",
     "write-json-webpack-plugin": "^1.0.0",
-    "xmlhttprequest": "^1.8.0"
+    "xmlhttprequest": "^1.8.0",
+    "prettier": "^1.12.1"
   },
   "dependencies": {
     "bluebird": "^3.4.7",

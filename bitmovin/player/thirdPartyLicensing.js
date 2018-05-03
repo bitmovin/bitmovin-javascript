@@ -1,8 +1,8 @@
 import urljoin from 'url-join';
-import http, { utils } from '../utils/http';
+import http, {utils} from '../utils/http';
 
 export const thirdPartyLicensing = (configuration, licenseId, http) => {
-  const { get, post, delete_ } = http;
+  const {get, post, delete_} = http;
 
   return {
     delete: () => {
@@ -13,7 +13,7 @@ export const thirdPartyLicensing = (configuration, licenseId, http) => {
       const url = urljoin(configuration.apiBaseUrl, 'player/licenses', licenseId, 'third-party-licensing');
       return get(configuration, url);
     },
-    add: (thirdPartyLicensing) => {
+    add: thirdPartyLicensing => {
       const url = urljoin(configuration.apiBaseUrl, 'player/licenses', licenseId, 'third-party-licensing');
       return post(configuration, url, thirdPartyLicensing);
     }

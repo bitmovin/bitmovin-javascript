@@ -4,10 +4,10 @@ import permissions from './permissions';
 import tenants from './tenants';
 
 export const groups = (configuration, organizationId, http) => {
-  const { get, post, delete_ } = http;
+  const {get, post, delete_} = http;
   const groupsBaseUrl = urljoin(configuration.apiBaseUrl, 'account', 'organizations', organizationId, 'groups');
 
-  let fn = (groupId) => {
+  let fn = groupId => {
     return {
       details: () => {
         let url = urljoin(groupsBaseUrl, groupId);
@@ -22,7 +22,7 @@ export const groups = (configuration, organizationId, http) => {
     };
   };
 
-  fn.add = (group) => {
+  fn.add = group => {
     const url = urljoin(groupsBaseUrl);
     return post(configuration, url, group);
   };

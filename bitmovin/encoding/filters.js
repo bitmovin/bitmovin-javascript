@@ -3,68 +3,64 @@ import http, {utils} from '../utils/http';
 import Promise from 'bluebird';
 
 export const filters = (configuration, http) => {
-
   const {get, post, delete_} = http;
 
-  let typeFn = (typeUrl) => {
-    let fn = (filterId) => {
+  let typeFn = typeUrl => {
+    let fn = filterId => {
       return {
-        details   : () => {
-
+        details: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId);
 
           return new Promise((resolve, reject) => {
             get(configuration, url)
-            .then((filter, rawResponse) => {
-              resolve(filter);
-            })
-            .catch(error => {
-              reject(error);
-            });
+              .then((filter, rawResponse) => {
+                resolve(filter);
+              })
+              .catch(error => {
+                reject(error);
+              });
           });
         },
         customData: () => {
-
           let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId, 'customData');
 
           return new Promise((resolve, reject) => {
             get(configuration, url)
-            .then((customData, rawResponse) => {
-              resolve(customData);
-            })
-            .catch(error => {
-              reject(error);
-            });
+              .then((customData, rawResponse) => {
+                resolve(customData);
+              })
+              .catch(error => {
+                reject(error);
+              });
           });
         },
-        delete    : () => {
-
+        delete: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId);
 
           return new Promise((resolve, reject) => {
             delete_(configuration, url)
-            .then((response, rawResponse) => {
-              resolve(response);
-            })
-            .catch(error => {
-              reject(error);
-            });
+              .then((response, rawResponse) => {
+                resolve(response);
+              })
+              .catch(error => {
+                reject(error);
+              });
           });
         }
       };
     };
 
-    fn.create = (filter) => {
+    fn.create = filter => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl);
 
       return new Promise((resolve, reject) => {
         post(configuration, url, filter)
-        .then((createdOutput, rawResponse) => {
-          resolve(createdOutput);
-        })
-        .catch(error => {
-          reject(error);
-        });
+          .then((createdOutput, rawResponse) => {
+            resolve(createdOutput);
+          })
+          .catch(error => {
+            reject(error);
+          });
       });
     };
 
@@ -72,7 +68,7 @@ export const filters = (configuration, http) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl);
 
       let getParams = utils.buildGetParamString({
-        limit : limit,
+        limit: limit,
         offset: offset,
         sort: sort
       });
@@ -82,12 +78,12 @@ export const filters = (configuration, http) => {
 
       return new Promise((resolve, reject) => {
         get(configuration, url)
-        .then((filterList, rawResponse) => {
-          resolve(filterList);
-        })
-        .catch(error => {
-          reject(error);
-        });
+          .then((filterList, rawResponse) => {
+            resolve(filterList);
+          })
+          .catch(error => {
+            reject(error);
+          });
       });
     };
 
@@ -95,10 +91,10 @@ export const filters = (configuration, http) => {
   };
 
   return {
-    crop       : typeFn('crop'),
+    crop: typeFn('crop'),
     deinterlace: typeFn('deinterlace'),
-    rotate     : typeFn('rotate'),
-    watermark  : typeFn('watermark'),
+    rotate: typeFn('rotate'),
+    watermark: typeFn('watermark'),
 
     list: (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/filters');
@@ -106,7 +102,7 @@ export const filters = (configuration, http) => {
       const filterParams = utils.buildFilterParamString(filter);
       let getParams = utils.buildGetParamString({
         ...filterParams,
-        limit : limit,
+        limit: limit,
         offset: offset,
         sort: sort
       });
@@ -116,15 +112,17 @@ export const filters = (configuration, http) => {
 
       return new Promise((resolve, reject) => {
         get(configuration, url)
-        .then((filterList, rawResponse) => {
-          resolve(filterList);
-        })
-        .catch(error => {
-          reject(error);
-        });
+          .then((filterList, rawResponse) => {
+            resolve(filterList);
+          })
+          .catch(error => {
+            reject(error);
+          });
       });
     }
   };
 };
 
-export default (configuration) => { return filters(configuration, http); };
+export default configuration => {
+  return filters(configuration, http);
+};

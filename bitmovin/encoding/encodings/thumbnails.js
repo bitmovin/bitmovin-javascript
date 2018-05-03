@@ -1,26 +1,51 @@
 import urljoin from 'url-join';
-import http, { utils } from '../../utils/http';
+import http, {utils} from '../../utils/http';
 
 export const thumbnails = (configuration, encodingId, streamId, http) => {
-  const { get, post, delete_ } = http;
-  let fn = (thumbnailId) => {
+  const {get, post, delete_} = http;
+  let fn = thumbnailId => {
     return {
-      details   : () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails', thumbnailId);
+      details: () => {
+        let url = urljoin(
+          configuration.apiBaseUrl,
+          'encoding/encodings',
+          encodingId,
+          'streams',
+          streamId,
+          'thumbnails',
+          thumbnailId
+        );
         return get(configuration, url);
       },
       customData: () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails', thumbnailId, 'customData');
+        let url = urljoin(
+          configuration.apiBaseUrl,
+          'encoding/encodings',
+          encodingId,
+          'streams',
+          streamId,
+          'thumbnails',
+          thumbnailId,
+          'customData'
+        );
         return get(configuration, url);
       },
-      delete    : () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails', thumbnailId);
+      delete: () => {
+        let url = urljoin(
+          configuration.apiBaseUrl,
+          'encoding/encodings',
+          encodingId,
+          'streams',
+          streamId,
+          'thumbnails',
+          thumbnailId
+        );
         return delete_(configuration, url);
       }
     };
   };
 
-  fn.add = (thumbnail) => {
+  fn.add = thumbnail => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails');
     return post(configuration, url, thumbnail);
   };
@@ -29,7 +54,7 @@ export const thumbnails = (configuration, encodingId, streamId, http) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails');
 
     let getParams = utils.buildGetParamString({
-      limit : limit,
+      limit: limit,
       offset: offset
     });
     if (getParams.length > 0) {
