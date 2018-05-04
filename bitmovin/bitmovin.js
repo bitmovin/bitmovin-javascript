@@ -93,7 +93,7 @@ export default class Bitmovin {
       channels: playerChannels(this.configuration),
       licenses: playerLicenses(this.configuration),
       statistics: playerStatistics(this.configuration),
-      customBuilds: customBuilds(this.configuration),
+      customBuilds: customBuilds(this.configuration)
     };
 
     this.analytics = {

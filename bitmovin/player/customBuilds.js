@@ -14,15 +14,15 @@ export const customBuilds = (configuration, http) => {
           return get(configuration, url);
         },
         start: () => {
-          const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web', customBuildId, "start");
+          const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web', customBuildId, 'start');
           return post(configuration, url, {});
         },
         status: () => {
-          const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web', customBuildId, "status");
+          const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web', customBuildId, 'status');
           return get(configuration, url);
         },
         download: () => {
-          const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web', customBuildId, "download");
+          const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web', customBuildId, 'download');
           return get(configuration, url);
         },
         delete: () => {
