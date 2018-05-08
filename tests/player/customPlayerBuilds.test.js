@@ -37,7 +37,19 @@ describe('player', () => {
       assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web.list);
     });
 
-    describe('detail', () => {
+    describe('list limit offset', () => {
+      assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web\\?limit=10&offset=5', () => customBuildsClient.web.list(10, 5));
+    });
+
+    describe('list limit only', () => {
+      assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web\\?limit=10', () => customBuildsClient.web.list(10, null));
+    });
+
+    describe('list offset only', () => {
+      assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web\\?offset=5', () => customBuildsClient.web.list(null, 5));
+    });
+
+    describe('details', () => {
       assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web', () => customBuildsClient.web('example-id').details());
       assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web('example-id').details);
     });
@@ -65,6 +77,18 @@ describe('player', () => {
     describe('domains', () => {
       describe('list', () => {
         assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/domains', customBuildsClient.web.domains.list);
+        assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web.domains.list);
+      });
+      describe('list limit offset', () => {
+        assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/domains\\?limit=10&offset=5', () => customBuildsClient.web.domains.list(10, 5));
+        assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web.domains.list);
+      });
+      describe('list limit only', () => {
+        assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/domains\\?limit=10', () => customBuildsClient.web.domains.list(10));
+        assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web.domains.list);
+      });
+      describe('list offset only', () => {
+        assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/domains\\?offset=5', () => customBuildsClient.web.domains.list(null, 5));
         assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web.domains.list);
       });
       describe('add', () => {
