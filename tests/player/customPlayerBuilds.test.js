@@ -20,6 +20,18 @@ describe('player', () => {
   describe('custom-builds', () => {
     const customBuildsClient = customBuilds(testConfiguration, mockHttp);
 
+    describe('add', function () {
+      assertItCallsCorrectUrl('POST', '/v1/player/custom-builds/web', customBuildsClient.web.add);
+      assertItReturnsUnderlyingPromise(mockPost, () => customBuildsClient.web.add({
+        playerVersion: 'v7.6.3',
+        domains: [
+          {
+            domainId: 'my-domain-id'
+          }
+        ]
+      }));
+    });
+
     describe('list', () => {
       assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web', customBuildsClient.web.list);
       assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web.list);
