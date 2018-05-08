@@ -64,6 +64,6 @@ describe('Bitmovin default exports', () => {
     }
     assertItContains('licenses')
     assertItContains('channels')
-    expect(typeof client.encoding['customBuilds']).toBeDefined()
+    expect(typeof client.player['customBuilds']).toBeDefined()
   })
 })
