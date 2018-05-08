@@ -57,6 +57,11 @@ describe('player', () => {
       assertItReturnsUnderlyingPromise(mockPost, customBuildsClient.web('example-id').start);
     });
 
+    describe('delete', () => {
+      assertItCallsCorrectUrl('DELETE', '/v1/player/custom-builds/web/example-id', () => customBuildsClient.web('example-id').delete());
+      assertItReturnsUnderlyingPromise(mockPost, customBuildsClient.web('example-id').delete);
+    });
+
     describe('domains', () => {
       describe('list', () => {
         assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/domains', customBuildsClient.web.domains.list);
