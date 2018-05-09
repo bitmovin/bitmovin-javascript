@@ -2,7 +2,7 @@
   "name": "bitmovin-javascript-examples",
   "version": "0.0.1",
   "dependencies": {
-    "bitmovin-javascript": "^1.9.0",
+    "bitmovin-javascript": "^1.10.0",
     "bluebird": "^3.4.7"
   }
 }
