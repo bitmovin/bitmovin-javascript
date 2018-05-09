@@ -1,31 +1,31 @@
 import urljoin from 'url-join';
-import http, { utils } from '../../../utils/http';
+import http, {utils} from '../../../utils/http';
 import Promise from 'bluebird';
 
 import media from './hlsManifestMedia';
 import streams from './hlsManifestStreams';
 
 export const hlsManifests = (configuration, http) => {
-  const { get, post, delete_ } = http;
-  let fn = (manifestId) => {
+  const {get, post, delete_} = http;
+  let fn = manifestId => {
     return {
       details: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId);
         return get(configuration, url);
       },
-      delete : () => {
+      delete: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId);
         return delete_(configuration, url);
       },
-      start  : () => {
+      start: () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'start');
         return post(configuration, url);
       },
-      stop   : () => {
+      stop: () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'stop');
         return post(configuration, url);
       },
-      status : () => {
+      status: () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'status');
         return get(configuration, url);
       },
@@ -34,7 +34,7 @@ export const hlsManifests = (configuration, http) => {
     };
   };
 
-  fn.create = (manifest) => {
+  fn.create = manifest => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls');
     return post(configuration, url, manifest);
   };
@@ -43,8 +43,8 @@ export const hlsManifests = (configuration, http) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls');
 
     let getParams = utils.buildGetParamString({
-      limit     : limit,
-      offset    : offset,
+      limit: limit,
+      offset: offset,
       encodingId: encodingId
     });
     if (getParams.length > 0) {
@@ -57,6 +57,6 @@ export const hlsManifests = (configuration, http) => {
   return fn;
 };
 
-export default (configuration) => {
+export default configuration => {
   return hlsManifests(configuration, http);
 };

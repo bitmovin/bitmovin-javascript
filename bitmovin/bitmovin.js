@@ -16,6 +16,7 @@ import analyticsLicenses from './analytics/licenses';
 import analyticsQueries from './analytics/queries';
 import analyticsImpressions from './analytics/impressions';
 import analyticsStatistics from './analytics/statistics';
+import customBuilds from './player/customBuilds';
 
 import logger from './utils/Logger';
 import utils from './utils/Utils';
@@ -33,9 +34,7 @@ const checkAuthorizationInConfiguration = function(configuration) {
 };
 
 export default class Bitmovin {
-
   constructor(configuration = {}) {
-
     checkAuthorizationInConfiguration(configuration);
 
     if (configuration.debug && configuration.debug === true) {
@@ -62,33 +61,39 @@ export default class Bitmovin {
       configuration.xApiClient = 'bitmovin-javascript';
     }
 
+    if (configuration.additionalHeaders === undefined) {
+      configuration.additionalHeaders = {};
+    }
+
     configuration.apiBaseUrl = urljoin(configuration.protocol + '://' + configuration.host, configuration.basePath);
 
     configuration.httpHeaders = {
-      'Content-Type'        : 'application/json',
-      'X-Api-Key'           : configuration.apiKey,
-      'X-Tenant-Org-Id'     : configuration.tenantOrgId,
-      'X-Api-Client'        : configuration.xApiClient,
-      'X-Api-Client-Version': '1.9.0'
+      'Content-Type': 'application/json',
+      'X-Api-Key': configuration.apiKey,
+      'X-Tenant-Org-Id': configuration.tenantOrgId,
+      'X-Api-Client': configuration.xApiClient,
+      'X-Api-Client-Version': '1.10.0',
+      ...configuration.additionalHeaders
     };
 
     this.configuration = configuration;
 
     this.encoding = {
-      encodings          : encodings(this.configuration),
+      encodings: encodings(this.configuration),
       codecConfigurations: codecConfigurations(this.configuration),
-      inputs             : inputs(this.configuration),
-      outputs            : outputs(this.configuration),
-      manifests          : manifests(this.configuration),
-      filters            : filters(this.configuration),
-      statistics         : statistics(this.configuration),
-      infrastructure     : infrastructure(this.configuration)
+      inputs: inputs(this.configuration),
+      outputs: outputs(this.configuration),
+      manifests: manifests(this.configuration),
+      filters: filters(this.configuration),
+      statistics: statistics(this.configuration),
+      infrastructure: infrastructure(this.configuration)
     };
 
     this.player = {
       channels: playerChannels(this.configuration),
       licenses: playerLicenses(this.configuration),
-      statistics: playerStatistics(this.configuration)
+      statistics: playerStatistics(this.configuration),
+      customBuilds: customBuilds(this.configuration)
     };
 
     this.analytics = {

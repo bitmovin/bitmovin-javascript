@@ -1,12 +1,12 @@
 import urljoin from 'url-join';
 import streams from './streams';
 import muxings from './muxings';
-import http, { utils } from '../../utils/http';
+import http, {utils} from '../../utils/http';
 import Promise from 'bluebird';
 
 export const encodings = (configuration, http) => {
-  const { get, post, delete_ } = http;
-  let fn = (encodingId) => {
+  const {get, post, delete_} = http;
+  let fn = encodingId => {
     return {
       details: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId);
@@ -24,15 +24,15 @@ export const encodings = (configuration, http) => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId);
         return delete_(configuration, url);
       },
-      start: (startConfiguration) => {
+      start: startConfiguration => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'start');
         return post(configuration, url, startConfiguration);
       },
-      stop:() => {
+      stop: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'stop');
         return post(configuration, url);
       },
-      startLive: (startLiveConfiguration) => {
+      startLive: startLiveConfiguration => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'live', 'start');
         return post(configuration, url, startLiveConfiguration);
       },
@@ -49,7 +49,7 @@ export const encodings = (configuration, http) => {
     };
   };
 
-  fn.create = (encoding) => {
+  fn.create = encoding => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings');
     return post(configuration, url, encoding);
   };
@@ -60,7 +60,7 @@ export const encodings = (configuration, http) => {
     const filterParams = utils.buildFilterParamString(filter);
     let getParams = utils.buildGetParamString({
       ...filterParams,
-      limit : limit,
+      limit: limit,
       offset: offset,
       sort: sort
     });
@@ -74,4 +74,6 @@ export const encodings = (configuration, http) => {
   return fn;
 };
 
-export default (configuration) => { return encodings(configuration, http); };
+export default configuration => {
+  return encodings(configuration, http);
+};

@@ -2,10 +2,18 @@ import urljoin from 'url-join';
 import http from '../../utils/http';
 
 export const tenants = (configuration, organizationId, groupId, http) => {
-  const { get, post, delete_ } = http;
-  const tenantsBaseUrl = urljoin(configuration.apiBaseUrl, 'account', 'organizations', organizationId, 'groups', groupId, 'tenants');
+  const {get, post, delete_} = http;
+  const tenantsBaseUrl = urljoin(
+    configuration.apiBaseUrl,
+    'account',
+    'organizations',
+    organizationId,
+    'groups',
+    groupId,
+    'tenants'
+  );
 
-  let fn = (tenantId) => {
+  let fn = tenantId => {
     return {
       details: () => {
         let url = urljoin(tenantsBaseUrl, tenantId);
@@ -18,7 +26,7 @@ export const tenants = (configuration, organizationId, groupId, http) => {
     };
   };
 
-  fn.add = (tenant) => {
+  fn.add = tenant => {
     const url = urljoin(tenantsBaseUrl);
     return post(configuration, url, tenant);
   };

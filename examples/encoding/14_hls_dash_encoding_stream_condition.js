@@ -1,169 +1,120 @@
-// 07_encoding_dash_hls_thumbnail.js
+// 14_hls_dash_encoding_stream_condition
+
+// ---------------------------------------------------------------------------------------------------------------------
 
 const Bitmovin = require('bitmovin-javascript').default;
 console.log(Bitmovin);
 const Promise = require('bluebird');
 
-const BITMOVIN_API_KEY = '<INSERT_YOUR_API_CODE>';
+const BITMOVIN_API_KEY = '<YOUR_API_KEY>';
 const bitmovin = new Bitmovin({apiKey: BITMOVIN_API_KEY, debug: false});
 
-const ENCODING_NAME = 'encoding_' + new Date().toISOString();
+const ENCODING_NAME = 'simple_encoding_' + new Date().getTime() / 1000;
 
-// Input Settings
-// See https://bitmovin.com/encoding-documentation/bitmovin-api/#/reference/encoding/inputs/create-s3-input for more information
-const S3_ACCESS_KEY = '<YOUR_S3_ACCESS_KEY>';
-const S3_SECRET_KEY = '<YOUR_S3_SECRET_KEY>';
-const S3_BUCKET_NAME = '<YOUR_S3_BUCKET>';
-const S3_CLOUD_REGION = '<YOUR_REGION>';
-const INPUT_FILE_PATH = '/encoding/Sintel-original-short.mkv';
+// Our input will be a HTTP one
+// -> https://s3-eu-west-1.amazonaws.com/bucketname/Sintel-original-short.mkv
+const INPUT_FILE_HOST = 's3-eu-west-1.amazonaws.com';
+const INPUT_FILE_PATH = '/bucketname/Sintel-original-short.mkv';
 
-// Output Settings
-// See https://bitmovin.com/encoding-documentation/bitmovin-api/#/reference/encoding/outputs/create-ftp-output for more information
-const FTP_HOST = '<YOUR_FTP_HOST>';
-const FTP_USER = '<YOUR_FTP_USER>';
-const FTP_PASSWORD = '<YOUR_FTP_PASSWORD>';
-const FTP_TRANSFER_VERSION = '1.1.0';
-const FTP_MAX_CONCURRENT_CONNECTIONS = 20;
-
+// Our output will be a S3 one
+const S3_ACCESS_KEY = '<S3_ACCESS_KEY>';
+const S3_SECRET_KEY = '<S3_SECRET_KEY>';
+const S3_BUCKET_NAME = '<S3_BUCKET_NAME>';
+const S3_CLOUD_REGION = 'EU_WEST_1';
 const OUTPUT_PATH = '/output/bitmovin-javascript-examples/' + ENCODING_NAME + '/';
-
-// Thumbnail settings
-// See https://bitmovin.com/encoding-documentation/bitmovin-api/#/reference/encoding/encodings/add-thumbnail for more information
-const THUMBNAIL_OUTPUT_PATH = OUTPUT_PATH + 'thumbnails/';
-const THUMBNAIL_POSITIONS = [10, 15, 25]; //If this array is empty the thumbnail generation will be omitted
-
 console.log('OUTPUT_PATH', OUTPUT_PATH);
 
-const s3Input = {
-  name: 'Sample Input',
-  description: 'This is a demo s3 input',
+const httpInput = {
+  name: 'Sintel 2010 1080p MKV',
+  description: 'sample input file for simple encoding test in bitmovin-javascript',
+  host: INPUT_FILE_HOST
+};
+
+const s3Output = {
+  name: 'S3 Output for simple encoding',
   accessKey: S3_ACCESS_KEY,
   secretKey: S3_SECRET_KEY,
   bucketName: S3_BUCKET_NAME,
   cloudRegion: S3_CLOUD_REGION
 };
 
-const ftpOutput = {
-  name: 'FTP Output',
-  description: 'This is a demo FTP output',
-  host: FTP_HOST,
-  username: FTP_USER,
-  password: FTP_PASSWORD,
-  transferVersion: FTP_TRANSFER_VERSION,
-  maxConcurrentConnections: FTP_MAX_CONCURRENT_CONNECTIONS
-};
-
-// AAC Audio Configuration
+// CC
 const aacAudioCodecConfiguration = {
-  name: 'Audio',
+  name: 'English',
   bitrate: 128000,
   rate: 48000
 };
-
-// Video Codec Configurations
+const h264VideoCodecConfiguration1080p = {
+  name: 'simple encoding - H264 1080p',
+  bitrate: 4800000,
+  rate: 24.0,
+  width: 1920,
+  height: 816,
+  profile: 'HIGH'
+};
 const h264VideoCodecConfiguration720p = {
-  name: 'H264 720p',
+  name: 'simple encoding - H264 720p',
   bitrate: 2400000,
-  height: 720,
-  profile: 'HIGH'
-};
-
-const h264VideoCodecConfiguration480p = {
-  name: 'H264 480p',
-  bitrate: 1200000,
-  height: 480,
-  profile: 'HIGH'
-};
-
-const h264VideoCodecConfiguration360p = {
-  name: 'H264 360p',
-  bitrate: 800000,
-  height: 360,
-  profile: 'HIGH'
-};
-
-const h264VideoCodecConfiguration240p = {
-  name: 'H264 240p',
-  bitrate: 400000,
-  height: 240,
+  rate: 24.0,
+  width: 1280,
+  height: 544,
   profile: 'HIGH'
 };
 
 const encodingResource = {
-  name: ENCODING_NAME,
-  description: 'bitmovin-javascript api client test encoding',
-  encoderVersion: 'STABLE'
-};
-
-const thumbnailResource = {
-  name: 'My Thumbnail',
-  description: 'Demo thumbnail',
-  height: 320,
-  unit: 'SECONDS',
-  positions: THUMBNAIL_POSITIONS,
-  pattern: 'thumbnail-%number%.png'
+  name: ENCODING_NAME
 };
 
 const main = () =>
   new Promise((resolve, reject) => {
     let aacCodecConfiguration = Object.assign({}, aacAudioCodecConfiguration);
+    let h264CodecConfiguration1080p = Object.assign({}, h264VideoCodecConfiguration1080p);
     let h264CodecConfiguration720p = Object.assign({}, h264VideoCodecConfiguration720p);
-    let h264CodecConfiguration480p = Object.assign({}, h264VideoCodecConfiguration480p);
-    let h264CodecConfiguration320p = Object.assign({}, h264VideoCodecConfiguration360p);
-    let h264CodecConfiguration240p = Object.assign({}, h264VideoCodecConfiguration240p);
-
-    let input = Object.assign({}, s3Input);
-    let output = Object.assign({}, ftpOutput);
+    let input = Object.assign({}, httpInput);
+    let output = Object.assign({}, s3Output);
     let encoding = Object.assign({}, encodingResource);
-    let thumbnail = Object.assign({}, thumbnailResource);
 
-    const createInputPromise = createS3Input(input).then(createdInput => {
-      console.log('Successfully created S3 Input');
+    const createHttpInputPromise = createHttpInput(input);
+    createHttpInputPromise.then(createdInput => {
+      console.log('Successfully created HTTP Input');
       input = createdInput;
     });
 
-    const createOutputPromise = createFtpOutput(output).then(createdS3Output => {
-      console.log('Successfully created FTP Output');
+    const createS3OutputPromise = createS3Output(output);
+    createS3OutputPromise.then(createdS3Output => {
+      console.log('Successfully created S3 Output');
       output = createdS3Output;
     });
 
-    const createAACPromise = createAACCodecConfiguration(aacCodecConfiguration).then(createdCodecConfig => {
+    const createAACPromise = createAACCodecConfiguration(aacCodecConfiguration);
+    createAACPromise.then(createdCodecConfig => {
       console.log('Successfully created AAC Audio Codec Configuration');
       aacCodecConfiguration = createdCodecConfig;
     });
 
-    const create720pPromise = createH264CodecConfiguration(h264CodecConfiguration720p).then(createdCodecConfig => {
+    const createH2641080pPromise = createH264CodecConfiguration(h264CodecConfiguration1080p);
+    createH2641080pPromise.then(createdCodecConfig => {
+      console.log('Successfully created H264 Video Codec Configuration @1080p');
+      h264CodecConfiguration1080p = createdCodecConfig;
+    });
+
+    const createH264720pPromise = createH264CodecConfiguration(h264CodecConfiguration720p);
+    createH264720pPromise.then(createdCodecConfig => {
       console.log('Successfully created H264 Video Codec Configuration @720p');
       h264CodecConfiguration720p = createdCodecConfig;
     });
 
-    const create480pPromise = createH264CodecConfiguration(h264CodecConfiguration480p).then(createdCodecConfig => {
-      console.log('Successfully created H264 Video Codec Configuration @480p');
-      h264CodecConfiguration480p = createdCodecConfig;
-    });
-
-    const create320pPromise = createH264CodecConfiguration(h264CodecConfiguration320p).then(createdCodecConfig => {
-      console.log('Successfully created H264 Video Codec Configuration @320p');
-      h264CodecConfiguration320p = createdCodecConfig;
-    });
-
-    const create240pPromise = createH264CodecConfiguration(h264CodecConfiguration240p).then(createdCodecConfig => {
-      console.log('Successfully created H264 Video Codec Configuration @240p');
-      h264CodecConfiguration240p = createdCodecConfig;
-    });
-
-    const createEncodingPromise = createEncoding(encodingResource).then(createdEncoding => {
+    const createEncodingPromise = createEncoding(encodingResource);
+    createEncodingPromise.then(createdEncoding => {
       console.log('Successfully created Encoding Resource with name ' + encodingResource.name);
       encoding = createdEncoding;
     });
 
     const preparationPromises = [
-      createInputPromise,
-      createOutputPromise,
-      create240pPromise,
-      create320pPromise,
-      create480pPromise,
-      create720pPromise,
+      createHttpInputPromise,
+      createS3OutputPromise,
+      createH2641080pPromise,
+      createH264720pPromise,
       createAACPromise,
       createEncodingPromise
     ];
@@ -172,13 +123,7 @@ const main = () =>
     preparationPromise.then(() => {
       console.log('----\nSuccessfully created input, output, codec configurations and encoding resource.\n----');
 
-      const codecConfigurations = [
-        aacCodecConfiguration,
-        h264CodecConfiguration240p,
-        h264CodecConfiguration320p,
-        h264CodecConfiguration480p,
-        h264CodecConfiguration720p
-      ];
+      const codecConfigurations = [aacCodecConfiguration, h264CodecConfiguration1080p, h264CodecConfiguration720p];
 
       Promise.map(
         codecConfigurations,
@@ -191,43 +136,32 @@ const main = () =>
         .then(results => {
           const [
             [addedAudioStream, addedAudioMuxing],
-            [addedVideoStream240p, addedVideoMuxing240p],
-            [addedVideoStream320p, addedVideoMuxing320p],
-            [addedVideoStream480p, addedVideoMuxing480p],
+            [addedVideoStream1080p, addedVideoMuxing1080p],
             [addedVideoStream720p, addedVideoMuxing720p]
           ] = results;
 
           addedAudioMuxing.streamId = addedAudioStream.id;
-          addedVideoMuxing240p.streamId = addedVideoStream240p.id;
-          addedVideoMuxing320p.streamId = addedVideoStream320p.id;
-          addedVideoMuxing480p.streamId = addedVideoStream480p.id;
           addedVideoMuxing720p.streamId = addedVideoStream720p.id;
+          addedVideoMuxing1080p.streamId = addedVideoStream1080p.id;
 
           console.log('Added audio Muxing', addedAudioMuxing);
-          console.log('Added video Muxing 240p', addedVideoMuxing240p);
-          console.log('Added video Muxing 320p', addedVideoMuxing320p);
-          console.log('Added video Muxing 480p', addedVideoMuxing480p);
+          console.log('Added video Muxing 1080p', addedVideoMuxing1080p);
           console.log('Added video Muxing 720p', addedVideoMuxing720p);
 
-          const audioMuxings = [addedAudioMuxing];
-          const videoMuxings = [addedVideoMuxing240p, addedVideoMuxing320p, addedVideoMuxing480p, addedVideoMuxing720p];
+          const dashManifestPromise = createDashManifest(
+            output,
+            encoding,
+            [addedAudioMuxing],
+            [addedVideoMuxing1080p, addedVideoMuxing720p]
+          );
+          const hlsManifestPromise = createHlsManifest(
+            output,
+            encoding,
+            [addedAudioMuxing],
+            [addedVideoMuxing1080p, addedVideoMuxing720p]
+          );
 
-          const dashManifestPromise = createDashManifest(output, encoding, audioMuxings, videoMuxings);
-
-          const hlsManifestPromise = createHlsManifest(output, encoding, audioMuxings, videoMuxings);
-
-          let thumbnailPromise = Promise.resolve();
-          if (thumbnail.positions.length > 0) {
-            thumbnailPromise = createThumbnail(output, encoding, addedVideoStream720p, thumbnail)
-              .then(() => {
-                console.log('Successfully created thumbnail');
-              })
-              .catch(() => {
-                console.log('Error creating thumbnail');
-              });
-          }
-
-          Promise.all([dashManifestPromise, hlsManifestPromise, thumbnailPromise])
+          Promise.all([dashManifestPromise, hlsManifestPromise])
             .then(([createdDashManifest, createdHlsManifest]) => {
               startEncodingAndWaitForItToBeFinished(encoding).then(() => {
                 console.log('Successfully finished encoding');
@@ -256,16 +190,38 @@ const main = () =>
   });
 
 const addStreamToEncoding = (input, output, codecConfiguration, encoding) => {
+  let stream;
   const inputStream = {
     inputId: input.id,
     inputPath: INPUT_FILE_PATH,
     selectionMode: 'AUTO'
   };
 
-  let stream = {
-    inputStreams: [inputStream],
-    codecConfigId: codecConfiguration.id
-  };
+  // If the current stream is a video one, apply stream condition on video width
+  if (codecConfiguration.width) {
+    stream = {
+      inputStreams: [inputStream],
+      codecConfigId: codecConfiguration.id,
+      conditions: {
+        type: 'CONDITION',
+        attribute: 'WIDTH',
+        operator: '>=',
+        value: JSON.stringify(codecConfiguration.width)
+      }
+    };
+  } else {
+    // Else, apply condition audio stream
+    stream = {
+      inputStreams: [inputStream],
+      codecConfigId: codecConfiguration.id,
+      conditions: {
+        type: 'CONDITION',
+        attribute: 'INPUTSTREAM',
+        operator: '==',
+        value: 'true'
+      }
+    };
+  }
 
   return new Promise((resolve, reject) => {
     addStream(encoding, stream, output, codecConfiguration)
@@ -407,21 +363,6 @@ const waitUntilHlsManifestFinished = manifest => {
     };
     waitForManifestToBeFinished();
   });
-};
-
-const createThumbnail = (output, encoding, stream, thumbnail) => {
-  let thumbnailRequest = Object.assign({}, thumbnail, {
-    outputs: [
-      {
-        outputId: output.id,
-        outputPath: THUMBNAIL_OUTPUT_PATH
-      }
-    ]
-  });
-  return bitmovin.encoding
-    .encodings(encoding.id)
-    .streams(stream.id)
-    .thumbnails.add(thumbnailRequest);
 };
 
 const createHlsManifest = (output, encoding, audioMuxingsWithPath, videoMuxingsWithPath) => {
@@ -756,33 +697,33 @@ const addTsMuxingForStream = (encoding, stream, output, output_prefix) => {
   });
 };
 
-const createS3Input = input => {
-  const inputCreatePromise = bitmovin.encoding.inputs.s3.create(input);
+const createHttpInput = input => {
+  const inputCreatePromise = bitmovin.encoding.inputs.http.create(input);
 
   return new Promise((resolve, reject) => {
     inputCreatePromise
       .then(createdInput => {
-        console.log('s3 input successfully created');
+        console.log('http input successfully created');
         resolve(createdInput);
       })
       .catch(error => {
-        console.error('error creating s3 input', error);
+        console.error('error creating http input', error);
         reject(error);
       });
   });
 };
 
-const createFtpOutput = output => {
-  const outputCreatePromise = bitmovin.encoding.outputs.ftp.create(output);
+const createS3Output = output => {
+  const outputCreatePromise = bitmovin.encoding.outputs.s3.create(s3Output);
 
   return new Promise((resolve, reject) => {
     outputCreatePromise
       .then(createdOutput => {
-        console.log('FTP output successfully created');
+        console.log('S3 output successfully created');
         resolve(createdOutput);
       })
       .catch(error => {
-        console.error('error creating FTP output', error);
+        console.error('error creating s3 output', error);
         reject(error);
       });
   });

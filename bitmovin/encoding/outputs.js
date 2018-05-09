@@ -2,11 +2,11 @@ import urljoin from 'url-join';
 import http, {utils} from '../utils/http';
 
 export const outputs = (configuration, http) => {
-  const { get, post, delete_ } = http;
-  let typeFn = (typeUrl) => {
-    let fn = (outputId) => {
+  const {get, post, delete_} = http;
+  let typeFn = typeUrl => {
+    let fn = outputId => {
       return {
-        details   : () => {
+        details: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', typeUrl, outputId);
           return get(configuration, url);
         },
@@ -15,14 +15,14 @@ export const outputs = (configuration, http) => {
 
           return get(configuration, url);
         },
-        delete    : () => {
+        delete: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', typeUrl, outputId);
           return delete_(configuration, url);
         }
       };
     };
 
-    fn.create = (output) => {
+    fn.create = output => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', typeUrl);
       return post(configuration, url, output);
     };
@@ -31,7 +31,7 @@ export const outputs = (configuration, http) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', typeUrl);
 
       let getParams = utils.buildGetParamString({
-        limit : limit,
+        limit: limit,
         offset: offset,
         sort: sort
       });
@@ -45,8 +45,8 @@ export const outputs = (configuration, http) => {
     return fn;
   };
 
-  let bitmovinTypeFn = (typeUrl) => {
-    let bitmovinFn = (outputId) => {
+  let bitmovinTypeFn = typeUrl => {
+    let bitmovinFn = outputId => {
       return {
         details: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', typeUrl, outputId);
@@ -60,7 +60,7 @@ export const outputs = (configuration, http) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', typeUrl);
 
       let getParams = utils.buildGetParamString({
-        limit : limit,
+        limit: limit,
         offset: offset
       });
       if (getParams.length > 0) {
@@ -74,17 +74,17 @@ export const outputs = (configuration, http) => {
   };
 
   return {
-    s3       : typeFn('s3'),
-    gcs      : typeFn('gcs'),
-    azure    : typeFn('azure'),
-    ftp      : typeFn('ftp'),
-    sftp     : typeFn('sftp'),
+    s3: typeFn('s3'),
+    gcs: typeFn('gcs'),
+    azure: typeFn('azure'),
+    ftp: typeFn('ftp'),
+    sftp: typeFn('sftp'),
     genericS3: typeFn('generic-s3'),
-    bitmovin : {
+    bitmovin: {
       aws: bitmovinTypeFn('bitmovin/aws'),
       gcp: bitmovinTypeFn('bitmovin/gcp')
     },
-    local    : typeFn('local'),
+    local: typeFn('local'),
 
     list: (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs');
@@ -92,7 +92,7 @@ export const outputs = (configuration, http) => {
       const filterParams = utils.buildFilterParamString(filter);
       let getParams = utils.buildGetParamString({
         ...filterParams,
-        limit : limit,
+        limit: limit,
         offset: offset,
         sort: sort
       });
@@ -103,7 +103,7 @@ export const outputs = (configuration, http) => {
       return get(configuration, url);
     },
 
-    getType: (outputId) => {
+    getType: outputId => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', outputId, 'type');
 
       return get(configuration, url);
@@ -111,4 +111,6 @@ export const outputs = (configuration, http) => {
   };
 };
 
-export default (configuration) => { return outputs(configuration, http); };
+export default configuration => {
+  return outputs(configuration, http);
+};

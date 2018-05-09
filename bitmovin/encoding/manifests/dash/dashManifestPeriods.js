@@ -1,17 +1,17 @@
 import urljoin from 'url-join';
-import http, { utils } from '../../../utils/http';
+import http, {utils} from '../../../utils/http';
 import adaptationSets from './dashManifestAdaptationSets';
 import Promise from 'bluebird';
 
 export const dashManifestPeriods = (configuration, manifestId, http) => {
-  const { get, post, delete_ } = http;
-  let fn = (periodId) => {
+  const {get, post, delete_} = http;
+  let fn = periodId => {
     return {
-      details       : () => {
+      details: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId);
         return get(configuration, url);
       },
-      delete        : () => {
+      delete: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId);
         return delete_(configuration, url);
       },
@@ -19,7 +19,7 @@ export const dashManifestPeriods = (configuration, manifestId, http) => {
     };
   };
 
-  fn.add = (period) => {
+  fn.add = period => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods');
     return post(configuration, url, period);
   };
@@ -28,7 +28,7 @@ export const dashManifestPeriods = (configuration, manifestId, http) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods');
 
     let getParams = utils.buildGetParamString({
-      limit : limit,
+      limit: limit,
       offset: offset
     });
     if (getParams.length > 0) {

@@ -1,24 +1,31 @@
 import urljoin from 'url-join';
-import http, { utils } from '../../utils/http';
+import http, {utils} from '../../utils/http';
 
 import thumbnails from './thumbnails';
 import sprites from './sprites';
 
 export const streams = (configuration, encodingId, http) => {
-  const { get, post, delete_ } = http;
-  let filterFn = (streamId) => {
-    let fn = (filterId) => {
+  const {get, post, delete_} = http;
+  let filterFn = streamId => {
+    let fn = filterId => {
       return {
         delete: () => {
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'filters',
-            filterId);
+          let url = urljoin(
+            configuration.apiBaseUrl,
+            'encoding/encodings',
+            encodingId,
+            'streams',
+            streamId,
+            'filters',
+            filterId
+          );
 
           return delete_(configuration, url);
         }
       };
     };
 
-    fn.add = (filter) => {
+    fn.add = filter => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'filters');
       return post(configuration, url, filter);
     };
@@ -27,7 +34,7 @@ export const streams = (configuration, encodingId, http) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'filters');
 
       let getParams = utils.buildGetParamString({
-        limit : limit,
+        limit: limit,
         offset: offset
       });
       if (getParams.length > 0) {
@@ -45,18 +52,25 @@ export const streams = (configuration, encodingId, http) => {
     return fn;
   };
 
-  let fn = (streamId) => {
+  let fn = streamId => {
     return {
-      details     : () => {
+      details: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId);
 
         return get(configuration, url);
       },
-      customData  : () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'customData');
+      customData: () => {
+        let url = urljoin(
+          configuration.apiBaseUrl,
+          'encoding/encodings',
+          encodingId,
+          'streams',
+          streamId,
+          'customData'
+        );
         return get(configuration, url);
       },
-      delete      : () => {
+      delete: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId);
         return delete_(configuration, url);
       },
@@ -64,13 +78,13 @@ export const streams = (configuration, encodingId, http) => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'input');
         return get(configuration, url);
       },
-      filters     : filterFn(streamId),
-      thumbnails  : thumbnails(configuration, encodingId, streamId),
-      sprites     : sprites(configuration, encodingId, streamId)
+      filters: filterFn(streamId),
+      thumbnails: thumbnails(configuration, encodingId, streamId),
+      sprites: sprites(configuration, encodingId, streamId)
     };
   };
 
-  fn.add = (stream) => {
+  fn.add = stream => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams');
 
     return post(configuration, url, stream);
@@ -80,7 +94,7 @@ export const streams = (configuration, encodingId, http) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams');
 
     let getParams = utils.buildGetParamString({
-      limit : limit,
+      limit: limit,
       offset: offset
     });
     if (getParams.length > 0) {
