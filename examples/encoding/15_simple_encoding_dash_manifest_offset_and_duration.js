@@ -61,7 +61,7 @@ console.log('OUTPUT_PATH', OUTPUT_PATH);
 const trimmingOptions = {
   offset: 10,
   duration: 30
-}
+};
 
 const httpInput = {
   name: 'Sintel 2010 1080p MKV',
