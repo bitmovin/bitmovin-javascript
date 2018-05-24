@@ -58,7 +58,7 @@ const S3_CLOUD_REGION = 'EU_WEST_1';
 const OUTPUT_PATH = '/output/bitmovin-javascript-examples/' + ENCODING_NAME + '/';
 console.log('OUTPUT_PATH', OUTPUT_PATH);
 
-const trimmingOptions: {
+const trimmingOptions = {
   offset: 10,
   duration: 30
 }
