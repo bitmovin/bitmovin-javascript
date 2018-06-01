@@ -1,8 +1,9 @@
 import fetch from 'node-fetch';
-import BitmovinError from './BitmovinError';
-import logger from './Logger';
 import Promise from 'bluebird';
 import urljoin from 'url-join';
+
+import BitmovinError from './BitmovinError';
+import logger from './Logger';
 
 const GET = 'GET';
 const POST = 'POST';

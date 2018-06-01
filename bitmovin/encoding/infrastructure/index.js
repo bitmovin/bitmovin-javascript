@@ -1,5 +1,7 @@
 import urljoin from 'url-join';
+
 import http, {utils} from '../../utils/http';
+
 import {aws as awsInfra} from './aws';
 
 export const infrastructure = (configuration, http) => {

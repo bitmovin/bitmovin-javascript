@@ -1,6 +1,7 @@
 import urljoin from 'url-join';
-import http, {utils} from '../../../utils/http';
 import Promise from 'bluebird';
+
+import http, {utils} from '../../../utils/http';
 
 import media from './hlsManifestMedia';
 import streams from './hlsManifestStreams';

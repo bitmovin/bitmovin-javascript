@@ -1,4 +1,5 @@
 import urljoin from 'url-join';
+
 import {utils} from '../utils/http';
 
 export const webCustomPlayerBuildDomain = (configuration, http) => {

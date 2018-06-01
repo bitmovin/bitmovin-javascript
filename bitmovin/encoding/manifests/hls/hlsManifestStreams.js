@@ -1,6 +1,7 @@
 import urljoin from 'url-join';
-import http, {utils} from '../../../utils/http';
 import Promise from 'bluebird';
+
+import http, {utils} from '../../../utils/http';
 
 export const hlsManifestStreams = (configuration, manifestId, http) => {
   const {get, post, delete_} = http;

@@ -1,4 +1,4 @@
-const packageProperties = require('./package.json');
+const packageProperties = require('../package.json');
 
 const banner =
         '\n' +

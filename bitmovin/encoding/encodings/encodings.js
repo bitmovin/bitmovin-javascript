@@ -1,8 +1,10 @@
 import urljoin from 'url-join';
+import Promise from 'bluebird';
+
+import http, {utils} from '../../utils/http';
+
 import streams from './streams';
 import muxings from './muxings';
-import http, {utils} from '../../utils/http';
-import Promise from 'bluebird';
 
 export const encodings = (configuration, http) => {
   const {get, post, delete_} = http;

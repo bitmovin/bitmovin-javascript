@@ -1,7 +1,9 @@
 import urljoin from 'url-join';
-import http, {utils} from '../../../utils/http';
-import adaptationSets from './dashManifestAdaptationSets';
 import Promise from 'bluebird';
+
+import http, {utils} from '../../../utils/http';
+
+import adaptationSets from './dashManifestAdaptationSets';
 
 export const dashManifestPeriods = (configuration, manifestId, http) => {
   const {get, post, delete_} = http;

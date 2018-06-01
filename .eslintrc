@@ -1,0 +1,40 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "parser": "babel-eslint",
+  "rules": {
+    "quotes": [2, "single", {
+      "avoidEscape": true
+    }],
+    "strict": [2, "never"],
+    "no-console": "error",
+    "no-debugger": "warn",
+    "no-undef": "error",
+    "import/no-named-as-default": "off",
+    "no-unreachable": "warn",
+    "no-unused-expressions": "warn",
+    "import/order": ["error", {
+      "newlines-between": "always"
+    }],
+    "no-unused-vars": "error",
+    "eqeqeq": ["error", "always", {
+      "null": "ignore"
+    }],
+    "import/no-useless-path-segments": "error",
+    "import/extensions": ["error", "never", {
+      "js": "never",
+      "mjs": "never",
+      "jsx": "never"
+    }]
+  },
+  "extends": [
+    "plugin:import/errors",
+    "plugin:import/warnings"
+  ],
+  "plugins": [
+    "import"
+  ]
+}

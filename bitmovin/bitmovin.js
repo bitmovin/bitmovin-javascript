@@ -17,7 +17,6 @@ import analyticsQueries from './analytics/queries';
 import analyticsImpressions from './analytics/impressions';
 import analyticsStatistics from './analytics/statistics';
 import customBuilds from './player/customBuilds';
-
 import logger from './utils/Logger';
 import utils from './utils/Utils';
 
