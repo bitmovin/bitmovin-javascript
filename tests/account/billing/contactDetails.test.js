@@ -1,11 +1,11 @@
-import { contactDetails } from '../../../bitmovin/account/billing/contactDetails'
+import {contactDetails} from '../../../bitmovin/account/billing/contactDetails';
 import {
   mockGet,
   mockPut,
   mockHttp,
   assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
-  testSetup,
+  testSetup
 } from '../../assertions';
 import {getConfiguration} from '../../utils';
 
@@ -27,4 +27,3 @@ describe('account', () => {
     });
   });
 });
-

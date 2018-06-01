@@ -1,5 +1,5 @@
 import {getConfiguration} from '../utils';
-import { thumbnails } from '../../bitmovin/encoding/encodings/thumbnails';
+import {thumbnails} from '../../bitmovin/encoding/encodings/thumbnails';
 import {
   mockGet,
   mockPost,
@@ -23,30 +23,49 @@ describe('encoding', () => {
     describe('stream', () => {
       describe('thumbnails', () => {
         describe('list', () => {
-          assertItCallsCorrectUrl('GET', '/v1/encoding/encodings/encoding-id/streams/stream-id/thumbnails', client.list);
+          assertItCallsCorrectUrl(
+            'GET',
+            '/v1/encoding/encodings/encoding-id/streams/stream-id/thumbnails',
+            client.list
+          );
           assertItReturnsUnderlyingPromise(mockGet, client.list);
         });
 
         describe('add', () => {
-          assertItCallsCorrectUrl('POST', '/v1/encoding/encodings/encoding-id/streams/stream-id/thumbnails', client.add);
+          assertItCallsCorrectUrl(
+            'POST',
+            '/v1/encoding/encodings/encoding-id/streams/stream-id/thumbnails',
+            client.add
+          );
           assertItReturnsUnderlyingPromise(mockPost, client.add);
         });
 
-
         describe('thumbnail', () => {
           describe('details', () => {
-            assertItCallsCorrectUrl('GET', '/v1/encoding/encodings/encoding-id/streams/stream-id/thumbnails/thumbnail-id', client('thumbnail-id').details);
+            assertItCallsCorrectUrl(
+              'GET',
+              '/v1/encoding/encodings/encoding-id/streams/stream-id/thumbnails/thumbnail-id',
+              client('thumbnail-id').details
+            );
             assertItReturnsUnderlyingPromise(mockGet, client('thumbnail-id').details);
           });
           describe('customData', () => {
-            assertItCallsCorrectUrl('GET', '/v1/encoding/encodings/encoding-id/streams/stream-id/thumbnails/thumbnail-id/customData', client('thumbnail-id').customData);
+            assertItCallsCorrectUrl(
+              'GET',
+              '/v1/encoding/encodings/encoding-id/streams/stream-id/thumbnails/thumbnail-id/customData',
+              client('thumbnail-id').customData
+            );
             assertItReturnsUnderlyingPromise(mockGet, client('thumbnail-id').customData);
           });
           describe('delete', () => {
-            assertItCallsCorrectUrl('DELETE', '/v1/encoding/encodings/encoding-id/streams/stream-id/thumbnails/thumbnail-id', client('thumbnail-id').delete);
+            assertItCallsCorrectUrl(
+              'DELETE',
+              '/v1/encoding/encodings/encoding-id/streams/stream-id/thumbnails/thumbnail-id',
+              client('thumbnail-id').delete
+            );
             assertItReturnsUnderlyingPromise(mockDelete, client('thumbnail-id').delete);
           });
-        })
+        });
       });
     });
   });

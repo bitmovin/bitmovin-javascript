@@ -7,119 +7,140 @@ import outputs from '../../bitmovin/encoding/outputs';
 let testConfiguration = getConfiguration();
 
 const sampleManifest = {
-  name        : 'Sample DASH Manifest',
-  description : 'bitmovin-javascript sample dash manifest dashManifests.test.js',
+  name: 'Sample DASH Manifest',
+  description: 'bitmovin-javascript sample dash manifest dashManifests.test.js',
   manifestName: 'bitmovin-javascript-dash-manifest.mpd',
-  outputs     : []
+  outputs: []
 };
 
 const samplePeriod = {
-  start   : 2,
+  start: 2,
   duration: 290
 };
 
 describe('[DASH Manifest Periods]', () => {
-  let manifestsClient  = manifests(testConfiguration);
-  let outputsClient    = outputs(testConfiguration);
+  let manifestsClient = manifests(testConfiguration);
+  let outputsClient = outputs(testConfiguration);
   let manifestResource = undefined;
 
   const createOutput = () => {
     let sampleS3Output = {
-      name       : 'Sample S3 Output - Bitmovin Javascript',
+      name: 'Sample S3 Output - Bitmovin Javascript',
       description: 'Bitmovin Javascript outputs.test.js',
-      accessKey  : 'AKIAIOSFODNN7INVALID',
-      secretKey  : 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYINVALIDKEY',
-      bucketName : 'printtheworld',
+      accessKey: 'AKIAIOSFODNN7INVALID',
+      secretKey: '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',
+      bucketName: 'printtheworld',
       cloudRegion: 'SA_EAST_1',
-      customData : {
+      customData: {
         myList: ['a', 'b', 'c', 'd'],
-        myInt : 1234
+        myInt: 1234
       }
     };
 
     return outputsClient.s3.create(sampleS3Output);
   };
 
-  const getSampleOutput = (outputId) => {
+  const getSampleOutput = outputId => {
     return {
-      outputId  : outputId,
+      outputId: outputId,
       outputPath: 'path/to/file/destination',
-      acl       : [
+      acl: [
         {
-          scope     : 'string',
+          scope: 'string',
           permission: 'PUBLIC_READ'
         }
       ]
     };
   };
 
-  beforeAll((done) => {
+  beforeAll(done => {
     let createdOutput = undefined;
 
-    createOutput().then((output) => {
-      createdOutput          = getSampleOutput(output.id);
-      sampleManifest.outputs = [createdOutput];
-      return manifestsClient.create(sampleManifest);
-    }).then((manifest) => {
-      assert((manifest.id !== null) && manifest.id !== undefined && manifest.id !== '');
-      manifestResource = manifest;
-      compareManifests(manifest, sampleManifest);
-      done();
-    }).catch((error) => {
-      done(new Error(error));
-    })
+    createOutput()
+      .then(output => {
+        createdOutput = getSampleOutput(output.id);
+        sampleManifest.outputs = [createdOutput];
+        return manifestsClient.create(sampleManifest);
+      })
+      .then(manifest => {
+        assert(manifest.id !== null && manifest.id !== undefined && manifest.id !== '');
+        manifestResource = manifest;
+        compareManifests(manifest, sampleManifest);
+        done();
+      })
+      .catch(error => {
+        done(new Error(error));
+      });
   });
 
-  it('should create a dash manifest period', (done) => {
-    manifestsClient(manifestResource.id).periods.add(samplePeriod).then((period) => {
-      assert((period.id !== null) && period.id !== undefined && period.id !== '');
-      comparePeriods(period, samplePeriod);
-      done();
-    }).catch((error) => {
-      done(new Error(error));
-    });
+  it('should create a dash manifest period', done => {
+    manifestsClient(manifestResource.id)
+      .periods.add(samplePeriod)
+      .then(period => {
+        assert(period.id !== null && period.id !== undefined && period.id !== '');
+        comparePeriods(period, samplePeriod);
+        done();
+      })
+      .catch(error => {
+        done(new Error(error));
+      });
   });
 
-  it('should return a list of DASH manifest periods', (done) => {
-    manifestsClient(manifestResource.id).periods.list(5).then((response) => {
-      assert((response.totalCount !== null) && response.totalCount !== undefined);
-      assert((response.items !== null) && response.items !== undefined);
-      done();
-    }).catch((error) => {
-      done(new Error(error));
-    });
+  it('should return a list of DASH manifest periods', done => {
+    manifestsClient(manifestResource.id)
+      .periods.list(5)
+      .then(response => {
+        assert(response.totalCount !== null && response.totalCount !== undefined);
+        assert(response.items !== null && response.items !== undefined);
+        done();
+      })
+      .catch(error => {
+        done(new Error(error));
+      });
   });
 
-  it('should return manifest period details', (done) => {
+  it('should return manifest period details', done => {
     let createdPeriod = undefined;
 
-    manifestsClient(manifestResource.id).periods.add(samplePeriod).then((period) => {
-      assert((period.id !== null) && period.id !== undefined && period.id !== '');
-      comparePeriods(period, samplePeriod);
-      createdPeriod = period;
-      return manifestsClient(manifestResource.id).periods(period.id).details();
-    }).then((details) => {
-      comparePeriods(details, createdPeriod);
-      done();
-    }).catch((error) => {
-      done(new Error(error));
-    });
+    manifestsClient(manifestResource.id)
+      .periods.add(samplePeriod)
+      .then(period => {
+        assert(period.id !== null && period.id !== undefined && period.id !== '');
+        comparePeriods(period, samplePeriod);
+        createdPeriod = period;
+        return manifestsClient(manifestResource.id)
+          .periods(period.id)
+          .details();
+      })
+      .then(details => {
+        comparePeriods(details, createdPeriod);
+        done();
+      })
+      .catch(error => {
+        done(new Error(error));
+      });
   });
 
-  it('should delete a dash manifest period', (done) => {
+  it('should delete a dash manifest period', done => {
     let createdPeriod = undefined;
 
-    manifestsClient(manifestResource.id).periods.add(samplePeriod).then((period) => {
-      assert((period.id !== null) && period.id !== undefined && period.id !== '');
-      comparePeriods(period, samplePeriod);
-      createdPeriod = period;
-      return manifestsClient(manifestResource.id).periods(period.id).delete();
-    }).then((result) => {
-      assert.equal(result.id, createdPeriod.id);
-      done();
-    }).catch((error) => {
-      done(new Error(error));
-    });
+    manifestsClient(manifestResource.id)
+      .periods.add(samplePeriod)
+      .then(period => {
+        assert(period.id !== null && period.id !== undefined && period.id !== '');
+        comparePeriods(period, samplePeriod);
+        createdPeriod = period;
+        return manifestsClient(manifestResource.id)
+          .periods(period.id)
+          .delete();
+      })
+      .then(result => {
+        assert.equal(result.id, createdPeriod.id);
+        done();
+      })
+      .catch(error => {
+        done(new Error(error));
+      });
   });
 
   const compareManifests = (manifestOne, manifestTwo) => {
@@ -127,10 +148,10 @@ describe('[DASH Manifest Periods]', () => {
     assert.equal(manifestOne.description, manifestTwo.description);
     assert.equal(manifestOne.manifestName, manifestTwo.manifestName);
     // TODO: Hack: MRS does not return ACL object inside created manifest output's object
-    manifestOne.outputs.forEach((output) => {
+    manifestOne.outputs.forEach(output => {
       output.acl = undefined;
     });
-    manifestTwo.outputs.forEach((output) => {
+    manifestTwo.outputs.forEach(output => {
       output.acl = undefined;
     });
     // END TODO (Hack)

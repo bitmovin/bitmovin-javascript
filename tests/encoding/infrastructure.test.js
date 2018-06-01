@@ -1,6 +1,6 @@
-import { infrastructure } from '../../bitmovin/encoding/infrastructure';
-import { aws } from '../../bitmovin/encoding/infrastructure/aws';
-import { getConfiguration } from '../utils';
+import {infrastructure} from '../../bitmovin/encoding/infrastructure';
+import {aws} from '../../bitmovin/encoding/infrastructure/aws';
+import {getConfiguration} from '../utils';
 import {
   mockGet,
   mockPost,
@@ -8,7 +8,7 @@ import {
   mockHttp,
   assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
-  testSetup,
+  testSetup
 } from '../assertions';
 
 let testConfiguration = getConfiguration();
@@ -19,18 +19,24 @@ describe('encoding', () => {
 
     const client = infrastructure(testConfiguration, mockHttp);
 
-    const testInfrastructureType = (type) => {
+    const testInfrastructureType = type => {
       describe(type, () => {
         describe('list', () => {
           assertItCallsCorrectUrl('GET', `/v1/encoding/infrastructure/${type}`, client[type].list);
           assertItReturnsUnderlyingPromise(mockGet, client[type].list);
         });
         describe('list limit offset', () => {
-          assertItCallsCorrectUrl('GET', `/v1/encoding/infrastructure/${type}\\?limit=100&offset=15`, () => client[type].list(100, 15));
+          assertItCallsCorrectUrl('GET', `/v1/encoding/infrastructure/${type}\\?limit=100&offset=15`, () =>
+            client[type].list(100, 15)
+          );
           assertItReturnsUnderlyingPromise(mockGet, () => client[type].list(100, 15));
         });
         describe('list limit offset sort', () => {
-          assertItCallsCorrectUrl('GET', `/v1/encoding/infrastructure/${type}\\?limit=100&offset=15&sort=createdAt:DESC`, () => client[type].list(100, 15, 'createdAt:DESC'));
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/infrastructure/${type}\\?limit=100&offset=15&sort=createdAt:DESC`,
+            () => client[type].list(100, 15, 'createdAt:DESC')
+          );
           assertItReturnsUnderlyingPromise(mockGet, () => client[type].list(100, 15, 'createdAt:DESC'));
         });
         describe('create', () => {
@@ -42,11 +48,19 @@ describe('encoding', () => {
           assertItReturnsUnderlyingPromise(mockGet, client[type]('someId').details);
         });
         describe('customData', () => {
-          assertItCallsCorrectUrl('GET', `/v1/encoding/infrastructure/${type}/someId/customData`, client[type]('someId').customData);
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/infrastructure/${type}/someId/customData`,
+            client[type]('someId').customData
+          );
           assertItReturnsUnderlyingPromise(mockGet, client[type]('someId').customData);
         });
         describe('delete', () => {
-          assertItCallsCorrectUrl('DELETE', `/v1/encoding/infrastructure/${type}/someId`, client[type]('someId').delete);
+          assertItCallsCorrectUrl(
+            'DELETE',
+            `/v1/encoding/infrastructure/${type}/someId`,
+            client[type]('someId').delete
+          );
           assertItReturnsUnderlyingPromise(mockDelete, client[type]('someId').delete);
         });
       });
@@ -65,11 +79,15 @@ describe('encoding', () => {
       assertItReturnsUnderlyingPromise(mockGet, client.list);
     });
     describe('list limit offset', () => {
-      assertItCallsCorrectUrl('GET', '/v1/encoding/infrastructure/aws\\?limit=100&offset=15', () => client.list(100, 15));
+      assertItCallsCorrectUrl('GET', '/v1/encoding/infrastructure/aws\\?limit=100&offset=15', () =>
+        client.list(100, 15)
+      );
       assertItReturnsUnderlyingPromise(mockGet, () => client.list(100, 15));
     });
     describe('list limit offset sort', () => {
-      assertItCallsCorrectUrl('GET', '/v1/encoding/infrastructure/aws\\?limit=100&offset=15&sort=createdAt:DESC', () => client.list(100, 15, 'createdAt:DESC'));
+      assertItCallsCorrectUrl('GET', '/v1/encoding/infrastructure/aws\\?limit=100&offset=15&sort=createdAt:DESC', () =>
+        client.list(100, 15, 'createdAt:DESC')
+      );
       assertItReturnsUnderlyingPromise(mockGet, () => client.list(100, 15, 'createdAt:DESC'));
     });
     describe('create', () => {
@@ -91,22 +109,40 @@ describe('encoding', () => {
       });
 
       describe('list with limit offset', () => {
-        assertItCallsCorrectUrl('GET', '/v1/encoding/infrastructure/aws/someId/regions\\?limit=10&offset=10', () => client('someId').regions.list(10, 10));
+        assertItCallsCorrectUrl('GET', '/v1/encoding/infrastructure/aws/someId/regions\\?limit=10&offset=10', () =>
+          client('someId').regions.list(10, 10)
+        );
         assertItReturnsUnderlyingPromise(mockGet, () => client('someId').regions.list(10, 10));
       });
 
       describe('add', () => {
-        assertItCallsCorrectUrl('POST', '/v1/encoding/infrastructure/aws/someId/regions/someRegion', () => client('someId').regions('someRegion').add({}));
-        assertItReturnsUnderlyingPromise(mockPost, () => client('someId').regions('someRegion').add({}));
+        assertItCallsCorrectUrl('POST', '/v1/encoding/infrastructure/aws/someId/regions/someRegion', () =>
+          client('someId')
+            .regions('someRegion')
+            .add({})
+        );
+        assertItReturnsUnderlyingPromise(mockPost, () =>
+          client('someId')
+            .regions('someRegion')
+            .add({})
+        );
       });
 
       describe('get', () => {
-        assertItCallsCorrectUrl('GET', '/v1/encoding/infrastructure/aws/someId/regions/someRegion', client('someId').regions('someRegion').details);
+        assertItCallsCorrectUrl(
+          'GET',
+          '/v1/encoding/infrastructure/aws/someId/regions/someRegion',
+          client('someId').regions('someRegion').details
+        );
         assertItReturnsUnderlyingPromise(mockGet, client('someId').regions('someRegion').details);
       });
 
       describe('delete', () => {
-        assertItCallsCorrectUrl('DELETE', '/v1/encoding/infrastructure/aws/someId/regions/someRegion', client('someId').regions('someRegion').delete);
+        assertItCallsCorrectUrl(
+          'DELETE',
+          '/v1/encoding/infrastructure/aws/someId/regions/someRegion',
+          client('someId').regions('someRegion').delete
+        );
         assertItReturnsUnderlyingPromise(mockGet, client('someId').regions('someRegion').delete);
       });
     });

@@ -1,11 +1,11 @@
-import { invoices } from '../../../bitmovin/account/billing/invoices'
-import { getConfiguration } from '../../utils';
+import {invoices} from '../../../bitmovin/account/billing/invoices';
+import {getConfiguration} from '../../utils';
 import {
   mockGet,
   mockHttp,
   assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
-  testSetup,
+  testSetup
 } from '../../assertions';
 
 let testConfiguration = getConfiguration();
@@ -23,9 +23,11 @@ describe('account', () => {
       describe('list with limit offset', () => {
         const limit = 100;
         const offset = 15;
-        const expectedGetParameters = '\\?limit\=' + limit + '\&offset=' + offset;
+        const expectedGetParameters = '\\?limit=' + limit + '&offset=' + offset;
 
-        assertItCallsCorrectUrl('GET', '/v1/account/billing/invoices/encoding' + expectedGetParameters, () => client.encoding.list(limit, offset));
+        assertItCallsCorrectUrl('GET', '/v1/account/billing/invoices/encoding' + expectedGetParameters, () =>
+          client.encoding.list(limit, offset)
+        );
         assertItReturnsUnderlyingPromise(mockGet, client.encoding.list);
       });
     });
@@ -40,9 +42,11 @@ describe('account', () => {
       describe('list with limit offset', () => {
         const limit = 100;
         const offset = 15;
-        const expectedGetParameters = '\\?limit\=' + limit + '\&offset=' + offset;
+        const expectedGetParameters = '\\?limit=' + limit + '&offset=' + offset;
 
-        assertItCallsCorrectUrl('GET', '/v1/account/billing/invoices/player' + expectedGetParameters, () => client.player.list(limit, offset));
+        assertItCallsCorrectUrl('GET', '/v1/account/billing/invoices/player' + expectedGetParameters, () =>
+          client.player.list(limit, offset)
+        );
         assertItReturnsUnderlyingPromise(mockGet, client.encoding.list);
       });
     });
@@ -57,12 +61,13 @@ describe('account', () => {
       describe('list with limit offset', () => {
         const limit = 100;
         const offset = 15;
-        const expectedGetParameters = '\\?limit\=' + limit + '\&offset=' + offset;
+        const expectedGetParameters = '\\?limit=' + limit + '&offset=' + offset;
 
-        assertItCallsCorrectUrl('GET', '/v1/account/billing/invoices/analytics' + expectedGetParameters, () => client.analytics.list(limit, offset));
+        assertItCallsCorrectUrl('GET', '/v1/account/billing/invoices/analytics' + expectedGetParameters, () =>
+          client.analytics.list(limit, offset)
+        );
         assertItReturnsUnderlyingPromise(mockGet, client.encoding.list);
       });
     });
   });
 });
-

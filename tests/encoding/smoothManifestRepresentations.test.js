@@ -13,7 +13,7 @@ import {
   assertItCallsUrlAndReturnsPromise
 } from '../assertions';
 import {getConfiguration} from '../utils';
-import { representations } from '../../bitmovin/encoding/manifests/smooth/smoothManifestRepresentations.js';
+import {representations} from '../../bitmovin/encoding/manifests/smooth/smoothManifestRepresentations.js';
 
 let testConfiguration = getConfiguration();
 
@@ -26,18 +26,34 @@ describe('encoding', () => {
 
         describe(type, () => {
           describe('list', () => {
-            assertItCallsUrlAndReturnsPromise('GET', `/v1/encoding/manifests/smooth/manifest-id/representations/${url}`, client.list);
+            assertItCallsUrlAndReturnsPromise(
+              'GET',
+              `/v1/encoding/manifests/smooth/manifest-id/representations/${url}`,
+              client.list
+            );
           });
           describe('add', () => {
-            assertItCallsUrlAndReturnsPromise('POST', `/v1/encoding/manifests/smooth/manifest-id/representations/${url}`, client.add);
+            assertItCallsUrlAndReturnsPromise(
+              'POST',
+              `/v1/encoding/manifests/smooth/manifest-id/representations/${url}`,
+              client.add
+            );
           });
           describe('representation', () => {
             const repClient = client('representation-id');
             describe('details', () => {
-              assertItCallsUrlAndReturnsPromise('GET', `/v1/encoding/manifests/smooth/manifest-id/representations/${url}/representation-id`, repClient.details);
+              assertItCallsUrlAndReturnsPromise(
+                'GET',
+                `/v1/encoding/manifests/smooth/manifest-id/representations/${url}/representation-id`,
+                repClient.details
+              );
             });
             describe('delete', () => {
-              assertItCallsUrlAndReturnsPromise('DELETE', `/v1/encoding/manifests/smooth/manifest-id/representations/${url}/representation-id`, repClient.delete);
+              assertItCallsUrlAndReturnsPromise(
+                'DELETE',
+                `/v1/encoding/manifests/smooth/manifest-id/representations/${url}/representation-id`,
+                repClient.delete
+              );
             });
           });
         });

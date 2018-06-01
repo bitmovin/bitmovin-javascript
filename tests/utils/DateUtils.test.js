@@ -5,7 +5,7 @@ import {
   getLastDayOfWeekFromDate,
   dateToApiRequestString,
   isValidApiRequestDateString
-} from '../../bitmovin/utils/DateUtils'
+} from '../../bitmovin/utils/DateUtils';
 
 const date = new Date(2017, 0, 5);
 
@@ -42,7 +42,6 @@ describe('Test getFirstDayOfTheWeekFromDate', () => {
     expect(firstDayOfTheWeekOver2Months.getUTCMonth()).toBe(1);
     expect(firstDayOfTheWeekOver2Months.getUTCFullYear()).toBe(2017);
   });
-
 });
 
 describe('Test getLastDayOfWeekFromDate', () => {
@@ -59,7 +58,7 @@ describe('Test getLastDayOfWeekFromDate', () => {
   it('should get last day of the week over two months', () => {
     expect(lastDayOfWeekOver2Months.getUTCDate()).toBe(2);
     expect(lastDayOfWeekOver2Months.getUTCMonth()).toBe(3);
-    expect(lastDayOfWeekOver2Months.getUTCFullYear()).toBe(2017)
+    expect(lastDayOfWeekOver2Months.getUTCFullYear()).toBe(2017);
   });
 });
 

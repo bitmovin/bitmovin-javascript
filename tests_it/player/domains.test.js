@@ -14,53 +14,67 @@ describe('[Player License Domains]', () => {
 
   let sampleDomain = () => {
     return {
-      'url': 'yourhost' + getRandom() + '.com'
+      url: 'yourhost' + getRandom() + '.com'
     };
   };
 
-  it('should add player license domain', (done) => {
+  it('should add player license domain', done => {
     let playerLicenseId = undefined;
     const domain = sampleDomain();
 
-    licensesClient.list().then((response) => {
-      assert(response.items instanceof Array);
-      playerLicenseId = response.items[0].id;
-      return licensesClient(playerLicenseId).domains.add(domain);
-    }).then((response) => {
-      assert.equal(response.url, domain.url);
-      done();
-    }).catch((error) => {
-      done(new Error(error));
-    });
+    licensesClient
+      .list()
+      .then(response => {
+        assert(response.items instanceof Array);
+        playerLicenseId = response.items[0].id;
+        return licensesClient(playerLicenseId).domains.add(domain);
+      })
+      .then(response => {
+        assert.equal(response.url, domain.url);
+        done();
+      })
+      .catch(error => {
+        done(new Error(error));
+      });
   });
 
-  it('should list player license domains', (done) => {
-    licensesClient.list().then((response) => {
-      assert(response.items instanceof Array);
-      done();
-    }).catch((error) => {
-      done(new Error(error));
-    });
+  it('should list player license domains', done => {
+    licensesClient
+      .list()
+      .then(response => {
+        assert(response.items instanceof Array);
+        done();
+      })
+      .catch(error => {
+        done(new Error(error));
+      });
   });
 
-  it('should delete player license domain', (done) => {
+  it('should delete player license domain', done => {
     let playerLicenseId = undefined;
     let createdDomain = undefined;
     const domain = sampleDomain();
 
-    licensesClient.list().then((response) => {
-      assert(response.items instanceof Array);
-      playerLicenseId = response.items[0].id;
-      return licensesClient(playerLicenseId).domains.add(domain);
-    }).then((response) => {
-      assert.equal(response.url, domain.url);
-      createdDomain = response;
-      return licensesClient(playerLicenseId).domains(createdDomain.id).delete();
-    }).then((response) => {
-      assert.equal(response.id, createdDomain.id);
-      done();
-    }).catch((error) => {
-      done(new Error(error));
-    });
+    licensesClient
+      .list()
+      .then(response => {
+        assert(response.items instanceof Array);
+        playerLicenseId = response.items[0].id;
+        return licensesClient(playerLicenseId).domains.add(domain);
+      })
+      .then(response => {
+        assert.equal(response.url, domain.url);
+        createdDomain = response;
+        return licensesClient(playerLicenseId)
+          .domains(createdDomain.id)
+          .delete();
+      })
+      .then(response => {
+        assert.equal(response.id, createdDomain.id);
+        done();
+      })
+      .catch(error => {
+        done(new Error(error));
+      });
   });
 });

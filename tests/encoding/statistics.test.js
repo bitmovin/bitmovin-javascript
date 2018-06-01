@@ -1,11 +1,7 @@
 import {getConfiguration} from '../utils';
 import {statistics} from '../../bitmovin/encoding/statistics';
 import {dateToApiRequestString, getFirstDayOfTheWeekFromDate} from '../../bitmovin/utils/DateUtils';
-import {
-  mockHttp,
-  assertItCallsUrlAndReturnsPromise,
-  testSetup, mockGet
-} from '../assertions';
+import {mockHttp, assertItCallsUrlAndReturnsPromise, testSetup, mockGet} from '../assertions';
 
 let testConfiguration = getConfiguration();
 describe('encoding', () => {
@@ -23,7 +19,11 @@ describe('encoding', () => {
 
     describe('encodings', () => {
       describe('live-statistics', () => {
-        assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/statistics/encodings/encoding-id/live-statistics', client.encodings('encoding-id').liveStatistics);
+        assertItCallsUrlAndReturnsPromise(
+          'GET',
+          '/v1/encoding/statistics/encodings/encoding-id/live-statistics',
+          client.encodings('encoding-id').liveStatistics
+        );
       });
 
       describe('vod', () => {
@@ -65,7 +65,6 @@ describe('encoding', () => {
           });
         });
       });
-
 
       describe('live', () => {
         assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/statistics/encodings/live', client.live.list);
@@ -110,8 +109,6 @@ describe('encoding', () => {
           });
         });
       });
-
     });
-
   });
 });

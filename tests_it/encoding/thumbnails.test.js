@@ -10,34 +10,34 @@ import outputs from '../../bitmovin/encoding/outputs';
 let testConfiguration = getConfiguration();
 
 let sampleThumbnail = {
-  name       : 'Sample Thumbnail Bitmovin JS',
+  name: 'Sample Thumbnail Bitmovin JS',
   description: 'Sample Thumbnail bitmovin-javascript thumbnails.test.js',
-  height     : 320,
-  positions  : [1, 2, 20],
-  pattern    : 'thumbnail-%number%.png',
-  outputs    : [],
-  customData : {
+  height: 320,
+  positions: [1, 2, 20],
+  pattern: 'thumbnail-%number%.png',
+  outputs: [],
+  customData: {
     myList: ['a', 'b', 'c', 'd'],
-    myInt : 1234
+    myInt: 1234
   }
 };
 
 describe('[Thumbnails]', () => {
-  let inputsClient       = inputs(testConfiguration);
-  let encodingsClient    = encodings(testConfiguration);
+  let inputsClient = inputs(testConfiguration);
+  let encodingsClient = encodings(testConfiguration);
   let codecConfigsClient = codecConfigurations(testConfiguration);
-  let outputsClient      = outputs(testConfiguration);
+  let outputsClient = outputs(testConfiguration);
 
   const createInput = () => {
     let input = {
-      name       : 'Bitmovin Javascript Sample HTTPS Input',
+      name: 'Bitmovin Javascript Sample HTTPS Input',
       description: 'Bitmovin Javascript input.test.js sampleHttpsInput',
-      host       : 'websrv.corpnet.local',
-      username   : 'john',
-      password   : 'correctHorseBatteryStaple',
-      customData : {
+      host: 'websrv.corpnet.local',
+      username: 'john',
+      password: 'correctHorseBatteryStaple',
+      customData: {
         myList: ['a', 'b', 'c', 'd'],
-        myInt : 1234
+        myInt: 1234
       }
     };
 
@@ -46,13 +46,13 @@ describe('[Thumbnails]', () => {
 
   const createEncoding = () => {
     let encoding = {
-      name          : 'MyAwesomeEncodingBitmovinJavascript',
-      description   : 'Just a descriptive information',
+      name: 'MyAwesomeEncodingBitmovinJavascript',
+      description: 'Just a descriptive information',
       encoderVersion: 'BETA',
-      cloudRegion   : 'GOOGLE_EUROPE_WEST_1',
-      customData    : {
+      cloudRegion: 'GOOGLE_EUROPE_WEST_1',
+      customData: {
         myList: ['a', 'b', 'c', 'd'],
-        myInt : 1234
+        myInt: 1234
       }
     };
 
@@ -61,29 +61,29 @@ describe('[Thumbnails]', () => {
 
   const createCodecConfig = () => {
     let sampleH264CodecConfiguration = {
-      name            : 'MyAwesomeH264CodecConfigBitmovinJavascript',
-      description     : 'Just a descriptive information',
-      bitrate         : 10000000,
-      rate            : 23.97,
-      width           : 1920,
-      height          : 1200,
-      profile         : 'HIGH',
-      bFrames         : 3,
-      refFrames       : 5,
-      qpMin           : 0,
-      qpMax           : 30,
+      name: 'MyAwesomeH264CodecConfigBitmovinJavascript',
+      description: 'Just a descriptive information',
+      bitrate: 10000000,
+      rate: 23.97,
+      width: 1920,
+      height: 1200,
+      profile: 'HIGH',
+      bFrames: 3,
+      refFrames: 5,
+      qpMin: 0,
+      qpMax: 30,
       mvPredictionMode: 'SPATIAL',
       mvSearchRangeMax: 16,
-      cabac           : true,
-      maxBitrate      : 12000000,
-      minBitrate      : 7000000,
-      bufsize         : 0,
-      minGop          : 0,
-      maxGop          : 8,
-      level           : '2.1',
-      customData      : {
+      cabac: true,
+      maxBitrate: 12000000,
+      minBitrate: 7000000,
+      bufsize: 0,
+      minGop: 0,
+      maxGop: 8,
+      level: '2.1',
+      customData: {
         myList: ['a', 'b', 'c', 'd'],
-        myInt : 1234
+        myInt: 1234
       }
     };
 
@@ -92,60 +92,60 @@ describe('[Thumbnails]', () => {
 
   const createOutput = () => {
     let sampleS3Output = {
-      name       : 'Sample S3 Output - Bitmovin Javascript',
+      name: 'Sample S3 Output - Bitmovin Javascript',
       description: 'Bitmovin Javascript outputs.test.js',
-      accessKey  : 'AKIAIOSFODNN7INVALID',
-      secretKey  : 'wJalrXUtnFEMI/K7MDENG/bPxRfiCYINVALIDKEY',
-      bucketName : 'printtheworld',
+      accessKey: 'AKIAIOSFODNN7INVALID',
+      secretKey: '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',
+      bucketName: 'printtheworld',
       cloudRegion: 'SA_EAST_1',
-      customData : {
+      customData: {
         myList: ['a', 'b', 'c', 'd'],
-        myInt : 1234
+        myInt: 1234
       }
     };
 
     return outputsClient.s3.create(sampleS3Output);
   };
 
-  const createStream = (encodingId) => {
-    let streamsClient      = undefined;
-    let stream             = undefined;
-    let inputPromise       = createInput();
+  const createStream = encodingId => {
+    let streamsClient = undefined;
+    let stream = undefined;
+    let inputPromise = createInput();
     let codecConfigPromise = createCodecConfig();
-    let outputPromise      = createOutput();
+    let outputPromise = createOutput();
 
-    let promise = Promise.all([inputPromise, codecConfigPromise, outputPromise]).then((results) => {
+    let promise = Promise.all([inputPromise, codecConfigPromise, outputPromise]).then(results => {
       let createdInput = results[0];
-      let codecConfig  = results[1];
-      let output       = results[2];
-      streamsClient    = streams(testConfiguration, encodingId);
+      let codecConfig = results[1];
+      let output = results[2];
+      streamsClient = streams(testConfiguration, encodingId);
 
       stream = {
-        name         : 'Sample Stream',
-        description  : 'Bitmovin Javascript streams.test.js sample stream',
+        name: 'Sample Stream',
+        description: 'Bitmovin Javascript streams.test.js sample stream',
         codecConfigId: codecConfig.id,
-        inputStreams : [
+        inputStreams: [
           {
-            inputId      : createdInput.id,
-            inputPath    : '/path/to/video/file.mp4',
+            inputId: createdInput.id,
+            inputPath: '/path/to/video/file.mp4',
             selectionMode: 'AUTO'
           }
         ],
-        outputs      : [
+        outputs: [
           {
-            outputId  : output.id,
+            outputId: output.id,
             outputPath: 'path/to/file/destination',
-            acl       : [
+            acl: [
               {
-                scope     : 'string',
+                scope: 'string',
                 permission: 'PUBLIC_READ'
               }
             ]
           }
         ],
-        customData   : {
+        customData: {
           myList: ['a', 'b', 'c', 'd'],
-          myInt : 1234
+          myInt: 1234
         }
       };
 
@@ -155,183 +155,225 @@ describe('[Thumbnails]', () => {
     return promise;
   };
 
-  it('should add a thumbnail muxing to a stream', (done) => {
+  it('should add a thumbnail muxing to a stream', done => {
     let createdEncoding = undefined;
-    let createdOutput   = undefined;
+    let createdOutput = undefined;
 
     let encodingPromise = createEncoding();
-    let outputPromise   = createOutput();
+    let outputPromise = createOutput();
 
-    Promise.all([encodingPromise, outputPromise]).then((results) => {
-      createdEncoding = results[0];
-      createdOutput   = results[1];
-      return createStream(createdEncoding.id);
-    }).then((createdStream) => {
-      sampleThumbnail.outputs = [
-        {
-          outputId  : createdOutput.id,
-          outputPath: 'path/to/file/destination',
-          acl       : [
-            {
-              scope     : 'string',
-              permission: 'PUBLIC_READ'
-            }
-          ]
-        }
-      ];
+    Promise.all([encodingPromise, outputPromise])
+      .then(results => {
+        createdEncoding = results[0];
+        createdOutput = results[1];
+        return createStream(createdEncoding.id);
+      })
+      .then(createdStream => {
+        sampleThumbnail.outputs = [
+          {
+            outputId: createdOutput.id,
+            outputPath: 'path/to/file/destination',
+            acl: [
+              {
+                scope: 'string',
+                permission: 'PUBLIC_READ'
+              }
+            ]
+          }
+        ];
 
-      return encodingsClient(createdEncoding.id).streams(createdStream.id).thumbnails.add(sampleThumbnail);
-    }).then((createdThumbnail) => {
-      assert((createdThumbnail.id !== null) && createdThumbnail.id !== undefined && createdThumbnail !== '');
-      compareThumbnails(createdThumbnail, sampleThumbnail);
-      done();
-    }).catch((error) => {
-      done(new Error(error));
-    });
+        return encodingsClient(createdEncoding.id)
+          .streams(createdStream.id)
+          .thumbnails.add(sampleThumbnail);
+      })
+      .then(createdThumbnail => {
+        assert(createdThumbnail.id !== null && createdThumbnail.id !== undefined && createdThumbnail !== '');
+        compareThumbnails(createdThumbnail, sampleThumbnail);
+        done();
+      })
+      .catch(error => {
+        done(new Error(error));
+      });
   });
 
-  it('should return a list of thumbnails', (done) => {
+  it('should return a list of thumbnails', done => {
     let createdEncoding = undefined;
-    let createdOutput   = undefined;
+    let createdOutput = undefined;
 
     let encodingPromise = createEncoding();
-    let outputPromise   = createOutput();
+    let outputPromise = createOutput();
 
-    Promise.all([encodingPromise, outputPromise]).then((results) => {
-      createdEncoding = results[0];
-      createdOutput   = results[1];
-      return createStream(createdEncoding.id);
-    }).then((createdStream) => {
-      return encodingsClient(createdEncoding.id).streams(createdStream.id).thumbnails.list(5);
-    }).then((response) => {
-      assert((response.totalCount !== null) && response.totalCount !== undefined);
-      assert((response.items !== null) && response.items !== undefined);
-      done();
-    }).catch((error) => {
-      done(new Error(error));
-    });
+    Promise.all([encodingPromise, outputPromise])
+      .then(results => {
+        createdEncoding = results[0];
+        createdOutput = results[1];
+        return createStream(createdEncoding.id);
+      })
+      .then(createdStream => {
+        return encodingsClient(createdEncoding.id)
+          .streams(createdStream.id)
+          .thumbnails.list(5);
+      })
+      .then(response => {
+        assert(response.totalCount !== null && response.totalCount !== undefined);
+        assert(response.items !== null && response.items !== undefined);
+        done();
+      })
+      .catch(error => {
+        done(new Error(error));
+      });
   });
 
-  it('should return thumbnail details', (done) => {
+  it('should return thumbnail details', done => {
     let createdEncoding = undefined;
-    let createdOutput   = undefined;
-    let createdStream   = undefined;
+    let createdOutput = undefined;
+    let createdStream = undefined;
 
     let encodingPromise = createEncoding();
-    let outputPromise   = createOutput();
+    let outputPromise = createOutput();
 
-    Promise.all([encodingPromise, outputPromise]).then((results) => {
-      createdEncoding = results[0];
-      createdOutput   = results[1];
-      return createStream(createdEncoding.id);
-    }).then((stream) => {
-      createdStream           = stream;
-      sampleThumbnail.outputs = [
-        {
-          outputId  : createdOutput.id,
-          outputPath: 'path/to/file/destination',
-          acl       : [
-            {
-              scope     : 'string',
-              permission: 'PUBLIC_READ'
-            }
-          ]
-        }
-      ];
+    Promise.all([encodingPromise, outputPromise])
+      .then(results => {
+        createdEncoding = results[0];
+        createdOutput = results[1];
+        return createStream(createdEncoding.id);
+      })
+      .then(stream => {
+        createdStream = stream;
+        sampleThumbnail.outputs = [
+          {
+            outputId: createdOutput.id,
+            outputPath: 'path/to/file/destination',
+            acl: [
+              {
+                scope: 'string',
+                permission: 'PUBLIC_READ'
+              }
+            ]
+          }
+        ];
 
-      return encodingsClient(createdEncoding.id).streams(createdStream.id).thumbnails.add(sampleThumbnail);
-    }).then((createdThumbnail) => {
-      assert((createdThumbnail.id !== null) && createdThumbnail.id !== undefined && createdThumbnail !== '');
-      compareThumbnails(createdThumbnail, sampleThumbnail);
-      return encodingsClient(createdEncoding.id).streams(createdStream.id).thumbnails(createdThumbnail.id).details();
-    }).then((details) => {
-      compareThumbnails(details, sampleThumbnail);
-      done();
-    }).catch((error) => {
-      done(new Error(error));
-    });
+        return encodingsClient(createdEncoding.id)
+          .streams(createdStream.id)
+          .thumbnails.add(sampleThumbnail);
+      })
+      .then(createdThumbnail => {
+        assert(createdThumbnail.id !== null && createdThumbnail.id !== undefined && createdThumbnail !== '');
+        compareThumbnails(createdThumbnail, sampleThumbnail);
+        return encodingsClient(createdEncoding.id)
+          .streams(createdStream.id)
+          .thumbnails(createdThumbnail.id)
+          .details();
+      })
+      .then(details => {
+        compareThumbnails(details, sampleThumbnail);
+        done();
+      })
+      .catch(error => {
+        done(new Error(error));
+      });
   });
 
-  it('should return custom data of thumbnail', (done) => {
+  it('should return custom data of thumbnail', done => {
     let createdEncoding = undefined;
-    let createdOutput   = undefined;
-    let createdStream   = undefined;
+    let createdOutput = undefined;
+    let createdStream = undefined;
 
     let encodingPromise = createEncoding();
-    let outputPromise   = createOutput();
+    let outputPromise = createOutput();
 
-    Promise.all([encodingPromise, outputPromise]).then((results) => {
-      createdEncoding = results[0];
-      createdOutput   = results[1];
-      return createStream(createdEncoding.id);
-    }).then((stream) => {
-      createdStream           = stream;
-      sampleThumbnail.outputs = [
-        {
-          outputId  : createdOutput.id,
-          outputPath: 'path/to/file/destination',
-          acl       : [
-            {
-              scope     : 'string',
-              permission: 'PUBLIC_READ'
-            }
-          ]
-        }
-      ];
+    Promise.all([encodingPromise, outputPromise])
+      .then(results => {
+        createdEncoding = results[0];
+        createdOutput = results[1];
+        return createStream(createdEncoding.id);
+      })
+      .then(stream => {
+        createdStream = stream;
+        sampleThumbnail.outputs = [
+          {
+            outputId: createdOutput.id,
+            outputPath: 'path/to/file/destination',
+            acl: [
+              {
+                scope: 'string',
+                permission: 'PUBLIC_READ'
+              }
+            ]
+          }
+        ];
 
-      return encodingsClient(createdEncoding.id).streams(createdStream.id).thumbnails.add(sampleThumbnail);
-    }).then((createdThumbnail) => {
-      assert((createdThumbnail.id !== null) && createdThumbnail.id !== undefined && createdThumbnail !== '');
-      compareThumbnails(createdThumbnail, sampleThumbnail);
-      return encodingsClient(createdEncoding.id).streams(createdStream.id).thumbnails(createdThumbnail.id).customData();
-    }).then((customDataResponse) => {
-      assert.deepEqual(customDataResponse.customData, sampleThumbnail.customData);
-      done();
-    }).catch((error) => {
-      done(new Error(error));
-    });
+        return encodingsClient(createdEncoding.id)
+          .streams(createdStream.id)
+          .thumbnails.add(sampleThumbnail);
+      })
+      .then(createdThumbnail => {
+        assert(createdThumbnail.id !== null && createdThumbnail.id !== undefined && createdThumbnail !== '');
+        compareThumbnails(createdThumbnail, sampleThumbnail);
+        return encodingsClient(createdEncoding.id)
+          .streams(createdStream.id)
+          .thumbnails(createdThumbnail.id)
+          .customData();
+      })
+      .then(customDataResponse => {
+        assert.deepEqual(customDataResponse.customData, sampleThumbnail.customData);
+        done();
+      })
+      .catch(error => {
+        done(new Error(error));
+      });
   });
 
-  it('should delete a thumbnail', (done) => {
-    let createdEncoding  = undefined;
-    let createdOutput    = undefined;
-    let createdStream    = undefined;
+  it('should delete a thumbnail', done => {
+    let createdEncoding = undefined;
+    let createdOutput = undefined;
+    let createdStream = undefined;
     let createdThumbnail = undefined;
 
     let encodingPromise = createEncoding();
-    let outputPromise   = createOutput();
+    let outputPromise = createOutput();
 
-    Promise.all([encodingPromise, outputPromise]).then((results) => {
-      createdEncoding = results[0];
-      createdOutput   = results[1];
-      return createStream(createdEncoding.id);
-    }).then((stream) => {
-      createdStream           = stream;
-      sampleThumbnail.outputs = [
-        {
-          outputId  : createdOutput.id,
-          outputPath: 'path/to/file/destination',
-          acl       : [
-            {
-              scope     : 'string',
-              permission: 'PUBLIC_READ'
-            }
-          ]
-        }
-      ];
+    Promise.all([encodingPromise, outputPromise])
+      .then(results => {
+        createdEncoding = results[0];
+        createdOutput = results[1];
+        return createStream(createdEncoding.id);
+      })
+      .then(stream => {
+        createdStream = stream;
+        sampleThumbnail.outputs = [
+          {
+            outputId: createdOutput.id,
+            outputPath: 'path/to/file/destination',
+            acl: [
+              {
+                scope: 'string',
+                permission: 'PUBLIC_READ'
+              }
+            ]
+          }
+        ];
 
-      return encodingsClient(createdEncoding.id).streams(createdStream.id).thumbnails.add(sampleThumbnail);
-    }).then((thumbnail) => {
-      createdThumbnail = thumbnail;
-      assert((createdThumbnail.id !== null) && createdThumbnail.id !== undefined && createdThumbnail !== '');
-      compareThumbnails(createdThumbnail, sampleThumbnail);
-      return encodingsClient(createdEncoding.id).streams(createdStream.id).thumbnails(createdThumbnail.id).delete();
-    }).then((response) => {
-      assert.equal(response.id, createdThumbnail.id);
-      done();
-    }).catch((error) => {
-      done(new Error(error));
-    });
+        return encodingsClient(createdEncoding.id)
+          .streams(createdStream.id)
+          .thumbnails.add(sampleThumbnail);
+      })
+      .then(thumbnail => {
+        createdThumbnail = thumbnail;
+        assert(createdThumbnail.id !== null && createdThumbnail.id !== undefined && createdThumbnail !== '');
+        compareThumbnails(createdThumbnail, sampleThumbnail);
+        return encodingsClient(createdEncoding.id)
+          .streams(createdStream.id)
+          .thumbnails(createdThumbnail.id)
+          .delete();
+      })
+      .then(response => {
+        assert.equal(response.id, createdThumbnail.id);
+        done();
+      })
+      .catch(error => {
+        done(new Error(error));
+      });
   });
 
   const compareThumbnails = (thumbnailOne, thumbnailTwo) => {
@@ -341,13 +383,13 @@ describe('[Thumbnails]', () => {
     assert.deepEqual(thumbnailOne.positions, thumbnailTwo.positions);
     assert.equal(thumbnailOne.pattern, thumbnailTwo.pattern);
     // TODO: Hack:
-    thumbnailOne.outputs.forEach((output) => {
-      output.acl.forEach((acl) => {
+    thumbnailOne.outputs.forEach(output => {
+      output.acl.forEach(acl => {
         acl.id = undefined;
       });
     });
-    thumbnailTwo.outputs.forEach((output) => {
-      output.acl.forEach((acl) => {
+    thumbnailTwo.outputs.forEach(output => {
+      output.acl.forEach(acl => {
         acl.id = undefined;
       });
     });

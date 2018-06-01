@@ -1,5 +1,5 @@
 import {getConfiguration} from '../utils';
-import { inputs } from '../../bitmovin/encoding/inputs';
+import {inputs} from '../../bitmovin/encoding/inputs';
 import {
   mockGet,
   mockPost,
@@ -22,7 +22,7 @@ describe('encoding', () => {
 
     const client = inputs(testConfiguration, mockHttp);
 
-    const testInputType = (type) => {
+    const testInputType = type => {
       describe(type, () => {
         describe('list', () => {
           assertItCallsCorrectUrl('GET', `/v1/encoding/inputs/${type}`, client[type].list);
@@ -38,7 +38,11 @@ describe('encoding', () => {
             assertItReturnsUnderlyingPromise(mockPost, client[type]('input-id').details);
           });
           describe('customData', () => {
-            assertItCallsCorrectUrl('GET', `/v1/encoding/inputs/${type}/input-id/customData`, client[type]('input-id').customData);
+            assertItCallsCorrectUrl(
+              'GET',
+              `/v1/encoding/inputs/${type}/input-id/customData`,
+              client[type]('input-id').customData
+            );
             assertItReturnsUnderlyingPromise(mockPost, client[type]('input-id').customData);
           });
           describe('delete', () => {
@@ -82,7 +86,11 @@ describe('encoding', () => {
           assertItReturnsUnderlyingPromise(mockGet, () => client[type]('input-id').details());
         });
         describe('customData', () => {
-          assertItCallsCorrectUrl('GET', `/v1/encoding/inputs/${urlPart}/input-id/customData`, client[type]('input-id').customData);
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/inputs/${urlPart}/input-id/customData`,
+            client[type]('input-id').customData
+          );
           assertItReturnsUnderlyingPromise(mockGet, client[type]('input-id').customData);
         });
         describe('delete', () => {

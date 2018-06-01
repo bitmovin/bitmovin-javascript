@@ -16,7 +16,7 @@ import {
 
 let testConfiguration = getConfiguration();
 
-import { dashManifestPeriods } from '../../bitmovin/encoding/manifests/dash/dashManifestPeriods';
+import {dashManifestPeriods} from '../../bitmovin/encoding/manifests/dash/dashManifestPeriods';
 
 describe('encoding', () => {
   describe('manifests.dash', () => {
@@ -33,10 +33,18 @@ describe('encoding', () => {
       describe('period', () => {
         const period = client('period-id');
         describe('details', () => {
-          assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/manifests/dash/manifest-id/periods/period-id', period.details);
+          assertItCallsUrlAndReturnsPromise(
+            'GET',
+            '/v1/encoding/manifests/dash/manifest-id/periods/period-id',
+            period.details
+          );
         });
         describe('delete', () => {
-          assertItCallsUrlAndReturnsPromise('DELETE', '/v1/encoding/manifests/dash/manifest-id/periods/period-id', period.delete);
+          assertItCallsUrlAndReturnsPromise(
+            'DELETE',
+            '/v1/encoding/manifests/dash/manifest-id/periods/period-id',
+            period.delete
+          );
         });
       });
     });

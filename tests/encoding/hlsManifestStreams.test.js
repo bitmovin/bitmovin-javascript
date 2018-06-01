@@ -13,7 +13,7 @@ import {
   assertItReturnsCorrectResponse,
   assertItCallsUrlAndReturnsPromise
 } from '../assertions';
-import { hlsManifestStreams } from '../../bitmovin/encoding/manifests/hls/hlsManifestStreams';
+import {hlsManifestStreams} from '../../bitmovin/encoding/manifests/hls/hlsManifestStreams';
 
 let testConfiguration = getConfiguration();
 
@@ -32,10 +32,18 @@ describe('encoding', () => {
       describe('stream', () => {
         const stream = client('stream-id');
         describe('details', () => {
-          assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/manifests/hls/manifest-id/streams/stream-id', stream.details);
+          assertItCallsUrlAndReturnsPromise(
+            'GET',
+            '/v1/encoding/manifests/hls/manifest-id/streams/stream-id',
+            stream.details
+          );
         });
         describe('delete', () => {
-          assertItCallsUrlAndReturnsPromise('DELETE', '/v1/encoding/manifests/hls/manifest-id/streams/stream-id', stream.delete);
+          assertItCallsUrlAndReturnsPromise(
+            'DELETE',
+            '/v1/encoding/manifests/hls/manifest-id/streams/stream-id',
+            stream.delete
+          );
         });
       });
     });

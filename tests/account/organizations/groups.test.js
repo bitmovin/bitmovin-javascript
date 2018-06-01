@@ -1,6 +1,6 @@
 import urljoin from 'url-join';
 
-import { groups } from '../../../bitmovin/account/organizations/groups';
+import {groups} from '../../../bitmovin/account/organizations/groups';
 import {
   mockGet,
   mockPost,
@@ -8,7 +8,7 @@ import {
   mockHttp,
   assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
-  testSetup,
+  testSetup
 } from '../../assertions';
 import {getConfiguration} from '../../utils';
 
@@ -35,15 +35,22 @@ describe('account', () => {
         const testGroupId = '123';
 
         describe('details', () => {
-          assertItCallsCorrectUrl('GET', urljoin('/v1/account/organizations', testOrgId, 'groups', testGroupId), client(testGroupId).details);
+          assertItCallsCorrectUrl(
+            'GET',
+            urljoin('/v1/account/organizations', testOrgId, 'groups', testGroupId),
+            client(testGroupId).details
+          );
           assertItReturnsUnderlyingPromise(mockGet, client(testOrgId).details);
         });
         describe('delete', () => {
-          assertItCallsCorrectUrl('DELETE', urljoin('/v1/account/organizations', testOrgId, 'groups', testGroupId), client(testGroupId).delete);
+          assertItCallsCorrectUrl(
+            'DELETE',
+            urljoin('/v1/account/organizations', testOrgId, 'groups', testGroupId),
+            client(testGroupId).delete
+          );
           assertItReturnsUnderlyingPromise(mockDelete, client(testOrgId).delete);
         });
       });
     });
   });
 });
-

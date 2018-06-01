@@ -1,4 +1,4 @@
-import { organizations } from '../../../bitmovin/account/organizations/organizations.js'
+import {organizations} from '../../../bitmovin/account/organizations/organizations.js';
 import {
   mockGet,
   mockPost,
@@ -6,7 +6,7 @@ import {
   mockHttp,
   assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
-  testSetup,
+  testSetup
 } from '../../assertions';
 import {getConfiguration} from '../../utils';
 
@@ -36,4 +36,3 @@ describe('account', () => {
     });
   });
 });
-

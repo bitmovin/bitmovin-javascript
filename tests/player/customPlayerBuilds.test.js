@@ -7,7 +7,7 @@ import {
   assertPayload,
   assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
-  testSetup,
+  testSetup
 } from '../assertions';
 import {getConfiguration} from '../utils';
 
@@ -19,16 +19,18 @@ describe('player', () => {
   describe('custom-builds', () => {
     const customBuildsClient = customBuilds(testConfiguration, mockHttp);
 
-    describe('add', function () {
+    describe('add', function() {
       assertItCallsCorrectUrl('POST', '/v1/player/custom-builds/web', customBuildsClient.web.add);
-      assertItReturnsUnderlyingPromise(mockPost, () => customBuildsClient.web.add({
-        playerVersion: 'v7.6.3',
-        domains: [
-          {
-            domainId: 'my-domain-id'
-          }
-        ]
-      }));
+      assertItReturnsUnderlyingPromise(mockPost, () =>
+        customBuildsClient.web.add({
+          playerVersion: 'v7.6.3',
+          domains: [
+            {
+              domainId: 'my-domain-id'
+            }
+          ]
+        })
+      );
     });
 
     describe('list', () => {
@@ -37,39 +39,55 @@ describe('player', () => {
     });
 
     describe('list limit offset', () => {
-      assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web\\?limit=10&offset=5', () => customBuildsClient.web.list(10, 5));
+      assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web\\?limit=10&offset=5', () =>
+        customBuildsClient.web.list(10, 5)
+      );
     });
 
     describe('list limit only', () => {
-      assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web\\?limit=10', () => customBuildsClient.web.list(10, null));
+      assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web\\?limit=10', () =>
+        customBuildsClient.web.list(10, null)
+      );
     });
 
     describe('list offset only', () => {
-      assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web\\?offset=5', () => customBuildsClient.web.list(null, 5));
+      assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web\\?offset=5', () =>
+        customBuildsClient.web.list(null, 5)
+      );
     });
 
     describe('details', () => {
-      assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web', () => customBuildsClient.web('example-id').details());
+      assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web', () =>
+        customBuildsClient.web('example-id').details()
+      );
       assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web('example-id').details);
     });
 
     describe('download', () => {
-      assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/example-id/download', () => customBuildsClient.web('example-id').download());
+      assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/example-id/download', () =>
+        customBuildsClient.web('example-id').download()
+      );
       assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web('example-id').download);
     });
 
     describe('status', () => {
-      assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/example-id/status', () => customBuildsClient.web('example-id').status());
+      assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/example-id/status', () =>
+        customBuildsClient.web('example-id').status()
+      );
       assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web('example-id').status);
     });
 
     describe('start', () => {
-      assertItCallsCorrectUrl('POST', '/v1/player/custom-builds/web/example-id/start', () => customBuildsClient.web('example-id').start());
+      assertItCallsCorrectUrl('POST', '/v1/player/custom-builds/web/example-id/start', () =>
+        customBuildsClient.web('example-id').start()
+      );
       assertItReturnsUnderlyingPromise(mockPost, customBuildsClient.web('example-id').start);
     });
 
     describe('delete', () => {
-      assertItCallsCorrectUrl('DELETE', '/v1/player/custom-builds/web/example-id', () => customBuildsClient.web('example-id').delete());
+      assertItCallsCorrectUrl('DELETE', '/v1/player/custom-builds/web/example-id', () =>
+        customBuildsClient.web('example-id').delete()
+      );
       assertItReturnsUnderlyingPromise(mockPost, customBuildsClient.web('example-id').delete);
     });
 
@@ -79,30 +97,46 @@ describe('player', () => {
         assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web.domains.list);
       });
       describe('list limit offset', () => {
-        assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/domains\\?limit=10&offset=5', () => customBuildsClient.web.domains.list(10, 5));
+        assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/domains\\?limit=10&offset=5', () =>
+          customBuildsClient.web.domains.list(10, 5)
+        );
         assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web.domains.list);
       });
       describe('list limit only', () => {
-        assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/domains\\?limit=10', () => customBuildsClient.web.domains.list(10));
+        assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/domains\\?limit=10', () =>
+          customBuildsClient.web.domains.list(10)
+        );
         assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web.domains.list);
       });
       describe('list offset only', () => {
-        assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/domains\\?offset=5', () => customBuildsClient.web.domains.list(null, 5));
+        assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/domains\\?offset=5', () =>
+          customBuildsClient.web.domains.list(null, 5)
+        );
         assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web.domains.list);
       });
       describe('add', () => {
         assertItCallsCorrectUrl('POST', '/v1/player/custom-builds/web/domains', customBuildsClient.web.domains.add);
-        assertItReturnsUnderlyingPromise(mockPost, () => customBuildsClient.web.domains.add({
-          domain: 'example.com'
-        }));
+        assertItReturnsUnderlyingPromise(mockPost, () =>
+          customBuildsClient.web.domains.add({
+            domain: 'example.com'
+          })
+        );
         assertPayload(mockPost, () => customBuildsClient.web.domains.add({url: 'foo'}), {url: 'foo'});
       });
       describe('details', () => {
-        assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/domains/example-id', customBuildsClient.web.domains('example-id').details);
+        assertItCallsCorrectUrl(
+          'GET',
+          '/v1/player/custom-builds/web/domains/example-id',
+          customBuildsClient.web.domains('example-id').details
+        );
         assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web.domains('example-id').details);
       });
       describe('delete', () => {
-        assertItCallsCorrectUrl('DELETE', '/v1/player/custom-builds/web/domains/domain-id', customBuildsClient.web.domains('domain-id').delete);
+        assertItCallsCorrectUrl(
+          'DELETE',
+          '/v1/player/custom-builds/web/domains/domain-id',
+          customBuildsClient.web.domains('domain-id').delete
+        );
         assertItReturnsUnderlyingPromise(mockDelete, customBuildsClient.web.domains('domain-id').delete);
       });
     });

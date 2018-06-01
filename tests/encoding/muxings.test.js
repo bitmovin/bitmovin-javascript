@@ -1,4 +1,4 @@
-import { muxings } from '../../bitmovin/encoding/encodings/muxings';
+import {muxings} from '../../bitmovin/encoding/encodings/muxings';
 import {
   mockGet,
   mockPost,
@@ -21,7 +21,7 @@ describe('encoding', () => {
     beforeEach(testSetup);
     const mux = muxings(testConfiguration, 'encoding-id', mockHttp);
 
-    const testMuxing = (type) => {
+    const testMuxing = type => {
       const client = mux[type];
       describe(type, () => {
         describe('list', () => {
@@ -35,15 +35,27 @@ describe('encoding', () => {
 
         describe('muxing', () => {
           describe('details', () => {
-            assertItCallsCorrectUrl('GET', `/v1/encoding/encodings/encoding-id/muxings/${type}/muxing-id`, client('muxing-id').details);
+            assertItCallsCorrectUrl(
+              'GET',
+              `/v1/encoding/encodings/encoding-id/muxings/${type}/muxing-id`,
+              client('muxing-id').details
+            );
             assertItReturnsUnderlyingPromise(mockGet, client('muxing-id').details);
           });
           describe('customData', () => {
-            assertItCallsCorrectUrl('GET', `/v1/encoding/encodings/encoding-id/muxings/${type}/muxing-id/customData`, client('muxing-id').customData);
+            assertItCallsCorrectUrl(
+              'GET',
+              `/v1/encoding/encodings/encoding-id/muxings/${type}/muxing-id/customData`,
+              client('muxing-id').customData
+            );
             assertItReturnsUnderlyingPromise(mockGet, client('muxing-id').details);
           });
           describe('delete', () => {
-            assertItCallsCorrectUrl('DELETE', `/v1/encoding/encodings/encoding-id/muxings/${type}/muxing-id`, client('muxing-id').delete);
+            assertItCallsCorrectUrl(
+              'DELETE',
+              `/v1/encoding/encodings/encoding-id/muxings/${type}/muxing-id`,
+              client('muxing-id').delete
+            );
             assertItReturnsUnderlyingPromise(mockDelete, client('muxing-id').delete);
           });
         });
@@ -54,7 +66,6 @@ describe('encoding', () => {
     testMuxing('mp4');
     testMuxing('ts');
     testMuxing('webm');
-
   });
 
   describe('Muxings list all', () => {
@@ -63,5 +74,5 @@ describe('encoding', () => {
     describe('list', () => {
       assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/encodings/encoding-id/muxings', client.list);
     });
-  })
+  });
 });

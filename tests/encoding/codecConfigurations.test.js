@@ -1,4 +1,4 @@
-import { codecConfigurations } from '../../bitmovin/encoding/codecConfigurations';
+import {codecConfigurations} from '../../bitmovin/encoding/codecConfigurations';
 import {
   mockGet,
   mockPost,
@@ -30,33 +30,41 @@ describe('encoding', () => {
 
       describe('list call with limit only', () => {
         const limit = 100;
-        const expectedGetParameter = 'limit\=' + limit;
-        assertItCallsCorrectUrl('GET', '/v1/encoding/configurations\\?' + expectedGetParameter, () => client.list(limit));
+        const expectedGetParameter = 'limit=' + limit;
+        assertItCallsCorrectUrl('GET', '/v1/encoding/configurations\\?' + expectedGetParameter, () =>
+          client.list(limit)
+        );
         assertItReturnsUnderlyingPromise(mockGet, () => client.list(limit));
       });
 
       describe('list call with offset only', () => {
         const offset = 0;
-        const expectedGetParameter = 'offset\=' + offset;
-        assertItCallsCorrectUrl('GET', '/v1/encoding/configurations\\?' + expectedGetParameter, () => client.list(null, offset));
+        const expectedGetParameter = 'offset=' + offset;
+        assertItCallsCorrectUrl('GET', '/v1/encoding/configurations\\?' + expectedGetParameter, () =>
+          client.list(null, offset)
+        );
         assertItReturnsUnderlyingPromise(mockGet, () => client.list(null, offset));
       });
 
       describe('list call with sort only', () => {
         const sort = 'createdAt:DESC';
-        const expectedGetParameter = 'sort\=' + sort;
-        assertItCallsCorrectUrl('GET', '/v1/encoding/configurations\\?' + expectedGetParameter, () => client.list(null, null, sort));
+        const expectedGetParameter = 'sort=' + sort;
+        assertItCallsCorrectUrl('GET', '/v1/encoding/configurations\\?' + expectedGetParameter, () =>
+          client.list(null, null, sort)
+        );
         assertItReturnsUnderlyingPromise(mockGet, () => client.list(null, null, sort));
       });
 
       describe('list call with multiple double filter only', () => {
         const filter = {
-          type: [ 'VOD', 'LIVE'],
+          type: ['VOD', 'LIVE'],
           status: ['RUNNING', 'QUEUED']
         };
 
         const expectedGetParameter = 'type=VOD,LIVE&status=RUNNING,QUEUED';
-        assertItCallsCorrectUrl('GET', '/v1/encoding/configurations\\?' + expectedGetParameter, () => client.list(null, null, null, filter));
+        assertItCallsCorrectUrl('GET', '/v1/encoding/configurations\\?' + expectedGetParameter, () =>
+          client.list(null, null, null, filter)
+        );
         assertItReturnsUnderlyingPromise(mockGet, () => client.list(null, null, null, filter));
       });
 
@@ -65,21 +73,25 @@ describe('encoding', () => {
         const offset = 0;
         const sort = 'createdAt:ASC';
         const filter = {
-          type: [ 'VOD', 'LIVE'],
+          type: ['VOD', 'LIVE'],
           status: ['RUNNING', 'QUEUED']
         };
 
-        const expectedGetParameter = 'type=VOD,LIVE&status=RUNNING,QUEUED&limit=' + limit + '&offset=' + offset + '&sort=' + sort;
-        assertItCallsCorrectUrl('GET', '/v1/encoding/configurations\\?' + expectedGetParameter, () => client.list(limit, offset, sort, filter));
+        const expectedGetParameter =
+          'type=VOD,LIVE&status=RUNNING,QUEUED&limit=' + limit + '&offset=' + offset + '&sort=' + sort;
+        assertItCallsCorrectUrl('GET', '/v1/encoding/configurations\\?' + expectedGetParameter, () =>
+          client.list(limit, offset, sort, filter)
+        );
         assertItReturnsUnderlyingPromise(mockGet, () => client.list(limit, offset, sort, filter));
       });
     });
 
     describe('getType', () => {
-      assertItCallsCorrectUrl('GET', '/v1/encoding/configurations/encoding-id/type', () => client.getType('encoding-id'));
+      assertItCallsCorrectUrl('GET', '/v1/encoding/configurations/encoding-id/type', () =>
+        client.getType('encoding-id')
+      );
       assertItReturnsUnderlyingPromise(mockGet, () => client.getType('encoding-id'));
     });
-
 
     const testConfigType = (path, type) => {
       describe(type, () => {
@@ -95,15 +107,27 @@ describe('encoding', () => {
 
         describe('item', () => {
           describe('details', () => {
-            assertItCallsCorrectUrl('GET', `/v1/encoding/configurations/${type}/config-id`, typeClient('config-id').details);
+            assertItCallsCorrectUrl(
+              'GET',
+              `/v1/encoding/configurations/${type}/config-id`,
+              typeClient('config-id').details
+            );
             assertItReturnsUnderlyingPromise(mockGet, typeClient('config-id').details);
           });
           describe('customData', () => {
-            assertItCallsCorrectUrl('GET', `/v1/encoding/configurations/${type}/config-id/customData`, typeClient('config-id').customData);
+            assertItCallsCorrectUrl(
+              'GET',
+              `/v1/encoding/configurations/${type}/config-id/customData`,
+              typeClient('config-id').customData
+            );
             assertItReturnsUnderlyingPromise(mockGet, typeClient('config-id').customData);
           });
           describe('delete', () => {
-            assertItCallsCorrectUrl('DELETE', `/v1/encoding/configurations/${type}/config-id`, typeClient('config-id').delete);
+            assertItCallsCorrectUrl(
+              'DELETE',
+              `/v1/encoding/configurations/${type}/config-id`,
+              typeClient('config-id').delete
+            );
             assertItReturnsUnderlyingPromise(mockDelete, typeClient('config-id').delete);
           });
         });

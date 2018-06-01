@@ -1,7 +1,7 @@
-import moment from 'moment'
+import moment from 'moment';
 
 import {getConfiguration} from '../utils';
-import { queries } from '../../bitmovin/analytics/queries';
+import {queries} from '../../bitmovin/analytics/queries';
 import {
   mockGet,
   mockPost,
@@ -18,7 +18,7 @@ import {
 let testConfiguration = getConfiguration();
 
 describe('analytics', () => {
-  beforeEach(testSetup)
+  beforeEach(testSetup);
   const queriesClient = queries(testConfiguration, mockHttp);
 
   describe('queries', () => {
@@ -56,7 +56,9 @@ describe('analytics', () => {
     });
 
     describe('builder', () => {
-      const start = moment().subtract(1, 'months').toDate();
+      const start = moment()
+        .subtract(1, 'months')
+        .toDate();
       const end = moment().toDate();
       const testBuilderFunction = (func, percentile) => {
         const fn = func('STARTUPTIME', percentile)
@@ -72,27 +74,32 @@ describe('analytics', () => {
           .limit(10)
           .offset(20);
 
-        assertItReturnsPromise(mockPost, () => { return fn.query() });
-        assertPayload(mockPost, () => { return fn.query() }, {
-          dimension: 'STARTUPTIME',
-          licenseKey: 'license-key',
-          start: start,
-          end: end,
-          filters: [
-            { name: 'STARTUPTIME', operator: 'GT', value: 0 },
-            { name: 'CDN_PROVIDER', operator: 'EQ', value: 'akamai' }
-          ],
-          groupBy: [ 'VIDEOID', 'CDN_PROVIDER' ],
-          interval: 'DAY',
-          orderBy: [
-            { name: 'DAY', order: 'DESC' },
-            { name: 'VIDEOID', order: 'ASC' }
-          ],
-          limit: 10,
-          offset: 20,
-          percentile
+        assertItReturnsPromise(mockPost, () => {
+          return fn.query();
         });
-      }
+        assertPayload(
+          mockPost,
+          () => {
+            return fn.query();
+          },
+          {
+            dimension: 'STARTUPTIME',
+            licenseKey: 'license-key',
+            start: start,
+            end: end,
+            filters: [
+              {name: 'STARTUPTIME', operator: 'GT', value: 0},
+              {name: 'CDN_PROVIDER', operator: 'EQ', value: 'akamai'}
+            ],
+            groupBy: ['VIDEOID', 'CDN_PROVIDER'],
+            interval: 'DAY',
+            orderBy: [{name: 'DAY', order: 'DESC'}, {name: 'VIDEOID', order: 'ASC'}],
+            limit: 10,
+            offset: 20,
+            percentile
+          }
+        );
+      };
       testBuilderFunction(queriesClient.builder.max);
       testBuilderFunction(queriesClient.builder.min);
       testBuilderFunction(queriesClient.builder.avg);
@@ -103,10 +110,11 @@ describe('analytics', () => {
       testBuilderFunction(queriesClient.builder.percentile, 95);
       testBuilderFunction(queriesClient.builder.stddev);
 
-      const testBuilderFunctionAtTheEnd = (funcName) => {
+      const testBuilderFunctionAtTheEnd = funcName => {
         const query = queriesClient.builder
           .licenseKey('my-license')
-          .between(start, end)[funcName]('ERROR_RATE');
+          .between(start, end)
+          [funcName]('ERROR_RATE');
 
         assertPayload(mockPost, () => query.query(), {
           dimension: 'ERROR_RATE',
@@ -131,7 +139,9 @@ describe('analytics', () => {
       const testImmutableBuilder = () => {
         const query = queriesClient.builder.count('USER_ID').between(start, end);
 
-        const start1 = moment().subtract(1, 'months').toDate();
+        const start1 = moment()
+          .subtract(1, 'months')
+          .toDate();
         const end1 = moment().toDate();
         const query1 = query.filter('STARTUPTIME', 'GT', 0);
         const query2 = query.filter('CDN_PROVIDER', 'EQ', 'akamai');
@@ -140,11 +150,13 @@ describe('analytics', () => {
           dimension: 'USER_ID',
           start,
           end,
-          filters: [{
-            name: 'STARTUPTIME',
-            operator: 'GT',
-            value: 0
-          }],
+          filters: [
+            {
+              name: 'STARTUPTIME',
+              operator: 'GT',
+              value: 0
+            }
+          ],
           groupBy: [],
           orderBy: []
         });
@@ -153,11 +165,13 @@ describe('analytics', () => {
           dimension: 'USER_ID',
           start,
           end,
-          filters: [{
-            name: 'CDN_PROVIDER',
-            operator: 'EQ',
-            value: 'akamai'
-          }],
+          filters: [
+            {
+              name: 'CDN_PROVIDER',
+              operator: 'EQ',
+              value: 'akamai'
+            }
+          ],
           groupBy: [],
           orderBy: []
         });

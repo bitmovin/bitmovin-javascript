@@ -13,7 +13,7 @@ import {
   assertItCallsUrlAndReturnsPromise
 } from '../assertions';
 import {getConfiguration} from '../utils';
-import { representations } from '../../bitmovin/encoding/manifests/dash/dashManifestRepresentations.js';
+import {representations} from '../../bitmovin/encoding/manifests/dash/dashManifestRepresentations.js';
 
 let testConfiguration = getConfiguration();
 
@@ -24,22 +24,40 @@ describe('encoding', () => {
         describe('representations', () => {
           beforeEach(testSetup);
           const testType = (type, url = type) => {
-            const client = representations(testConfiguration, 'manifest-id', 'period-id', 'adaptationset-id', mockHttp)[type];
+            const client = representations(testConfiguration, 'manifest-id', 'period-id', 'adaptationset-id', mockHttp)[
+              type
+            ];
 
             describe(type, () => {
               describe('list', () => {
-                assertItCallsUrlAndReturnsPromise('GET', `/v1/encoding/manifests/dash/manifest-id/periods/period-id/adaptationsets/adaptationset-id/representations/${url}`, client.list);
+                assertItCallsUrlAndReturnsPromise(
+                  'GET',
+                  `/v1/encoding/manifests/dash/manifest-id/periods/period-id/adaptationsets/adaptationset-id/representations/${url}`,
+                  client.list
+                );
               });
               describe('add', () => {
-                assertItCallsUrlAndReturnsPromise('POST', `/v1/encoding/manifests/dash/manifest-id/periods/period-id/adaptationsets/adaptationset-id/representations/${url}`, client.add);
+                assertItCallsUrlAndReturnsPromise(
+                  'POST',
+                  `/v1/encoding/manifests/dash/manifest-id/periods/period-id/adaptationsets/adaptationset-id/representations/${url}`,
+                  client.add
+                );
               });
               describe('representation', () => {
                 const repClient = client('representation-id');
                 describe('details', () => {
-                  assertItCallsUrlAndReturnsPromise('GET', `/v1/encoding/manifests/dash/manifest-id/periods/period-id/adaptationsets/adaptationset-id/representations/${url}/representation-id`, repClient.details);
+                  assertItCallsUrlAndReturnsPromise(
+                    'GET',
+                    `/v1/encoding/manifests/dash/manifest-id/periods/period-id/adaptationsets/adaptationset-id/representations/${url}/representation-id`,
+                    repClient.details
+                  );
                 });
                 describe('delete', () => {
-                  assertItCallsUrlAndReturnsPromise('DELETE', `/v1/encoding/manifests/dash/manifest-id/periods/period-id/adaptationsets/adaptationset-id/representations/${url}/representation-id`, repClient.delete);
+                  assertItCallsUrlAndReturnsPromise(
+                    'DELETE',
+                    `/v1/encoding/manifests/dash/manifest-id/periods/period-id/adaptationsets/adaptationset-id/representations/${url}/representation-id`,
+                    repClient.delete
+                  );
                 });
                 describe('has contentprotections', () => {
                   expect(repClient.contentProtections).toBeDefined();

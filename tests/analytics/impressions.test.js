@@ -1,5 +1,5 @@
 import {getConfiguration} from '../utils';
-import { impressions } from '../../bitmovin/analytics/impressions';
+import {impressions} from '../../bitmovin/analytics/impressions';
 import {
   mockGet,
   mockPost,
@@ -19,14 +19,18 @@ describe('analytics', () => {
   const impressionsClient = impressions(testConfiguration, mockHttp);
 
   describe('impressions', () => {
-    assertItCallsCorrectUrl('POST', '/v1/analytics/impressions/my-impression-id', () => impressionsClient('my-impression-id', 'license-key'));
+    assertItCallsCorrectUrl('POST', '/v1/analytics/impressions/my-impression-id', () =>
+      impressionsClient('my-impression-id', 'license-key')
+    );
     assertItReturnsUnderlyingPromise(mockPost, () => impressionsClient('my-impression-id', 'license-key'));
-    assertPayload(mockPost, () => impressionsClient('my-impression-id', 'license-key'), { licenseKey: 'license-key' });
+    assertPayload(mockPost, () => impressionsClient('my-impression-id', 'license-key'), {licenseKey: 'license-key'});
 
     describe('without license key', () => {
-      assertItCallsCorrectUrl('POST', '/v1/analytics/impressions/my-impression-id', () => impressionsClient('my-impression-id'));
+      assertItCallsCorrectUrl('POST', '/v1/analytics/impressions/my-impression-id', () =>
+        impressionsClient('my-impression-id')
+      );
       assertItReturnsUnderlyingPromise(mockPost, () => impressionsClient('my-impression-id'));
-      assertPayload(mockPost, () => impressionsClient('my-impression-id'), { licenseKey: undefined });
+      assertPayload(mockPost, () => impressionsClient('my-impression-id'), {licenseKey: undefined});
     });
   });
 });
