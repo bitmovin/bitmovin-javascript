@@ -1,6 +1,5 @@
 import {getConfiguration} from '../utils';
 import { impressions } from '../../bitmovin/analytics/impressions';
-
 import {
   mockGet,
   mockPost,

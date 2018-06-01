@@ -11,7 +11,6 @@ import {
   assertItReturnsPromise,
   assertItReturnsCorrectResponse
 } from '../assertions';
-
 import {getConfiguration} from '../utils';
 import { encodings } from '../../bitmovin/encoding/encodings/encodings';
 
@@ -43,7 +42,7 @@ describe('encoding', () => {
       });
 
       describe('list call with sort only', () => {
-        const sort = "createdAt:DESC";
+        const sort = 'createdAt:DESC';
         const expectedGetParameter = 'sort\=' + sort;
         assertItCallsCorrectUrl('GET', '/v1/encoding/encodings\\?' + expectedGetParameter, () => client.list(null, null, sort));
         assertItReturnsUnderlyingPromise(mockGet, () => client.list(null, null, sort));

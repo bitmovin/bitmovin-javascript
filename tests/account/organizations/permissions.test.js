@@ -1,6 +1,6 @@
 import urljoin from 'url-join';
-import { permissions } from '../../../bitmovin/account/organizations/permissions';
 
+import { permissions } from '../../../bitmovin/account/organizations/permissions';
 import {
   mockGet,
   mockPost,
@@ -10,7 +10,6 @@ import {
   assertItCallsCorrectUrl,
   testSetup,
 } from '../../assertions';
-
 import {getConfiguration} from '../../utils';
 
 let testConfiguration = getConfiguration();

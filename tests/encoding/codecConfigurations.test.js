@@ -12,7 +12,6 @@ import {
   assertItReturnsPromise,
   assertItReturnsCorrectResponse
 } from '../assertions';
-
 import {getConfiguration} from '../utils';
 
 let testConfiguration = getConfiguration();
@@ -44,7 +43,7 @@ describe('encoding', () => {
       });
 
       describe('list call with sort only', () => {
-        const sort = "createdAt:DESC";
+        const sort = 'createdAt:DESC';
         const expectedGetParameter = 'sort\=' + sort;
         assertItCallsCorrectUrl('GET', '/v1/encoding/configurations\\?' + expectedGetParameter, () => client.list(null, null, sort));
         assertItReturnsUnderlyingPromise(mockGet, () => client.list(null, null, sort));
@@ -77,7 +76,7 @@ describe('encoding', () => {
     });
 
     describe('getType', () => {
-      assertItCallsCorrectUrl('GET', `/v1/encoding/configurations/encoding-id/type`, () => client.getType('encoding-id'));
+      assertItCallsCorrectUrl('GET', '/v1/encoding/configurations/encoding-id/type', () => client.getType('encoding-id'));
       assertItReturnsUnderlyingPromise(mockGet, () => client.getType('encoding-id'));
     });
 
@@ -86,11 +85,11 @@ describe('encoding', () => {
       describe(type, () => {
         const typeClient = client[path];
         describe('list', () => {
-          assertItCallsCorrectUrl('GET', `/v1/encoding/configurations`, typeClient.list);
+          assertItCallsCorrectUrl('GET', '/v1/encoding/configurations', typeClient.list);
           assertItReturnsUnderlyingPromise(mockGet, typeClient.list);
         });
         describe('create', () => {
-          assertItCallsCorrectUrl('POST', `/v1/encoding/configurations`, typeClient.create);
+          assertItCallsCorrectUrl('POST', '/v1/encoding/configurations', typeClient.create);
           assertItReturnsUnderlyingPromise(mockPost, typeClient.create);
         });
 

@@ -1,6 +1,5 @@
 import {getConfiguration} from '../utils';
 import { manifests } from '../../bitmovin/encoding/manifests/manifests';
-
 import {
   mockGet,
   mockPost,
@@ -43,7 +42,7 @@ describe('encoding', () => {
       });
 
       describe('list call with sort only', () => {
-        const sort = "createdAt:DESC";
+        const sort = 'createdAt:DESC';
         const expectedGetParameter = 'sort\=' + sort;
         assertItCallsCorrectUrl('GET', '/v1/encoding/manifests\\?' + expectedGetParameter, () => client.list(null, null, sort));
         assertItReturnsUnderlyingPromise(mockGet, () => client.list(null, null, sort));

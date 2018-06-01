@@ -12,7 +12,6 @@ import {
   assertItReturnsCorrectResponse,
   assertItCallsUrlAndReturnsPromise
 } from '../assertions';
-
 import {getConfiguration} from '../utils';
 import { representations } from '../../bitmovin/encoding/manifests/smooth/smoothManifestRepresentations.js';
 

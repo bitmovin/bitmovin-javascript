@@ -2,7 +2,6 @@ import { getConfiguration } from '../utils';
 import { licenses } from '../../bitmovin/player/licenses';
 import { domains } from '../../bitmovin/player/domains';
 import { channels } from '../../bitmovin/player/channels';
-
 import {
   mockGet,
   mockPost,

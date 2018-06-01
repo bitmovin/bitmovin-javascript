@@ -1,5 +1,4 @@
 import {getConfiguration} from '../utils';
-
 import {
   mockGet,
   mockPost,
@@ -14,7 +13,6 @@ import {
   assertItReturnsCorrectResponse,
   assertItCallsUrlAndReturnsPromise
 } from '../assertions';
-
 import { hlsManifestMedia } from '../../bitmovin/encoding/manifests/hls/hlsManifestMedia';
 
 let testConfiguration = getConfiguration();

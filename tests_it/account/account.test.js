@@ -1,7 +1,6 @@
 import assert from 'assert';
 
 import { getConfiguration } from '../utils';
-
 import account from '../../bitmovin/account/account';
 import logger from '../../bitmovin/utils/Logger';
 
@@ -68,8 +67,8 @@ describe('Account', () => {
   });
 
   it('should throw an error because of an invalid current password', (done) => {
-    authorizedAccountClient.changePassword(testConfigurationWithHeaders.eMail, "invalidPassword-128308", testConfigurationWithHeaders.password).then((response) => {
-      done(new Error("should throw an Exception"));
+    authorizedAccountClient.changePassword(testConfigurationWithHeaders.eMail, 'invalidPassword-128308', testConfigurationWithHeaders.password).then((response) => {
+      done(new Error('should throw an Exception'));
     }).catch((error) => {
       done();
     });

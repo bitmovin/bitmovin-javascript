@@ -1,7 +1,6 @@
 import {getConfiguration} from '../utils';
 import { licenses } from '../../bitmovin/analytics/licenses';
 import { domains } from '../../bitmovin/analytics/domains';
-
 import {
   mockGet,
   mockPost,

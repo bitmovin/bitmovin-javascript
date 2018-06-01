@@ -1,5 +1,4 @@
 import { contactDetails } from '../../../bitmovin/account/billing/contactDetails'
-
 import {
   mockGet,
   mockPut,
@@ -8,7 +7,6 @@ import {
   assertItCallsCorrectUrl,
   testSetup,
 } from '../../assertions';
-
 import {getConfiguration} from '../../utils';
 
 let testConfiguration = getConfiguration();

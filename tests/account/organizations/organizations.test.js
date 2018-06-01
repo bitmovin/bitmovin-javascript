@@ -1,5 +1,4 @@
 import { organizations } from '../../../bitmovin/account/organizations/organizations.js'
-
 import {
   mockGet,
   mockPost,
@@ -9,7 +8,6 @@ import {
   assertItCallsCorrectUrl,
   testSetup,
 } from '../../assertions';
-
 import {getConfiguration} from '../../utils';
 
 let testConfiguration = getConfiguration();

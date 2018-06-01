@@ -1,6 +1,5 @@
 import {getConfiguration} from '../utils';
 import { streams } from '../../bitmovin/encoding/encodings/streams';
-
 import {
   mockGet,
   mockPost,

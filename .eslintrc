@@ -10,7 +10,6 @@
       "avoidEscape": true
     }],
     "strict": [2, "never"],
-    "no-console": "error",
     "no-debugger": "warn",
     "no-undef": "error",
     "import/no-named-as-default": "off",
@@ -32,9 +31,11 @@
   },
   "extends": [
     "plugin:import/errors",
-    "plugin:import/warnings"
+    "plugin:import/warnings",
+    "plugin:jest/recommended"
   ],
   "plugins": [
-    "import"
+    "import",
+    "jest"
   ]
 }

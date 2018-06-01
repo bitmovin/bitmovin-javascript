@@ -1,6 +1,5 @@
 import {getConfiguration} from '../utils';
 import { inputs } from '../../bitmovin/encoding/inputs';
-
 import {
   mockGet,
   mockPost,
@@ -62,11 +61,11 @@ describe('encoding', () => {
 
     describe('rtmp', () => {
       describe('list', () => {
-        assertItCallsCorrectUrl('GET', `/v1/encoding/inputs/rtmp`, client.rtmp.list);
+        assertItCallsCorrectUrl('GET', '/v1/encoding/inputs/rtmp', client.rtmp.list);
         assertItReturnsUnderlyingPromise(mockGet, client.rtmp.list);
       });
       describe('details', () => {
-        assertItCallsCorrectUrl('GET', `/v1/encoding/inputs/rtmp/input-id`, client.rtmp('input-id').details);
+        assertItCallsCorrectUrl('GET', '/v1/encoding/inputs/rtmp/input-id', client.rtmp('input-id').details);
         assertItReturnsUnderlyingPromise(mockGet, client.rtmp('input-id').details);
       });
     });
@@ -74,7 +73,7 @@ describe('encoding', () => {
       const urlPart = 'generic-s3';
       const type = 'genericS3';
       describe('list', () => {
-        assertItCallsCorrectUrl('GET', `/v1/encoding/inputs/generic-s3`, client.genericS3.list);
+        assertItCallsCorrectUrl('GET', '/v1/encoding/inputs/generic-s3', client.genericS3.list);
         assertItReturnsUnderlyingPromise(mockGet, client.genericS3.list);
       });
       describe('item', () => {

@@ -1,6 +1,6 @@
 import assert from 'assert';
-import infrastructure from '../../bitmovin/encoding/infrastructure';
 
+import infrastructure from '../../bitmovin/encoding/infrastructure';
 import {getConfiguration} from '../utils';
 let testConfiguration = getConfiguration();
 

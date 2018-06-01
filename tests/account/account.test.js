@@ -1,5 +1,4 @@
 import { getConfiguration } from '../utils';
-
 import { account } from '../../bitmovin/account/account';
 import logger from '../../bitmovin/utils/Logger';
 import {
@@ -29,8 +28,8 @@ describe('account', () => {
   });
 
   describe('login', () => {
-    const email = "test@email.com";
-    const password = "mypassword";
+    const email = 'test@email.com';
+    const password = 'mypassword';
 
     assertItReturnsUnderlyingPromise(mockPost, () => client.login(email, password));
 
@@ -54,9 +53,9 @@ describe('account', () => {
   });
 
   describe('changePassword', () => {
-    const email = "test@email.com";
-    const currentPassword = "oldpwd";
-    const newPassword = "newpwd";
+    const email = 'test@email.com';
+    const currentPassword = 'oldpwd';
+    const newPassword = 'newpwd';
 
     assertItCallsCorrectUrl('POST', '/v1/account/password/change', () => client.changePassword(email, currentPassword, newPassword));
     assertItReturnsUnderlyingPromise(mockPost, () => client.changePassword(email, currentPassword, newPassword));

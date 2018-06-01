@@ -144,7 +144,7 @@ describe('[HLS Manifest Media Tests]', () => {
         initSegmentName: 'init.mp4',
         streams        : [
           {
-            "streamId": streamResource.id
+            'streamId': streamResource.id
           }
         ],
         outputs        : [

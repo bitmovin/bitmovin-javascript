@@ -1,6 +1,5 @@
 import {getConfiguration} from '../utils';
 import { drms } from '../../bitmovin/encoding/encodings/drms';
-
 import {
   mockGet,
   mockPost,

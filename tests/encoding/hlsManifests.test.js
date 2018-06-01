@@ -1,6 +1,5 @@
 import {getConfiguration} from '../utils';
 import { hlsManifests } from '../../bitmovin/encoding/manifests/hls/hlsManifests.js';
-
 import {
   mockGet,
   mockPost,

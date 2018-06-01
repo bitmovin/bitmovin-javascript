@@ -1,5 +1,4 @@
 import {getConfiguration} from '../utils';
-
 import {
   mockGet,
   mockPost,

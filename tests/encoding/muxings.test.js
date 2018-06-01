@@ -1,5 +1,4 @@
 import { muxings } from '../../bitmovin/encoding/encodings/muxings';
-
 import {
   mockGet,
   mockPost,
@@ -14,7 +13,6 @@ import {
   assertItReturnsCorrectResponse,
   assertItCallsUrlAndReturnsPromise
 } from '../assertions';
-
 import {getConfiguration} from '../utils';
 
 let testConfiguration = getConfiguration();
@@ -63,7 +61,7 @@ describe('encoding', () => {
     beforeEach(testSetup);
     const client = muxings(testConfiguration, 'encoding-id', mockHttp);
     describe('list', () => {
-      assertItCallsUrlAndReturnsPromise('GET', `/v1/encoding/encodings/encoding-id/muxings`, client.list);
+      assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/encodings/encoding-id/muxings', client.list);
     });
   })
 });

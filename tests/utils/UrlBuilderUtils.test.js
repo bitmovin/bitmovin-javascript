@@ -2,44 +2,44 @@ import http, { utils } from '../../bitmovin/utils/http';
 describe('Tests creation of url out of given parameters', () => {
   describe('Test Url creation with limit, offset and sorting', () => {
     it('Test with given limit', () => {
-      const limit = "100";
+      const limit = '100';
       expect(utils.buildGetParamString({
         limit: limit
-      })).toEqual("?limit=100")
+      })).toEqual('?limit=100')
     });
 
     it('Test with given offset', () => {
-      const offset = "0";
+      const offset = '0';
       expect(utils.buildGetParamString({
         offset: offset
-      })).toEqual("?offset=0")
+      })).toEqual('?offset=0')
     });
 
     it('Test with given limit and offset', () => {
-      const limit = "100";
-      const offset = "0";
+      const limit = '100';
+      const offset = '0';
       expect(utils.buildGetParamString({
         limit: limit,
         offset: offset
-      })).toEqual("?limit=100&offset=0")
+      })).toEqual('?limit=100&offset=0')
     });
 
     it('Test with given sorting', () => {
-      const sort = "createdAt:ASC";
+      const sort = 'createdAt:ASC';
       expect(utils.buildGetParamString({
         sort: sort
-      })).toEqual("?sort=createdAt:ASC")
+      })).toEqual('?sort=createdAt:ASC')
     });
 
     it('Test with limit, offset and sorting', () => {
-      const sort = "createdAt:ASC";
-      const limit = "100";
-      const offset = "0";
+      const sort = 'createdAt:ASC';
+      const limit = '100';
+      const offset = '0';
       expect(utils.buildGetParamString({
         limit: limit,
         offset: offset,
         sort: sort
-      })).toEqual("?limit=100&offset=0&sort=createdAt:ASC")
+      })).toEqual('?limit=100&offset=0&sort=createdAt:ASC')
     });
 
   });
@@ -67,8 +67,8 @@ describe('Tests creation of url out of given parameters', () => {
     });
 
     it('Test with two filters and limit and offset', () => {
-      const limit = "100";
-      const offset = "0";
+      const limit = '100';
+      const offset = '0';
       const filterParams = utils.buildFilterParamString({
         type: [ 'VOD' ],
         status: ['RUNNING']

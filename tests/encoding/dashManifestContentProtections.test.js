@@ -12,7 +12,6 @@ import {
   assertItReturnsCorrectResponse,
   assertItCallsUrlAndReturnsPromise
 } from '../assertions';
-
 import {getConfiguration} from '../utils';
 import { contentProtections } from '../../bitmovin/encoding/manifests/dash/dashManifestContentProtections';
 

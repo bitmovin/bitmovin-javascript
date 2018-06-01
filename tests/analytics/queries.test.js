@@ -1,7 +1,7 @@
-import {getConfiguration} from '../utils';
-import { queries } from '../../bitmovin/analytics/queries';
 import moment from 'moment'
 
+import {getConfiguration} from '../utils';
+import { queries } from '../../bitmovin/analytics/queries';
 import {
   mockGet,
   mockPost,

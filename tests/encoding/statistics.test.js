@@ -1,7 +1,6 @@
 import {getConfiguration} from '../utils';
 import {statistics} from '../../bitmovin/encoding/statistics';
-import {dateToApiRequestString, getFirstDayOfTheWeekFromDate} from "../../bitmovin/utils/DateUtils";
-
+import {dateToApiRequestString, getFirstDayOfTheWeekFromDate} from '../../bitmovin/utils/DateUtils';
 import {
   mockHttp,
   assertItCallsUrlAndReturnsPromise,

@@ -1,6 +1,5 @@
 import { getConfiguration } from '../utils';
 import { statistics } from '../../bitmovin/analytics/statistics';
-
 import {
   mockGet,
   mockHttp,

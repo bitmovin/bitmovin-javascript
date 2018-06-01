@@ -279,7 +279,7 @@ describe('[Encoding Control]', () => {
         initSegmentName: 'init.mp4',
         streams        : [
           {
-            "streamId": streamResource.id
+            'streamId': streamResource.id
           }
         ],
         outputs        : [
@@ -448,7 +448,7 @@ describe('[Live Encoding Control]', () => {
         initSegmentName: 'init.mp4',
         streams        : [
           {
-            "streamId": streamResource.id
+            'streamId': streamResource.id
           }
         ],
         outputs        : [

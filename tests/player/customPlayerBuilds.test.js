@@ -1,5 +1,4 @@
 import {customBuilds} from '../../bitmovin/player/customBuilds';
-
 import {
   mockDelete,
   mockGet,

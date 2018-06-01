@@ -68,7 +68,7 @@ describe('[CodecConfigurations]', () => {
     level                   : '2.1',
     rcLookahead             : 20,
     bAdapt                  : 'FULL',
-    maxCTUSize              : "64",
+    maxCTUSize              : '64',
     tuIntraDepth            : 1,
     tuInterDepth            : 1,
     motionSearch            : 'HEX',
