@@ -78,7 +78,7 @@ const delete_ = (configuration, url, fetchMethod = fetch) => {
   return request(configuration, DELETE, url, fetchMethod);
 };
 
-const utils = {
+export const utils = {
   buildGetParamString: getParams => {
     let params = [];
     let paramsString = '';
@@ -134,10 +134,9 @@ const utils = {
   }
 };
 
-module.exports = {
+export default {
   get,
   post,
   put,
-  delete_,
-  utils
+  delete_
 };

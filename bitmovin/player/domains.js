@@ -39,4 +39,3 @@ export const domains = (configuration, licenseId, http) => {
 export default (configuration, licenseId) => {
   return domains(configuration, licenseId, http);
 };
-// Module.exports = domains;
