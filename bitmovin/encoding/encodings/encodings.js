@@ -3,12 +3,12 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
-import type {Delete, Details, List, Create, BitmovinConfiguration} from '../../utils/types';
+import type {Delete, Details, List, Create, BitmovinConfiguration, CustomData, HttpClient} from '../../utils/types';
 
 import streams, {type Streams} from './streams';
 import muxings, {type Muxings} from './muxings';
 
-export const encodings = (configuration: BitmovinConfiguration, http: any): Encodings => {
+export const encodings = (configuration: BitmovinConfiguration, http: HttpClient): Encodings => {
   const {get, post, delete_} = http;
 
   let fn = encodingId => {
@@ -87,10 +87,12 @@ type EncodingDetail = (
   id: string
 ) => {
   details: Details<Encoding>,
-  delete: Delete<null>,
+  delete: Delete<{}>,
+  customData: CustomData,
   liveDetails: Details<Object>,
   start: Create<Object>,
   stop: Details<Object>,
+  startLive: Create<Object>,
   stopLive: Details<Object>,
   status: Details<Object>,
   streams: Streams,
@@ -99,8 +101,8 @@ type EncodingDetail = (
 
 export type Encodings = {
   $call: EncodingDetail,
-  list: List<Encoding>,
-  create: Create<Encoding>
+  create: Create<Encoding>,
+  list: List<Encoding>
 };
 
 export default (configuration: BitmovinConfiguration): Encodings => {

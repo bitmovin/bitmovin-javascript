@@ -3,10 +3,11 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
+import type {BitmovinConfiguration, HttpClient} from '../../utils/types';
 
 import drms from './drms';
 
-export const muxings = (configuration, encodingId, http): Muxings => {
+export const muxings = (configuration: BitmovinConfiguration, encodingId: string, http: HttpClient): Muxings => {
   const {get, post, delete_} = http;
   let typeFn = typeUrl => {
     let fn = muxingId => {
@@ -82,6 +83,6 @@ export const muxings = (configuration, encodingId, http): Muxings => {
 
 export type Muxings = any;
 
-export default (configuration, encodingId): Muxings => {
+export default (configuration: BitmovinConfiguration, encodingId: string): Muxings => {
   return muxings(configuration, encodingId, http);
 };

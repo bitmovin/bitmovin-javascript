@@ -21,33 +21,25 @@ export type Pagination<T> = {
   items: Array<T>
 };
 
-type ResponseSuccessData<T> = {
+type ResponseSuccessData<T> = {|
   result: T,
-  messages: Array<{
+  messages?: Array<{
     id: string,
     date: string,
     type: string
   }>
-};
+|};
 
-type ResponseErrorData = {
+type ResponseErrorData = {|
   code: number,
   message: string,
   developerMessage: string
-};
+|};
 
 export type ResponseEnvelope<T> = {
   requestId: string,
   status: 'SUCCESS' | 'ERROR',
-  data: ResponseSuccessData<T> & ResponseErrorData
-};
-
-export type ResponseEnvelopeDelete<T> = {
-  requestId: string,
-  status: 'SUCCESS' | 'ERROR',
-  data: T & {
-    id: string
-  }
+  data: ResponseSuccessData<T> | ResponseErrorData
 };
 
 export type ApiResource<T> = T & {
@@ -58,6 +50,11 @@ export type ApiResource<T> = T & {
   customData?: string
 };
 
+type CustomDataT = {
+  customData?: string,
+  createdAt?: string
+};
+
 export type List<T> = (
   limit?: number,
   offset?: number,
@@ -66,21 +63,22 @@ export type List<T> = (
 ) => Promise<ResponseEnvelope<Pagination<ApiResource<T>>>>;
 export type Create<T> = (data: T) => Promise<ResponseEnvelope<Pagination<ApiResource<T>>>>;
 export type Details<T> = () => Promise<ResponseEnvelope<ApiResource<T>>>;
-export type Delete<T> = () => Promise<ResponseEnvelopeDelete<T>>;
+export type Delete<T> = () => Promise<ResponseEnvelope<T>>;
+export type CustomData = () => Promise<ResponseEnvelope<CustomDataT>>;
 
 export type HttpClient = {
-  get: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<ResponseEnvelope<>>,
+  get: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<ResponseEnvelope<Object>>,
   post: (
     configuration: BitmovinConfiguration,
     url: string,
-    object: Object,
+    object?: Object,
     fetchMethod?: any
-  ) => Promise<ResponseEnvelope<>>,
+  ) => Promise<ResponseEnvelope<Object>>,
   put: (
     configuration: BitmovinConfiguration,
     url: string,
-    object: Object,
+    object?: Object,
     fetchMethod?: any
-  ) => Promise<ResponseEnvelope<>>,
-  delete_: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<ResponseEnvelope<>>
+  ) => Promise<ResponseEnvelope<Object>>,
+  delete_: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<ResponseEnvelope<Object>>
 };
