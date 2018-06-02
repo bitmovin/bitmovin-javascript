@@ -1,12 +1,16 @@
+// @flow
+
 import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
+import type {Delete, Details, List, Create, BitmovinConfiguration} from '../../utils/types';
 
-import streams from './streams';
-import muxings from './muxings';
+import streams, {type Streams} from './streams';
+import muxings, {type Muxings} from './muxings';
 
-export const encodings = (configuration, http) => {
+export const encodings = (configuration: BitmovinConfiguration, http: any): Encodings => {
   const {get, post, delete_} = http;
+
   let fn = encodingId => {
     return {
       details: () => {
@@ -75,6 +79,30 @@ export const encodings = (configuration, http) => {
   return fn;
 };
 
-export default configuration => {
+type Encoding = {
+  cloudRegion: string
+};
+
+type EncodingDetail = (
+  id: string
+) => {
+  details: Details<Encoding>,
+  delete: Delete<null>,
+  liveDetails: Details<Object>,
+  start: Create<Object>,
+  stop: Details<Object>,
+  stopLive: Details<Object>,
+  status: Details<Object>,
+  streams: Streams,
+  muxings: Muxings
+};
+
+export type Encodings = {
+  $call: EncodingDetail,
+  list: List<Encoding>,
+  create: Create<Encoding>
+};
+
+export default (configuration: BitmovinConfiguration): Encodings => {
   return encodings(configuration, http);
 };

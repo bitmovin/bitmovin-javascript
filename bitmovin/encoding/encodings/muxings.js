@@ -1,10 +1,12 @@
+// @flow
+
 import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
 
 import drms from './drms';
 
-export const muxings = (configuration, encodingId, http) => {
+export const muxings = (configuration, encodingId, http): Muxings => {
   const {get, post, delete_} = http;
   let typeFn = typeUrl => {
     let fn = muxingId => {
@@ -78,6 +80,8 @@ export const muxings = (configuration, encodingId, http) => {
   };
 };
 
-export default (configuration, encodingId) => {
+export type Muxings = any;
+
+export default (configuration, encodingId): Muxings => {
   return muxings(configuration, encodingId, http);
 };

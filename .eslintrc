@@ -29,13 +29,18 @@
       "jsx": "never"
     }]
   },
+  "globals": {
+    "__VERSION__": true
+  },
   "extends": [
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:jest/recommended"
+    "plugin:jest/recommended",
+    "plugin:flowtype/recommended"
   ],
   "plugins": [
     "import",
-    "jest"
+    "jest",
+    "flowtype"
   ]
 }

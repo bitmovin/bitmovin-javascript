@@ -1,12 +1,16 @@
+// @flow
+
 import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
+import type {HttpClient, BitmovinConfiguration} from '../../utils/types';
 
 import thumbnails from './thumbnails';
 import sprites from './sprites';
 
-export const streams = (configuration, encodingId, http) => {
+export const streams = (configuration: BitmovinConfiguration, encodingId: string, http: HttpClient): Streams => {
   const {get, post, delete_} = http;
+
   let filterFn = streamId => {
     let fn = filterId => {
       return {
@@ -108,6 +112,12 @@ export const streams = (configuration, encodingId, http) => {
   return fn;
 };
 
-export default (configuration, encodingId) => {
+type Stream = {};
+
+type StreamDetail = (id: string) => {};
+
+export type Streams = {};
+
+export default (configuration: BitmovinConfiguration, encodingId: string): Streams => {
   return streams(configuration, encodingId, http);
 };

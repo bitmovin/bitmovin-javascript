@@ -1,6 +1,8 @@
+// @flow
+
 import urljoin from 'url-join';
 
-import encodings from './encoding/encodings/encodings';
+import encodings, {type Encodings} from './encoding/encodings/encodings';
 import codecConfigurations from './encoding/codecConfigurations';
 import inputs from './encoding/inputs';
 import outputs from './encoding/outputs';
@@ -19,6 +21,7 @@ import analyticsStatistics from './analytics/statistics';
 import customBuilds from './player/customBuilds';
 import logger from './utils/Logger';
 import utils from './utils/Utils';
+import type {BitmovinConfiguration} from './utils/types';
 
 const checkAuthorizationInConfiguration = function(configuration) {
   if (utils.isNoEmptyString(configuration.apiKey)) {
@@ -32,8 +35,41 @@ const checkAuthorizationInConfiguration = function(configuration) {
   logger.log('Neither apiKey nor email and password provided in configuration.');
 };
 
+type Encoding = {
+  encodings: Encodings,
+  codecConfigurations: Object,
+  inputs: Object,
+  outputs: Object,
+  manifests: Object,
+  filters: Object,
+  statistics: Object,
+  infrastructure: Object
+};
+
+type Player = {
+  channels: Object,
+  licenses: Object,
+  statistics: Object,
+  customBuilds: Object
+};
+
+type Analytics = {
+  licenses: Object,
+  statistics: Object,
+  impressions: Object,
+  queries: Object
+};
+
+type Account = Object;
+
 export default class Bitmovin {
-  constructor(configuration = {}) {
+  configuration: BitmovinConfiguration;
+  encoding: Encoding;
+  player: Player;
+  analytics: Analytics;
+  account: Account;
+
+  constructor(configuration: BitmovinConfiguration) {
     checkAuthorizationInConfiguration(configuration);
 
     if (configuration.debug && configuration.debug === true) {
@@ -71,7 +107,7 @@ export default class Bitmovin {
       'X-Api-Key': configuration.apiKey,
       'X-Tenant-Org-Id': configuration.tenantOrgId,
       'X-Api-Client': configuration.xApiClient,
-      'X-Api-Client-Version': '1.10.0',
+      'X-Api-Client-Version': `${__VERSION__}`,
       ...configuration.additionalHeaders
     };
 

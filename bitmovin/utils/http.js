@@ -1,9 +1,12 @@
+// @flow
+
 import fetch from 'node-fetch';
 import Promise from 'bluebird';
 import urljoin from 'url-join';
 
 import BitmovinError from './BitmovinError';
 import logger from './Logger';
+import type {HttpClient} from './types';
 
 const GET = 'GET';
 const POST = 'POST';
@@ -79,7 +82,7 @@ const delete_ = (configuration, url, fetchMethod = fetch) => {
 };
 
 export const utils = {
-  buildGetParamString: getParams => {
+  buildGetParamString: (getParams: Object) => {
     let params = [];
     let paramsString = '';
 
@@ -107,7 +110,7 @@ export const utils = {
     return paramsString;
   },
 
-  buildFilterParamString: filterParams => {
+  buildFilterParamString: (filterParams?: Object) => {
     const processedFilterParams = {};
     for (let key in filterParams) {
       if (filterParams.hasOwnProperty(key)) {
@@ -117,7 +120,7 @@ export const utils = {
     return processedFilterParams;
   },
 
-  buildUrlParams: (baseUrl, params) => {
+  buildUrlParams: (baseUrl: string, params: Object) => {
     const filterParams = utils.buildFilterParamString(params.filter);
     let getParams = utils.buildGetParamString({
       ...filterParams,
@@ -134,9 +137,11 @@ export const utils = {
   }
 };
 
-export default {
+const Http: HttpClient = {
   get,
   post,
   put,
   delete_
 };
+
+export default Http;

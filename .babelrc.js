@@ -1,12 +1,12 @@
-var env = process.env.BABEL_ENV || process.env.NODE_ENV;
+const env = process.env.BABEL_ENV || process.env.NODE_ENV;
 
-var defaultBabelPresetEnvConfig = {
+const defaultBabelPresetEnvConfig = {
   // No module transformation, webpack will take care of this if necessary.
   'modules': false
 };
 
 // Latest browsers
-var browserBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
+const browserBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
   'targets': {
     'browsers': [
       'last 2 versions',
@@ -17,7 +17,7 @@ var browserBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig,
 });
 
 // Legacy browsers
-var legacyBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
+const legacyBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
   'targets': {
     'browsers': [
       'last 5 versions',
@@ -27,34 +27,33 @@ var legacyBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, 
 });
 
 // Node
-var nodeBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
+const nodeBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
   'targets': {
     'node': '4.7'
   }
 });
 
 // Combined node and browser environment for es6 modules version and tests
-var modulesBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
+const modulesBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfig, {
   'targets': Object.assign(legacyBabelPresetEnvConfig.targets, nodeBabelPresetEnvConfig.targets)
 });
 
-var testBabelPresetEnvConfig = Object.assign({}, modulesBabelPresetEnvConfig, {
-  // Tests need to transform modules
-  'modules': 'commonjs'
-});
-
-var plugins = [
-  'transform-object-rest-spread'
+const plugins = [
+  'transform-object-rest-spread',
+  ['inline-replace-variables', {
+    '__VERSION__': require('./package.json').version
+  }]
 ];
 
-var babelConfig = {
+let babelConfig = {
   plugins
 };
 
 if (env === 'browser') {
   babelConfig = Object.assign(babelConfig, {
     'presets': [
-      ['env', browserBabelPresetEnvConfig]
+      ['env', browserBabelPresetEnvConfig],
+      'flow'
     ]
   })
 }
@@ -62,7 +61,8 @@ if (env === 'browser') {
 if (env === 'legacy') {
   babelConfig = Object.assign(babelConfig, {
     'presets': [
-      ['env', legacyBabelPresetEnvConfig]
+      ['env', legacyBabelPresetEnvConfig],
+      'flow'
     ]
   })
 }
@@ -70,7 +70,8 @@ if (env === 'legacy') {
 if (env === 'modules') {
   babelConfig = Object.assign(babelConfig, {
     'presets': [
-      ['env', modulesBabelPresetEnvConfig]
+      ['env', modulesBabelPresetEnvConfig],
+      'flow'
     ]
   })
 }
@@ -78,19 +79,9 @@ if (env === 'modules') {
 if (env === 'node') {
   babelConfig = Object.assign(babelConfig, {
     'presets': [
-      ['env', nodeBabelPresetEnvConfig]
+      ['env', nodeBabelPresetEnvConfig],
+      'flow'
     ]
-  })
-}
-
-if (env === 'test') {
-  babelConfig = Object.assign(babelConfig, {
-    'presets': [
-      ['env', testBabelPresetEnvConfig]
-    ],
-    'plugins': babelConfig.plugins.concat([
-      'rewire'
-    ])
   })
 }
 
