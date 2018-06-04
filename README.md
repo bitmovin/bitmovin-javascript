@@ -23,17 +23,10 @@ yarn add bitmovin-javascript
 Initialization
 ----------
 
-With Babel/ES6:
+Using ES6 Imports
 ```es6
 import Bitmovin from 'bitmovin-javascript';
-const bitmovin = new Bitmovin({'apiKey': BITMOVIN_API_KEY, debug: false});
-```
-
-With NodeJS:
-
-```js
-const Bitmovin = require('bitmovin-javascript').default;
-const bitmovin = new Bitmovin({'apiKey': BITMOVIN_API_KEY, debug: false});
+const bitmovin = new Bitmovin({'apiKey': '<YOUR_API_KEY>'});
 ```
 
 Usage
@@ -74,3 +67,6 @@ Running tests:
 yarn test
 yarn coverage
 ```
+License
+-----------
+MIT
