@@ -22,6 +22,7 @@ import customBuilds from './player/customBuilds';
 import logger from './utils/Logger';
 import utils from './utils/Utils';
 import type {BitmovinConfiguration} from './utils/types';
+import notifications from './notifications/notifications';
 
 const checkAuthorizationInConfiguration = function(configuration) {
   if (utils.isNoEmptyString(configuration.apiKey)) {
@@ -62,12 +63,15 @@ type Analytics = {
 
 type Account = Object;
 
+type Notifications = {};
+
 export default class Bitmovin {
   configuration: BitmovinConfiguration;
   encoding: Encoding;
   player: Player;
   analytics: Analytics;
   account: Account;
+  notifications: Notifications;
 
   constructor(configuration: BitmovinConfiguration) {
     checkAuthorizationInConfiguration(configuration);
@@ -139,5 +143,7 @@ export default class Bitmovin {
     };
 
     this.account = account(this.configuration);
+
+    this.notifications = notifications(this.configuration);
   }
 }
