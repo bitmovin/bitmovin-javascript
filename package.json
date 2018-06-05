@@ -65,8 +65,8 @@
     "xmlhttprequest": "^1.8.0"
   },
   "dependencies": {
-    "bluebird": "^3.4.7",
-    "moment": "^2.17.1",
-    "node-fetch": "^1.6.3"
+    "bluebird": "^3.5.1",
+    "isomorphic-fetch": "^2.2.1",
+    "moment": "^2.17.1"
   }
 }

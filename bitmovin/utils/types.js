@@ -60,25 +60,25 @@ export type List<T> = (
   offset?: number,
   sort?: string,
   filter?: Object
-) => Promise<ResponseEnvelope<Pagination<ApiResource<T>>>>;
-export type Create<T> = (data: T) => Promise<ResponseEnvelope<Pagination<ApiResource<T>>>>;
-export type Details<T> = () => Promise<ResponseEnvelope<ApiResource<T>>>;
-export type Delete<T> = () => Promise<ResponseEnvelope<T>>;
-export type CustomData = () => Promise<ResponseEnvelope<CustomDataT>>;
+) => Promise<Pagination<ApiResource<T>>>;
+export type Create<T> = (data: T) => Promise<Pagination<ApiResource<T>>>;
+export type Details<T> = () => Promise<ApiResource<T>>;
+export type Delete<T> = () => Promise<T>;
+export type CustomData = () => Promise<CustomDataT>;
 
 export type HttpClient = {
-  get: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<ResponseEnvelope<Object>>,
+  get: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<Object>,
   post: (
     configuration: BitmovinConfiguration,
     url: string,
     object?: Object,
     fetchMethod?: any
-  ) => Promise<ResponseEnvelope<Object>>,
+  ) => Promise<Object>,
   put: (
     configuration: BitmovinConfiguration,
     url: string,
     object?: Object,
     fetchMethod?: any
-  ) => Promise<ResponseEnvelope<Object>>,
-  delete_: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<ResponseEnvelope<Object>>
+  ) => Promise<Object>,
+  delete_: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<Object>
 };

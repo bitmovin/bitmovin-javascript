@@ -1,4 +1,5 @@
 process.env.NODE_ENV = 'test';
+process.env.BABEL_ENV = 'test';
 process.env.PUBLIC_URL = '';
 
 // Load environment variables from .env file. Suppress warnings using silent

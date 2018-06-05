@@ -1,7 +1,6 @@
 // @flow
 
-import fetch from 'node-fetch';
-import Promise from 'bluebird';
+//import Promise from 'bluebird';
 import urljoin from 'url-join';
 
 import BitmovinError from './BitmovinError';
@@ -31,8 +30,7 @@ const request = (configuration, method, url, fetchMethod = fetch, body) => {
 
   const params = buildParams(method, configuration, body);
 
-  return new Promise((resolve, reject) => {
-    fetchMethod(url, params)
+  return fetchMethod(url, params)
       .then(response => {
         if (response.status > 399) {
           const errorMessage =
@@ -43,20 +41,16 @@ const request = (configuration, method, url, fetchMethod = fetch, body) => {
             throw new BitmovinError(errorMessage, {...response, responseData: errorText});
           });
         }
+
         if (response.status === 204) {
           logger.log('Response: 204 - No Content');
-          resolve();
+          return {data: {}};
         }
-        return response.json();
-      })
-      .then(responseJson => {
-        logger.log('Response: data -> result: ' + JSON.stringify(responseJson.data.result, undefined, 2));
-        resolve(responseJson.data.result, responseJson);
-      })
-      .catch(error => {
-        reject(error);
-      });
-  });
+
+       return response.json();
+      }).then(responseJSON => {
+      return responseJSON.data.result;
+    })
 };
 
 const get = (configuration, url, fetchMethod = fetch) => {

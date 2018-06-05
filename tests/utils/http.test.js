@@ -1,4 +1,4 @@
-import {delete_, get, post} from '../../bitmovin/utils/http';
+import http from '../../bitmovin/utils/http';
 
 describe('Test HTTP Client', () => {
   it('should resolve the promise if the response status is 204', () => {
@@ -14,7 +14,7 @@ describe('Test HTTP Client', () => {
       return Promise.resolve(mockResponse);
     });
 
-    return get(constMockConfiguration, 'http://someurl.com/some/resources', mockFetch)
+    return http.get(constMockConfiguration, 'http://someurl.com/some/resources', mockFetch)
       .then(() => {
         expect(true).toEqual(true);
       })
@@ -51,7 +51,7 @@ describe('Test HTTP Client', () => {
       return Promise.resolve(mockResponse);
     });
 
-    return get(constMockConfiguration, 'http://someurl.com/some/resources', mockFetch)
+    return http.get(constMockConfiguration, 'http://someurl.com/some/resources', mockFetch)
       .then(() => {
         expect(false).toEqual(true);
       })
@@ -94,7 +94,7 @@ describe('Test HTTP Client', () => {
       return Promise.resolve(mockResponse);
     });
 
-    return get(constMockConfiguration, 'http://someurl.com/some/resources', mockFetch)
+    return http.get(constMockConfiguration, 'http://someurl.com/some/resources', mockFetch)
       .then(response => {
         expect(response).toEqual(successData.data.result);
       })
@@ -139,7 +139,7 @@ describe('Test HTTP Client', () => {
       foo: 'bar'
     };
 
-    return post(constMockConfiguration, 'http://someurl.com/some/resources', someObject, mockFetch)
+    return http.post(constMockConfiguration, 'http://someurl.com/some/resources', someObject, mockFetch)
       .then(response => {
         expect(response).toEqual(successData.data.result);
       })
@@ -179,7 +179,7 @@ describe('Test HTTP Client', () => {
       foo: 'bar'
     };
 
-    return post(constMockConfiguration, 'http://someurl.com/some/resources', someObject, mockFetch)
+    return http.post(constMockConfiguration, 'http://someurl.com/some/resources', someObject, mockFetch)
       .then(response => {
         expect(false).toEqual(true);
       })
@@ -218,7 +218,7 @@ describe('Test HTTP Client', () => {
       return Promise.resolve(mockResponse);
     });
 
-    return delete_(constMockConfiguration, 'http://someurl.com/some/resources', mockFetch)
+    return http.delete_(constMockConfiguration, 'http://someurl.com/some/resources', mockFetch)
       .then(response => {
         expect(response).toEqual(successData.data.result);
       })
@@ -254,7 +254,7 @@ describe('Test HTTP Client', () => {
       return Promise.resolve(mockResponse);
     });
 
-    return delete_(constMockConfiguration, 'http://someurl.com/some/resources', mockFetch)
+    return http.delete_(constMockConfiguration, 'http://someurl.com/some/resources', mockFetch)
       .then(response => {
         expect(false).toEqual(true);
       })
