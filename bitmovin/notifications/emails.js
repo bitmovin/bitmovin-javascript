@@ -9,7 +9,11 @@ import type {EmailNotificationWithConditionsDetails} from './types';
 const emails = (configuration: BitmovinConfiguration, http: HttpClient = http): NotificationEmails => {
   const notificationsBaseUrl = urljoin(configuration.apiBaseUrl, 'notifications');
 
-  const list = (limit, offset, sort, filter) => {
+  let encodings = (encodingId: string){
+
+  };
+
+  encodings.list = (limit, offset, sort, filter) => {
     let url = urljoin(notificationsBaseUrl, 'emails', 'encoding', 'encodings', 'live-input-stream-changed');
 
     const filterParams = utils.buildFilterParamString(filter);
@@ -27,12 +31,19 @@ const emails = (configuration: BitmovinConfiguration, http: HttpClient = http): 
   };
 
   return {
-    list
+    encoding: {
+      encodings
+    }
   };
 };
 
 export type NotificationEmails = {
-  list: List<EmailNotificationWithConditionsDetails>
+  encoding: {
+    encodings: {
+      $call: any,
+      list: List<EmailNotificationWithConditionsDetails>
+    }
+  }
 };
 
 export default emails;
