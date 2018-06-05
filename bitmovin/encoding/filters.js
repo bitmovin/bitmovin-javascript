@@ -1,5 +1,4 @@
 import urljoin from 'url-join';
-import Promise from 'bluebird';
 
 import http, {utils} from '../utils/http';
 
@@ -12,41 +11,17 @@ export const filters = (configuration, http) => {
         details: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId);
 
-          return new Promise((resolve, reject) => {
-            get(configuration, url)
-              .then((filter, rawResponse) => {
-                resolve(filter);
-              })
-              .catch(error => {
-                reject(error);
-              });
-          });
+          return get(configuration, url);
         },
         customData: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId, 'customData');
 
-          return new Promise((resolve, reject) => {
-            get(configuration, url)
-              .then((customData, rawResponse) => {
-                resolve(customData);
-              })
-              .catch(error => {
-                reject(error);
-              });
-          });
+          return get(configuration, url);
         },
         delete: () => {
           let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId);
 
-          return new Promise((resolve, reject) => {
-            delete_(configuration, url)
-              .then((response, rawResponse) => {
-                resolve(response);
-              })
-              .catch(error => {
-                reject(error);
-              });
-          });
+          return delete_(configuration, url);
         }
       };
     };
@@ -54,15 +29,7 @@ export const filters = (configuration, http) => {
     fn.create = filter => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl);
 
-      return new Promise((resolve, reject) => {
-        post(configuration, url, filter)
-          .then((createdOutput, rawResponse) => {
-            resolve(createdOutput);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
+      return post(configuration, url, filter);
     };
 
     fn.list = (limit, offset, sort) => {
@@ -77,15 +44,7 @@ export const filters = (configuration, http) => {
         url = urljoin(url, getParams);
       }
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-          .then((filterList, rawResponse) => {
-            resolve(filterList);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
+      return get(configuration, url);
     };
 
     return fn;
@@ -111,15 +70,7 @@ export const filters = (configuration, http) => {
         url = urljoin(url, getParams);
       }
 
-      return new Promise((resolve, reject) => {
-        get(configuration, url)
-          .then((filterList, rawResponse) => {
-            resolve(filterList);
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
+      return get(configuration, url);
     }
   };
 };

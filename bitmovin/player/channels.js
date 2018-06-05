@@ -1,5 +1,4 @@
 import urljoin from 'url-join';
-import Promise from 'bluebird';
 
 import http, {utils} from '../utils/http';
 

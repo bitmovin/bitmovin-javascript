@@ -38,6 +38,12 @@ const modulesBabelPresetEnvConfig = Object.assign({}, defaultBabelPresetEnvConfi
   'targets': Object.assign(legacyBabelPresetEnvConfig.targets, nodeBabelPresetEnvConfig.targets)
 });
 
+const testBabelPresetEnvConfig = Object.assign({}, modulesBabelPresetEnvConfig, {
+  // Tests need to transform modules
+  'modules': 'commonjs'
+});
+
+
 const plugins = [
   'transform-object-rest-spread',
   ['inline-replace-variables', {
@@ -82,6 +88,18 @@ if (env === 'node') {
       ['env', nodeBabelPresetEnvConfig],
       'flow'
     ]
+  })
+}
+
+if (env === 'test') {
+  babelConfig = Object.assign(babelConfig, {
+    'presets': [
+      ['env', testBabelPresetEnvConfig],
+      'flow'
+    ],
+    'plugins': babelConfig.plugins.concat([
+      'rewire'
+    ])
   })
 }
 

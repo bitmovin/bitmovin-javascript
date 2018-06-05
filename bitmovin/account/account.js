@@ -2,7 +2,7 @@ import urljoin from 'url-join';
 
 import http from '../utils/http';
 
-import organizations from './organizations/organizations.js';
+import organizations from './organizations/organizations';
 import billing from './billing/billing';
 import apiKeys from './apiKeys/apiKeys';
 
