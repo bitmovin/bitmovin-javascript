@@ -25,7 +25,7 @@ export type StreamCondition = {
   attribute: StreamConditionMembers,
   operator: ConditionOperators,
   value: string
-} & AbstractConditionConditionFirst;
+};
 
 export type AbstractConjunctionIsStreamCondition = {
   conditions: Array<StreamCondition>
@@ -45,7 +45,7 @@ export type EmailNotificationResource = {
 
 export type EmailNotificationWithConditions = {
   resolve: ?boolean,
-  conditions: Array<AbstractConjunctionIsStreamCondition>
+  conditions: AbstractConjunctionIsStreamCondition
 } & EmailNotification;
 
 export type EmailNotificationWithConditionsDetails = EmailNotificationWithConditions & EmailNotificationResource;
