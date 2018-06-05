@@ -1,7 +1,7 @@
 // @flow
 import urljoin from 'url-join';
 
-import http from '../utils/http';
+import http, {utils} from '../utils/http';
 import type {BitmovinConfiguration, HttpClient} from '../utils/types';
 
 export type UserSpecificCustomData = {
@@ -89,12 +89,26 @@ export const notifications = (configuration: BitmovinConfiguration, http: HttpCl
   const {get, post} = http;
   const notificationsBaseUrl = urljoin(configuration.apiBaseUrl, 'notifications');
 
-  const list = (): Array<EmailNotificationWithConditionsDetails> => {
-    const url = urljoin(notificationsBaseUrl, 'emails', 'encoding', 'encodings', 'live-input-stream-changed');
+  const list = (limit, offset, sort, filter): Promise<Array<EmailNotificationWithConditionsDetails>> => {
+    let url = urljoin(notificationsBaseUrl, 'emails', 'encoding', 'encodings', 'live-input-stream-changed');
 
+    const filterParams = utils.buildFilterParamString(filter);
+    let getParams = utils.buildGetParamString({
+      ...filterParams,
+      limit: limit,
+      offset: offset,
+      sort: sort
+    });
+    if (getParams.length > 0) {
+      url = urljoin(url, getParams);
+    }
+
+    return http.get(url);
   };
 
-  return {};
+  return {
+    list
+  };
 };
 
 export default notifications;
