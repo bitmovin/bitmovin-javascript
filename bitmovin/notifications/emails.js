@@ -9,7 +9,7 @@ import type {EmailNotificationWithConditions, EmailNotificationWithConditionsDet
 const createLiveInputStreamChangedMethods = (
   encodingsBaseUrl: string,
   configuration: BitmovinConfiguration,
-  http: HttpClient = http
+  http: HttpClient
 ) => {
   let liveInputStreamChanged = (notificationId: string) => {
     const url = urljoin(encodingsBaseUrl, notificationId);
