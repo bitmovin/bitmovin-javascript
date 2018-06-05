@@ -2,7 +2,7 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../utils/http';
-import type {BitmovinConfiguration, HttpClient} from '../utils/types';
+import type {BitmovinConfiguration, HttpClient, List} from '../utils/types';
 
 export type UserSpecificCustomData = {
   customData: ?Object
@@ -85,11 +85,10 @@ export type EmailNotificationWithConditions = {
 
 export type EmailNotificationWithConditionsDetails = EmailNotificationWithConditions & EmailNotificationResource
 
-export const notifications = (configuration: BitmovinConfiguration, http: HttpClient = http) => {
-  const {get, post} = http;
+const notifications = (configuration: BitmovinConfiguration, http: HttpClient = http): Notifications => {
   const notificationsBaseUrl = urljoin(configuration.apiBaseUrl, 'notifications');
 
-  const list = (limit, offset, sort, filter): Promise<Array<EmailNotificationWithConditionsDetails>> => {
+  const list = (limit, offset, sort, filter) => {
     let url = urljoin(notificationsBaseUrl, 'emails', 'encoding', 'encodings', 'live-input-stream-changed');
 
     const filterParams = utils.buildFilterParamString(filter);
@@ -103,12 +102,16 @@ export const notifications = (configuration: BitmovinConfiguration, http: HttpCl
       url = urljoin(url, getParams);
     }
 
-    return http.get(url);
+    return http.get(configuration, url);
   };
 
   return {
     list
   };
 };
+
+export type Notifications = {
+  list: List<EmailNotificationWithConditionsDetails>
+}
 
 export default notifications;
