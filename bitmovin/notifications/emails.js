@@ -2,14 +2,14 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../utils/http';
-import type {BitmovinConfiguration, HttpClient, List} from '../utils/types';
+import type {BitmovinConfiguration, Create, Delete, Details, HttpClient, List, ResponseEnvelope} from '../utils/types';
 
-import type {EmailNotificationWithConditionsDetails} from './types';
+import type {EmailNotificationWithConditions, EmailNotificationWithConditionsDetails} from './types';
 
 const emails = (configuration: BitmovinConfiguration, http: HttpClient = http): NotificationEmails => {
   const notificationsBaseUrl = urljoin(configuration.apiBaseUrl, 'notifications');
 
-  let encodings = (encodingId: string){
+  let encodings = (encodingId: string): Object => {
 
   };
 
@@ -40,8 +40,26 @@ const emails = (configuration: BitmovinConfiguration, http: HttpClient = http): 
 export type NotificationEmails = {
   encoding: {
     encodings: {
-      $call: any,
-      list: List<EmailNotificationWithConditionsDetails>
+      $call: string => {
+        liveInputStreamChanged: {
+          $call: () => {
+            details: Details<EmailNotificationWithConditionsDetails>,
+            delete: Delete<Object>,
+            replace: EmailNotificationWithConditions => Promise<EmailNotificationWithConditionsDetails>
+          },
+          create: () => Create<EmailNotificationWithConditions>,
+          list: List<EmailNotificationWithConditionsDetails>
+        }
+      },
+      liveInputStreamChanged: {
+        $call: () => {
+          details: Details<EmailNotificationWithConditionsDetails>,
+          delete: Delete<Object>,
+          replace: EmailNotificationWithConditions => Promise<EmailNotificationWithConditionsDetails>
+        },
+        create: () => Create<EmailNotificationWithConditions>,
+        list: List<EmailNotificationWithConditionsDetails>
+      }
     }
   }
 };
