@@ -38,7 +38,9 @@ export type EmailNotification = {
 } & UserSpecificCustomData;
 
 export type EmailNotificationResource = {
-  id: string
+  id: string,
+  triggeredAt: ?string,
+  resolvedAt: ?string
 } & UserSpecificCustomDataDetails;
 
 export type EmailNotificationWithConditions = {
