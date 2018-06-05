@@ -68,17 +68,7 @@ export type CustomData = () => Promise<CustomDataT>;
 
 export type HttpClient = {
   get: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<Object>,
-  post: (
-    configuration: BitmovinConfiguration,
-    url: string,
-    object?: Object,
-    fetchMethod?: any
-  ) => Promise<Object>,
-  put: (
-    configuration: BitmovinConfiguration,
-    url: string,
-    object?: Object,
-    fetchMethod?: any
-  ) => Promise<Object>,
+  post: (configuration: BitmovinConfiguration, url: string, object?: Object, fetchMethod?: any) => Promise<Object>,
+  put: (configuration: BitmovinConfiguration, url: string, object?: Object, fetchMethod?: any) => Promise<Object>,
   delete_: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<Object>
 };

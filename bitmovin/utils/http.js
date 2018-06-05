@@ -31,26 +31,27 @@ const request = (configuration, method, url, fetchMethod = fetch, body) => {
   const params = buildParams(method, configuration, body);
 
   return fetchMethod(url, params)
-      .then(response => {
-        if (response.status > 399) {
-          const errorMessage =
-            'HTTP Request was unsuccessful: HTTP Response Code was ' + response.status + ' ' + response.statusText;
-          logger.error(errorMessage);
-          return response.json().then(errorText => {
-            logger.error('Error Response Body: ', JSON.stringify(errorText));
-            throw new BitmovinError(errorMessage, {...response, responseData: errorText});
-          });
-        }
+    .then(response => {
+      if (response.status > 399) {
+        const errorMessage =
+          'HTTP Request was unsuccessful: HTTP Response Code was ' + response.status + ' ' + response.statusText;
+        logger.error(errorMessage);
+        return response.json().then(errorText => {
+          logger.error('Error Response Body: ', JSON.stringify(errorText));
+          throw new BitmovinError(errorMessage, {...response, responseData: errorText});
+        });
+      }
 
-        if (response.status === 204) {
-          logger.log('Response: 204 - No Content');
-          return {data: {}};
-        }
+      if (response.status === 204) {
+        logger.log('Response: 204 - No Content');
+        return {data: {}};
+      }
 
-       return response.json();
-      }).then(responseJSON => {
-      return responseJSON.data.result;
+      return response.json();
     })
+    .then(responseJSON => {
+      return responseJSON.data.result;
+    });
 };
 
 const get = (configuration, url, fetchMethod = fetch) => {
