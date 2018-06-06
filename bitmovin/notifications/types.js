@@ -49,7 +49,7 @@ export type EmailNotificationResource = {
 
 export type EmailNotificationWithConditions = {
   resolve: ?boolean,
-  conditions: Array<Condition>
+  conditions: Condition
 } & EmailNotification;
 
 export type EmailNotificationWithConditionsDetails = EmailNotificationWithConditions & EmailNotificationResource;
