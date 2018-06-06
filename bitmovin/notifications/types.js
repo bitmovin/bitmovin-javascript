@@ -22,14 +22,18 @@ export type AbstractConditionConditionFirst = {
 };
 
 export type StreamCondition = {
+  type: 'CONDITION',
   attribute: StreamConditionMembers,
   operator: ConditionOperators,
   value: string
 };
 
-export type AbstractConjunctionIsStreamCondition = {
-  conditions: Array<StreamCondition>
+export type CompoundCondition = {
+  type: 'AND' | 'OR',
+  conditions: Array<Condition>
 };
+
+export type Condition = CompoundCondition | StreamCondition;
 
 export type EmailNotification = {
   emails: Array<string>,
@@ -45,7 +49,7 @@ export type EmailNotificationResource = {
 
 export type EmailNotificationWithConditions = {
   resolve: ?boolean,
-  conditions: AbstractConjunctionIsStreamCondition
+  conditions: Array<Condition>
 } & EmailNotification;
 
 export type EmailNotificationWithConditionsDetails = EmailNotificationWithConditions & EmailNotificationResource;
