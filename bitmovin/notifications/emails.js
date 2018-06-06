@@ -70,7 +70,7 @@ type NotificationEmailsType = {
   },
   create: Create<EmailNotificationWithConditions>,
   list: List<EmailNotificationWithConditionsDetails>
-}
+};
 
 export type NotificationEmails = {
   encoding: {
