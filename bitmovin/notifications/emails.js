@@ -11,8 +11,10 @@ const createLiveInputStreamChangedMethods = (
   configuration: BitmovinConfiguration,
   http: HttpClient
 ) => {
+  const typeBaseUrl = urljoin(encodingsBaseUrl, 'live-input-stream-changed');
+
   let liveInputStreamChanged = (notificationId: string) => {
-    const url = urljoin(encodingsBaseUrl, notificationId);
+    const url = urljoin(typeBaseUrl, notificationId);
     return {
       details: () => http.get(configuration, url),
       delete: () => http.delete_(configuration, url),
@@ -21,11 +23,11 @@ const createLiveInputStreamChangedMethods = (
   };
 
   liveInputStreamChanged.create = (emailNotification: EmailNotificationWithConditions) => {
-    return http.post(configuration, encodingsBaseUrl, emailNotification);
+    return http.post(configuration, typeBaseUrl, emailNotification);
   };
 
   liveInputStreamChanged.list = (limit, offset, sort, filter) => {
-    let url = encodingsBaseUrl;
+    let url = typeBaseUrl;
 
     const filterParams = utils.buildFilterParamString(filter);
     let getParams = utils.buildGetParamString({
