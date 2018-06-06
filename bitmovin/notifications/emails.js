@@ -60,29 +60,23 @@ const emails = (configuration: BitmovinConfiguration, http: HttpClient = http): 
   };
 };
 
+type NotificationEmailsType = {
+  $call: string => {
+    details: Details<EmailNotificationWithConditionsDetails>,
+    delete: Delete<Object>,
+    replace: EmailNotificationWithConditions => Promise<EmailNotificationWithConditionsDetails>
+  },
+  create: Create<EmailNotificationWithConditions>,
+  list: List<EmailNotificationWithConditionsDetails>
+}
+
 export type NotificationEmails = {
   encoding: {
     encodings: {
       $call: string => {
-        liveInputStreamChanged: {
-          $call: string => {
-            details: Details<EmailNotificationWithConditionsDetails>,
-            delete: Delete<Object>,
-            replace: EmailNotificationWithConditions => Promise<EmailNotificationWithConditionsDetails>
-          },
-          create: Create<EmailNotificationWithConditions>,
-          list: List<EmailNotificationWithConditionsDetails>
-        }
+        liveInputStreamChanged: NotificationEmailsType
       },
-      liveInputStreamChanged: {
-        $call: string => {
-          details: Details<EmailNotificationWithConditionsDetails>,
-          delete: Delete<Object>,
-          replace: EmailNotificationWithConditions => Promise<EmailNotificationWithConditionsDetails>
-        },
-        create: Create<EmailNotificationWithConditions>,
-        list: List<EmailNotificationWithConditionsDetails>
-      }
+      liveInputStreamChanged: NotificationEmailsType
     }
   }
 };
