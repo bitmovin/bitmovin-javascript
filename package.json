@@ -11,11 +11,10 @@
   "scripts": {
     "clean": "rimraf dist",
     "lint": "eslint --color ./bitmovin ./tests ./tests_it ./examples",
+    "lint-src": "eslint --color ./bitmovin",
     "test": "node scripts/testRunner.js ./tests",
-    "test_it": "node scripts/test.js ./tests_it",
     "coverage": "node scripts/testRunner.js ./tests --coverage",
     "it-coverage": "rm -rf ./coverage && npm run analyze-coverage && npm run check-coverage",
-    "it": "./node_modules/mocha/bin/mocha --compilers js:babel-core/register --require babel-polyfill --recursive tests_it --timeout 30000",
     "format": "prettier --config ./.prettierrc --write \"./{bitmovin,examples,tests,tests_it}/**/*.js\"",
     "format-check": "prettier --config ./.prettierrc --list-different \"./{bitmovin,examples,tests,tests_it}/**/*.js\"",
     "build": "yarn clean && yarn build:standalone:dev && yarn build:standalone:prod && yarn build:modules && yarn build:modules-types",
