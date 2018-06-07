@@ -7,7 +7,7 @@
 Javascript-API-Client which enables you to seamlessly integrate the [Bitmovin API](https://bitmovin.com/encoding-documentation/bitmovin-api) into your projects.
 Using this API client requires an active account.
 
-[Sign up for a Bitmovin Account!](https://dashboard.bitmovin.com/signup).
+[Sign up for a Bitmovin Account!](https://dashboard.bitmovin.com/signup)
 
 The full API reference can be found [here](https://bitmovin.com/encoding-documentation/bitmovin-api/).
 
