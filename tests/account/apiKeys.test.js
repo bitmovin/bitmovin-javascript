@@ -1,4 +1,4 @@
-import apiKeys from '../../bitmovin/account/apiKeys/apiKeys';
+import apiKeys from '../../bitmovin/account/apiKeys';
 import {mockGet, mockHttp, assertItReturnsUnderlyingPromise, assertItCallsCorrectUrl, testSetup} from '../assertions';
 import {getConfiguration} from '../utils';
 
