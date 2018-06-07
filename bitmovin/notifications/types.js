@@ -36,6 +36,7 @@ export type CompoundCondition = {
 export type Condition = CompoundCondition | StreamCondition;
 
 export type EmailNotification = {
+  id: string,
   emails: Array<string>,
   name: ?string,
   description: ?string
