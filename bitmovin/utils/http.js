@@ -1,6 +1,6 @@
 // @flow
 
-//import Promise from 'bluebird';
+import fetch from 'isomorphic-fetch';
 import urljoin from 'url-join';
 
 import BitmovinError from './BitmovinError';
