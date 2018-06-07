@@ -19,7 +19,7 @@ describe('Test HTTP Client', () => {
       .then(() => {
         expect(true).toEqual(true);
       })
-      .catch(error => {
+      .catch(() => {
         expect(false).toEqual(true);
       });
   });
@@ -101,7 +101,7 @@ describe('Test HTTP Client', () => {
       .then(response => {
         expect(response).toEqual(successData.data.result);
       })
-      .catch(error => {
+      .catch(() => {
         expect(false).toEqual(true);
       });
   });
@@ -147,7 +147,7 @@ describe('Test HTTP Client', () => {
       .then(response => {
         expect(response).toEqual(successData.data.result);
       })
-      .catch(error => {
+      .catch(() => {
         expect(false).toEqual(true);
       });
   });
@@ -185,7 +185,7 @@ describe('Test HTTP Client', () => {
 
     return http
       .post(constMockConfiguration, 'http://someurl.com/some/resources', someObject, mockFetch)
-      .then(response => {
+      .then(() => {
         expect(false).toEqual(true);
       })
       .catch(bitmovinError => {
@@ -228,7 +228,7 @@ describe('Test HTTP Client', () => {
       .then(response => {
         expect(response).toEqual(successData.data.result);
       })
-      .catch(error => {
+      .catch(() => {
         expect(false).toEqual(true);
       });
   });
@@ -262,7 +262,7 @@ describe('Test HTTP Client', () => {
 
     return http
       .delete_(constMockConfiguration, 'http://someurl.com/some/resources', mockFetch)
-      .then(response => {
+      .then(() => {
         expect(false).toEqual(true);
       })
       .catch(bitmovinError => {

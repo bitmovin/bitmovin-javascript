@@ -3,13 +3,9 @@ import {
   mockPost,
   mockDelete,
   mockHttp,
-  methodToMock,
-  assertPayload,
   assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
-  testSetup,
-  assertItReturnsPromise,
-  assertItReturnsCorrectResponse
+  testSetup
 } from '../assertions';
 import {getConfiguration} from '../utils';
 import {encodings} from '../../bitmovin/encoding/encodings/encodings';

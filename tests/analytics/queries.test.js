@@ -3,11 +3,8 @@ import moment from 'moment';
 import {getConfiguration} from '../utils';
 import {queries} from '../../bitmovin/analytics/queries';
 import {
-  mockGet,
   mockPost,
-  mockDelete,
   mockHttp,
-  methodToMock,
   assertPayload,
   assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
