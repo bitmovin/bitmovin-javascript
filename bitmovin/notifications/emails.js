@@ -1,7 +1,7 @@
 // @flow
 import urljoin from 'url-join';
 
-import http, {utils} from '../utils/http';
+import httpClient, {utils} from '../utils/http';
 import type {BitmovinConfiguration, Create, Delete, Details, HttpClient, List} from '../utils/types';
 
 import type {EmailNotificationWithConditions, EmailNotificationWithConditionsDetails} from './types';
@@ -46,7 +46,7 @@ const createLiveInputStreamChangedMethods = (
   return liveInputStreamChanged;
 };
 
-const emails = (configuration: BitmovinConfiguration, http: HttpClient = http): NotificationEmails => {
+const emails = (configuration: BitmovinConfiguration, http: HttpClient = httpClient): NotificationEmails => {
   const notificationsBaseUrl = urljoin(configuration.apiBaseUrl, 'notifications', 'emails', 'encoding', 'encodings');
 
   let encodings = (encodingId: string) => {
