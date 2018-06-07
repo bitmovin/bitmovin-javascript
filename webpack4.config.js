@@ -28,7 +28,7 @@ const baseFileName = 'bitmovin';
 const baseBundleConfig = {
   mode: PROD ? 'production' : 'development',
   context: path.join(__dirname, 'bitmovin'),
-  entry: [`./${baseFileName}.js`],
+  entry: ['./index.js'],
   output: {
     path: path.join(__dirname, 'dist'),
     libraryTarget: 'umd',
