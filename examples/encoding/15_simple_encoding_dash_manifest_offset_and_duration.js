@@ -208,12 +208,10 @@ const main = () =>
                 const dashManifestCreationPromise = startDashManifestCreation(createdDashManifest);
                 const hlsManifestCreationPromise = startHlsManifestCreation(createdHlsManifest);
 
-                Promise.all([dashManifestCreationPromise, hlsManifestCreationPromise]).then(
-                  manifestCreationResponses => {
-                    console.log('Successfully created DASH and HLS Manifests');
-                    resolve(true);
-                  }
-                );
+                Promise.all([dashManifestCreationPromise, hlsManifestCreationPromise]).then(() => {
+                  console.log('Successfully created DASH and HLS Manifests');
+                  resolve(true);
+                });
               });
             })
             .catch(error => {
@@ -257,7 +255,7 @@ const startDashManifestCreation = manifest => {
   const startPromise = bitmovin.encoding.manifests.dash(manifest.id).start();
 
   return new Promise((resolve, reject) => {
-    startPromise.then(startResponse => {
+    startPromise.then(() => {
       waitUntilDashManifestFinished(manifest)
         .then(success => {
           console.log('manifest finished', success);
@@ -275,7 +273,7 @@ const startHlsManifestCreation = manifest => {
   const startPromise = bitmovin.encoding.manifests.hls(manifest.id).start();
 
   return new Promise((resolve, reject) => {
-    startPromise.then(startResponse => {
+    startPromise.then(() => {
       waitUntilHlsManifestFinished(manifest)
         .then(success => {
           console.log('hls manifest finished', success);
@@ -293,7 +291,7 @@ const startEncodingAndWaitForItToBeFinished = encoding => {
   const startPromise = bitmovin.encoding.encodings(encoding.id).start({trimming: trimmingOptions});
 
   return new Promise((resolve, reject) => {
-    startPromise.then(startResponse => {
+    startPromise.then(() => {
       waitUntilEncodingFinished(encoding)
         .then(success => {
           console.log('dash encoding finished', success);
@@ -383,9 +381,7 @@ const waitUntilHlsManifestFinished = manifest => {
 };
 
 const createHlsManifest = (output, encoding, audioMuxingsWithPath, videoMuxingsWithPath) => {
-  return new Promise((resolve, reject) => {
-    const mediaPromises = [];
-
+  return new Promise(resolve => {
     createHlsManifestResource(output).then(createdHlsManifest => {
       let audioPromise;
 
@@ -439,7 +435,7 @@ const createHlsManifest = (output, encoding, audioMuxingsWithPath, videoMuxingsW
           videoPromise = Promise.resolve(null);
         }
 
-        videoPromise.then(result => {
+        videoPromise.then(() => {
           console.log('Successfully created HLS Manifest with Video/Audio Media entries.');
           resolve(createdHlsManifest);
         });
@@ -447,7 +443,7 @@ const createHlsManifest = (output, encoding, audioMuxingsWithPath, videoMuxingsW
     });
   }).catch(error => {
     console.log('Unable to create HLS manifest', error);
-    reject(error);
+    throw error;
   });
 };
 
@@ -731,7 +727,7 @@ const createHttpInput = input => {
 };
 
 const createS3Output = output => {
-  const outputCreatePromise = bitmovin.encoding.outputs.s3.create(s3Output);
+  const outputCreatePromise = bitmovin.encoding.outputs.s3.create(output);
 
   return new Promise((resolve, reject) => {
     outputCreatePromise
@@ -800,7 +796,7 @@ const exit = (code, message) => {
 };
 
 main()
-  .then(result => {
+  .then(() => {
     console.log('finished!');
   })
   .catch(error => {

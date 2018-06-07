@@ -56,7 +56,7 @@ const main = () =>
               .then(([audioManifestInfos, videoManifestInfos]) => {
                 createDashManifestWithPeriodAndAdaptationSets(createdOutput.id)
                   .then(dashManifest => {
-                    [
+                    const [
                       createdDashManifest,
                       createdDashManifestPeriod,
                       createdDashManifestAudioAdaptationSet,
@@ -327,7 +327,7 @@ const startDashManifestCreation = manifest => {
   const startPromise = bitmovin.encoding.manifests.dash(manifest.id).start();
 
   return new Promise((resolve, reject) => {
-    startPromise.then(startResponse => {
+    startPromise.then(() => {
       waitUntilDashManifestFinished(manifest)
         .then(success => {
           console.log('Manifest creation finished: ', success);
@@ -384,7 +384,7 @@ const exit = (code, message) => {
 };
 
 main()
-  .then(result => {
+  .then(() => {
     console.log('FINISHED!');
   })
   .catch(error => {

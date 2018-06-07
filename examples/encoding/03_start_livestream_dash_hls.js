@@ -70,7 +70,7 @@ const main = () => {
         const hlsManifestCreationPromise = createHlsManifest(output.id);
 
         Promise.all([dashManifestCreationPromise, hlsManifestCreationPromise]).then(([dashManifest, hlsManifest]) => {
-          [
+          const [
             createdDashManifest,
             createdDashManifestPeriod,
             createdDashManifestAudioAdaptationSet,
