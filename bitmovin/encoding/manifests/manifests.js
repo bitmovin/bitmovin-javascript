@@ -7,7 +7,7 @@ import hlsManifests from './hls/hlsManifests';
 import smoothManifests from './smooth/smoothManifests';
 
 export const manifests = (configuration, http) => {
-  const {get, post, delete_} = http;
+  const {get} = http;
   return {
     list: (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests');
