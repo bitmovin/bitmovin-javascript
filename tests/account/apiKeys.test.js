@@ -1,13 +1,6 @@
-import apiKeys from '../../../bitmovin/account/apiKeys/apiKeys';
-import {
-  mockGet,
-  mockPut,
-  mockHttp,
-  assertItReturnsUnderlyingPromise,
-  assertItCallsCorrectUrl,
-  testSetup
-} from '../../assertions';
-import {getConfiguration} from '../../utils';
+import apiKeys from '../../bitmovin/account/apiKeys/apiKeys';
+import {mockGet, mockHttp, assertItReturnsUnderlyingPromise, assertItCallsCorrectUrl, testSetup} from '../assertions';
+import {getConfiguration} from '../utils';
 
 let testConfiguration = getConfiguration();
 

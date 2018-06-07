@@ -8,13 +8,10 @@ import {
   mockPut,
   mockDelete,
   mockHttp,
-  methodToMock,
   assertPayload,
   assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
-  testSetup,
-  assertItReturnsPromise,
-  assertItReturnsCorrectResponse
+  testSetup
 } from '../assertions';
 import {thirdPartyLicensing} from '../../bitmovin/player/thirdPartyLicensing';
 

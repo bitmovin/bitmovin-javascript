@@ -1,4 +1,4 @@
-import {organizations} from '../../../bitmovin/account/organizations/organizations.js';
+import {organizations} from '../../../bitmovin/account/organizations/organizations';
 import {
   mockGet,
   mockPost,

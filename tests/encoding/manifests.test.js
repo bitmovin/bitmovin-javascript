@@ -1,19 +1,6 @@
 import {getConfiguration} from '../utils';
 import {manifests} from '../../bitmovin/encoding/manifests/manifests';
-import {
-  mockGet,
-  mockPost,
-  mockDelete,
-  mockHttp,
-  methodToMock,
-  assertPayload,
-  assertItReturnsUnderlyingPromise,
-  assertItCallsCorrectUrl,
-  testSetup,
-  assertItReturnsPromise,
-  assertItReturnsCorrectResponse,
-  assertItCallsUrlAndReturnsPromise
-} from '../assertions';
+import {mockGet, mockHttp, assertItReturnsUnderlyingPromise, assertItCallsCorrectUrl, testSetup} from '../assertions';
 
 let testConfiguration = getConfiguration();
 

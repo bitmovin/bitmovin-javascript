@@ -7,7 +7,6 @@ import {
   mockPut,
   mockDelete,
   mockHttp,
-  methodToMock,
   assertPayload,
   assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
@@ -19,10 +18,6 @@ let testConfiguration = getConfiguration();
 describe('analytics', () => {
   beforeEach(testSetup);
   const licensesClient = licenses(testConfiguration, mockHttp);
-
-  let sampleDomain = {
-    url: 'yourhost.com'
-  };
 
   describe('license', () => {
     describe('list', () => {

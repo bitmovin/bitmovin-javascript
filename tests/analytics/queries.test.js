@@ -136,10 +136,6 @@ describe('analytics', () => {
       const testImmutableBuilder = () => {
         const query = queriesClient.builder.count('USER_ID').between(start, end);
 
-        const start1 = moment()
-          .subtract(1, 'months')
-          .toDate();
-        const end1 = moment().toDate();
         const query1 = query.filter('STARTUPTIME', 'GT', 0);
         const query2 = query.filter('CDN_PROVIDER', 'EQ', 'akamai');
 

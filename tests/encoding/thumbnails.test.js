@@ -5,13 +5,9 @@ import {
   mockPost,
   mockDelete,
   mockHttp,
-  methodToMock,
-  assertPayload,
   assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
-  testSetup,
-  assertItReturnsPromise,
-  assertItReturnsCorrectResponse
+  testSetup
 } from '../assertions';
 
 let testConfiguration = getConfiguration();
