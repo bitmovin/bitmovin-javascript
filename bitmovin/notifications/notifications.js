@@ -13,3 +13,5 @@ export const notifications = (configuration: BitmovinConfiguration, http: HttpCl
 export type Notifications = {
   emails: NotificationEmails
 };
+
+export default notifications;
