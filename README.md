@@ -4,10 +4,12 @@
 [![npm version](https://badge.fury.io/js/bitmovin-javascript.svg)](https://badge.fury.io/js/bitmovin-javascript)
 [![Build Status](https://travis-ci.org/bitmovin/bitmovin-javascript.svg?branch=develop)](https://travis-ci.org/bitmovin/bitmovin-javascript)
 
-Javascript-API-Client which enables you to seamlessly integrate the [Bitmovin API](https://bitmovin.com/video-infrastructure-service-bitmovin-api/) into your projects.
-Using this API client requires an active account. [Sign up for a Bitmovin API key](https://bitmovin.com/bitmovins-video-api/).
+Javascript-API-Client which enables you to seamlessly integrate the [Bitmovin API](https://bitmovin.com/encoding-documentation/bitmovin-api) into your projects.
+Using this API client requires an active account.
 
-The full [Bitmovin API reference](https://bitmovin.com/encoding-documentation/bitmovin-api/) can be found on our website.
+[Sign up for a Bitmovin Account!](https://dashboard.bitmovin.com/signup).
+
+The full API reference can be found [here](https://bitmovin.com/encoding-documentation/bitmovin-api/).
 
 Installation 
 ------------
