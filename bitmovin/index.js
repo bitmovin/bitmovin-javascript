@@ -2,11 +2,11 @@
 
 import urljoin from 'url-join';
 
-import encodings, {type Encodings} from './encoding/encodings/encodings';
+import encodings, {type Encodings} from './encoding/encodings';
 import codecConfigurations from './encoding/codecConfigurations';
 import inputs from './encoding/inputs';
 import outputs from './encoding/outputs';
-import manifests from './encoding/manifests/manifests';
+import manifests from './encoding/manifests';
 import filters from './encoding/filters';
 import statistics from './encoding/statistics';
 import infrastructure from './encoding/infrastructure';

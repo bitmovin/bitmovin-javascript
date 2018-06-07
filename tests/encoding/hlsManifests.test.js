@@ -1,19 +1,6 @@
 import {getConfiguration} from '../utils';
-import {hlsManifests} from '../../bitmovin/encoding/manifests/hls/hlsManifests.js';
-import {
-  mockGet,
-  mockPost,
-  mockDelete,
-  mockHttp,
-  methodToMock,
-  assertPayload,
-  assertItReturnsUnderlyingPromise,
-  assertItCallsCorrectUrl,
-  testSetup,
-  assertItReturnsPromise,
-  assertItReturnsCorrectResponse,
-  assertItCallsUrlAndReturnsPromise
-} from '../assertions';
+import {hlsManifests} from '../../bitmovin/encoding/manifests/hls';
+import {mockHttp, testSetup, assertItCallsUrlAndReturnsPromise} from '../assertions';
 
 let testConfiguration = getConfiguration();
 

@@ -1,4 +1,3 @@
-import bluebird from 'bluebird';
 export const mockGet = jest.fn().mockReturnValue(Promise.resolve({}));
 export const mockPost = jest.fn().mockReturnValue(Promise.resolve({}));
 export const mockDelete = jest.fn().mockReturnValue(Promise.resolve({}));
@@ -39,7 +38,7 @@ export const assertItReturnsPromise = (mock, call) => {
 export const assertItReturnsCorrectResponse = (mock, call, expectedResponse) => {
   it('should return correct response object', () => {
     const retVal = call();
-    return retVal.then((response, rawResponse) => {
+    return retVal.then(response => {
       expect(response).toEqual(expectedResponse);
     });
   });

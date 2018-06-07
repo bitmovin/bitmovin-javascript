@@ -183,12 +183,12 @@ const main = () =>
           });
 
           videoStreamMuxingsPromises.then(() => {
-            startEncodingAndWaitForItToBeFinished(encoding).then(finished => {
+            startEncodingAndWaitForItToBeFinished(encoding).then(() => {
               resolve();
             });
           });
         })
-        .catch(error => {
+        .catch(() => {
           console.error('Could not create audio stream');
         });
     });
@@ -343,7 +343,7 @@ const createHttpInput = input => {
 };
 
 const createS3Output = output => {
-  const outputCreatePromise = bitmovin.encoding.outputs.s3.create(s3Output);
+  const outputCreatePromise = bitmovin.encoding.outputs.s3.create(output);
 
   return new Promise((resolve, reject) => {
     outputCreatePromise
@@ -410,7 +410,7 @@ const startEncodingAndWaitForItToBeFinished = encoding => {
   const startPromise = bitmovin.encoding.encodings(encoding.id).start();
 
   return new Promise((resolve, reject) => {
-    startPromise.then(startResponse => {
+    startPromise.then(() => {
       waitUntilEncodingFinished(encoding)
         .then(success => {
           console.log('dash encoding finished', success);
@@ -455,7 +455,7 @@ const exit = (code, message) => {
 };
 
 main()
-  .then(result => {
+  .then(() => {
     console.log('finished!');
   })
   .catch(error => {

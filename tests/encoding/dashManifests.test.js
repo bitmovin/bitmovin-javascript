@@ -1,19 +1,6 @@
 import {getConfiguration} from '../utils';
-import {
-  mockGet,
-  mockPost,
-  mockDelete,
-  mockHttp,
-  methodToMock,
-  assertPayload,
-  assertItReturnsUnderlyingPromise,
-  assertItCallsCorrectUrl,
-  testSetup,
-  assertItReturnsPromise,
-  assertItReturnsCorrectResponse,
-  assertItCallsUrlAndReturnsPromise
-} from '../assertions';
-import {dashManifests} from '../../bitmovin/encoding/manifests/dash/dashManifests';
+import {mockHttp, testSetup, assertItCallsUrlAndReturnsPromise} from '../assertions';
+import {dashManifests} from '../../bitmovin/encoding/manifests/dash';
 
 let testConfiguration = getConfiguration();
 

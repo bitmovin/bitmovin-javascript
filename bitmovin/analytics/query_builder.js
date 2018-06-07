@@ -1,5 +1,3 @@
-import urljoin from 'url-join';
-
 class Builder {
   constructor(aggregations, query) {
     this.aggregations_ = aggregations;

@@ -1,19 +1,6 @@
-import {
-  mockGet,
-  mockPost,
-  mockDelete,
-  mockHttp,
-  methodToMock,
-  assertPayload,
-  assertItReturnsUnderlyingPromise,
-  assertItCallsCorrectUrl,
-  testSetup,
-  assertItReturnsPromise,
-  assertItReturnsCorrectResponse,
-  assertItCallsUrlAndReturnsPromise
-} from '../assertions';
+import {mockHttp, testSetup, assertItCallsUrlAndReturnsPromise} from '../assertions';
 import {getConfiguration} from '../utils';
-import {contentProtection} from '../../bitmovin/encoding/manifests/smooth/smoothManifestContentProtections.js';
+import {contentProtection} from '../../bitmovin/encoding/manifests/smooth/smoothManifestContentProtections';
 
 let testConfiguration = getConfiguration();
 

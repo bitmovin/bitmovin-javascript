@@ -1,11 +1,8 @@
 import {getConfiguration} from '../utils';
 import {impressions} from '../../bitmovin/analytics/impressions';
 import {
-  mockGet,
   mockPost,
-  mockDelete,
   mockHttp,
-  methodToMock,
   assertPayload,
   assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,

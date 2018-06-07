@@ -4,13 +4,9 @@ import {
   mockPost,
   mockDelete,
   mockHttp,
-  methodToMock,
-  assertPayload,
   assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
   testSetup,
-  assertItReturnsPromise,
-  assertItReturnsCorrectResponse,
   assertItCallsUrlAndReturnsPromise
 } from '../assertions';
 import {getConfiguration} from '../utils';

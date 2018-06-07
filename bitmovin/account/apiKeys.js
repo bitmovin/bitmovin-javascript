@@ -1,6 +1,6 @@
 import urljoin from 'url-join';
 
-import http, {utils} from '../../utils/http';
+import {utils} from '../utils/http';
 
 const apiKeys = (configuration, http) => {
   const apiKeysBaseUrl = urljoin(configuration.apiBaseUrl, 'account', 'api-keys');

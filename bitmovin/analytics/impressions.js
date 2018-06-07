@@ -1,6 +1,6 @@
 import urljoin from 'url-join';
 
-import http, {utils} from '../utils/http';
+import http from '../utils/http';
 
 export const impressions = (configuration, http) => {
   const {post} = http;

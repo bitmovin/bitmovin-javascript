@@ -5,7 +5,7 @@ import http, {utils} from '../utils/http';
 import domains from './domains';
 
 export const licenses = (configuration, http) => {
-  const {get, post, put} = http;
+  const {get, put} = http;
   const fn = licenseId => {
     return {
       details: () => {

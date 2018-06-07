@@ -6,7 +6,7 @@ import domains from './domains';
 import thirdPartyLicensing from './thirdPartyLicensing';
 
 export const licenses = (configuration, http) => {
-  const {get, post, put} = http;
+  const {get, put} = http;
   const fn = licenseId => {
     return {
       details: () => {

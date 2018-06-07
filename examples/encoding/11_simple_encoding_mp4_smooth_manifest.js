@@ -228,12 +228,12 @@ const main = () => {
 
         return smoothManifestPromise
           .then(createdSmoothManifest => {
-            return startEncodingAndWaitForItToBeFinished(encoding).then(_ => {
+            return startEncodingAndWaitForItToBeFinished(encoding).then(() => {
               console.log('Successfully finished encoding');
 
               const smoothManifestCreation = startSmoothManifestCreation(createdSmoothManifest);
 
-              return smoothManifestCreation.then(_ => {
+              return smoothManifestCreation.then(() => {
                 console.log('Successfully created smooth Manifests');
               });
             });
@@ -277,7 +277,7 @@ const addStreamToEncoding = (input, output, streamConfig, index, codecConfigurat
 const startSmoothManifestCreation = manifest => {
   const startPromise = bitmovin.encoding.manifests.smooth(manifest.id).start();
 
-  return startPromise.then(startResponse => {
+  return startPromise.then(() => {
     return waitUntilSmoothManifestFinished(manifest)
       .then(success => {
         console.log('manifest finished', success);
@@ -294,7 +294,7 @@ const startEncodingAndWaitForItToBeFinished = encoding => {
   const startPromise = bitmovin.encoding.encodings(encoding.id).start();
 
   return new Promise((resolve, reject) => {
-    startPromise.then(startResponse => {
+    startPromise.then(() => {
       waitUntilEncodingFinished(encoding)
         .then(success => {
           console.log('encoding finished', success);
@@ -508,7 +508,7 @@ const createHttpInput = input => {
 };
 
 const createS3Output = output => {
-  const outputCreatePromise = bitmovin.encoding.outputs.s3.create(s3Output);
+  const outputCreatePromise = bitmovin.encoding.outputs.s3.create(output);
 
   return new Promise((resolve, reject) => {
     outputCreatePromise
@@ -577,7 +577,7 @@ const exit = (code, message) => {
 };
 
 main()
-  .then(result => {
+  .then(() => {
     console.log('finished!');
   })
   .catch(error => {

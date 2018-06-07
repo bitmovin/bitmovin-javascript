@@ -29,7 +29,7 @@ export const codecConfigurations = (configuration, http) => {
       return post(configuration, url, codecConfig);
     };
 
-    fn.list = (limit, offset, sort, filter) => {
+    fn.list = (limit, offset, sort) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', typeUrl);
 
       let getParams = utils.buildGetParamString({

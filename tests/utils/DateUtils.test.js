@@ -79,9 +79,6 @@ describe('Test isValidApiRequestDateString', () => {
 
   it('Should return false', () => {
     expect(isValidApiRequestDateString(wrongDateString)).toBe(false);
-  });
-
-  it('Should return false', () => {
     expect(isValidApiRequestDateString({})).toBe(false);
     expect(isValidApiRequestDateString(new Date())).toBe(false);
   });
