@@ -2,9 +2,9 @@ import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
 
-import dashManifests from './dash/dashManifests';
-import hlsManifests from './hls/hlsManifests';
-import smoothManifests from './smooth/smoothManifests';
+import dashManifests from './dash';
+import hlsManifests from './hls';
+import smoothManifests from './smooth';
 
 export const manifests = (configuration, http) => {
   const {get} = http;

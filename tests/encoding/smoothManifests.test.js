@@ -1,6 +1,6 @@
 import {getConfiguration} from '../utils';
 import {mockHttp, testSetup, assertItCallsUrlAndReturnsPromise} from '../assertions';
-import {smoothManifests} from '../../bitmovin/encoding/manifests/smooth/smoothManifests';
+import {smoothManifests} from '../../bitmovin/encoding/manifests/smooth';
 
 let testConfiguration = getConfiguration();
 

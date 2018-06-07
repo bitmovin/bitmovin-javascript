@@ -8,7 +8,7 @@ import {
   testSetup
 } from '../assertions';
 import {getConfiguration} from '../utils';
-import {encodings} from '../../bitmovin/encoding/encodings/encodings';
+import {encodings} from '../../bitmovin/encoding/encodings';
 
 let testConfiguration = getConfiguration();
 

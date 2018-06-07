@@ -1,6 +1,6 @@
 import {getConfiguration} from '../utils';
 import {mockHttp, testSetup, assertItCallsUrlAndReturnsPromise} from '../assertions';
-import {dashManifests} from '../../bitmovin/encoding/manifests/dash/dashManifests';
+import {dashManifests} from '../../bitmovin/encoding/manifests/dash';
 
 let testConfiguration = getConfiguration();
 

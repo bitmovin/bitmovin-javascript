@@ -1,5 +1,5 @@
 import {getConfiguration} from '../utils';
-import {hlsManifests} from '../../bitmovin/encoding/manifests/hls/hlsManifests';
+import {hlsManifests} from '../../bitmovin/encoding/manifests/hls';
 import {mockHttp, testSetup, assertItCallsUrlAndReturnsPromise} from '../assertions';
 
 let testConfiguration = getConfiguration();

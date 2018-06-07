@@ -1,4 +1,4 @@
-import Bitmovin from '../bitmovin/bitmovin';
+import Bitmovin from '../bitmovin';
 
 describe('Bitmovin default exports', () => {
   const apiKey = 'test-api-key';
