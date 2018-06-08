@@ -16,7 +16,7 @@ const testEmailNotificationWithConditions = {
 };
 
 const testNotificationId = 'testNotificationId';
-const testEncodingId ='testEncodingId';
+const testEncodingId = 'testEncodingId';
 
 describe('liveInputStreamChanged', () => {
   beforeEach(() => {
@@ -83,7 +83,9 @@ describe('liveInputStreamChanged', () => {
 
     describe('replace', () => {
       it('should call the correct url', async () => {
-        await notificationEmails.encoding.encodings.liveInputStreamChanged(testNotificationId).replace(testEmailNotificationWithConditions);
+        await notificationEmails.encoding.encodings
+          .liveInputStreamChanged(testNotificationId)
+          .replace(testEmailNotificationWithConditions);
         expect(mockHttp.put).toHaveBeenCalledWith(
           testConfiguration,
           `https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/live-input-stream-changed/${testNotificationId}`,
@@ -122,7 +124,9 @@ describe('liveInputStreamChanged', () => {
 
     describe('create', () => {
       it('should call the correct url', async () => {
-        await notificationEmails.encoding.encodings(testEncodingId).liveInputStreamChanged.create(testEmailNotificationWithConditions);
+        await notificationEmails.encoding
+          .encodings(testEncodingId)
+          .liveInputStreamChanged.create(testEmailNotificationWithConditions);
         expect(mockHttp.post).toHaveBeenCalledWith(
           testConfiguration,
           `https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/${testEncodingId}/live-input-stream-changed`,
@@ -133,7 +137,10 @@ describe('liveInputStreamChanged', () => {
 
     describe('details', () => {
       it('should call the correct url', async () => {
-        await notificationEmails.encoding.encodings(testEncodingId).liveInputStreamChanged(testNotificationId).details();
+        await notificationEmails.encoding
+          .encodings(testEncodingId)
+          .liveInputStreamChanged(testNotificationId)
+          .details();
         expect(mockHttp.get).toHaveBeenCalledWith(
           testConfiguration,
           `https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/${testEncodingId}/live-input-stream-changed/${testNotificationId}`
@@ -143,7 +150,10 @@ describe('liveInputStreamChanged', () => {
 
     describe('delete', () => {
       it('should call the correct url', async () => {
-        await notificationEmails.encoding.encodings(testEncodingId).liveInputStreamChanged(testNotificationId).delete();
+        await notificationEmails.encoding
+          .encodings(testEncodingId)
+          .liveInputStreamChanged(testNotificationId)
+          .delete();
         expect(mockHttp.delete_).toHaveBeenCalledWith(
           testConfiguration,
           `https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/${testEncodingId}/live-input-stream-changed/${testNotificationId}`
@@ -153,7 +163,10 @@ describe('liveInputStreamChanged', () => {
 
     describe('replace', () => {
       it('should call the correct url', async () => {
-        await notificationEmails.encoding.encodings(testEncodingId).liveInputStreamChanged(testNotificationId).replace(testEmailNotificationWithConditions);
+        await notificationEmails.encoding
+          .encodings(testEncodingId)
+          .liveInputStreamChanged(testNotificationId)
+          .replace(testEmailNotificationWithConditions);
         expect(mockHttp.put).toHaveBeenCalledWith(
           testConfiguration,
           `https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/${testEncodingId}/live-input-stream-changed/${testNotificationId}`,
