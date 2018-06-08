@@ -1,6 +1,6 @@
 {
   "name": "bitmovin-javascript",
-  "version": "2.0.0-beta1",
+  "version": "2.0.0-beta2",
   "main": "./dist/bitmovin.node.js",
   "module": "./dist/es-modules/index.js",
   "browser": "./dist/bitmovin.browser.js",
@@ -9,7 +9,7 @@
     "url": "https://github.com/bitmovin/bitmovin-javascript.git"
   },
   "files": [
-    "./dist"
+    "dist"
   ],
   "license": "MIT",
   "scripts": {
