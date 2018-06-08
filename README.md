@@ -74,7 +74,7 @@ Examples
 
 An sample DASH & HLS encoding sample can be found in [examples/encoding/01_simple_encoding_dash_manifest.js](https://github.com/bitmovin/bitmovin-javascript/blob/develop/examples/encoding/01_simple_encoding_dash_manifest.js)
 
-For more examples visit our [example page](https://github.com/bitmovin/bitmovin-javascript/tree/develop/examples/encoding) or look at the [integration tests](https://github.com/bitmovin/bitmovin-javascript/tree/develop/tests_it)
+For more examples visit our [example page](https://github.com/bitmovin/bitmovin-javascript/tree/develop/examples/encoding).
 
 Contributing
 -----------
@@ -87,6 +87,7 @@ Running tests:
 yarn test
 yarn coverage
 ```
+
 License
 -----------
 MIT
