@@ -35,13 +35,11 @@ import Bitmovin from 'bitmovin-javascript';
 const bitmovin = new Bitmovin({'apiKey': '<YOUR_API_KEY>'});
 ```
 
-With `require`:
-
+With `require`
 ```js
 const Bitmovin = require('bitmovin-javascript').default;
 const bitmovin = new Bitmovin({'apiKey': '<YOUR_API_KEY>'});
 ```
-
 
 ### Browser
 
