@@ -49,7 +49,7 @@ Use `bitmovin-javascript/dist/bitmovin.browser.js` or `bitmovin.browser.min.js` 
 
 ### ES6 Module
 
-Import `bitmovin-javascript/dist/es-modules`, this "build" also includes (flow)[https://github.com/facebook/flow] types.
+Import `bitmovin-javascript/dist/es-modules`, this "build" also includes [flow](https://github.com/facebook/flow) types.
 
 Usage
 -----------
