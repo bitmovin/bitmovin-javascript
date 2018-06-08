@@ -7,6 +7,7 @@ const testConfiguration = getConfiguration();
 const notificationEmails = emails(testConfiguration, mockHttp);
 
 const testEmailNotificationWithConditions = {
+  id: 'id',
   resolve: true,
   conditions: [],
   emails: [],
