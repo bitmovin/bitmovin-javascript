@@ -25,11 +25,31 @@ yarn add bitmovin-javascript
 Initialization
 ----------
 
-Using ES6 Imports
+The Babel configuration for all builds can be found in `.babelrc.js`.
+
+### Node
+
+Using ES6 `import`
 ```es6
 import Bitmovin from 'bitmovin-javascript';
 const bitmovin = new Bitmovin({'apiKey': '<YOUR_API_KEY>'});
 ```
+
+With `require`:
+
+```js
+const Bitmovin = require('bitmovin-javascript').default;
+const bitmovin = new Bitmovin({'apiKey': '<YOUR_API_KEY>'});
+```
+
+
+### Browser
+
+Use `bitmovin-javascript/dist/bitmovin.browser.js` or `bitmovin.browser.min.js` for the minified version.
+
+### ES6 Module
+
+Import `bitmovin-javascript/dist/es-modules`.
 
 Usage
 -----------

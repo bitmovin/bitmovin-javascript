@@ -2,7 +2,7 @@
   "name": "bitmovin-javascript",
   "version": "2.0.0-beta1",
   "main": "./dist/bitmovin.node.js",
-  "module": "./dist/es-modules/bitmovin.js",
+  "module": "./dist/es-modules/index.js",
   "browser": "./dist/bitmovin.browser.js",
   "repository": {
     "type": "git",
