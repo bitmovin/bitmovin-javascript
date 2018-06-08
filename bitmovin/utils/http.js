@@ -1,5 +1,6 @@
 // @flow
 
+import 'es6-promise/auto';
 import fetch from 'isomorphic-fetch';
 import urljoin from 'url-join';
 
