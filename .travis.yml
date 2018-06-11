@@ -5,5 +5,7 @@ node_js:
 script:
   - "yarn format-check"
   - "yarn lint"
+  - "yarn lint-examples"
   - "yarn coverage"
   - "yarn run codecov"
+  - "yarn build"
