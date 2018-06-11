@@ -1,4 +1,6 @@
 class Logger {
+  logging: boolean;
+
   constructor(logging) {
     this.setLogging(logging);
   }

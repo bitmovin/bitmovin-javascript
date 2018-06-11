@@ -1,9 +1,7 @@
-// @flow
-
 import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
-import type {BitmovinConfiguration, HttpClient} from '../../utils/types';
+import {BitmovinConfiguration, HttpClient} from '../../utils/types';
 
 import drms from './drms';
 
@@ -81,7 +79,9 @@ export const muxings = (configuration: BitmovinConfiguration, encodingId: string
   };
 };
 
-export type Muxings = any;
+export interface Muxings {
+
+}
 
 export default (configuration: BitmovinConfiguration, encodingId: string): Muxings => {
   return muxings(configuration, encodingId, http);

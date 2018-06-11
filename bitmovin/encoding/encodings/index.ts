@@ -3,15 +3,15 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
-import type {Delete, Details, List, Create, BitmovinConfiguration, CustomData, HttpClient} from '../../utils/types';
+import {Delete, Details, List, Create, BitmovinConfiguration, CustomData, HttpClient} from '../../utils/types';
 
-import streams, {type Streams} from './streams';
-import muxings, {type Muxings} from './muxings';
+import streams, {Streams} from './streams';
+import muxings, {Muxings} from './muxings';
 
 export const encodings = (configuration: BitmovinConfiguration, http: HttpClient): Encodings => {
   const {get, post, delete_} = http;
 
-  let fn = encodingId => {
+  let fn = (encodingId: string): EncodingDetail => {
     return {
       details: () => {
         let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId);
@@ -79,31 +79,29 @@ export const encodings = (configuration: BitmovinConfiguration, http: HttpClient
   return fn;
 };
 
-type Encoding = {
+interface Encoding {
   cloudRegion: string
-};
+}
 
-type EncodingDetail = (
-  id: string
-) => {
-  details: Details<Encoding>,
-  delete: Delete<{}>,
-  customData: CustomData,
-  liveDetails: Details<Object>,
-  start: Create<Object>,
-  stop: Details<Object>,
-  startLive: Create<Object>,
-  stopLive: Details<Object>,
-  status: Details<Object>,
-  streams: Streams,
+interface EncodingDetail {
+  details: Details<Encoding>;
+  delete: Delete<{}>;
+  customData: CustomData;
+  liveDetails: Details<Object>;
+  start: Create<Object>;
+  stop: Details<Object>;
+  startLive: Create<Object>;
+  stopLive: Details<Object>;
+  status: Details<Object>;
+  streams: Streams;
   muxings: Muxings
-};
+}
 
-export type Encodings = {
-  $call: EncodingDetail,
-  create: Create<Encoding>,
-  list: List<Encoding>
-};
+export interface Encodings {
+  (encodingId: string): EncodingDetail;
+  create: Create<Encoding>;
+  list: List<Encoding>;
+}
 
 export default (configuration: BitmovinConfiguration): Encodings => {
   return encodings(configuration, http);

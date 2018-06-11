@@ -1,8 +1,6 @@
-// @flow
-
 import urljoin from 'url-join';
 
-import encodings, {type Encodings} from './encoding/encodings';
+import encodings, {Encodings} from './encoding/encodings';
 import codecConfigurations from './encoding/codecConfigurations';
 import inputs from './encoding/inputs';
 import outputs from './encoding/outputs';
@@ -10,7 +8,7 @@ import manifests from './encoding/manifests';
 import filters from './encoding/filters';
 import statistics from './encoding/statistics';
 import infrastructure from './encoding/infrastructure';
-import account from './account/account';
+import account from './account/account.ts';
 import playerChannels from './player/channels';
 import playerLicenses from './player/licenses';
 import playerStatistics from './player/statistics';
@@ -21,7 +19,7 @@ import analyticsStatistics from './analytics/statistics';
 import customBuilds from './player/customBuilds';
 import logger from './utils/Logger';
 import utils from './utils/Utils';
-import type {BitmovinConfiguration} from './utils/types';
+import {BitmovinConfiguration, __VERSION__} from './utils/types';
 
 const checkAuthorizationInConfiguration = function(configuration) {
   if (utils.isNoEmptyString(configuration.apiKey)) {
@@ -76,37 +74,39 @@ const setupConfiguration = function(configuration) {
   };
 };
 
-type Encoding = {
-  encodings: Encodings,
-  codecConfigurations: Object,
-  inputs: Object,
-  outputs: Object,
-  manifests: Object,
-  filters: Object,
-  statistics: Object,
+interface Encoding {
+  encodings: Encodings;
+  codecConfigurations: Object;
+  inputs: Object;
+  outputs: Object;
+  manifests: Object;
+  filters: Object;
+  statistics: Object;
   infrastructure: Object
-};
+}
 
-type Player = {
-  channels: Object,
-  licenses: Object,
-  statistics: Object,
+interface Player {
+  channels: Object;
+  licenses: Object;
+  statistics: Object;
   customBuilds: Object
-};
+}
 
-type Analytics = {
-  licenses: Object,
-  statistics: Object,
-  impressions: Object,
+interface Analytics {
+  licenses: Object;
+  statistics: Object;
+  impressions: Object;
   queries: Object
-};
+}
 
-type Account = Object;
+interface Account {
+  
+}
 
-export type BitmovinAPI = {
-  encoding: Encoding,
-  player: Player,
-  analytics: Analytics,
+export interface BitmovinAPI {
+  encoding: Encoding;
+  player: Player;
+  analytics: Analytics;
   account: Account
 }
 
@@ -116,7 +116,6 @@ const Bitmovin = (configuration: BitmovinConfiguration): BitmovinAPI => {
     setupConfiguration(configuration);
 
     const bitmovin: BitmovinAPI = {
-      configuration: configuration,
       encoding: {
         encodings: encodings(configuration),
         codecConfigurations: codecConfigurations(configuration),

@@ -1,12 +1,10 @@
-// @flow
-
 import 'es6-promise/auto';
 import fetch from 'isomorphic-fetch';
 import urljoin from 'url-join';
 
 import BitmovinError from './BitmovinError';
 import logger from './Logger';
-import type {HttpClient} from './types';
+import {HttpClient} from './types';
 
 const GET = 'GET';
 const POST = 'POST';
@@ -38,7 +36,7 @@ const request = (configuration, method, url, fetchMethod = fetch, body) => {
           'HTTP Request was unsuccessful: HTTP Response Code was ' + response.status + ' ' + response.statusText;
         logger.error(errorMessage);
         return response.json().then(errorText => {
-          logger.error('Error Response Body: ', JSON.stringify(errorText));
+          logger.error('Error Response Body: ' + JSON.stringify(errorText));
           throw new BitmovinError(errorMessage, {...response, responseData: errorText});
         });
       }
@@ -56,7 +54,7 @@ const request = (configuration, method, url, fetchMethod = fetch, body) => {
 };
 
 const get = (configuration, url, fetchMethod = fetch) => {
-  return request(configuration, GET, url, fetchMethod);
+  return request(configuration, GET, url, fetchMethod, undefined);
 };
 
 const post = (configuration, url, object, fetchMethod = fetch) => {
@@ -74,7 +72,7 @@ const put = (configuration, url, object, fetchMethod = fetch) => {
 };
 
 const delete_ = (configuration, url, fetchMethod = fetch) => {
-  return request(configuration, DELETE, url, fetchMethod);
+  return request(configuration, DELETE, url, fetchMethod, undefined);
 };
 
 export const utils = {

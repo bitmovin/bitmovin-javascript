@@ -3,7 +3,7 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
-import type {HttpClient, BitmovinConfiguration, Delete, Details, List, Create} from '../../utils/types';
+import {HttpClient, BitmovinConfiguration, Delete, Details, List, Create} from '../../utils/types';
 
 import thumbnails from './thumbnails';
 import sprites from './sprites';
@@ -112,25 +112,23 @@ export const streams = (configuration: BitmovinConfiguration, encodingId: string
   return fn;
 };
 
-type Stream = {};
-type StreamInput = {};
+interface Stream {}
+interface StreamInput {}
 
-type StreamDetail = (
-  id: string
-) => {
-  details: Details<Stream>,
-  inputDetails: Details<StreamInput>,
-  delete: Delete<{}>,
-  filters: Object,
-  thumbnails: Object,
+interface StreamDetail {
+  details: Details<Stream>;
+  inputDetails: Details<StreamInput>;
+  delete: Delete<{}>;
+  filters: Object;
+  thumbnails: Object;
   sprites: Object
-};
+}
 
-export type Streams = {
-  $call: StreamDetail,
-  list: List<Stream>,
+export interface Streams {
+  (id: string): StreamDetail;
+  list: List<Stream>;
   add: Create<Stream>
-};
+}
 
 export default (configuration: BitmovinConfiguration, encodingId: string): Streams => {
   return streams(configuration, encodingId, http);
