@@ -1,23 +1,23 @@
 class Logger {
-  logging: boolean;
+  public logging: boolean;
 
   constructor(logging) {
     this.setLogging(logging);
   }
 
-  setLogging(logging) {
+  public setLogging(logging) {
     this.logging = logging;
   }
 
-  enableLogging() {
+  public enableLogging() {
     this.setLogging(true);
   }
 
-  disableLogging() {
+  public disableLogging() {
     this.setLogging(false);
   }
 
-  log(message) {
+  public log(message) {
     if (!this.logging) {
       return;
     }
@@ -25,7 +25,7 @@ class Logger {
     console.log(message);
   }
 
-  error(message) {
+  public error(message) {
     if (!this.logging) {
       return;
     }

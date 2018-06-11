@@ -1,15 +1,15 @@
 import urljoin from 'url-join';
 
-import http, {utils} from '../utils/http';
 import BitmovinError from '../utils/BitmovinError';
 import {isValidApiRequestDateString} from '../utils/DateUtils';
+import http, {utils} from '../utils/http';
 
 export const statistics = (configuration, http) => {
   const {get} = http;
 
   const addOptionsToUrl = (url, options) => {
     let newUrl = url;
-    let {limit, offset} = options;
+    const {limit, offset} = options;
 
     if (options !== {} && options.from && options.to) {
       if (!isValidApiRequestDateString(options.from) || !isValidApiRequestDateString(options.to)) {
@@ -20,8 +20,8 @@ export const statistics = (configuration, http) => {
     }
 
     const getParams = utils.buildGetParamString({
-      limit: limit,
-      offset: offset
+      limit,
+      offset
     });
 
     if (getParams.length > 0) {

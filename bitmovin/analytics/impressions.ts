@@ -7,7 +7,7 @@ export const impressions = (configuration, http) => {
   const impressionBaseUrl = urljoin(configuration.apiBaseUrl, 'analytics', 'impressions');
 
   const fn = (impressionId, licenseKey) => {
-    let url = urljoin(impressionBaseUrl, impressionId);
+    const url = urljoin(impressionBaseUrl, impressionId);
     return post(configuration, url, {licenseKey});
   };
 

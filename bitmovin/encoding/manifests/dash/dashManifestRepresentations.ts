@@ -8,11 +8,11 @@ export const representations = (configuration, manifestId, periodId, adaptationS
   const {get, post, delete_} = http;
   const dashManifestsBaseUrl = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash');
 
-  let typeFn = typeUrl => {
-    let fn = representationId => {
+  const typeFn = typeUrl => {
+    const fn = representationId => {
       return {
         details: () => {
-          let url = urljoin(
+          const url = urljoin(
             dashManifestsBaseUrl,
             manifestId,
             'periods',
@@ -26,7 +26,7 @@ export const representations = (configuration, manifestId, periodId, adaptationS
           return get(configuration, url);
         },
         delete: () => {
-          let url = urljoin(
+          const url = urljoin(
             dashManifestsBaseUrl,
             manifestId,
             'periods',
@@ -47,7 +47,7 @@ export const representations = (configuration, manifestId, periodId, adaptationS
     };
 
     fn.add = representation => {
-      let url = urljoin(
+      const url = urljoin(
         dashManifestsBaseUrl,
         manifestId,
         'periods',
@@ -72,9 +72,9 @@ export const representations = (configuration, manifestId, periodId, adaptationS
         typeUrl
       );
 
-      let getParams = utils.buildGetParamString({
-        limit: limit,
-        offset: offset
+      const getParams = utils.buildGetParamString({
+        limit,
+        offset
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);

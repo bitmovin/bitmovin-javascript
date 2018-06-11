@@ -6,14 +6,14 @@ import periods from './dashManifestPeriods';
 
 export const dashManifests = (configuration, http) => {
   const {get, post, delete_} = http;
-  let fn = manifestId => {
+  const fn = manifestId => {
     return {
       details: () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId);
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId);
         return get(configuration, url);
       },
       delete: () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId);
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId);
         return delete_(configuration, url);
       },
       start: () => {
@@ -33,17 +33,17 @@ export const dashManifests = (configuration, http) => {
   };
 
   fn.create = manifest => {
-    let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash');
+    const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash');
     return post(configuration, url, manifest);
   };
 
   fn.list = (limit, offset, encodingId) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash');
 
-    let getParams = utils.buildGetParamString({
-      limit: limit,
-      offset: offset,
-      encodingId: encodingId
+    const getParams = utils.buildGetParamString({
+      limit,
+      offset,
+      encodingId
     });
     if (getParams.length > 0) {
       url = urljoin(url, getParams);

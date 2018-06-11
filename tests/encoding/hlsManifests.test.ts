@@ -1,8 +1,8 @@
-import {getConfiguration} from '../utils';
 import {hlsManifests} from '../../bitmovin/encoding/manifests/hls';
-import {mockHttp, testSetup, assertItCallsUrlAndReturnsPromise} from '../assertions';
+import {assertItCallsUrlAndReturnsPromise, mockHttp, testSetup} from '../assertions';
+import {getConfiguration} from '../utils';
 
-let testConfiguration = getConfiguration();
+const testConfiguration = getConfiguration();
 
 describe('encoding', () => {
   describe('manifests.hls', () => {

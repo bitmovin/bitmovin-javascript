@@ -1,15 +1,15 @@
-import {getConfiguration} from '../utils';
 import {impressions} from '../../bitmovin/analytics/impressions';
 import {
-  mockPost,
-  mockHttp,
-  assertPayload,
-  assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
+  assertItReturnsUnderlyingPromise,
+  assertPayload,
+  mockHttp,
+  mockPost,
   testSetup
 } from '../assertions';
+import {getConfiguration} from '../utils';
 
-let testConfiguration = getConfiguration();
+const testConfiguration = getConfiguration();
 
 describe('analytics', () => {
   beforeEach(testSetup);

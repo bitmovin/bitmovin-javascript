@@ -1,16 +1,16 @@
-import {getConfiguration} from '../utils';
 import {streams} from '../../bitmovin/encoding/encodings/streams';
 import {filters} from '../../bitmovin/encoding/filters';
 import {
-  mockGet,
-  mockPost,
-  mockDelete,
-  mockHttp,
-  assertPayload,
-  assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
+  assertItReturnsUnderlyingPromise,
+  assertPayload,
+  mockDelete,
+  mockGet,
+  mockHttp,
+  mockPost,
   testSetup
 } from '../assertions';
+import {getConfiguration} from '../utils';
 
 const testConfiguration = getConfiguration();
 describe('encoding', () => {

@@ -7,15 +7,15 @@ import drms from './drms';
 
 export const muxings = (configuration: BitmovinConfiguration, encodingId: string, http: HttpClient): Muxings => {
   const {get, post, delete_} = http;
-  let typeFn = typeUrl => {
-    let fn = muxingId => {
+  const typeFn = typeUrl => {
+    const fn = muxingId => {
       return {
         details: () => {
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl, muxingId);
+          const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl, muxingId);
           return get(configuration, url);
         },
         customData: () => {
-          let url = urljoin(
+          const url = urljoin(
             configuration.apiBaseUrl,
             'encoding/encodings',
             encodingId,
@@ -27,7 +27,7 @@ export const muxings = (configuration: BitmovinConfiguration, encodingId: string
           return get(configuration, url);
         },
         delete: () => {
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl, muxingId);
+          const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl, muxingId);
 
           return delete_(configuration, url);
         },
@@ -36,16 +36,16 @@ export const muxings = (configuration: BitmovinConfiguration, encodingId: string
     };
 
     fn.add = muxing => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl);
+      const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl);
       return post(configuration, url, muxing);
     };
 
     fn.list = (limit, offset) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl);
 
-      let getParams = utils.buildGetParamString({
-        limit: limit,
-        offset: offset
+      const getParams = utils.buildGetParamString({
+        limit,
+        offset
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);
@@ -66,9 +66,9 @@ export const muxings = (configuration: BitmovinConfiguration, encodingId: string
     list: (limit, offset) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings');
 
-      let getParams = utils.buildGetParamString({
-        limit: limit,
-        offset: offset
+      const getParams = utils.buildGetParamString({
+        limit,
+        offset
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);

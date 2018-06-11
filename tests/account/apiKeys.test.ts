@@ -1,8 +1,8 @@
 import apiKeys from '../../bitmovin/account/apiKeys';
-import {mockGet, mockHttp, assertItReturnsUnderlyingPromise, assertItCallsCorrectUrl, testSetup} from '../assertions';
+import {assertItCallsCorrectUrl, assertItReturnsUnderlyingPromise, mockGet, mockHttp, testSetup} from '../assertions';
 import {getConfiguration} from '../utils';
 
-let testConfiguration = getConfiguration();
+const testConfiguration = getConfiguration();
 
 describe('apiKeys', () => {
   beforeEach(testSetup);

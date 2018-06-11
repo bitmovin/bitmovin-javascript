@@ -3,50 +3,50 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
-import {Delete, Details, List, Create, BitmovinConfiguration, CustomData, HttpClient} from '../../utils/types';
+import {BitmovinConfiguration, Create, CustomData, Delete, Details, HttpClient, List} from '../../utils/types';
 
-import streams, {Streams} from './streams';
 import muxings, {Muxings} from './muxings';
+import streams, {Streams} from './streams';
 
 export const encodings = (configuration: BitmovinConfiguration, http: HttpClient): Encodings => {
   const {get, post, delete_} = http;
 
-  let fn = (encodingId: string): EncodingDetail => {
+  const fn = (encodingId: string): EncodingDetail => {
     return {
       details: () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId);
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId);
         return get(configuration, url);
       },
       liveDetails: () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'live');
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'live');
         return get(configuration, url);
       },
       customData: () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'customData');
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'customData');
         return get(configuration, url);
       },
       delete: () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId);
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId);
         return delete_(configuration, url);
       },
       start: startConfiguration => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'start');
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'start');
         return post(configuration, url, startConfiguration);
       },
       stop: () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'stop');
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'stop');
         return post(configuration, url);
       },
       startLive: startLiveConfiguration => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'live', 'start');
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'live', 'start');
         return post(configuration, url, startLiveConfiguration);
       },
       stopLive: () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'live', 'stop');
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'live', 'stop');
         return post(configuration, url);
       },
       status: () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'status');
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'status');
         return get(configuration, url);
       },
       streams: streams(configuration, encodingId),
@@ -55,7 +55,7 @@ export const encodings = (configuration: BitmovinConfiguration, http: HttpClient
   };
 
   fn.create = encoding => {
-    let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings');
+    const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings');
     return post(configuration, url, encoding);
   };
 
@@ -63,11 +63,11 @@ export const encodings = (configuration: BitmovinConfiguration, http: HttpClient
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings');
 
     const filterParams = utils.buildFilterParamString(filter);
-    let getParams = utils.buildGetParamString({
+    const getParams = utils.buildGetParamString({
       ...filterParams,
-      limit: limit,
-      offset: offset,
-      sort: sort
+      limit,
+      offset,
+      sort
     });
     if (getParams.length > 0) {
       url = urljoin(url, getParams);
@@ -80,7 +80,7 @@ export const encodings = (configuration: BitmovinConfiguration, http: HttpClient
 };
 
 interface Encoding {
-  cloudRegion: string
+  cloudRegion: string;
 }
 
 interface EncodingDetail {
@@ -94,7 +94,7 @@ interface EncodingDetail {
   stopLive: Details<Object>;
   status: Details<Object>;
   streams: Streams;
-  muxings: Muxings
+  muxings: Muxings;
 }
 
 export interface Encodings {

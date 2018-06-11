@@ -1,14 +1,14 @@
-import {getConfiguration} from '../utils';
 import {account} from '../../bitmovin/account/account';
 import {
-  mockGet,
-  mockPost,
-  mockHttp,
-  assertPayload,
-  assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
+  assertItReturnsUnderlyingPromise,
+  assertPayload,
+  mockGet,
+  mockHttp,
+  mockPost,
   testSetup
 } from '../assertions';
+import {getConfiguration} from '../utils';
 
 const testConfigurationWithHeaders = getConfiguration();
 
@@ -41,7 +41,7 @@ describe('account', () => {
         const callParams = mockPost.mock.calls[0];
         expect(callParams[2]).toEqual({
           eMail: email,
-          password: password
+          password
         });
       });
     });

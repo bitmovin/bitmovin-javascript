@@ -1,6 +1,6 @@
-import statements from './statements';
-import invoices from './invoices';
 import contactDetails from './contactDetails';
+import invoices from './invoices';
+import statements from './statements';
 
 const billing = configuration => {
   return {

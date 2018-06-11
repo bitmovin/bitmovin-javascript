@@ -1,17 +1,17 @@
 import {muxings} from '../../bitmovin/encoding/encodings/muxings';
 import {
-  mockGet,
-  mockPost,
-  mockDelete,
-  mockHttp,
-  assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
-  testSetup,
-  assertItCallsUrlAndReturnsPromise
+  assertItCallsUrlAndReturnsPromise,
+  assertItReturnsUnderlyingPromise,
+  mockDelete,
+  mockGet,
+  mockHttp,
+  mockPost,
+  testSetup
 } from '../assertions';
 import {getConfiguration} from '../utils';
 
-let testConfiguration = getConfiguration();
+const testConfiguration = getConfiguration();
 describe('encoding', () => {
   describe('muxings', () => {
     beforeEach(testSetup);

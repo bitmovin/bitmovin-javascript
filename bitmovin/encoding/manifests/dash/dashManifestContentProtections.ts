@@ -19,30 +19,30 @@ export const contentProtections = (configuration, manifestId, periodId, adaptati
   }
   baseUrl = urljoin(baseUrl, 'contentprotection');
 
-  let fn = contentProtectionId => {
+  const fn = contentProtectionId => {
     return {
       details: () => {
-        let url = urljoin(baseUrl, contentProtectionId);
+        const url = urljoin(baseUrl, contentProtectionId);
         return get(configuration, url);
       },
       delete: () => {
-        let url = urljoin(baseUrl, contentProtectionId);
+        const url = urljoin(baseUrl, contentProtectionId);
         return delete_(configuration, url);
       }
     };
   };
 
   fn.add = contentProtection => {
-    let url = baseUrl;
+    const url = baseUrl;
     return post(configuration, url, contentProtection);
   };
 
   fn.list = (limit, offset) => {
     let url = baseUrl;
 
-    let getParams = utils.buildGetParamString({
-      limit: limit,
-      offset: offset
+    const getParams = utils.buildGetParamString({
+      limit,
+      offset
     });
     if (getParams.length > 0) {
       url = urljoin(url, getParams);

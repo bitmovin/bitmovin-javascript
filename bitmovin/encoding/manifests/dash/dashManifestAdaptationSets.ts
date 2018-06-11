@@ -2,16 +2,16 @@ import urljoin from 'url-join';
 
 import http, {utils} from '../../../utils/http';
 
-import representations from './dashManifestRepresentations';
 import contentProtections from './dashManifestContentProtections';
+import representations from './dashManifestRepresentations';
 
 export const adaptationSets = (configuration, manifestId, periodId, http) => {
   const {get, post, delete_} = http;
-  let typeFn = typeUrl => {
-    let fn = adaptationSetId => {
+  const typeFn = typeUrl => {
+    const fn = adaptationSetId => {
       return {
         details: () => {
-          let url = urljoin(
+          const url = urljoin(
             configuration.apiBaseUrl,
             'encoding/manifests/dash',
             manifestId,
@@ -25,7 +25,7 @@ export const adaptationSets = (configuration, manifestId, periodId, http) => {
           return get(configuration, url);
         },
         delete: () => {
-          let url = urljoin(
+          const url = urljoin(
             configuration.apiBaseUrl,
             'encoding/manifests/dash',
             manifestId,
@@ -41,7 +41,7 @@ export const adaptationSets = (configuration, manifestId, periodId, http) => {
     };
 
     fn.create = period => {
-      let url = urljoin(
+      const url = urljoin(
         configuration.apiBaseUrl,
         'encoding/manifests/dash',
         manifestId,
@@ -65,9 +65,9 @@ export const adaptationSets = (configuration, manifestId, periodId, http) => {
         typeUrl
       );
 
-      let getParams = utils.buildGetParamString({
-        limit: limit,
-        offset: offset
+      const getParams = utils.buildGetParamString({
+        limit,
+        offset
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);
@@ -79,7 +79,7 @@ export const adaptationSets = (configuration, manifestId, periodId, http) => {
     return fn;
   };
 
-  let fn = adaptationSetId => {
+  const fn = adaptationSetId => {
     return {
       representations: representations(configuration, manifestId, periodId, adaptationSetId),
       contentProtections: contentProtections(configuration, manifestId, periodId, adaptationSetId, null)

@@ -1,18 +1,18 @@
 import moment from 'moment';
 
-import {getConfiguration} from '../utils';
 import {queries} from '../../bitmovin/analytics/queries';
 import {
-  mockPost,
-  mockHttp,
-  assertPayload,
-  assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
   assertItReturnsPromise,
+  assertItReturnsUnderlyingPromise,
+  assertPayload,
+  mockHttp,
+  mockPost,
   testSetup
 } from '../assertions';
+import {getConfiguration} from '../utils';
 
-let testConfiguration = getConfiguration();
+const testConfiguration = getConfiguration();
 
 describe('analytics', () => {
   beforeEach(testSetup);
@@ -82,8 +82,8 @@ describe('analytics', () => {
           {
             dimension: 'STARTUPTIME',
             licenseKey: 'license-key',
-            start: start,
-            end: end,
+            start,
+            end,
             filters: [
               {name: 'STARTUPTIME', operator: 'GT', value: 0},
               {name: 'CDN_PROVIDER', operator: 'EQ', value: 'akamai'}

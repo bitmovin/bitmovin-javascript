@@ -8,7 +8,7 @@ export const infrastructure = (configuration, http) => {
   const {get, post, delete_} = http;
 
   const typeFn = type => {
-    let fn = id => {
+    const fn = id => {
       return {
         status: () => {
           const url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type, id, 'status');
@@ -37,11 +37,11 @@ export const infrastructure = (configuration, http) => {
     fn.list = (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type);
       const filterParams = utils.buildFilterParamString(filter);
-      let getParams = utils.buildGetParamString({
+      const getParams = utils.buildGetParamString({
         ...filterParams,
-        limit: limit,
-        offset: offset,
-        sort: sort
+        limit,
+        offset,
+        sort
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);

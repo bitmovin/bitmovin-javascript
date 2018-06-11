@@ -6,7 +6,7 @@ export const aws = (configuration, http) => {
   const {get, post, delete_} = http;
 
   const typeFn = type => {
-    let fn = id => {
+    const fn = id => {
       const regions = regionName => {
         return {
           add: region => {

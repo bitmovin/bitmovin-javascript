@@ -13,8 +13,8 @@ const PUT = 'PUT';
 
 const buildParams = (method, configuration, body) => {
   return {
-    method: method,
-    body: body,
+    method,
+    body,
     headers: configuration.httpHeaders,
     timeout: configuration.requestTimeout
   };
@@ -77,12 +77,12 @@ const delete_ = (configuration, url, fetchMethod = fetch) => {
 
 export const utils = {
   buildGetParamString: (getParams: Object) => {
-    let params = [];
+    const params = [];
     let paramsString = '';
 
-    for (let key in getParams) {
+    for (const key in getParams) {
       if (getParams.hasOwnProperty(key)) {
-        let value = getParams[key];
+        const value = getParams[key];
         if (value !== undefined && value !== null && value !== '') {
           params.push(key + '=' + getParams[key]);
         }
@@ -106,7 +106,7 @@ export const utils = {
 
   buildFilterParamString: (filterParams?: Object) => {
     const processedFilterParams = {};
-    for (let key in filterParams) {
+    for (const key in filterParams) {
       if (filterParams.hasOwnProperty(key)) {
         processedFilterParams[key] = filterParams[key].join(',');
       }
@@ -116,7 +116,7 @@ export const utils = {
 
   buildUrlParams: (baseUrl: string, params: Object) => {
     const filterParams = utils.buildFilterParamString(params.filter);
-    let getParams = utils.buildGetParamString({
+    const getParams = utils.buildGetParamString({
       ...filterParams,
       limit: params.limit,
       offset: params.offset,

@@ -2,9 +2,9 @@ import urljoin from 'url-join';
 
 import http from '../utils/http';
 
-import organizations from './organizations';
-import billing from './billing';
 import apiKeys from './apiKeys';
+import billing from './billing';
+import organizations from './organizations';
 
 export const account = (configuration, http) => {
   const {get, post} = http;
@@ -29,9 +29,9 @@ export const account = (configuration, http) => {
   const changePassword = (eMail, currentPassword, newPassword) => {
     const url = urljoin(accountBaseUrl, '/password/change');
     const changePasswordPayload = {
-      eMail: eMail,
-      currentPassword: currentPassword,
-      newPassword: newPassword
+      eMail,
+      currentPassword,
+      newPassword
     };
     return post(configuration, url, changePasswordPayload);
   };

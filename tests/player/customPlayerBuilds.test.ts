@@ -1,17 +1,17 @@
 import {customBuilds} from '../../bitmovin/player/customBuilds';
 import {
+  assertItCallsCorrectUrl,
+  assertItReturnsUnderlyingPromise,
+  assertPayload,
   mockDelete,
   mockGet,
   mockHttp,
   mockPost,
-  assertPayload,
-  assertItReturnsUnderlyingPromise,
-  assertItCallsCorrectUrl,
   testSetup
 } from '../assertions';
 import {getConfiguration} from '../utils';
 
-let testConfiguration = getConfiguration();
+const testConfiguration = getConfiguration();
 
 describe('player', () => {
   beforeEach(testSetup);

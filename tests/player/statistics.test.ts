@@ -1,8 +1,8 @@
-import {getConfiguration} from '../utils';
 import {statistics} from '../../bitmovin/player/statistics';
-import {mockGet, mockHttp, assertItReturnsUnderlyingPromise, assertItCallsCorrectUrl, testSetup} from '../assertions';
+import {assertItCallsCorrectUrl, assertItReturnsUnderlyingPromise, mockGet, mockHttp, testSetup} from '../assertions';
+import {getConfiguration} from '../utils';
 
-let testConfiguration = getConfiguration();
+const testConfiguration = getConfiguration();
 
 describe('player', () => {
   const statisticsClient = statistics(testConfiguration, mockHttp);

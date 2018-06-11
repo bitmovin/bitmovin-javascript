@@ -4,10 +4,10 @@ import http, {utils} from '../../utils/http';
 
 export const thumbnails = (configuration, encodingId, streamId, http) => {
   const {get, post, delete_} = http;
-  let fn = thumbnailId => {
+  const fn = thumbnailId => {
     return {
       details: () => {
-        let url = urljoin(
+        const url = urljoin(
           configuration.apiBaseUrl,
           'encoding/encodings',
           encodingId,
@@ -19,7 +19,7 @@ export const thumbnails = (configuration, encodingId, streamId, http) => {
         return get(configuration, url);
       },
       customData: () => {
-        let url = urljoin(
+        const url = urljoin(
           configuration.apiBaseUrl,
           'encoding/encodings',
           encodingId,
@@ -32,7 +32,7 @@ export const thumbnails = (configuration, encodingId, streamId, http) => {
         return get(configuration, url);
       },
       delete: () => {
-        let url = urljoin(
+        const url = urljoin(
           configuration.apiBaseUrl,
           'encoding/encodings',
           encodingId,
@@ -47,16 +47,16 @@ export const thumbnails = (configuration, encodingId, streamId, http) => {
   };
 
   fn.add = thumbnail => {
-    let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails');
+    const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails');
     return post(configuration, url, thumbnail);
   };
 
   fn.list = (limit, offset) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails');
 
-    let getParams = utils.buildGetParamString({
-      limit: limit,
-      offset: offset
+    const getParams = utils.buildGetParamString({
+      limit,
+      offset
     });
     if (getParams.length > 0) {
       url = urljoin(url, getParams);

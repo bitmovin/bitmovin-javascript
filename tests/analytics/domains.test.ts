@@ -1,19 +1,19 @@
-import {getConfiguration} from '../utils';
-import {licenses} from '../../bitmovin/analytics/licenses';
 import {domains} from '../../bitmovin/analytics/domains';
+import {licenses} from '../../bitmovin/analytics/licenses';
 import {
+  assertItCallsCorrectUrl,
+  assertItReturnsUnderlyingPromise,
+  assertPayload,
+  mockDelete,
   mockGet,
+  mockHttp,
   mockPost,
   mockPut,
-  mockDelete,
-  mockHttp,
-  assertPayload,
-  assertItReturnsUnderlyingPromise,
-  assertItCallsCorrectUrl,
   testSetup
 } from '../assertions';
+import {getConfiguration} from '../utils';
 
-let testConfiguration = getConfiguration();
+const testConfiguration = getConfiguration();
 
 describe('analytics', () => {
   beforeEach(testSetup);

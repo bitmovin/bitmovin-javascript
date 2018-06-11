@@ -1,21 +1,21 @@
-import {getConfiguration} from '../utils';
-import {licenses} from '../../bitmovin/player/licenses';
-import {domains} from '../../bitmovin/player/domains';
 import {channels} from '../../bitmovin/player/channels';
+import {domains} from '../../bitmovin/player/domains';
+import {licenses} from '../../bitmovin/player/licenses';
+import {thirdPartyLicensing} from '../../bitmovin/player/thirdPartyLicensing';
 import {
+  assertItCallsCorrectUrl,
+  assertItReturnsUnderlyingPromise,
+  assertPayload,
+  mockDelete,
   mockGet,
+  mockHttp,
   mockPost,
   mockPut,
-  mockDelete,
-  mockHttp,
-  assertPayload,
-  assertItReturnsUnderlyingPromise,
-  assertItCallsCorrectUrl,
   testSetup
 } from '../assertions';
-import {thirdPartyLicensing} from '../../bitmovin/player/thirdPartyLicensing';
+import {getConfiguration} from '../utils';
 
-let testConfiguration = getConfiguration();
+const testConfiguration = getConfiguration();
 
 describe('player', () => {
   const licensesClient = licenses(testConfiguration, mockHttp);

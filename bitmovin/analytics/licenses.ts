@@ -24,8 +24,8 @@ export const licenses = (configuration, http) => {
     let url = urljoin(configuration.apiBaseUrl, 'analytics/licenses');
 
     const getParams = utils.buildGetParamString({
-      limit: limit,
-      offset: offset
+      limit,
+      offset
     });
     if (getParams.length > 0) {
       url = urljoin(url, getParams);

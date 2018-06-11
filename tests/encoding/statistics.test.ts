@@ -1,9 +1,9 @@
-import {getConfiguration} from '../utils';
 import {statistics} from '../../bitmovin/encoding/statistics';
 import {dateToApiRequestString, getFirstDayOfTheWeekFromDate} from '../../bitmovin/utils/DateUtils';
-import {mockHttp, assertItCallsUrlAndReturnsPromise, testSetup, mockGet} from '../assertions';
+import {assertItCallsUrlAndReturnsPromise, mockGet, mockHttp, testSetup} from '../assertions';
+import {getConfiguration} from '../utils';
 
-let testConfiguration = getConfiguration();
+const testConfiguration = getConfiguration();
 describe('encoding', () => {
   beforeEach(testSetup);
   const client = statistics(testConfiguration, mockHttp);

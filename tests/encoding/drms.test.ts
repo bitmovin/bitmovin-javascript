@@ -1,16 +1,16 @@
-import {getConfiguration} from '../utils';
 import {drms} from '../../bitmovin/encoding/encodings/drms';
 import {
-  mockGet,
-  mockPost,
-  mockDelete,
-  mockHttp,
-  assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
+  assertItReturnsUnderlyingPromise,
+  mockDelete,
+  mockGet,
+  mockHttp,
+  mockPost,
   testSetup
 } from '../assertions';
+import {getConfiguration} from '../utils';
 
-let testConfiguration = getConfiguration();
+const testConfiguration = getConfiguration();
 
 describe('encoding', () => {
   describe('muxings', () => {

@@ -14,14 +14,14 @@ export const tenants = (configuration, organizationId, groupId, http) => {
     'tenants'
   );
 
-  let fn = tenantId => {
+  const fn = tenantId => {
     return {
       details: () => {
-        let url = urljoin(tenantsBaseUrl, tenantId);
+        const url = urljoin(tenantsBaseUrl, tenantId);
         return get(configuration, url);
       },
       delete: () => {
-        let url = urljoin(tenantsBaseUrl, tenantId);
+        const url = urljoin(tenantsBaseUrl, tenantId);
         return delete_(configuration, url);
       }
     };

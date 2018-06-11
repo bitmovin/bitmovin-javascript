@@ -9,14 +9,14 @@ export const groups = (configuration, organizationId, http) => {
   const {get, post, delete_} = http;
   const groupsBaseUrl = urljoin(configuration.apiBaseUrl, 'account', 'organizations', organizationId, 'groups');
 
-  let fn = groupId => {
+  const fn = groupId => {
     return {
       details: () => {
-        let url = urljoin(groupsBaseUrl, groupId);
+        const url = urljoin(groupsBaseUrl, groupId);
         return get(configuration, url);
       },
       delete: () => {
-        let url = urljoin(groupsBaseUrl, groupId);
+        const url = urljoin(groupsBaseUrl, groupId);
         return delete_(configuration, url);
       },
       permissions: permissions(configuration, organizationId, groupId),

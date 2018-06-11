@@ -14,14 +14,14 @@ export const permissions = (configuration, organizationId, groupId, http) => {
     'permissions'
   );
 
-  let fn = groupId => {
+  const fn = groupId => {
     return {
       details: () => {
-        let url = urljoin(permissionsBaseUrl, groupId);
+        const url = urljoin(permissionsBaseUrl, groupId);
         return get(configuration, url);
       },
       delete: () => {
-        let url = urljoin(permissionsBaseUrl, groupId);
+        const url = urljoin(permissionsBaseUrl, groupId);
         return delete_(configuration, url);
       }
     };

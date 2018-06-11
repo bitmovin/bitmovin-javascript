@@ -13,7 +13,7 @@ export const contentProtection = (configuration, manifestId, http) => {
         return get(configuration, url);
       },
       delete: () => {
-        let url = urljoin(baseUrl, contentProtectionId);
+        const url = urljoin(baseUrl, contentProtectionId);
         return delete_(configuration, url);
       }
     };
@@ -26,9 +26,9 @@ export const contentProtection = (configuration, manifestId, http) => {
   fn.list = (limit, offset) => {
     let url = baseUrl;
 
-    let getParams = utils.buildGetParamString({
-      limit: limit,
-      offset: offset
+    const getParams = utils.buildGetParamString({
+      limit,
+      offset
     });
     if (getParams.length > 0) {
       url = urljoin(url, getParams);

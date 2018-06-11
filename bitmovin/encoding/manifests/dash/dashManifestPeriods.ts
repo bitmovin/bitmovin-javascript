@@ -6,14 +6,14 @@ import adaptationSets from './dashManifestAdaptationSets';
 
 export const dashManifestPeriods = (configuration, manifestId, http) => {
   const {get, post, delete_} = http;
-  let fn = periodId => {
+  const fn = periodId => {
     return {
       details: () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId);
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId);
         return get(configuration, url);
       },
       delete: () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId);
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId);
         return delete_(configuration, url);
       },
       adaptationSets: adaptationSets(configuration, manifestId, periodId)
@@ -21,16 +21,16 @@ export const dashManifestPeriods = (configuration, manifestId, http) => {
   };
 
   fn.add = period => {
-    let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods');
+    const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods');
     return post(configuration, url, period);
   };
 
   fn.list = (limit, offset) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods');
 
-    let getParams = utils.buildGetParamString({
-      limit: limit,
-      offset: offset
+    const getParams = utils.buildGetParamString({
+      limit,
+      offset
     });
     if (getParams.length > 0) {
       url = urljoin(url, getParams);

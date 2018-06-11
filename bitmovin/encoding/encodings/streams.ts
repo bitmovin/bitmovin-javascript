@@ -3,19 +3,19 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
-import {HttpClient, BitmovinConfiguration, Delete, Details, List, Create} from '../../utils/types';
+import {BitmovinConfiguration, Create, Delete, Details, HttpClient, List} from '../../utils/types';
 
-import thumbnails from './thumbnails';
 import sprites from './sprites';
+import thumbnails from './thumbnails';
 
 export const streams = (configuration: BitmovinConfiguration, encodingId: string, http: HttpClient): Streams => {
   const {get, post, delete_} = http;
 
-  let filterFn = streamId => {
-    let fn = filterId => {
+  const filterFn = streamId => {
+    const fn = filterId => {
       return {
         delete: () => {
-          let url = urljoin(
+          const url = urljoin(
             configuration.apiBaseUrl,
             'encoding/encodings',
             encodingId,
@@ -31,16 +31,16 @@ export const streams = (configuration: BitmovinConfiguration, encodingId: string
     };
 
     fn.add = filter => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'filters');
+      const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'filters');
       return post(configuration, url, filter);
     };
 
     fn.list = (limit, offset) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'filters');
 
-      let getParams = utils.buildGetParamString({
-        limit: limit,
-        offset: offset
+      const getParams = utils.buildGetParamString({
+        limit,
+        offset
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);
@@ -50,22 +50,22 @@ export const streams = (configuration: BitmovinConfiguration, encodingId: string
     };
 
     fn.deleteAll = () => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'filters');
+      const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'filters');
       return delete_(configuration, url);
     };
 
     return fn;
   };
 
-  let fn = streamId => {
+  const fn = streamId => {
     return {
       details: () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId);
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId);
 
         return get(configuration, url);
       },
       customData: () => {
-        let url = urljoin(
+        const url = urljoin(
           configuration.apiBaseUrl,
           'encoding/encodings',
           encodingId,
@@ -76,11 +76,11 @@ export const streams = (configuration: BitmovinConfiguration, encodingId: string
         return get(configuration, url);
       },
       delete: () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId);
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId);
         return delete_(configuration, url);
       },
       inputDetails: () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'input');
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'input');
         return get(configuration, url);
       },
       filters: filterFn(streamId),
@@ -90,7 +90,7 @@ export const streams = (configuration: BitmovinConfiguration, encodingId: string
   };
 
   fn.add = stream => {
-    let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams');
+    const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams');
 
     return post(configuration, url, stream);
   };
@@ -98,9 +98,9 @@ export const streams = (configuration: BitmovinConfiguration, encodingId: string
   fn.list = (limit, offset) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams');
 
-    let getParams = utils.buildGetParamString({
-      limit: limit,
-      offset: offset
+    const getParams = utils.buildGetParamString({
+      limit,
+      offset
     });
     if (getParams.length > 0) {
       url = urljoin(url, getParams);
@@ -121,13 +121,13 @@ interface StreamDetail {
   delete: Delete<{}>;
   filters: Object;
   thumbnails: Object;
-  sprites: Object
+  sprites: Object;
 }
 
 export interface Streams {
   (id: string): StreamDetail;
   list: List<Stream>;
-  add: Create<Stream>
+  add: Create<Stream>;
 }
 
 export default (configuration: BitmovinConfiguration, encodingId: string): Streams => {

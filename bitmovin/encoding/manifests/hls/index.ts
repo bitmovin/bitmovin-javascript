@@ -7,14 +7,14 @@ import streams from './hlsManifestStreams';
 
 export const hlsManifests = (configuration, http) => {
   const {get, post, delete_} = http;
-  let fn = manifestId => {
+  const fn = manifestId => {
     return {
       details: () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId);
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId);
         return get(configuration, url);
       },
       delete: () => {
-        let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId);
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId);
         return delete_(configuration, url);
       },
       start: () => {
@@ -35,17 +35,17 @@ export const hlsManifests = (configuration, http) => {
   };
 
   fn.create = manifest => {
-    let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls');
+    const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls');
     return post(configuration, url, manifest);
   };
 
   fn.list = (limit, offset, encodingId) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls');
 
-    let getParams = utils.buildGetParamString({
-      limit: limit,
-      offset: offset,
-      encodingId: encodingId
+    const getParams = utils.buildGetParamString({
+      limit,
+      offset,
+      encodingId
     });
     if (getParams.length > 0) {
       url = urljoin(url, getParams);

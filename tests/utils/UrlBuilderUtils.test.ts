@@ -5,7 +5,7 @@ describe('Tests creation of url out of given parameters', () => {
       const limit = '100';
       expect(
         utils.buildGetParamString({
-          limit: limit
+          limit
         })
       ).toEqual('?limit=100');
     });
@@ -14,7 +14,7 @@ describe('Tests creation of url out of given parameters', () => {
       const offset = '0';
       expect(
         utils.buildGetParamString({
-          offset: offset
+          offset
         })
       ).toEqual('?offset=0');
     });
@@ -24,8 +24,8 @@ describe('Tests creation of url out of given parameters', () => {
       const offset = '0';
       expect(
         utils.buildGetParamString({
-          limit: limit,
-          offset: offset
+          limit,
+          offset
         })
       ).toEqual('?limit=100&offset=0');
     });
@@ -34,7 +34,7 @@ describe('Tests creation of url out of given parameters', () => {
       const sort = 'createdAt:ASC';
       expect(
         utils.buildGetParamString({
-          sort: sort
+          sort
         })
       ).toEqual('?sort=createdAt:ASC');
     });
@@ -45,9 +45,9 @@ describe('Tests creation of url out of given parameters', () => {
       const offset = '0';
       expect(
         utils.buildGetParamString({
-          limit: limit,
-          offset: offset,
-          sort: sort
+          limit,
+          offset,
+          sort
         })
       ).toEqual('?limit=100&offset=0&sort=createdAt:ASC');
     });
@@ -81,8 +81,8 @@ describe('Tests creation of url out of given parameters', () => {
 
       expect(
         utils.buildGetParamString({
-          limit: limit,
-          offset: offset,
+          limit,
+          offset,
           ...filterParams
         })
       ).toEqual('?limit=100&offset=0&type=VOD&status=RUNNING');

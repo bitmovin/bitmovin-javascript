@@ -1,8 +1,8 @@
-import {mockHttp, testSetup, assertItCallsUrlAndReturnsPromise} from '../assertions';
-import {getConfiguration} from '../utils';
 import {contentProtection} from '../../bitmovin/encoding/manifests/smooth/smoothManifestContentProtections';
+import {assertItCallsUrlAndReturnsPromise, mockHttp, testSetup} from '../assertions';
+import {getConfiguration} from '../utils';
 
-let testConfiguration = getConfiguration();
+const testConfiguration = getConfiguration();
 
 describe('encoding', () => {
   describe('manifests.smooth', () => {

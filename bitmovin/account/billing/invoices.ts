@@ -10,9 +10,9 @@ export const invoices = (configuration, http) => {
     encoding: {
       list: (limit, offset) => {
         let url = urljoin(invoicesBaseUrl, 'encoding');
-        let getParams = utils.buildGetParamString({
-          limit: limit,
-          offset: offset
+        const getParams = utils.buildGetParamString({
+          limit,
+          offset
         });
         if (getParams.length > 0) {
           url = urljoin(url, getParams);
@@ -23,9 +23,9 @@ export const invoices = (configuration, http) => {
     player: {
       list: (limit, offset) => {
         let url = urljoin(invoicesBaseUrl, 'player');
-        let getParams = utils.buildGetParamString({
-          limit: limit,
-          offset: offset
+        const getParams = utils.buildGetParamString({
+          limit,
+          offset
         });
         if (getParams.length > 0) {
           url = urljoin(url, getParams);
@@ -36,9 +36,9 @@ export const invoices = (configuration, http) => {
     analytics: {
       list: (limit, offset) => {
         let url = urljoin(invoicesBaseUrl, 'analytics');
-        let getParams = utils.buildGetParamString({
-          limit: limit,
-          offset: offset
+        const getParams = utils.buildGetParamString({
+          limit,
+          offset
         });
         if (getParams.length > 0) {
           url = urljoin(url, getParams);

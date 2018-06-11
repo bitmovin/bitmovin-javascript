@@ -10,9 +10,9 @@ export const statements = (configuration, http) => {
     encoding: {
       list: (limit, offset) => {
         let url = urljoin(statementsBaseUrl, 'encoding');
-        let getParams = utils.buildGetParamString({
-          limit: limit,
-          offset: offset
+        const getParams = utils.buildGetParamString({
+          limit,
+          offset
         });
         if (getParams.length > 0) {
           url = urljoin(url, getParams);
@@ -23,9 +23,9 @@ export const statements = (configuration, http) => {
     player: {
       list: (limit, offset) => {
         let url = urljoin(statementsBaseUrl, 'player');
-        let getParams = utils.buildGetParamString({
-          limit: limit,
-          offset: offset
+        const getParams = utils.buildGetParamString({
+          limit,
+          offset
         });
         if (getParams.length > 0) {
           url = urljoin(url, getParams);
@@ -36,9 +36,9 @@ export const statements = (configuration, http) => {
     analytics: {
       list: (limit, offset) => {
         let url = urljoin(statementsBaseUrl, 'analytics');
-        let getParams = utils.buildGetParamString({
-          limit: limit,
-          offset: offset
+        const getParams = utils.buildGetParamString({
+          limit,
+          offset
         });
         if (getParams.length > 0) {
           url = urljoin(url, getParams);

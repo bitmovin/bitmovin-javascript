@@ -1,16 +1,16 @@
 import {organizations} from '../../../bitmovin/account/organizations';
 import {
-  mockGet,
-  mockPost,
-  mockDelete,
-  mockHttp,
-  assertItReturnsUnderlyingPromise,
   assertItCallsCorrectUrl,
+  assertItReturnsUnderlyingPromise,
+  mockDelete,
+  mockGet,
+  mockHttp,
+  mockPost,
   testSetup
 } from '../../assertions';
 import {getConfiguration} from '../../utils';
 
-let testConfiguration = getConfiguration();
+const testConfiguration = getConfiguration();
 
 describe('account', () => {
   beforeEach(testSetup);

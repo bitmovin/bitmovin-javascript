@@ -5,21 +5,21 @@ import http, {utils} from '../utils/http';
 export const filters = (configuration, http) => {
   const {get, post, delete_} = http;
 
-  let typeFn = typeUrl => {
-    let fn = filterId => {
+  const typeFn = typeUrl => {
+    const fn = filterId => {
       return {
         details: () => {
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId);
+          const url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId);
 
           return get(configuration, url);
         },
         customData: () => {
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId, 'customData');
+          const url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId, 'customData');
 
           return get(configuration, url);
         },
         delete: () => {
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId);
+          const url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId);
 
           return delete_(configuration, url);
         }
@@ -27,7 +27,7 @@ export const filters = (configuration, http) => {
     };
 
     fn.create = filter => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl);
+      const url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl);
 
       return post(configuration, url, filter);
     };
@@ -35,10 +35,10 @@ export const filters = (configuration, http) => {
     fn.list = (limit, offset, sort) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl);
 
-      let getParams = utils.buildGetParamString({
-        limit: limit,
-        offset: offset,
-        sort: sort
+      const getParams = utils.buildGetParamString({
+        limit,
+        offset,
+        sort
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);
@@ -60,11 +60,11 @@ export const filters = (configuration, http) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/filters');
 
       const filterParams = utils.buildFilterParamString(filter);
-      let getParams = utils.buildGetParamString({
+      const getParams = utils.buildGetParamString({
         ...filterParams,
-        limit: limit,
-        offset: offset,
-        sort: sort
+        limit,
+        offset,
+        sort
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);

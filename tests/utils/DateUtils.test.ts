@@ -1,9 +1,9 @@
 import {
-  getFirstDayOfMonthFromDate,
-  getLastDayOfMonthFromDate,
-  getFirstDayOfTheWeekFromDate,
-  getLastDayOfWeekFromDate,
   dateToApiRequestString,
+  getFirstDayOfMonthFromDate,
+  getFirstDayOfTheWeekFromDate,
+  getLastDayOfMonthFromDate,
+  getLastDayOfWeekFromDate,
   isValidApiRequestDateString
 } from '../../bitmovin/utils/DateUtils';
 

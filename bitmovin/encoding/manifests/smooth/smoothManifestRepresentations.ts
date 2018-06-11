@@ -20,7 +20,7 @@ export const representations = (configuration, manifestId, http) => {
           return get(configuration, url);
         },
         delete: () => {
-          let url = urljoin(baseUrl, representationId);
+          const url = urljoin(baseUrl, representationId);
           return delete_(configuration, url);
         }
       };
@@ -33,9 +33,9 @@ export const representations = (configuration, manifestId, http) => {
     fn.list = (limit, offset) => {
       let url = baseUrl;
 
-      let getParams = utils.buildGetParamString({
-        limit: limit,
-        offset: offset
+      const getParams = utils.buildGetParamString({
+        limit,
+        offset
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);

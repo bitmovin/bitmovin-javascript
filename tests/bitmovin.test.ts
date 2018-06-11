@@ -9,26 +9,6 @@ describe('Bitmovin default exports', () => {
     additionalHeaders
   });
 
-  describe('configuration', () => {
-    const emptyConfigsClient = Bitmovin({apiKey});
-    const assertItDefaults = (key, value) => {
-      it('should use default value for ' + key, () => {
-        expect(emptyConfigsClient.configuration[key]).toEqual(value);
-      });
-    };
-
-    it('should set correct ApiKey', () => {
-      expect(client.configuration.apiKey).toEqual(apiKey);
-    });
-    it('should contain additionalHeaders', () => {
-      expect(client.configuration.additionalHeaders).toEqual(expect.objectContaining({'X-Test-Header': 'test'}));
-    });
-    it('should add additionalHeaders to httpHeaders', () => {
-      expect(client.configuration.httpHeaders).toEqual(expect.objectContaining({'X-Test-Header': 'test'}));
-    });
-
-    assertItDefaults('additionalHeaders', {});
-  });
   describe('encoding', () => {
     const assertItContains = key => {
       it('should contain ' + key, () => {
@@ -62,6 +42,6 @@ describe('Bitmovin default exports', () => {
     };
     assertItContains('licenses');
     assertItContains('channels');
-    expect(typeof client.player['customBuilds']).toBeDefined();
+    expect(typeof client.player.customBuilds).toBeDefined();
   });
 });

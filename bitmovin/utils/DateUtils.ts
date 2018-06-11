@@ -35,7 +35,7 @@ export const dateToApiRequestString = date => {
 };
 
 export const isValidApiRequestDateString = dateString => {
-  if (typeof dateString !== 'string') return false;
+  if (typeof dateString !== 'string') { return false; }
 
   const regex = /^\d{4}-\d{2}-\d{2}$/;
   return dateString.match(regex) !== null;

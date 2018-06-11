@@ -1,5 +1,5 @@
 class Utils {
-  isNoEmptyString(value) {
+  public isNoEmptyString(value) {
     return typeof value === 'string' && value.length > 0;
   }
 }

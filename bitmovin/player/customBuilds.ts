@@ -41,9 +41,9 @@ export const customBuilds = (configuration, http) => {
     fn.list = (limit, offset) => {
       let url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web');
 
-      let getParams = utils.buildGetParamString({
-        limit: limit,
-        offset: offset
+      const getParams = utils.buildGetParamString({
+        limit,
+        offset
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);

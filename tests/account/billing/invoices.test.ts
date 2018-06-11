@@ -1,14 +1,14 @@
 import {invoices} from '../../../bitmovin/account/billing/invoices';
-import {getConfiguration} from '../../utils';
 import {
+  assertItCallsCorrectUrl,
+  assertItReturnsUnderlyingPromise,
   mockGet,
   mockHttp,
-  assertItReturnsUnderlyingPromise,
-  assertItCallsCorrectUrl,
   testSetup
 } from '../../assertions';
+import {getConfiguration} from '../../utils';
 
-let testConfiguration = getConfiguration();
+const testConfiguration = getConfiguration();
 
 describe('account', () => {
   beforeEach(testSetup);

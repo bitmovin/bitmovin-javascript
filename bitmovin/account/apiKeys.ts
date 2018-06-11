@@ -6,7 +6,7 @@ const apiKeys = (configuration, http) => {
   const apiKeysBaseUrl = urljoin(configuration.apiBaseUrl, 'account', 'api-keys');
   const {get, post, delete_} = http;
 
-  let fn = apiKeyId => {
+  const fn = apiKeyId => {
     const url = urljoin(apiKeysBaseUrl, apiKeyId);
     return get(configuration, url);
   };
@@ -14,8 +14,8 @@ const apiKeys = (configuration, http) => {
   fn.list = (limit, offset) => {
     let url = apiKeysBaseUrl;
     const getParams = utils.buildGetParamString({
-      limit: limit,
-      offset: offset
+      limit,
+      offset
     });
     if (getParams.length > 0) {
       url = urljoin(url, getParams);
@@ -24,7 +24,7 @@ const apiKeys = (configuration, http) => {
   };
 
   fn.create = () => {
-    let url = apiKeysBaseUrl;
+    const url = apiKeysBaseUrl;
     return post(configuration, url);
   };
 

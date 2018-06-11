@@ -4,10 +4,10 @@ import http, {utils} from '../../utils/http';
 
 export const sprites = (configuration, encodingId, streamId, http) => {
   const {get, post, delete_} = http;
-  let fn = spriteId => {
+  const fn = spriteId => {
     return {
       details: () => {
-        let url = urljoin(
+        const url = urljoin(
           configuration.apiBaseUrl,
           'encoding/encodings',
           encodingId,
@@ -20,7 +20,7 @@ export const sprites = (configuration, encodingId, streamId, http) => {
         return get(configuration, url);
       },
       customData: () => {
-        let url = urljoin(
+        const url = urljoin(
           configuration.apiBaseUrl,
           'encoding/encodings',
           encodingId,
@@ -34,7 +34,7 @@ export const sprites = (configuration, encodingId, streamId, http) => {
         return get(configuration, url);
       },
       delete: () => {
-        let url = urljoin(
+        const url = urljoin(
           configuration.apiBaseUrl,
           'encoding/encodings',
           encodingId,
@@ -50,16 +50,16 @@ export const sprites = (configuration, encodingId, streamId, http) => {
   };
 
   fn.add = sprite => {
-    let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'sprites');
+    const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'sprites');
     return post(configuration, url, sprite);
   };
 
   fn.list = (limit, offset) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'sprites');
 
-    let getParams = utils.buildGetParamString({
-      limit: limit,
-      offset: offset
+    const getParams = utils.buildGetParamString({
+      limit,
+      offset
     });
     if (getParams.length > 0) {
       url = urljoin(url, getParams);

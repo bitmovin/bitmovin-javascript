@@ -4,16 +4,16 @@ import http, {utils} from '../../../utils/http';
 
 export const hlsManifestMedia = (configuration, manifestId, http) => {
   const {get, post, delete_} = http;
-  let typeFn = typeUrl => {
-    let fn = mediaId => {
+  const typeFn = typeUrl => {
+    const fn = mediaId => {
       return {
         details: () => {
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'media', typeUrl, mediaId);
+          const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'media', typeUrl, mediaId);
 
           return get(configuration, url);
         },
         delete: () => {
-          let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'media', typeUrl, mediaId);
+          const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'media', typeUrl, mediaId);
 
           return delete_(configuration, url);
         }
@@ -21,7 +21,7 @@ export const hlsManifestMedia = (configuration, manifestId, http) => {
     };
 
     fn.add = media => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'media', typeUrl);
+      const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'media', typeUrl);
 
       return post(configuration, url, media);
     };
@@ -29,9 +29,9 @@ export const hlsManifestMedia = (configuration, manifestId, http) => {
     fn.list = (limit, offset) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'media', typeUrl);
 
-      let getParams = utils.buildGetParamString({
-        limit: limit,
-        offset: offset
+      const getParams = utils.buildGetParamString({
+        limit,
+        offset
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);

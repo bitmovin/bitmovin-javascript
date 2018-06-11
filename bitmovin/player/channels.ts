@@ -9,9 +9,9 @@ export const channels = (configuration, http) => {
       list: (limit, offset) => {
         let url = urljoin(configuration.apiBaseUrl, 'player/channels', channelName, 'versions');
 
-        let getParams = utils.buildGetParamString({
-          limit: limit,
-          offset: offset
+        const getParams = utils.buildGetParamString({
+          limit,
+          offset
         });
         if (getParams.length > 0) {
           url = urljoin(url, getParams);
@@ -26,16 +26,16 @@ export const channels = (configuration, http) => {
     };
 
     return {
-      versions: versions
+      versions
     };
   };
 
   fn.list = (limit, offset) => {
     let url = urljoin(configuration.apiBaseUrl, 'player/channels');
 
-    let getParams = utils.buildGetParamString({
-      limit: limit,
-      offset: offset
+    const getParams = utils.buildGetParamString({
+      limit,
+      offset
     });
     if (getParams.length > 0) {
       url = urljoin(url, getParams);

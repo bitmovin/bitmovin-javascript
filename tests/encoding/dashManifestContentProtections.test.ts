@@ -1,8 +1,8 @@
-import {mockHttp, testSetup, assertItCallsUrlAndReturnsPromise} from '../assertions';
-import {getConfiguration} from '../utils';
 import {contentProtections} from '../../bitmovin/encoding/manifests/dash/dashManifestContentProtections';
+import {assertItCallsUrlAndReturnsPromise, mockHttp, testSetup} from '../assertions';
+import {getConfiguration} from '../utils';
 
-let testConfiguration = getConfiguration();
+const testConfiguration = getConfiguration();
 
 describe('encoding', () => {
   describe('manifests.dash', () => {

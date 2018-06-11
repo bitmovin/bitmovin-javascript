@@ -13,11 +13,11 @@ export const manifests = (configuration, http) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests');
 
       const filterParams = utils.buildFilterParamString(filter);
-      let getParams = utils.buildGetParamString({
+      const getParams = utils.buildGetParamString({
         ...filterParams,
-        limit: limit,
-        offset: offset,
-        sort: sort
+        limit,
+        offset,
+        sort
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);

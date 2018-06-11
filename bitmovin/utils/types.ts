@@ -11,12 +11,12 @@ export interface BitmovinConfiguration {
   requestTimeout?: number;
   xApiClient?: string;
   additionalHeaders?: Object;
-  httpHeaders?: Object
+  httpHeaders?: Object;
 }
 
 export interface Pagination<T> {
   totalCount: number;
-  items: Array<T>
+  items: T[];
 }
 
 interface ResponseSuccessData<T> {
@@ -25,19 +25,19 @@ interface ResponseSuccessData<T> {
     id: string;
     date: string;
     interface: string
-  }>
+  }>;
 }
 
 interface ResponseErrorData {
   code: number;
   message: string;
-  developerMessage: string
+  developerMessage: string;
 }
 
 export interface ResponseEnvelope<T> {
   requestId: string;
   status: 'SUCCESS' | 'ERROR';
-  data: ResponseSuccessData<T> | ResponseErrorData
+  data: ResponseSuccessData<T> | ResponseErrorData;
 }
 
 export type ApiResource<T> = T & {
@@ -46,11 +46,11 @@ export type ApiResource<T> = T & {
   description?: string;
   createdAt?: string;
   customData?: string
-}
+};
 
 interface CustomDataT {
   customData?: string;
-  createdAt?: string
+  createdAt?: string;
 }
 
 export type List<T> = (
@@ -69,7 +69,7 @@ export interface HttpClient {
   get: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<Object>;
   post: (configuration: BitmovinConfiguration, url: string, object?: Object, fetchMethod?: any) => Promise<Object>;
   put: (configuration: BitmovinConfiguration, url: string, object?: Object, fetchMethod?: any) => Promise<Object>;
-  delete_: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<Object>
+  delete_: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<Object>;
 }
 
 declare var __VERSION__: any;

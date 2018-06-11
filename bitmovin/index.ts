@@ -1,22 +1,22 @@
 import urljoin from 'url-join';
 
-import encodings, {Encodings} from './encoding/encodings';
-import codecConfigurations from './encoding/codecConfigurations';
-import inputs from './encoding/inputs';
-import outputs from './encoding/outputs';
-import manifests from './encoding/manifests';
-import filters from './encoding/filters';
-import statistics from './encoding/statistics';
-import infrastructure from './encoding/infrastructure';
 import account from './account/account.ts';
-import playerChannels from './player/channels';
-import playerLicenses from './player/licenses';
-import playerStatistics from './player/statistics';
+import analyticsImpressions from './analytics/impressions';
 import analyticsLicenses from './analytics/licenses';
 import analyticsQueries from './analytics/queries';
-import analyticsImpressions from './analytics/impressions';
 import analyticsStatistics from './analytics/statistics';
+import codecConfigurations from './encoding/codecConfigurations';
+import encodings, {Encodings} from './encoding/encodings';
+import filters from './encoding/filters';
+import infrastructure from './encoding/infrastructure';
+import inputs from './encoding/inputs';
+import manifests from './encoding/manifests';
+import outputs from './encoding/outputs';
+import statistics from './encoding/statistics';
+import playerChannels from './player/channels';
 import customBuilds from './player/customBuilds';
+import playerLicenses from './player/licenses';
+import playerStatistics from './player/statistics';
 import logger from './utils/Logger';
 import utils from './utils/Utils';
 import {BitmovinConfiguration, __VERSION__} from './utils/types';
@@ -82,32 +82,32 @@ interface Encoding {
   manifests: Object;
   filters: Object;
   statistics: Object;
-  infrastructure: Object
+  infrastructure: Object;
 }
 
 interface Player {
   channels: Object;
   licenses: Object;
   statistics: Object;
-  customBuilds: Object
+  customBuilds: Object;
 }
 
 interface Analytics {
   licenses: Object;
   statistics: Object;
   impressions: Object;
-  queries: Object
+  queries: Object;
 }
 
 interface Account {
-  
+
 }
 
 export interface BitmovinAPI {
   encoding: Encoding;
   player: Player;
   analytics: Analytics;
-  account: Account
+  account: Account;
 }
 
 const Bitmovin = (configuration: BitmovinConfiguration): BitmovinAPI => {
@@ -140,7 +140,7 @@ const Bitmovin = (configuration: BitmovinConfiguration): BitmovinAPI => {
       },
       account: account(configuration)
     };
-    
+
     return bitmovin;
 };
 

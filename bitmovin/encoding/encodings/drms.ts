@@ -4,11 +4,11 @@ import http, {utils} from '../../utils/http';
 
 export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, http) => {
   const {get, post, delete_} = http;
-  let typeFn = typeUrl => {
-    let fn = drmId => {
+  const typeFn = typeUrl => {
+    const fn = drmId => {
       return {
         details: () => {
-          let url = urljoin(
+          const url = urljoin(
             configuration.apiBaseUrl,
             'encoding/encodings',
             encodingId,
@@ -22,7 +22,7 @@ export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, http) =
           return get(configuration, url);
         },
         customData: () => {
-          let url = urljoin(
+          const url = urljoin(
             configuration.apiBaseUrl,
             'encoding/encodings',
             encodingId,
@@ -37,7 +37,7 @@ export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, http) =
           return get(configuration, url);
         },
         delete: () => {
-          let url = urljoin(
+          const url = urljoin(
             configuration.apiBaseUrl,
             'encoding/encodings',
             encodingId,
@@ -54,7 +54,7 @@ export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, http) =
     };
 
     fn.add = drm => {
-      let url = urljoin(
+      const url = urljoin(
         configuration.apiBaseUrl,
         'encoding/encodings',
         encodingId,
@@ -79,9 +79,9 @@ export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, http) =
         typeUrl
       );
 
-      let getParams = utils.buildGetParamString({
-        limit: limit,
-        offset: offset
+      const getParams = utils.buildGetParamString({
+        limit,
+        offset
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);
@@ -114,9 +114,9 @@ export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, http) =
         'drm'
       );
 
-      let getParams = utils.buildGetParamString({
-        limit: limit,
-        offset: offset
+      const getParams = utils.buildGetParamString({
+        limit,
+        offset
       });
       if (getParams.length > 0) {
         url = urljoin(url, getParams);
