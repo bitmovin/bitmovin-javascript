@@ -35,6 +35,47 @@ const checkAuthorizationInConfiguration = function(configuration) {
   logger.log('Neither apiKey nor email and password provided in configuration.');
 };
 
+const setupConfiguration = function(configuration) {
+  if (configuration.debug && configuration.debug === true) {
+    logger.enableLogging();
+  }
+
+  if (configuration.protocol === undefined) {
+    configuration.protocol = 'https';
+  }
+
+  if (configuration.host === undefined) {
+    configuration.host = 'api.bitmovin.com';
+  }
+
+  if (configuration.basePath === undefined) {
+    configuration.basePath = '/v1';
+  }
+
+  if (configuration.requestTimeout === undefined) {
+    configuration.requestTimeout = 30000;
+  }
+
+  if (configuration.xApiClient === undefined) {
+    configuration.xApiClient = 'bitmovin-javascript';
+  }
+
+  if (configuration.additionalHeaders === undefined) {
+    configuration.additionalHeaders = {};
+  }
+
+  configuration.apiBaseUrl = urljoin(configuration.protocol + '://' + configuration.host, configuration.basePath);
+
+  configuration.httpHeaders = {
+    'Content-Type': 'application/json',
+    'X-Api-Key': configuration.apiKey,
+    'X-Tenant-Org-Id': configuration.tenantOrgId,
+    'X-Api-Client': configuration.xApiClient,
+    'X-Api-Client-Version': `${__VERSION__}`,
+    ...configuration.additionalHeaders
+  };
+};
+
 type Encoding = {
   encodings: Encodings,
   codecConfigurations: Object,
@@ -62,82 +103,46 @@ type Analytics = {
 
 type Account = Object;
 
-export default class Bitmovin {
-  configuration: BitmovinConfiguration;
-  encoding: Encoding;
-  player: Player;
-  analytics: Analytics;
-  account: Account;
+export type BitmovinAPI = {
+  encoding: Encoding,
+  player: Player,
+  analytics: Analytics,
+  account: Account
+}
 
-  constructor(configuration: BitmovinConfiguration) {
+const Bitmovin = (configuration: BitmovinConfiguration): BitmovinAPI => {
     checkAuthorizationInConfiguration(configuration);
 
-    if (configuration.debug && configuration.debug === true) {
-      logger.enableLogging();
-    }
+    setupConfiguration(configuration);
 
-    if (configuration.protocol === undefined) {
-      configuration.protocol = 'https';
-    }
-
-    if (configuration.host === undefined) {
-      configuration.host = 'api.bitmovin.com';
-    }
-
-    if (configuration.basePath === undefined) {
-      configuration.basePath = '/v1';
-    }
-
-    if (configuration.requestTimeout === undefined) {
-      configuration.requestTimeout = 30000;
-    }
-
-    if (configuration.xApiClient === undefined) {
-      configuration.xApiClient = 'bitmovin-javascript';
-    }
-
-    if (configuration.additionalHeaders === undefined) {
-      configuration.additionalHeaders = {};
-    }
-
-    configuration.apiBaseUrl = urljoin(configuration.protocol + '://' + configuration.host, configuration.basePath);
-
-    configuration.httpHeaders = {
-      'Content-Type': 'application/json',
-      'X-Api-Key': configuration.apiKey,
-      'X-Tenant-Org-Id': configuration.tenantOrgId,
-      'X-Api-Client': configuration.xApiClient,
-      'X-Api-Client-Version': `${__VERSION__}`,
-      ...configuration.additionalHeaders
+    const bitmovin: BitmovinAPI = {
+      configuration: configuration,
+      encoding: {
+        encodings: encodings(configuration),
+        codecConfigurations: codecConfigurations(configuration),
+        inputs: inputs(configuration),
+        outputs: outputs(configuration),
+        manifests: manifests(configuration),
+        filters: filters(configuration),
+        statistics: statistics(configuration),
+        infrastructure: infrastructure(configuration)
+      },
+      player: {
+        channels: playerChannels(configuration),
+        licenses: playerLicenses(configuration),
+        statistics: playerStatistics(configuration),
+        customBuilds: customBuilds(configuration)
+      },
+      analytics: {
+        licenses: analyticsLicenses(configuration),
+        queries: analyticsQueries(configuration),
+        impressions: analyticsImpressions(configuration),
+        statistics: analyticsStatistics(configuration)
+      },
+      account: account(configuration)
     };
+    
+    return bitmovin;
+};
 
-    this.configuration = configuration;
-
-    this.encoding = {
-      encodings: encodings(this.configuration),
-      codecConfigurations: codecConfigurations(this.configuration),
-      inputs: inputs(this.configuration),
-      outputs: outputs(this.configuration),
-      manifests: manifests(this.configuration),
-      filters: filters(this.configuration),
-      statistics: statistics(this.configuration),
-      infrastructure: infrastructure(this.configuration)
-    };
-
-    this.player = {
-      channels: playerChannels(this.configuration),
-      licenses: playerLicenses(this.configuration),
-      statistics: playerStatistics(this.configuration),
-      customBuilds: customBuilds(this.configuration)
-    };
-
-    this.analytics = {
-      licenses: analyticsLicenses(this.configuration),
-      queries: analyticsQueries(this.configuration),
-      impressions: analyticsImpressions(this.configuration),
-      statistics: analyticsStatistics(this.configuration)
-    };
-
-    this.account = account(this.configuration);
-  }
-}
+export default Bitmovin;
