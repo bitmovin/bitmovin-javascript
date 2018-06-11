@@ -76,7 +76,7 @@ const delete_ = (configuration, url, fetchMethod = fetch) => {
 };
 
 export const utils = {
-  buildGetParamString: (getParams: Object) => {
+  buildGetParamString: (getParams: object) => {
     const params = [];
     let paramsString = '';
 
@@ -104,7 +104,7 @@ export const utils = {
     return paramsString;
   },
 
-  buildFilterParamString: (filterParams?: Object) => {
+  buildFilterParamString: (filterParams?: object) => {
     const processedFilterParams = {};
     for (const key in filterParams) {
       if (filterParams.hasOwnProperty(key)) {
@@ -114,7 +114,7 @@ export const utils = {
     return processedFilterParams;
   },
 
-  buildUrlParams: (baseUrl: string, params: Object) => {
+  buildUrlParams: (baseUrl: string, params: object) => {
     const filterParams = utils.buildFilterParamString(params.filter);
     const getParams = utils.buildGetParamString({
       ...filterParams,

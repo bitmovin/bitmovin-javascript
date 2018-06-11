@@ -10,8 +10,8 @@ export interface BitmovinConfiguration {
   basePath?: string;
   requestTimeout?: number;
   xApiClient?: string;
-  additionalHeaders?: Object;
-  httpHeaders?: Object;
+  additionalHeaders?: object;
+  httpHeaders?: object;
 }
 
 export interface Pagination<T> {
@@ -57,7 +57,7 @@ export type List<T> = (
   limit?: number,
   offset?: number,
   sort?: string,
-  filter?: Object
+  filter?: object
 ) => Promise<Pagination<ApiResource<T>>>;
 
 export type Create<T> = (data: T) => Promise<Pagination<ApiResource<T>>>;
@@ -66,10 +66,10 @@ export type Delete<T> = () => Promise<T>;
 export type CustomData = () => Promise<CustomDataT>;
 
 export interface HttpClient {
-  get: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<Object>;
-  post: (configuration: BitmovinConfiguration, url: string, object?: Object, fetchMethod?: any) => Promise<Object>;
-  put: (configuration: BitmovinConfiguration, url: string, object?: Object, fetchMethod?: any) => Promise<Object>;
-  delete_: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<Object>;
+  get: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<object>;
+  post: (configuration: BitmovinConfiguration, url: string, object?: object, fetchMethod?: any) => Promise<object>;
+  put: (configuration: BitmovinConfiguration, url: string, object?: object, fetchMethod?: any) => Promise<object>;
+  delete_: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<object>;
 }
 
 declare var __VERSION__: any;

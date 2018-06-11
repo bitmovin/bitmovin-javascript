@@ -119,9 +119,9 @@ interface StreamDetail {
   details: Details<Stream>;
   inputDetails: Details<StreamInput>;
   delete: Delete<{}>;
-  filters: Object;
-  thumbnails: Object;
-  sprites: Object;
+  filters: object;
+  thumbnails: object;
+  sprites: object;
 }
 
 export interface Streams {

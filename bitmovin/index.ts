@@ -21,7 +21,7 @@ import logger from './utils/Logger';
 import utils from './utils/Utils';
 import {BitmovinConfiguration, __VERSION__} from './utils/types';
 
-const checkAuthorizationInConfiguration = function(configuration) {
+const checkAuthorizationInConfiguration = (configuration) => {
   if (utils.isNoEmptyString(configuration.apiKey)) {
     return;
   }
@@ -33,7 +33,7 @@ const checkAuthorizationInConfiguration = function(configuration) {
   logger.log('Neither apiKey nor email and password provided in configuration.');
 };
 
-const setupConfiguration = function(configuration) {
+const setupConfiguration = (configuration) => {
   if (configuration.debug && configuration.debug === true) {
     logger.enableLogging();
   }
@@ -76,27 +76,27 @@ const setupConfiguration = function(configuration) {
 
 interface Encoding {
   encodings: Encodings;
-  codecConfigurations: Object;
-  inputs: Object;
-  outputs: Object;
-  manifests: Object;
-  filters: Object;
-  statistics: Object;
-  infrastructure: Object;
+  codecConfigurations: object;
+  inputs: object;
+  outputs: object;
+  manifests: object;
+  filters: object;
+  statistics: object;
+  infrastructure: object;
 }
 
 interface Player {
-  channels: Object;
-  licenses: Object;
-  statistics: Object;
-  customBuilds: Object;
+  channels: object;
+  licenses: object;
+  statistics: object;
+  customBuilds: object;
 }
 
 interface Analytics {
-  licenses: Object;
-  statistics: Object;
-  impressions: Object;
-  queries: Object;
+  licenses: object;
+  statistics: object;
+  impressions: object;
+  queries: object;
 }
 
 interface Account {

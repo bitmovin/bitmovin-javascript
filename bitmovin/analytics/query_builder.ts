@@ -1,5 +1,9 @@
 class Builder {
-  constructor(aggregations, query) {
+  private query_: object;
+  private aggregations_: object;
+  private percentile: object;
+
+  constructor(aggregations, query?) {
     this.aggregations_ = aggregations;
     this.query_ =
       query ||
@@ -12,6 +16,7 @@ class Builder {
     Object.keys(aggregations).forEach(key => {
       this[key] = dimension => this.extendQuery_({target: aggregations[key], dimension});
     });
+
     const defaultPercentile = this.percentile;
     this.percentile = (dimension, percentile) => defaultPercentile(dimension).percentile_(percentile);
   }

@@ -87,12 +87,12 @@ interface EncodingDetail {
   details: Details<Encoding>;
   delete: Delete<{}>;
   customData: CustomData;
-  liveDetails: Details<Object>;
-  start: Create<Object>;
-  stop: Details<Object>;
-  startLive: Create<Object>;
-  stopLive: Details<Object>;
-  status: Details<Object>;
+  liveDetails: Details<object>;
+  start: Create<object>;
+  stop: Details<object>;
+  startLive: Create<object>;
+  stopLive: Details<object>;
+  status: Details<object>;
   streams: Streams;
   muxings: Muxings;
 }
