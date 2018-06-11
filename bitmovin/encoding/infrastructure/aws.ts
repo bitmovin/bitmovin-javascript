@@ -1,12 +1,13 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
+import {HttpClient} from '../../utils/types';
 
-export const aws = (configuration, http) => {
-  const {get, post, delete_} = http;
+export const aws = (configuration, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
 
   const typeFn = type => {
-    const fn = id => {
+    const resourceDetails = id => {
       const regions = regionName => {
         return {
           add: region => {
@@ -47,18 +48,19 @@ export const aws = (configuration, http) => {
       };
     };
 
-    fn.create = infrastructure => {
+    const create = infrastructure => {
       const url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type);
       return post(configuration, url, infrastructure);
     };
 
-    fn.list = (limit, offset, sort, filter) => {
+    const list = (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type);
       url = utils.buildUrlParams(url, {limit, offset, sort, filter});
       return get(configuration, url);
     };
 
-    return fn;
+    const resource = Object.assign(resourceDetails, {create, list});
+    return resource;
   };
 
   return typeFn('aws');

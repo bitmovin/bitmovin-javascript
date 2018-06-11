@@ -1,10 +1,11 @@
 import urljoin from 'url-join';
 
-import http, {utils} from '../../utils/http';
+import http, {utils} from '../../../utils/http';
+import {HttpClient} from '../../../utils/types';
 
-export const sprites = (configuration, encodingId, streamId, http) => {
-  const {get, post, delete_} = http;
-  const fn = spriteId => {
+export const sprites = (configuration, encodingId, streamId, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
+  const resourceDetails = spriteId => {
     return {
       details: () => {
         const url = urljoin(
@@ -49,12 +50,12 @@ export const sprites = (configuration, encodingId, streamId, http) => {
     };
   };
 
-  fn.add = sprite => {
+  const add = sprite => {
     const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'sprites');
     return post(configuration, url, sprite);
   };
 
-  fn.list = (limit, offset) => {
+  const list = (limit, offset) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'sprites');
 
     const getParams = utils.buildGetParamString({
@@ -68,7 +69,8 @@ export const sprites = (configuration, encodingId, streamId, http) => {
     return get(configuration, url);
   };
 
-  return fn;
+  const resource = Object.assign(resourceDetails, {add, create, list});
+  return resource;
 };
 
 export default (configuration, encodingId, streamId) => {

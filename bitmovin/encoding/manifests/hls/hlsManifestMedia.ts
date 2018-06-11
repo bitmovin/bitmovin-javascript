@@ -2,10 +2,10 @@ import urljoin from 'url-join';
 
 import http, {utils} from '../../../utils/http';
 
-export const hlsManifestMedia = (configuration, manifestId, http) => {
-  const {get, post, delete_} = http;
+export const hlsManifestMedia = (configuration, manifestId, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
   const typeFn = typeUrl => {
-    const fn = mediaId => {
+    const resourceDetails = mediaId => {
       return {
         details: () => {
           const url = urljoin(
@@ -34,13 +34,13 @@ export const hlsManifestMedia = (configuration, manifestId, http) => {
       };
     };
 
-    fn.add = media => {
+    const add = media => {
       const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'media', typeUrl);
 
       return post(configuration, url, media);
     };
 
-    fn.list = (limit, offset) => {
+    const list = (limit, offset) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'media', typeUrl);
 
       const getParams = utils.buildGetParamString({
@@ -54,7 +54,8 @@ export const hlsManifestMedia = (configuration, manifestId, http) => {
       return get(configuration, url);
     };
 
-    return fn;
+    const resource = Object.assign(resourceDetails, {add, create, list});
+    return resource;
   };
 
   return {

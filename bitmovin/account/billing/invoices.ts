@@ -1,10 +1,11 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
+import {HttpClient} from '../../utils/types';
 
-export const invoices = (configuration, http) => {
+export const invoices = (configuration, httpClient: HttpClient) => {
   const invoicesBaseUrl = urljoin(configuration.apiBaseUrl, 'account', 'billing', 'invoices');
-  const {get} = http;
+  const {get} = httpClient;
 
   return {
     encoding: {

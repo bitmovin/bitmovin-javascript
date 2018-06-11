@@ -2,9 +2,10 @@ import urljoin from 'url-join';
 
 import BitmovinError from '../utils/BitmovinError';
 import http, {utils} from '../utils/http';
+import {HttpClient} from '../utils/types';
 
-export const statistics = (configuration, http) => {
-  const {get} = http;
+export const statistics = (configuration, httpClient: HttpClient) => {
+  const {get} = httpClient;
 
   return {
     impressions: (licenseKeyId, start, end, interval, offset, limit) => {

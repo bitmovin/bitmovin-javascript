@@ -1,17 +1,25 @@
-// @flow
-
 import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
-import {BitmovinConfiguration, Create, CustomData, Delete, Details, HttpClient, List} from '../../utils/types';
+import {
+  ApiResource,
+  Create,
+  CustomData,
+  Delete,
+  Details,
+  HttpClient,
+  InternalConfiguration,
+  List,
+  Pagination
+} from '../../utils/types';
 
 import muxings, {Muxings} from './muxings';
 import streams, {Streams} from './streams';
 
-export const encodings = (configuration: BitmovinConfiguration, http: HttpClient): Encodings => {
-  const {get, post, delete_} = http;
+export const encodings = (configuration: InternalConfiguration, httpClient: HttpClient): Encodings => {
+  const {get, post, delete_} = httpClient;
 
-  const fn = (encodingId: string): EncodingDetail => {
+  const resourceDetails = (encodingId: string): EncodingDetail => {
     return {
       details: () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId);
@@ -54,12 +62,12 @@ export const encodings = (configuration: BitmovinConfiguration, http: HttpClient
     };
   };
 
-  fn.create = encoding => {
+  const create = encoding => {
     const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings');
-    return post(configuration, url, encoding);
+    return post<ApiResource<Encoding>, object>(configuration, url, encoding);
   };
 
-  fn.list = (limit, offset, sort, filter) => {
+  const list = (limit, offset, sort, filter) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings');
 
     const filterParams = utils.buildFilterParamString(filter);
@@ -73,10 +81,15 @@ export const encodings = (configuration: BitmovinConfiguration, http: HttpClient
       url = urljoin(url, getParams);
     }
 
-    return get(configuration, url);
+    return get<Pagination<Encoding>>(configuration, url);
   };
 
-  return fn;
+  const resource = Object.assign(resourceDetails, {
+    create,
+    list
+  });
+
+  return resource;
 };
 
 interface Encoding {
@@ -103,6 +116,6 @@ export interface Encodings {
   list: List<Encoding>;
 }
 
-export default (configuration: BitmovinConfiguration): Encodings => {
+export default (configuration: InternalConfiguration): Encodings => {
   return encodings(configuration, http);
 };

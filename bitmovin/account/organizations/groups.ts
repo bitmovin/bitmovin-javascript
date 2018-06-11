@@ -1,15 +1,16 @@
 import urljoin from 'url-join';
 
 import http from '../../utils/http';
+import {HttpClient} from '../../utils/types';
 
 import permissions from './permissions';
 import tenants from './tenants';
 
-export const groups = (configuration, organizationId, http) => {
-  const {get, post, delete_} = http;
+export const groups = (configuration, organizationId, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
   const groupsBaseUrl = urljoin(configuration.apiBaseUrl, 'account', 'organizations', organizationId, 'groups');
 
-  const fn = groupId => {
+  const resourceDetails = groupId => {
     return {
       details: () => {
         const url = urljoin(groupsBaseUrl, groupId);
@@ -24,17 +25,18 @@ export const groups = (configuration, organizationId, http) => {
     };
   };
 
-  fn.add = group => {
+  const add = group => {
     const url = urljoin(groupsBaseUrl);
     return post(configuration, url, group);
   };
 
-  fn.list = () => {
+  const list = () => {
     const url = urljoin(groupsBaseUrl);
     return get(configuration, url);
   };
 
-  return fn;
+  const resource = Object.assign(resourceDetails, {add, list});
+  return resource;
 };
 
 export default (configuration, organizationId) => {

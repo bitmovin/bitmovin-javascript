@@ -1,63 +1,25 @@
-// @flow
-
 import urljoin from 'url-join';
 
-import http, {utils} from '../../utils/http';
-import {BitmovinConfiguration, Create, Delete, Details, HttpClient, List} from '../../utils/types';
+import http, {utils} from '../../../utils/http';
+import {
+  ApiResource,
+  Create,
+  Delete,
+  Details,
+  HttpClient,
+  InternalConfiguration,
+  List,
+  Pagination
+} from '../../../utils/types';
 
+import filters from './filters';
 import sprites from './sprites';
 import thumbnails from './thumbnails';
 
-export const streams = (configuration: BitmovinConfiguration, encodingId: string, http: HttpClient): Streams => {
-  const {get, post, delete_} = http;
+export const streams = (configuration: InternalConfiguration, encodingId: string, httpClient: HttpClient): Streams => {
+  const {get, post, delete_} = httpClient;
 
-  const filterFn = streamId => {
-    const fn = filterId => {
-      return {
-        delete: () => {
-          const url = urljoin(
-            configuration.apiBaseUrl,
-            'encoding/encodings',
-            encodingId,
-            'streams',
-            streamId,
-            'filters',
-            filterId
-          );
-
-          return delete_(configuration, url);
-        }
-      };
-    };
-
-    fn.add = filter => {
-      const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'filters');
-      return post(configuration, url, filter);
-    };
-
-    fn.list = (limit, offset) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'filters');
-
-      const getParams = utils.buildGetParamString({
-        limit,
-        offset
-      });
-      if (getParams.length > 0) {
-        url = urljoin(url, getParams);
-      }
-
-      return get(configuration, url);
-    };
-
-    fn.deleteAll = () => {
-      const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'filters');
-      return delete_(configuration, url);
-    };
-
-    return fn;
-  };
-
-  const fn = streamId => {
+  const details = (streamId): StreamDetail => {
     return {
       details: () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId);
@@ -83,19 +45,19 @@ export const streams = (configuration: BitmovinConfiguration, encodingId: string
         const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'input');
         return get(configuration, url);
       },
-      filters: filterFn(streamId),
+      filters: filters(configuration, encodingId, streamId),
       thumbnails: thumbnails(configuration, encodingId, streamId),
       sprites: sprites(configuration, encodingId, streamId)
     };
   };
 
-  fn.add = stream => {
+  const add = stream => {
     const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams');
 
-    return post(configuration, url, stream);
+    return post<ApiResource<Stream>, object>(configuration, url, stream);
   };
 
-  fn.list = (limit, offset) => {
+  const list = (limit, offset) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams');
 
     const getParams = utils.buildGetParamString({
@@ -106,10 +68,16 @@ export const streams = (configuration: BitmovinConfiguration, encodingId: string
       url = urljoin(url, getParams);
     }
 
-    return get(configuration, url);
+    return get<Pagination<Stream>>(configuration, url);
   };
 
-  return fn;
+  const resourceDetails = Object.assign(details, {
+    add,
+    list
+  });
+
+  const resource = Object.assign(resourceDetails, {add, create, list});
+  return resource;
 };
 
 interface Stream {}
@@ -130,6 +98,6 @@ export interface Streams {
   add: Create<Stream>;
 }
 
-export default (configuration: BitmovinConfiguration, encodingId: string): Streams => {
+export default (configuration: InternalConfiguration, encodingId: string): Streams => {
   return streams(configuration, encodingId, http);
 };

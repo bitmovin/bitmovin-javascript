@@ -1,9 +1,10 @@
 import urljoin from 'url-join';
 
 import http from '../utils/http';
+import {HttpClient} from '../utils/types';
 
-export const thirdPartyLicensing = (configuration, licenseId, http) => {
-  const {get, post, delete_} = http;
+export const thirdPartyLicensing = (configuration, licenseId, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
 
   return {
     delete: () => {

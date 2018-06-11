@@ -4,12 +4,12 @@ import http, {utils} from '../../../utils/http';
 
 import contentProtections from './dashManifestContentProtections';
 
-export const representations = (configuration, manifestId, periodId, adaptationSetId, http) => {
-  const {get, post, delete_} = http;
+export const representations = (configuration, manifestId, periodId, adaptationSetId, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
   const dashManifestsBaseUrl = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash');
 
   const typeFn = typeUrl => {
-    const fn = representationId => {
+    const resourceDetails = representationId => {
       return {
         details: () => {
           const url = urljoin(
@@ -46,7 +46,7 @@ export const representations = (configuration, manifestId, periodId, adaptationS
       };
     };
 
-    fn.add = representation => {
+    const add = representation => {
       const url = urljoin(
         dashManifestsBaseUrl,
         manifestId,
@@ -60,7 +60,7 @@ export const representations = (configuration, manifestId, periodId, adaptationS
       return post(configuration, url, representation);
     };
 
-    fn.list = (limit, offset) => {
+    const list = (limit, offset) => {
       let url = urljoin(
         dashManifestsBaseUrl,
         manifestId,
@@ -83,7 +83,8 @@ export const representations = (configuration, manifestId, periodId, adaptationS
       return get(configuration, url);
     };
 
-    return fn;
+    const resource = Object.assign(resourceDetails, {add, create, list});
+    return resource;
   };
 
   return {

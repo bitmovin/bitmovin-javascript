@@ -10,7 +10,7 @@ module.exports = {
   ],
   "globals": {
     "ts-jest": {
-      "tsConfigFile": "tsconfig.es6.json"
+      "tsConfigFile": "tsconfig.json"
     }
   }
 };

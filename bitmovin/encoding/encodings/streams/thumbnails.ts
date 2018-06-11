@@ -1,10 +1,12 @@
 import urljoin from 'url-join';
 
-import http, {utils} from '../../utils/http';
+import http, {utils} from '../../../utils/http';
+import {HttpClient} from '../../../utils/types';
 
-export const thumbnails = (configuration, encodingId, streamId, http) => {
-  const {get, post, delete_} = http;
-  const fn = thumbnailId => {
+export const thumbnails = (configuration, encodingId, streamId, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
+
+  const details = thumbnailId => {
     return {
       details: () => {
         const url = urljoin(
@@ -46,12 +48,12 @@ export const thumbnails = (configuration, encodingId, streamId, http) => {
     };
   };
 
-  fn.add = thumbnail => {
+  const add = thumbnail => {
     const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails');
     return post(configuration, url, thumbnail);
   };
 
-  fn.list = (limit, offset) => {
+  const list = (limit, offset) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails');
 
     const getParams = utils.buildGetParamString({
@@ -65,7 +67,13 @@ export const thumbnails = (configuration, encodingId, streamId, http) => {
     return get(configuration, url);
   };
 
-  return fn;
+  const resourceDetails = Object.assign(details, {
+    add,
+    list
+  });
+
+  const resource = Object.assign(resourceDetails, {add, create, list});
+  return resource;
 };
 
 export default (configuration, encodingId, streamId) => {

@@ -1,11 +1,12 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../utils/http';
+import {HttpClient} from '../utils/types';
 
-export const outputs = (configuration, http) => {
-  const {get, post, delete_} = http;
+export const outputs = (configuration, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
   const typeFn = typeUrl => {
-    const fn = outputId => {
+    const resourceDetails = outputId => {
       return {
         details: () => {
           const url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', typeUrl, outputId);
@@ -23,12 +24,12 @@ export const outputs = (configuration, http) => {
       };
     };
 
-    fn.create = output => {
+    const create = output => {
       const url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', typeUrl);
       return post(configuration, url, output);
     };
 
-    fn.list = (limit, offset, sort) => {
+    const list = (limit, offset, sort) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/outputs', typeUrl);
 
       const getParams = utils.buildGetParamString({
@@ -43,7 +44,8 @@ export const outputs = (configuration, http) => {
       return get(configuration, url);
     };
 
-    return fn;
+    const resource = Object.assign(resourceDetails, {create, list});
+    return resource;
   };
 
   const bitmovinTypeFn = typeUrl => {

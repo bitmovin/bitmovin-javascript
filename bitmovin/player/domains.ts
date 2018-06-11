@@ -1,11 +1,12 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../utils/http';
+import {HttpClient} from '../utils/types';
 
-export const domains = (configuration, licenseId, http) => {
-  const {get, post, delete_} = http;
+export const domains = (configuration, licenseId, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
 
-  const fn = domainId => {
+  const resourceDetails = domainId => {
     return {
       delete: () => {
         const url = urljoin(configuration.apiBaseUrl, 'player/licenses', licenseId, 'domains', domainId);
@@ -14,12 +15,12 @@ export const domains = (configuration, licenseId, http) => {
     };
   };
 
-  fn.add = domain => {
+  const add = domain => {
     const url = urljoin(configuration.apiBaseUrl, 'player/licenses', licenseId, 'domains');
     return post(configuration, url, domain);
   };
 
-  fn.list = (limit, offset) => {
+  const list = (limit, offset) => {
     let url = urljoin(configuration.apiBaseUrl, 'player/licenses', licenseId, 'domains');
 
     const getParams = utils.buildGetParamString({
@@ -33,7 +34,8 @@ export const domains = (configuration, licenseId, http) => {
     return get(configuration, url);
   };
 
-  return fn;
+  const resource = Object.assign(resourceDetails, {add, list});
+  return resource;
 };
 
 export default (configuration, licenseId) => {

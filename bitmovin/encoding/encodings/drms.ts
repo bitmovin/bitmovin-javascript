@@ -1,11 +1,12 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
+import {HttpClient} from '../../utils/types';
 
-export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, http) => {
-  const {get, post, delete_} = http;
+export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
   const typeFn = typeUrl => {
-    const fn = drmId => {
+    const resourceDetails = drmId => {
       return {
         details: () => {
           const url = urljoin(
@@ -53,7 +54,7 @@ export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, http) =
       };
     };
 
-    fn.add = drm => {
+    const add = drm => {
       const url = urljoin(
         configuration.apiBaseUrl,
         'encoding/encodings',
@@ -67,7 +68,7 @@ export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, http) =
       return post(configuration, url, drm);
     };
 
-    fn.list = (limit, offset) => {
+    const list = (limit, offset) => {
       let url = urljoin(
         configuration.apiBaseUrl,
         'encoding/encodings',
@@ -90,7 +91,8 @@ export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, http) =
       return get(configuration, url);
     };
 
-    return fn;
+    const resource = Object.assign(resourceDetails, {add, list});
+    return resource;
   };
 
   return {

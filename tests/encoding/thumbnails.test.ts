@@ -1,4 +1,4 @@
-import {thumbnails} from '../../bitmovin/encoding/encodings/thumbnails';
+import {thumbnails} from '../../bitmovin/encoding/encodings/streams/thumbnails';
 import {
   assertItCallsCorrectUrl,
   assertItReturnsUnderlyingPromise,

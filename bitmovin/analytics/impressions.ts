@@ -1,9 +1,10 @@
 import urljoin from 'url-join';
 
 import http from '../utils/http';
+import {HttpClient} from '../utils/types';
 
-export const impressions = (configuration, http) => {
-  const {post} = http;
+export const impressions = (configuration, httpClient: HttpClient) => {
+  const {post} = httpClient;
   const impressionBaseUrl = urljoin(configuration.apiBaseUrl, 'analytics', 'impressions');
 
   const fn = (impressionId, licenseKey) => {

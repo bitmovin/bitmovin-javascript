@@ -1,4 +1,4 @@
-import {sprites} from '../../bitmovin/encoding/encodings/sprites';
+import {sprites} from '../../bitmovin/encoding/encodings/streams/sprites';
 import {
   assertItCallsCorrectUrl,
   assertItReturnsUnderlyingPromise,
@@ -16,6 +16,7 @@ describe('encoding', () => {
   describe('streams', () => {
     beforeEach(testSetup);
     const client = sprites(testConfiguration, 'encoding-id', 'stream-id', mockHttp);
+
     describe('stream', () => {
       describe('sprites', () => {
         describe('list', () => {

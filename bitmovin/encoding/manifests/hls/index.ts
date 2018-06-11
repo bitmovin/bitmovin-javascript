@@ -5,9 +5,9 @@ import http, {utils} from '../../../utils/http';
 import media from './hlsManifestMedia';
 import streams from './hlsManifestStreams';
 
-export const hlsManifests = (configuration, http) => {
-  const {get, post, delete_} = http;
-  const fn = manifestId => {
+export const hlsManifests = (configuration, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
+  const resourceDetails = manifestId => {
     return {
       details: () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId);
@@ -34,12 +34,12 @@ export const hlsManifests = (configuration, http) => {
     };
   };
 
-  fn.create = manifest => {
+  const create = manifest => {
     const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls');
     return post(configuration, url, manifest);
   };
 
-  fn.list = (limit, offset, encodingId) => {
+  const list = (limit, offset, encodingId) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls');
 
     const getParams = utils.buildGetParamString({
@@ -54,7 +54,8 @@ export const hlsManifests = (configuration, http) => {
     return get(configuration, url);
   };
 
-  return fn;
+  const resource = Object.assign(resourceDetails, {add, create, list});
+  return resource;
 };
 
 export default configuration => {

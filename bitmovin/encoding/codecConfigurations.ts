@@ -1,11 +1,12 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../utils/http';
+import {HttpClient} from '../utils/types';
 
-export const codecConfigurations = (configuration, http) => {
-  const {get, post, delete_} = http;
+export const codecConfigurations = (configuration, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
   const typeFn = typeUrl => {
-    const fn = codecConfigId => {
+    const resourceDetails = codecConfigId => {
       return {
         details: () => {
           const url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', typeUrl, codecConfigId);
@@ -29,13 +30,13 @@ export const codecConfigurations = (configuration, http) => {
       };
     };
 
-    fn.create = codecConfig => {
+    const create = codecConfig => {
       const url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', typeUrl);
 
       return post(configuration, url, codecConfig);
     };
 
-    fn.list = (limit, offset, sort) => {
+    const list = (limit, offset, sort) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', typeUrl);
 
       const getParams = utils.buildGetParamString({
@@ -50,7 +51,8 @@ export const codecConfigurations = (configuration, http) => {
       return get(configuration, url);
     };
 
-    return fn;
+    const resource = Object.assign(resourceDetails, {create, list});
+    return resource;
   };
 
   return {

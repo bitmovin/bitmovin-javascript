@@ -1,12 +1,13 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../utils/http';
+import {HttpClient} from '../utils/types';
 
-export const filters = (configuration, http) => {
-  const {get, post, delete_} = http;
+export const filters = (configuration, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
 
   const typeFn = typeUrl => {
-    const fn = filterId => {
+    const resourceDetails = filterId => {
       return {
         details: () => {
           const url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl, filterId);
@@ -26,13 +27,13 @@ export const filters = (configuration, http) => {
       };
     };
 
-    fn.create = filter => {
+    const create = filter => {
       const url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl);
 
       return post(configuration, url, filter);
     };
 
-    fn.list = (limit, offset, sort) => {
+    const list = (limit, offset, sort) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl);
 
       const getParams = utils.buildGetParamString({
@@ -47,7 +48,8 @@ export const filters = (configuration, http) => {
       return get(configuration, url);
     };
 
-    return fn;
+    const resource = Object.assign(resourceDetails, {create, list});
+    return resource;
   };
 
   return {

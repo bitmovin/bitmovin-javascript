@@ -3,9 +3,10 @@ import urljoin from 'url-join';
 import BitmovinError from '../utils/BitmovinError';
 import {isValidApiRequestDateString} from '../utils/DateUtils';
 import http, {utils} from '../utils/http';
+import {HttpClient} from '../utils/types';
 
-export const statistics = (configuration, http) => {
-  const {get} = http;
+export const statistics = (configuration, httpClient: HttpClient) => {
+  const {get} = httpClient;
 
   const addOptionsToUrl = (url, options) => {
     let newUrl = url;
@@ -65,7 +66,7 @@ export const statistics = (configuration, http) => {
      * from: Date
      * to: Date
     */
-    overall: (from = null, to = null) => {
+    overall: (from = undefined, to = undefined) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/statistics');
       if (from && to) {
         url = urljoin(url, from, to);

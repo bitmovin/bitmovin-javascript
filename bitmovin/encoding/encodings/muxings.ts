@@ -1,14 +1,15 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
-import {BitmovinConfiguration, HttpClient} from '../../utils/types';
+import {HttpClient, InternalConfiguration, List} from '../../utils/types';
 
 import drms from './drms';
 
-export const muxings = (configuration: BitmovinConfiguration, encodingId: string, http: HttpClient): Muxings => {
-  const {get, post, delete_} = http;
+export const muxings = (configuration: InternalConfiguration, encodingId: string, httpClient: HttpClient): Muxings => {
+  const {get, post, delete_} = httpClient;
+
   const typeFn = typeUrl => {
-    const fn = muxingId => {
+    const resourceDetails = muxingId => {
       return {
         details: () => {
           const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl, muxingId);
@@ -35,12 +36,12 @@ export const muxings = (configuration: BitmovinConfiguration, encodingId: string
       };
     };
 
-    fn.add = muxing => {
+    const add = muxing => {
       const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl);
       return post(configuration, url, muxing);
     };
 
-    fn.list = (limit, offset) => {
+    const list = (limit, offset) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl);
 
       const getParams = utils.buildGetParamString({
@@ -54,7 +55,12 @@ export const muxings = (configuration: BitmovinConfiguration, encodingId: string
       return get(configuration, url);
     };
 
-    return fn;
+    const resource = Object.assign(resourceDetails, {
+      add,
+      list
+    });
+
+    return resource;
   };
 
   return {
@@ -79,8 +85,16 @@ export const muxings = (configuration: BitmovinConfiguration, encodingId: string
   };
 };
 
-export interface Muxings {}
+interface Muxing {}
 
-export default (configuration: BitmovinConfiguration, encodingId: string): Muxings => {
+export interface Muxings {
+  list: List<Muxing>;
+  fmp4: object;
+  ts: object;
+  mp4: object;
+  webm: object;
+}
+
+export default (configuration: InternalConfiguration, encodingId: string): Muxings => {
   return muxings(configuration, encodingId, http);
 };

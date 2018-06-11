@@ -1,11 +1,12 @@
 import urljoin from 'url-join';
 
 import http from '../utils/http';
+import {HttpClient} from '../utils/types';
 
 import queryBuilder from './query_builder';
 
-export const queries = (configuration, http) => {
-  const {post} = http;
+export const queries = (configuration, httpClient: HttpClient) => {
+  const {post} = httpClient;
   const baseUrl = urljoin(configuration.apiBaseUrl, 'analytics/queries');
 
   const queryMethods = ['count', 'sum', 'avg', 'min', 'max', 'median', 'percentile', 'stddev', 'variance'].reduce(

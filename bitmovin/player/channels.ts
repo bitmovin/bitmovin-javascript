@@ -1,10 +1,11 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../utils/http';
+import {HttpClient} from '../utils/types';
 
-export const channels = (configuration, http) => {
-  const {get} = http;
-  const fn = channelName => {
+export const channels = (configuration, httpClient: HttpClient) => {
+  const {get} = httpClient;
+  const resourceDetails = channelName => {
     const versions = {
       list: (limit, offset) => {
         let url = urljoin(configuration.apiBaseUrl, 'player/channels', channelName, 'versions');
@@ -30,7 +31,7 @@ export const channels = (configuration, http) => {
     };
   };
 
-  fn.list = (limit, offset) => {
+  const list = (limit, offset) => {
     let url = urljoin(configuration.apiBaseUrl, 'player/channels');
 
     const getParams = utils.buildGetParamString({
@@ -44,7 +45,8 @@ export const channels = (configuration, http) => {
     return get(configuration, url);
   };
 
-  return fn;
+  const resource = Object.assign(resourceDetails, {list});
+  return resource;
 };
 
 export default configuration => {

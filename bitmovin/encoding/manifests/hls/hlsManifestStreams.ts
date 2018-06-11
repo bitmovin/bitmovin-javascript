@@ -2,9 +2,9 @@ import urljoin from 'url-join';
 
 import http, {utils} from '../../../utils/http';
 
-export const hlsManifestStreams = (configuration, manifestId, http) => {
-  const {get, post, delete_} = http;
-  const fn = streamId => {
+export const hlsManifestStreams = (configuration, manifestId, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
+  const resourceDetails = streamId => {
     return {
       details: () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'streams', streamId);
@@ -17,12 +17,12 @@ export const hlsManifestStreams = (configuration, manifestId, http) => {
     };
   };
 
-  fn.add = stream => {
+  const add = stream => {
     const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'streams');
     return post(configuration, url, stream);
   };
 
-  fn.list = (limit, offset) => {
+  const list = (limit, offset) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'streams');
 
     const getParams = utils.buildGetParamString({
@@ -36,7 +36,8 @@ export const hlsManifestStreams = (configuration, manifestId, http) => {
     return get(configuration, url);
   };
 
-  return fn;
+  const resource = Object.assign(resourceDetails, {add, create, list});
+  return resource;
 };
 
 export default (configuration, manifestId) => {

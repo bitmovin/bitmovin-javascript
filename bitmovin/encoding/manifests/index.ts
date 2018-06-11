@@ -1,13 +1,14 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
+import {HttpClient} from '../../utils/types';
 
 import dashManifests from './dash';
 import hlsManifests from './hls';
 import smoothManifests from './smooth';
 
-export const manifests = (configuration, http) => {
-  const {get} = http;
+export const manifests = (configuration, httpClient: HttpClient) => {
+  const {get} = httpClient;
   return {
     list: (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests');

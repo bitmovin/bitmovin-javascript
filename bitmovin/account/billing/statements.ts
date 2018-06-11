@@ -1,10 +1,11 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
+import {HttpClient} from '../../utils/types';
 
-export const statements = (configuration, http) => {
+export const statements = (configuration, httpClient: HttpClient) => {
   const statementsBaseUrl = urljoin(configuration.apiBaseUrl, 'account', 'billing', 'statements');
-  const {get} = http;
+  const {get} = httpClient;
 
   return {
     encoding: {

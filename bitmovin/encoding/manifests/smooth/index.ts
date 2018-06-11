@@ -5,9 +5,9 @@ import http, {utils} from '../../../utils/http';
 import contentProtections from './smoothManifestContentProtections';
 import representations from './smoothManifestRepresentations';
 
-export const smoothManifests = (configuration, http) => {
-  const {get, post, delete_} = http;
-  const fn = manifestId => {
+export const smoothManifests = (configuration, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
+  const resourceDetails = manifestId => {
     return {
       details: () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/smooth', manifestId);
@@ -34,12 +34,12 @@ export const smoothManifests = (configuration, http) => {
     };
   };
 
-  fn.create = manifest => {
+  const create = manifest => {
     const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/smooth');
     return post(configuration, url, manifest);
   };
 
-  fn.list = (limit, offset, encodingId) => {
+  const list = (limit, offset, encodingId) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/smooth');
 
     const getParams = utils.buildGetParamString({
@@ -54,7 +54,8 @@ export const smoothManifests = (configuration, http) => {
     return get(configuration, url);
   };
 
-  return fn;
+  const resource = Object.assign(resourceDetails, {add, create, list});
+  return resource;
 };
 
 export default configuration => {

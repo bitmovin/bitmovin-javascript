@@ -5,10 +5,10 @@ import http, {utils} from '../../../utils/http';
 import contentProtections from './dashManifestContentProtections';
 import representations from './dashManifestRepresentations';
 
-export const adaptationSets = (configuration, manifestId, periodId, http) => {
-  const {get, post, delete_} = http;
+export const adaptationSets = (configuration, manifestId, periodId, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
   const typeFn = typeUrl => {
-    const fn = adaptationSetId => {
+    const resourceDetails = adaptationSetId => {
       return {
         details: () => {
           const url = urljoin(
@@ -40,7 +40,7 @@ export const adaptationSets = (configuration, manifestId, periodId, http) => {
       };
     };
 
-    fn.create = period => {
+    const create = period => {
       const url = urljoin(
         configuration.apiBaseUrl,
         'encoding/manifests/dash',
@@ -54,7 +54,7 @@ export const adaptationSets = (configuration, manifestId, periodId, http) => {
       return post(configuration, url, period);
     };
 
-    fn.list = (limit, offset) => {
+    const list = (limit, offset) => {
       let url = urljoin(
         configuration.apiBaseUrl,
         'encoding/manifests/dash',
@@ -76,10 +76,11 @@ export const adaptationSets = (configuration, manifestId, periodId, http) => {
       return get(configuration, url);
     };
 
-    return fn;
+    const resource = Object.assign(resourceDetails, {add, create, list});
+    return resource;
   };
 
-  const fn = adaptationSetId => {
+  const resourceDetails = adaptationSetId => {
     return {
       representations: representations(configuration, manifestId, periodId, adaptationSetId),
       contentProtections: contentProtections(configuration, manifestId, periodId, adaptationSetId, null)
@@ -91,7 +92,8 @@ export const adaptationSets = (configuration, manifestId, periodId, http) => {
   fn.subtitle = typeFn('subtitle');
   fn.custom = typeFn('custom');
 
-  return fn;
+  const resource = Object.assign(resourceDetails, {add, create, list});
+  return resource;
 };
 
 export default (configuration, manifestId, periodId) => {

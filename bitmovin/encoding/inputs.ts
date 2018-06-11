@@ -1,11 +1,12 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../utils/http';
+import {HttpClient} from '../utils/types';
 
-export const inputs = (configuration, http) => {
-  const {get, post, delete_} = http;
+export const inputs = (configuration, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
   const typeFn = typeUrl => {
-    const fn = inputId => {
+    const resourceDetails = inputId => {
       return {
         details: () => {
           const url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl, inputId);
@@ -22,12 +23,12 @@ export const inputs = (configuration, http) => {
       };
     };
 
-    fn.create = input => {
+    const create = input => {
       const url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl);
       return post(configuration, url, input);
     };
 
-    fn.list = (limit, offset) => {
+    const list = (limit, offset) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl);
 
       const getParams = utils.buildGetParamString({
@@ -41,7 +42,8 @@ export const inputs = (configuration, http) => {
       return get(configuration, url);
     };
 
-    return fn;
+    const resource = Object.assign(resourceDetails, {create, list});
+    return resource;
   };
 
   const rtmpTypeFn = typeUrl => {

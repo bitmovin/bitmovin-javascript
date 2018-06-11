@@ -14,9 +14,25 @@ export interface BitmovinConfiguration {
   httpHeaders?: object;
 }
 
+export interface InternalConfiguration {
+  apiKey: string;
+  tenantOrgId?: string;
+  eMail?: string;
+  password?: string;
+  debug?: boolean;
+  protocol: string;
+  host: string;
+  apiBaseUrl: string;
+  basePath: string;
+  requestTimeout: number;
+  xApiClient: string;
+  additionalHeaders?: object;
+  httpHeaders?: object;
+}
+
 export interface Pagination<T> {
   totalCount: number;
-  items: T[];
+  items: Array<ApiResource<T>>;
 }
 
 interface ResponseSuccessData<T> {
@@ -60,16 +76,14 @@ export type List<T> = (
   filter?: object
 ) => Promise<Pagination<ApiResource<T>>>;
 
-export type Create<T> = (data: T) => Promise<Pagination<ApiResource<T>>>;
+export type Create<T> = (data: T) => Promise<ApiResource<T>>;
 export type Details<T> = () => Promise<ApiResource<T>>;
 export type Delete<T> = () => Promise<T>;
 export type CustomData = () => Promise<CustomDataT>;
 
 export interface HttpClient {
-  get: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<object>;
-  post: (configuration: BitmovinConfiguration, url: string, object?: object, fetchMethod?: any) => Promise<object>;
-  put: (configuration: BitmovinConfiguration, url: string, object?: object, fetchMethod?: any) => Promise<object>;
-  delete_: (configuration: BitmovinConfiguration, url: string, fetchMethod?: any) => Promise<object>;
+  get<T>(configuration: InternalConfiguration, url: string, fetchMethod?: any): Promise<T>;
+  post<T, J>(configuration: InternalConfiguration, url: string, object?: J, fetchMethod?: any): Promise<T>;
+  put<T, J>(configuration: InternalConfiguration, url: string, object?: J, fetchMethod?: any): Promise<T>;
+  delete_<T>(configuration: InternalConfiguration, url: string, fetchMethod?: any): Promise<T>;
 }
-
-declare var __VERSION__: any;

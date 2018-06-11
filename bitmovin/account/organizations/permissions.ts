@@ -1,9 +1,10 @@
 import urljoin from 'url-join';
 
 import http from '../../utils/http';
+import {HttpClient} from '../../utils/types';
 
-export const permissions = (configuration, organizationId, groupId, http) => {
-  const {get, post, delete_} = http;
+export const permissions = (configuration, organizationId, groupId, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
   const permissionsBaseUrl = urljoin(
     configuration.apiBaseUrl,
     'account',
@@ -14,7 +15,7 @@ export const permissions = (configuration, organizationId, groupId, http) => {
     'permissions'
   );
 
-  const fn = groupId => {
+  const resourceDetails = groupId => {
     return {
       details: () => {
         const url = urljoin(permissionsBaseUrl, groupId);
@@ -27,17 +28,18 @@ export const permissions = (configuration, organizationId, groupId, http) => {
     };
   };
 
-  fn.add = permission => {
+  const add = permission => {
     const url = urljoin(permissionsBaseUrl);
     return post(configuration, url, permission);
   };
 
-  fn.list = () => {
+  const list = () => {
     const url = urljoin(permissionsBaseUrl);
     return get(configuration, url);
   };
 
-  return fn;
+  const resource = Object.assign(resourceDetails, {add, list});
+  return resource;
 };
 
 export default (configuration, organizationId, groupId) => {

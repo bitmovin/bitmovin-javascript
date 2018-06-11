@@ -2,11 +2,11 @@ import urljoin from 'url-join';
 
 import http, {utils} from '../../../utils/http';
 
-export const contentProtection = (configuration, manifestId, http) => {
-  const {get, post, delete_} = http;
+export const contentProtection = (configuration, manifestId, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
   const baseUrl = urljoin(configuration.apiBaseUrl, 'encoding/manifests/smooth', manifestId, 'contentprotection');
 
-  const fn = contentProtectionId => {
+  const resourceDetails = contentProtectionId => {
     return {
       details: () => {
         const url = urljoin(baseUrl, contentProtectionId);
@@ -19,11 +19,11 @@ export const contentProtection = (configuration, manifestId, http) => {
     };
   };
 
-  fn.add = protection => {
+  const add = protection => {
     return post(configuration, baseUrl, protection);
   };
 
-  fn.list = (limit, offset) => {
+  const list = (limit, offset) => {
     let url = baseUrl;
 
     const getParams = utils.buildGetParamString({
@@ -37,7 +37,8 @@ export const contentProtection = (configuration, manifestId, http) => {
     return get(configuration, url);
   };
 
-  return fn;
+  const resource = Object.assign(resourceDetails, {add, create, list});
+  return resource;
 };
 
 export default (configuration, manifestId) => {

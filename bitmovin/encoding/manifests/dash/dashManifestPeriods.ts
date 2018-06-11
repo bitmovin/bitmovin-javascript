@@ -4,9 +4,9 @@ import http, {utils} from '../../../utils/http';
 
 import adaptationSets from './dashManifestAdaptationSets';
 
-export const dashManifestPeriods = (configuration, manifestId, http) => {
-  const {get, post, delete_} = http;
-  const fn = periodId => {
+export const dashManifestPeriods = (configuration, manifestId, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
+  const resourceDetails = periodId => {
     return {
       details: () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId);
@@ -20,12 +20,12 @@ export const dashManifestPeriods = (configuration, manifestId, http) => {
     };
   };
 
-  fn.add = period => {
+  const add = period => {
     const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods');
     return post(configuration, url, period);
   };
 
-  fn.list = (limit, offset) => {
+  const list = (limit, offset) => {
     let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods');
 
     const getParams = utils.buildGetParamString({
@@ -39,7 +39,8 @@ export const dashManifestPeriods = (configuration, manifestId, http) => {
     return get(configuration, url);
   };
 
-  return fn;
+  const resource = Object.assign(resourceDetails, {add, create, list});
+  return resource;
 };
 
 export default (configuration, manifestId) => {

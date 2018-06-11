@@ -2,8 +2,8 @@ import urljoin from 'url-join';
 
 import http, {utils} from '../../../utils/http';
 
-export const representations = (configuration, manifestId, http) => {
-  const {get, post, delete_} = http;
+export const representations = (configuration, manifestId, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
   const typeFn = typeUrl => {
     const baseUrl = urljoin(
       configuration.apiBaseUrl,
@@ -13,7 +13,7 @@ export const representations = (configuration, manifestId, http) => {
       typeUrl
     );
 
-    const fn = representationId => {
+    const resourceDetails = representationId => {
       return {
         details: () => {
           const url = urljoin(baseUrl, representationId);
@@ -26,11 +26,11 @@ export const representations = (configuration, manifestId, http) => {
       };
     };
 
-    fn.add = representation => {
+    const add = representation => {
       return post(configuration, baseUrl, representation);
     };
 
-    fn.list = (limit, offset) => {
+    const list = (limit, offset) => {
       let url = baseUrl;
 
       const getParams = utils.buildGetParamString({
@@ -44,7 +44,8 @@ export const representations = (configuration, manifestId, http) => {
       return get(configuration, url);
     };
 
-    return fn;
+    const resource = Object.assign(resourceDetails, {add, create, list});
+    return resource;
   };
 
   return {

@@ -12,12 +12,8 @@ const getConfiguration = () => {
       'X-Tenant-Org-Id': settings.tenantOrgId,
       'X-Api-Client': 'bitmovin-javascript',
       'X-Api-Client-Version': '1.1.20'
-    },
-    eMail: settings.eMail,
-    password: settings.password
+    }
   };
 };
 
-module.exports = {
-  getConfiguration
-};
+export {getConfiguration};

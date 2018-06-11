@@ -1,14 +1,15 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
+import {HttpClient} from '../../utils/types';
 
 import {aws as awsInfra} from './aws';
 
-export const infrastructure = (configuration, http) => {
-  const {get, post, delete_} = http;
+export const infrastructure = (configuration, httpClient: HttpClient) => {
+  const {get, post, delete_} = httpClient;
 
   const typeFn = type => {
-    const fn = id => {
+    const resourceDetails = id => {
       return {
         status: () => {
           const url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type, id, 'status');
@@ -29,12 +30,12 @@ export const infrastructure = (configuration, http) => {
       };
     };
 
-    fn.create = infrastructure => {
+    const create = infrastructure => {
       const url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type);
       return post(configuration, url, infrastructure);
     };
 
-    fn.list = (limit, offset, sort, filter) => {
+    const list = (limit, offset, sort, filter) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type);
       const filterParams = utils.buildFilterParamString(filter);
       const getParams = utils.buildGetParamString({
@@ -50,7 +51,8 @@ export const infrastructure = (configuration, http) => {
       return get(configuration, url);
     };
 
-    return fn;
+    const resource = Object.assign(resourceDetails, {create, list});
+    return resource;
   };
 
   const kubernetes = typeFn('kubernetes');

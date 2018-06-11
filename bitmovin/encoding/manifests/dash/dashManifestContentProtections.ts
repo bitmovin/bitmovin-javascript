@@ -2,8 +2,15 @@ import urljoin from 'url-join';
 
 import http, {utils} from '../../../utils/http';
 
-export const contentProtections = (configuration, manifestId, periodId, adaptationSetId, representationInfo, http) => {
-  const {get, post, delete_} = http;
+export const contentProtections = (
+  configuration,
+  manifestId,
+  periodId,
+  adaptationSetId,
+  representationInfo,
+  httpClient: HttpClient
+) => {
+  const {get, post, delete_} = httpClient;
 
   let baseUrl = urljoin(
     configuration.apiBaseUrl,
@@ -19,7 +26,7 @@ export const contentProtections = (configuration, manifestId, periodId, adaptati
   }
   baseUrl = urljoin(baseUrl, 'contentprotection');
 
-  const fn = contentProtectionId => {
+  const resourceDetails = contentProtectionId => {
     return {
       details: () => {
         const url = urljoin(baseUrl, contentProtectionId);
@@ -32,12 +39,12 @@ export const contentProtections = (configuration, manifestId, periodId, adaptati
     };
   };
 
-  fn.add = contentProtection => {
+  const add = contentProtection => {
     const url = baseUrl;
     return post(configuration, url, contentProtection);
   };
 
-  fn.list = (limit, offset) => {
+  const list = (limit, offset) => {
     let url = baseUrl;
 
     const getParams = utils.buildGetParamString({
@@ -51,7 +58,8 @@ export const contentProtections = (configuration, manifestId, periodId, adaptati
     return get(configuration, url);
   };
 
-  return fn;
+  const resource = Object.assign(resourceDetails, {add, create, list});
+  return resource;
 };
 
 export default (configuration, manifestId, periodId, adaptationSetId, representationInfo) => {
