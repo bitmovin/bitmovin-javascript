@@ -4,13 +4,13 @@ describe('Bitmovin default exports', () => {
   const apiKey = 'test-api-key';
   const additionalHeaders = {'X-Test-Header': 'test'};
 
-  const client = new Bitmovin({
+  const client = Bitmovin({
     apiKey,
     additionalHeaders
   });
 
   describe('configuration', () => {
-    const emptyConfigsClient = new Bitmovin({apiKey});
+    const emptyConfigsClient = Bitmovin({apiKey});
     const assertItDefaults = (key, value) => {
       it('should use default value for ' + key, () => {
         expect(emptyConfigsClient.configuration[key]).toEqual(value);

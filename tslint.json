@@ -1,0 +1,20 @@
+{
+  "extends": [
+    "tslint:recommended"
+  ],
+  "rules": {
+    "quotemark": [true, "single", "avoid-escape"],
+    "arrow-parens": false,
+    "trailing-comma": false,
+    "object-literal-sort-keys": false,
+    "ordered-imports": [true, {
+      "import-sources-order": "lowercase-last",
+      "grouped-imports": true,
+      "named-imports-order": "lowercase-last"
+    }],
+    "prefer-template": true,
+    "interface-name": false,
+    "object-literal-key-quotes": [true, "as-needed"],
+    "no-null-keyword": true
+  }
+}
