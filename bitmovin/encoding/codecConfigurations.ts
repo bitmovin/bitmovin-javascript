@@ -12,7 +12,13 @@ export const codecConfigurations = (configuration, http) => {
           return get(configuration, url);
         },
         customData: () => {
-          const url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', typeUrl, codecConfigId, 'customData');
+          const url = urljoin(
+            configuration.apiBaseUrl,
+            'encoding/configurations',
+            typeUrl,
+            codecConfigId,
+            'customData'
+          );
 
           return get(configuration, url);
         },

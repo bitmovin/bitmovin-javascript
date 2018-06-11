@@ -24,7 +24,7 @@ interface ResponseSuccessData<T> {
   messages?: Array<{
     id: string;
     date: string;
-    interface: string
+    interface: string;
   }>;
 }
 
@@ -45,7 +45,7 @@ export type ApiResource<T> = T & {
   name?: string;
   description?: string;
   createdAt?: string;
-  customData?: string
+  customData?: string;
 };
 
 interface CustomDataT {

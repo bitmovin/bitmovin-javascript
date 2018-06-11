@@ -21,7 +21,7 @@ import logger from './utils/Logger';
 import utils from './utils/Utils';
 import {BitmovinConfiguration} from './utils/types';
 
-const checkAuthorizationInConfiguration = (configuration) => {
+const checkAuthorizationInConfiguration = configuration => {
   if (utils.isNoEmptyString(configuration.apiKey)) {
     return;
   }
@@ -33,7 +33,7 @@ const checkAuthorizationInConfiguration = (configuration) => {
   logger.log('Neither apiKey nor email and password provided in configuration.');
 };
 
-const setupConfiguration = (configuration) => {
+const setupConfiguration = configuration => {
   if (configuration.debug && configuration.debug === true) {
     logger.enableLogging();
   }
@@ -99,9 +99,7 @@ interface Analytics {
   queries: object;
 }
 
-interface Account {
-
-}
+interface Account {}
 
 export interface BitmovinAPI {
   encoding: Encoding;
@@ -111,37 +109,37 @@ export interface BitmovinAPI {
 }
 
 const Bitmovin = (configuration: BitmovinConfiguration): BitmovinAPI => {
-    checkAuthorizationInConfiguration(configuration);
+  checkAuthorizationInConfiguration(configuration);
 
-    setupConfiguration(configuration);
+  setupConfiguration(configuration);
 
-    const bitmovin: BitmovinAPI = {
-      encoding: {
-        encodings: encodings(configuration),
-        codecConfigurations: codecConfigurations(configuration),
-        inputs: inputs(configuration),
-        outputs: outputs(configuration),
-        manifests: manifests(configuration),
-        filters: filters(configuration),
-        statistics: statistics(configuration),
-        infrastructure: infrastructure(configuration)
-      },
-      player: {
-        channels: playerChannels(configuration),
-        licenses: playerLicenses(configuration),
-        statistics: playerStatistics(configuration),
-        customBuilds: customBuilds(configuration)
-      },
-      analytics: {
-        licenses: analyticsLicenses(configuration),
-        queries: analyticsQueries(configuration),
-        impressions: analyticsImpressions(configuration),
-        statistics: analyticsStatistics(configuration)
-      },
-      account: account(configuration)
-    };
+  const bitmovin: BitmovinAPI = {
+    encoding: {
+      encodings: encodings(configuration),
+      codecConfigurations: codecConfigurations(configuration),
+      inputs: inputs(configuration),
+      outputs: outputs(configuration),
+      manifests: manifests(configuration),
+      filters: filters(configuration),
+      statistics: statistics(configuration),
+      infrastructure: infrastructure(configuration)
+    },
+    player: {
+      channels: playerChannels(configuration),
+      licenses: playerLicenses(configuration),
+      statistics: playerStatistics(configuration),
+      customBuilds: customBuilds(configuration)
+    },
+    analytics: {
+      licenses: analyticsLicenses(configuration),
+      queries: analyticsQueries(configuration),
+      impressions: analyticsImpressions(configuration),
+      statistics: analyticsStatistics(configuration)
+    },
+    account: account(configuration)
+  };
 
-    return bitmovin;
+  return bitmovin;
 };
 
 export default Bitmovin;

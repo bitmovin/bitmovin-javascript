@@ -8,12 +8,26 @@ export const hlsManifestMedia = (configuration, manifestId, http) => {
     const fn = mediaId => {
       return {
         details: () => {
-          const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'media', typeUrl, mediaId);
+          const url = urljoin(
+            configuration.apiBaseUrl,
+            'encoding/manifests/hls',
+            manifestId,
+            'media',
+            typeUrl,
+            mediaId
+          );
 
           return get(configuration, url);
         },
         delete: () => {
-          const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/hls', manifestId, 'media', typeUrl, mediaId);
+          const url = urljoin(
+            configuration.apiBaseUrl,
+            'encoding/manifests/hls',
+            manifestId,
+            'media',
+            typeUrl,
+            mediaId
+          );
 
           return delete_(configuration, url);
         }

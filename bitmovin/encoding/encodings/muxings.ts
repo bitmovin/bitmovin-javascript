@@ -79,9 +79,7 @@ export const muxings = (configuration: BitmovinConfiguration, encodingId: string
   };
 };
 
-export interface Muxings {
-
-}
+export interface Muxings {}
 
 export default (configuration: BitmovinConfiguration, encodingId: string): Muxings => {
   return muxings(configuration, encodingId, http);

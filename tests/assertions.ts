@@ -5,9 +5,15 @@ export const mockPut = jest.fn().mockReturnValue(Promise.resolve({}));
 export const mockHttp = {get: mockGet, post: mockPost, delete_: mockDelete, put: mockPut};
 
 export const methodToMock = method => {
-  if (method.toLowerCase() === 'get') { return mockGet; }
-  if (method.toLowerCase() === 'delete') { return mockDelete; }
-  if (method.toLowerCase() === 'put') { return mockPut; }
+  if (method.toLowerCase() === 'get') {
+    return mockGet;
+  }
+  if (method.toLowerCase() === 'delete') {
+    return mockDelete;
+  }
+  if (method.toLowerCase() === 'put') {
+    return mockPut;
+  }
   return mockPost;
 };
 
