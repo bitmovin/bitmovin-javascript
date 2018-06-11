@@ -1,6 +1,6 @@
 import urljoin from 'url-join';
 
-import account from './account/account.ts';
+import account from './account/account';
 import analyticsImpressions from './analytics/impressions';
 import analyticsLicenses from './analytics/licenses';
 import analyticsQueries from './analytics/queries';
@@ -19,7 +19,7 @@ import playerLicenses from './player/licenses';
 import playerStatistics from './player/statistics';
 import logger from './utils/Logger';
 import utils from './utils/Utils';
-import {BitmovinConfiguration, __VERSION__} from './utils/types';
+import {BitmovinConfiguration} from './utils/types';
 
 const checkAuthorizationInConfiguration = (configuration) => {
   if (utils.isNoEmptyString(configuration.apiKey)) {
