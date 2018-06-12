@@ -22,6 +22,7 @@ class Logger {
       return;
     }
 
+    // tslint:disable-next-line
     console.log(message);
   }
 
@@ -29,7 +30,7 @@ class Logger {
     if (!this.logging) {
       return;
     }
-
+    // tslint:disable-next-line
     console.error(message);
   }
 }
