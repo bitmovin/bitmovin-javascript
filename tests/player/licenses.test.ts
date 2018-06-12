@@ -87,7 +87,11 @@ describe('player', () => {
           thirdPartyLicensingClient.add
         );
         assertItReturnsUnderlyingPromise(mockPost, () => thirdPartyLicensingClient.add(thirdPartyLicensingPayload));
-        assertPayload(mockPost, () => thirdPartyLicensingClient.add(thirdPartyLicensingPayload), thirdPartyLicensingPayload);
+        assertPayload(
+          mockPost,
+          () => thirdPartyLicensingClient.add(thirdPartyLicensingPayload),
+          thirdPartyLicensingPayload
+        );
       });
 
       describe('get', () => {
