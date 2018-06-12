@@ -23,8 +23,7 @@
     "build": "yarn clean && yarn build:bundle:dev && yarn build:bundle:prod && yarn build:modules",
     "build:bundle:dev": "NODE_ENV=development webpack --config=./webpack4.config.js",
     "build:bundle:prod": "NODE_ENV=production webpack --config=./webpack4.config.js",
-    "build:modules": "tsc --project ./tsconfig.json && replace \"__VERSION__\" \"'$(yarn package-json-version)'\" ./dist/index.js",
-    "package-json-version": "node -p \"require('./package.json').version\""
+    "build:modules": "tsc --project ./tsconfig.json && replace \"__VERSION__\" \"'$(node -p \"require('./package.json').version\")'\" ./dist/index.js"
   },
   "devDependencies": {
     "@types/isomorphic-fetch": "^0.0.34",
