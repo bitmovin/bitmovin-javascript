@@ -23,6 +23,7 @@ import logger from './utils/Logger';
 import utils from './utils/Utils';
 import type {BitmovinConfiguration} from './utils/types';
 import notifications from './notifications/notifications';
+import type {Notifications} from './notifications/notifications';
 
 const checkAuthorizationInConfiguration = function(configuration) {
   if (utils.isNoEmptyString(configuration.apiKey)) {
@@ -108,41 +109,43 @@ export type BitmovinAPI = {
   encoding: Encoding,
   player: Player,
   analytics: Analytics,
-  account: Account
+  account: Account,
+  notifications: Notifications
 }
 
-const Bitmovin = (configuration: BitmovinConfiguration): BitmovinAPI => {
-    checkAuthorizationInConfiguration(configuration);
+export const Bitmovin = (configuration: BitmovinConfiguration): BitmovinAPI => {
+  checkAuthorizationInConfiguration(configuration);
 
-    setupConfiguration(configuration);
+  setupConfiguration(configuration);
 
-    const bitmovin: BitmovinAPI = {
-      configuration: configuration,
-      encoding: {
-        encodings: encodings(configuration),
-        codecConfigurations: codecConfigurations(configuration),
-        inputs: inputs(configuration),
-        outputs: outputs(configuration),
-        manifests: manifests(configuration),
-        filters: filters(configuration),
-        statistics: statistics(configuration),
-        infrastructure: infrastructure(configuration)
-      },
-      player: {
-        channels: playerChannels(configuration),
-        licenses: playerLicenses(configuration),
-        statistics: playerStatistics(configuration),
-        customBuilds: customBuilds(configuration)
-      },
-      analytics: {
-        licenses: analyticsLicenses(configuration),
-        queries: analyticsQueries(configuration),
-        impressions: analyticsImpressions(configuration),
-        statistics: analyticsStatistics(configuration)
-      },
-      account: account(configuration)
-    };
-    
-    return bitmovin;
+  const bitmovin: BitmovinAPI = {
+    configuration: configuration,
+    encoding: {
+      encodings: encodings(configuration),
+      codecConfigurations: codecConfigurations(configuration),
+      inputs: inputs(configuration),
+      outputs: outputs(configuration),
+      manifests: manifests(configuration),
+      filters: filters(configuration),
+      statistics: statistics(configuration),
+      infrastructure: infrastructure(configuration)
+    },
+    player: {
+      channels: playerChannels(configuration),
+      licenses: playerLicenses(configuration),
+      statistics: playerStatistics(configuration),
+      customBuilds: customBuilds(configuration)
+    },
+    analytics: {
+      licenses: analyticsLicenses(configuration),
+      queries: analyticsQueries(configuration),
+      impressions: analyticsImpressions(configuration),
+      statistics: analyticsStatistics(configuration)
+    },
+    account: account(configuration),
+    notifications: notifications(configuration)
+  };
+
+  return bitmovin;
 };
 
