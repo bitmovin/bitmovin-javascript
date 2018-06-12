@@ -17,25 +17,6 @@ describe('encoding', () => {
     beforeEach(testSetup);
     const client = outputs(testConfiguration, mockHttp);
 
-    const testBitmovinOutput = type => {
-      describe('bitmovin/' + type, () => {
-        describe('list', () => {
-          assertItCallsCorrectUrl('GET', `/v1/encoding/outputs/bitmovin/${type}`, client.bitmovin[type].list);
-          assertItReturnsUnderlyingPromise(mockGet, client.bitmovin[type].list);
-        });
-        describe('item', () => {
-          describe('details', () => {
-            assertItCallsCorrectUrl(
-              'GET',
-              `/v1/encoding/outputs/bitmovin/${type}/output-id`,
-              client.bitmovin[type]('output-id').details
-            );
-            assertItReturnsUnderlyingPromise(mockPost, client.bitmovin[type]('output-id').details);
-          });
-        });
-      });
-    };
-
     const testOutputType = type => {
       describe(type, () => {
         describe('list', () => {
@@ -76,8 +57,6 @@ describe('encoding', () => {
     testOutputType('gcs');
     testOutputType('s3');
     testOutputType('sftp');
-    testBitmovinOutput('aws');
-    testBitmovinOutput('gcp');
     testOutputType('local');
 
     describe('list', () => {
