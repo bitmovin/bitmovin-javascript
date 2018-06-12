@@ -15,9 +15,9 @@ export const thirdPartyLicensing = (configuration, licenseId, httpClient: HttpCl
       const url = urljoin(configuration.apiBaseUrl, 'player/licenses', licenseId, 'third-party-licensing');
       return get(configuration, url);
     },
-    add: thirdPartyLicensing => {
+    add: thirdPartyLicensingPayload => {
       const url = urljoin(configuration.apiBaseUrl, 'player/licenses', licenseId, 'third-party-licensing');
-      return post(configuration, url, thirdPartyLicensing);
+      return post(configuration, url, thirdPartyLicensingPayload);
     }
   };
 };

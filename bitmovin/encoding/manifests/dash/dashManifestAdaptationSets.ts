@@ -1,10 +1,10 @@
 import * as urljoin from 'url-join';
 
 import http, {utils} from '../../../utils/http';
+import {HttpClient, InternalConfiguration} from '../../../utils/types';
 
 import contentProtections from './dashManifestContentProtections';
 import representations from './dashManifestRepresentations';
-import {HttpClient, InternalConfiguration} from '../../../utils/types';
 
 export const adaptationSets = (configuration: InternalConfiguration, manifestId, periodId, httpClient: HttpClient) => {
   const {get, post, delete_} = httpClient;
