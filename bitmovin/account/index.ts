@@ -1,4 +1,4 @@
-import urljoin from 'url-join';
+import * as urljoin from 'url-join';
 
 import http from '../utils/http';
 import {ApiResource, Details, HttpClient, InternalConfiguration} from '../utils/types';

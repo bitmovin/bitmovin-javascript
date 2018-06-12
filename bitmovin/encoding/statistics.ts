@@ -1,4 +1,4 @@
-import urljoin from 'url-join';
+import * as urljoin from 'url-join';
 
 import BitmovinError from '../utils/BitmovinError';
 import {isValidApiRequestDateString} from '../utils/DateUtils';

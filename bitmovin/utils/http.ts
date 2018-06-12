@@ -1,6 +1,6 @@
 import 'es6-promise/auto';
-import fetch from 'isomorphic-fetch';
-import urljoin from 'url-join';
+import * as fetch from 'isomorphic-fetch';
+import * as urljoin from 'url-join';
 
 import BitmovinError from './BitmovinError';
 import logger from './Logger';

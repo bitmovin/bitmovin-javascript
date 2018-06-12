@@ -1,8 +1,7 @@
 {
   "name": "bitmovin-javascript",
   "version": "2.0.0-beta2",
-  "main": "./dist/bitmovin.node.js",
-  "module": "./dist/index.js",
+  "main": "./dist/inde.js",
   "browser": "./dist/bitmovin.browser.js",
   "types": "./dist/index.d.ts",
   "repository": {
@@ -24,7 +23,8 @@
     "build": "yarn clean && yarn build:bundle:dev && yarn build:bundle:prod && yarn build:modules",
     "build:bundle:dev": "NODE_ENV=development webpack --config=./webpack4.config.js",
     "build:bundle:prod": "NODE_ENV=production webpack --config=./webpack4.config.js",
-    "build:modules": "tsc --project ./tsconfig.json"
+    "build:modules": "tsc --project ./tsconfig.json && replace \"__VERSION__\" \"'$(yarn package-json-version)'\" ./dist/index.js",
+    "package-json-version": "node -p \"require('./package.json').version\""
   },
   "devDependencies": {
     "@types/isomorphic-fetch": "^0.0.34",
