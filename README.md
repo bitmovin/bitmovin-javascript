@@ -45,9 +45,13 @@ const bitmovin = new Bitmovin({'apiKey': '<YOUR_API_KEY>'});
 
 Use `bitmovin-javascript/dist/bitmovin.browser.js` or `bitmovin.browser.min.js` for the minified version.
 
-### ES6 Module
+### ES5 with Modules (CommonJS)
 
-Import `bitmovin-javascript/dist/es-modules`, this "build" also includes [flow](https://github.com/facebook/flow) types.
+Import `bitmovin-javascript/dist/index.js`.
+
+### Types
+
+- Typescript (`bitmovin-javascript/dist/index.d.ts`
 
 Usage
 -----------
