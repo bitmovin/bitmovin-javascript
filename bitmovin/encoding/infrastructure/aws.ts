@@ -25,11 +25,11 @@ export const aws = (configuration, httpClient: HttpClient) => {
         };
       };
 
-      regions.list = (limit, offset) => {
-        const baseUrl = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type, id, 'regions');
-        const url = utils.buildUrlParams(baseUrl, {limit, offset});
-        return get(configuration, url);
-      };
+      regions.list = utils.buildListCallFunction(
+        httpClient,
+        configuration,
+        urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type, id, 'regions')
+      );
 
       return {
         status: () => {

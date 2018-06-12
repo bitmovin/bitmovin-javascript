@@ -8,24 +8,12 @@ import hlsManifests from './hls';
 import smoothManifests from './smooth';
 
 export const manifests = (configuration, httpClient: HttpClient) => {
-  const {get} = httpClient;
   return {
-    list: (limit, offset, sort, filter) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/manifests');
-
-      const filterParams = utils.buildFilterParamString(filter);
-      const getParams = utils.buildGetParamString({
-        ...filterParams,
-        limit,
-        offset,
-        sort
-      });
-      if (getParams.length > 0) {
-        url = urljoin(url, getParams);
-      }
-
-      return get(configuration, url);
-    },
+    list: utils.buildListCallFunction(
+      httpClient,
+      configuration,
+      urljoin(configuration.apiBaseUrl, 'encoding/manifests')
+    ),
     dash: dashManifests(configuration),
     hls: hlsManifests(configuration),
     smooth: smoothManifests(configuration)

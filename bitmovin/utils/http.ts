@@ -75,13 +75,6 @@ const delete_ = (configuration, url, fetchMethod = fetch) => {
   return request(configuration, DELETE, url, fetchMethod, undefined);
 };
 
-const Http: HttpClient = {
-  get,
-  post,
-  put,
-  delete_
-};
-
 const buildGetParamString = (getParams: object) => {
   const params = [];
   let paramsString = '';
@@ -120,46 +113,41 @@ const buildFilterParamString = (filterParams?: object) => {
   return processedFilterParams;
 };
 
-const buildUrlParams = (baseUrl: string, params: object) => {
-  const filterParams = utils.buildFilterParamString(params.filter);
-  const getParams = utils.buildGetParamString({
-    ...filterParams,
-    limit: params.limit,
-    offset: params.offset,
-    sort: params.sort
-  });
+const buildListCallFunction = <T>(
+  httpClient: HttpClient,
+  configuration: InternalConfiguration,
+  url: string
+): List<T> => {
+  return (limit?: number, offset?: number, sort?: string, filter?: object): Promise<Pagination<T>> => {
+    let urlToCall = url;
 
-  if (getParams.length > 0) {
-    return urljoin(baseUrl, getParams);
-  }
+    const filterParams = buildFilterParamString(filter);
+    const getParams = buildGetParamString({
+      ...filterParams,
+      limit,
+      offset,
+      sort
+    });
 
-  return baseUrl;
+    if (getParams.length > 0) {
+      urlToCall = urljoin(url, getParams);
+    }
+
+    return httpClient.get<Pagination<T>>(configuration, urlToCall);
+  };
+};
+
+const Http: HttpClient = {
+  get,
+  post,
+  put,
+  delete_
 };
 
 export const utils = {
   buildGetParamString,
   buildFilterParamString,
-  buildUrlParams,
-
-  buildListCallFunction<T>(httpClient: HttpClient, configuration: InternalConfiguration, url: string): List<T> {
-    return (limit?: number, offset?: number, sort?: string, filter?: object): Promise<Pagination<T>> => {
-      let urlToCall = url;
-
-      const filterParams = buildFilterParamString(filter);
-      const getParams = buildGetParamString({
-        ...filterParams,
-        limit,
-        offset,
-        sort
-      });
-
-      if (getParams.length > 0) {
-        urlToCall = urljoin(url, getParams);
-      }
-
-      return httpClient.get<Pagination<T>>(configuration, urlToCall);
-    };
-  }
+  buildListCallFunction
 };
 
 export default Http;
