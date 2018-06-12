@@ -24,19 +24,11 @@ export const webCustomPlayerBuildDomain = (configuration, httpClient: HttpClient
     return post(configuration, url, customPlayerBuildDomain);
   };
 
-  const list = (limit, offset) => {
-    let url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web/domains');
-
-    const getParams = utils.buildGetParamString({
-      limit,
-      offset
-    });
-    if (getParams.length > 0) {
-      url = urljoin(url, getParams);
-    }
-
-    return get(configuration, url);
-  };
+  const list = utils.buildListCallFunction(
+    httpClient,
+    configuration,
+    urljoin(configuration.apiBaseUrl, 'player/custom-builds/web/domains')
+  );
 
   const resource = Object.assign(resourceDetails, {add, list});
   return resource;

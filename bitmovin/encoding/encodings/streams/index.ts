@@ -9,13 +9,12 @@ import {
   Details,
   HttpClient,
   InternalConfiguration,
-  List,
-  Pagination
+  List
 } from '../../../utils/types';
 
-import filters from './filters';
-import sprites from './sprites';
-import thumbnails from './thumbnails';
+import {filters} from './filters';
+import {sprites} from './sprites';
+import {thumbnails} from './thumbnails';
 
 export const streams = (configuration: InternalConfiguration, encodingId: string, httpClient: HttpClient): Streams => {
   const {get, post, delete_} = httpClient;
@@ -46,9 +45,9 @@ export const streams = (configuration: InternalConfiguration, encodingId: string
         const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'input');
         return get(configuration, url);
       },
-      filters: filters(configuration, encodingId, streamId),
-      thumbnails: thumbnails(configuration, encodingId, streamId),
-      sprites: sprites(configuration, encodingId, streamId)
+      filters: filters(configuration, encodingId, streamId, httpClient),
+      thumbnails: thumbnails(configuration, encodingId, streamId, httpClient),
+      sprites: sprites(configuration, encodingId, streamId, httpClient)
     };
   };
 
@@ -58,19 +57,11 @@ export const streams = (configuration: InternalConfiguration, encodingId: string
     return post<ApiResource<Stream>, object>(configuration, url, stream);
   };
 
-  const list = (limit, offset) => {
-    let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams');
-
-    const getParams = utils.buildGetParamString({
-      limit,
-      offset
-    });
-    if (getParams.length > 0) {
-      url = urljoin(url, getParams);
-    }
-
-    return get<Pagination<Stream>>(configuration, url);
-  };
+  const list = utils.buildListCallFunction<Stream>(
+    httpClient,
+    configuration,
+    urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams')
+  );
 
   const resource = Object.assign(resourceDetails, {add, list});
   return resource;

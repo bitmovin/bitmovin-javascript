@@ -68,8 +68,10 @@ export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, httpCli
       return post(configuration, url, drm);
     };
 
-    const list = (limit, offset) => {
-      let url = urljoin(
+    const list = utils.buildListCallFunction(
+      httpClient,
+      configuration,
+      urljoin(
         configuration.apiBaseUrl,
         'encoding/encodings',
         encodingId,
@@ -78,18 +80,8 @@ export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, httpCli
         muxingId,
         'drm',
         typeUrl
-      );
-
-      const getParams = utils.buildGetParamString({
-        limit,
-        offset
-      });
-      if (getParams.length > 0) {
-        url = urljoin(url, getParams);
-      }
-
-      return get(configuration, url);
-    };
+      )
+    );
 
     const resource = Object.assign(resourceDetails, {add, list});
     return resource;
@@ -105,27 +97,11 @@ export const drms = (configuration, encodingId, muxingTypeUrl, muxingId, httpCli
     primeTime: typeFn('primetime'),
     widevine: typeFn('widevine'),
 
-    list: (limit, offset) => {
-      let url = urljoin(
-        configuration.apiBaseUrl,
-        'encoding/encodings',
-        encodingId,
-        'muxings',
-        muxingTypeUrl,
-        muxingId,
-        'drm'
-      );
-
-      const getParams = utils.buildGetParamString({
-        limit,
-        offset
-      });
-      if (getParams.length > 0) {
-        url = urljoin(url, getParams);
-      }
-
-      return get(configuration, url);
-    }
+    list: utils.buildListCallFunction(
+      httpClient,
+      configuration,
+      urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', muxingTypeUrl, muxingId, 'drm')
+    )
   };
 };
 

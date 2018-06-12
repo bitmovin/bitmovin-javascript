@@ -4,7 +4,7 @@ import http, {utils} from '../utils/http';
 import {HttpClient} from '../utils/types';
 
 export const domains = (configuration, licenseId, httpClient: HttpClient) => {
-  const {get, post, delete_} = httpClient;
+  const {post, delete_} = httpClient;
 
   const resourceDetails = domainId => {
     return {
@@ -20,19 +20,11 @@ export const domains = (configuration, licenseId, httpClient: HttpClient) => {
     return post(configuration, url, domain);
   };
 
-  const list = (limit, offset) => {
-    let url = urljoin(configuration.apiBaseUrl, 'player/licenses', licenseId, 'domains');
-
-    const getParams = utils.buildGetParamString({
-      limit,
-      offset
-    });
-    if (getParams.length > 0) {
-      url = urljoin(url, getParams);
-    }
-
-    return get(configuration, url);
-  };
+  const list = utils.buildListCallFunction(
+    httpClient,
+    configuration,
+    urljoin(configuration.apiBaseUrl, 'player/licenses', licenseId, 'domains')
+  );
 
   const resource = Object.assign(resourceDetails, {add, list});
   return resource;

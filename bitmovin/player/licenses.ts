@@ -23,19 +23,11 @@ export const licenses = (configuration, httpClient: HttpClient) => {
     };
   };
 
-  const list = (limit, offset) => {
-    let url = urljoin(configuration.apiBaseUrl, 'player/licenses');
-
-    const getParams = utils.buildGetParamString({
-      limit,
-      offset
-    });
-    if (getParams.length > 0) {
-      url = urljoin(url, getParams);
-    }
-
-    return get(configuration, url);
-  };
+  const list = utils.buildListCallFunction(
+    httpClient,
+    configuration,
+    urljoin(configuration.apiBaseUrl, 'player/licenses')
+  );
 
   const resource = Object.assign(resourceDetails, {list});
   return resource;

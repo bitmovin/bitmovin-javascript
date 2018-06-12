@@ -1,3 +1,5 @@
+import urljoin from 'url-join';
+
 import http, {utils} from '../../../utils/http';
 import {HttpClient, InternalConfiguration} from '../../../utils/types';
 
@@ -7,7 +9,7 @@ export const filters = (
   streamId: string,
   httpClient: HttpClient
 ) => {
-  const {get, post, delete_} = httpClient;
+  const {post, delete_} = httpClient;
 
   const resourceDetails = filterId => {
     return {
@@ -32,19 +34,11 @@ export const filters = (
     return post(configuration, url, filter);
   };
 
-  const list = (limit, offset) => {
-    let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'filters');
-
-    const getParams = utils.buildGetParamString({
-      limit,
-      offset
-    });
-    if (getParams.length > 0) {
-      url = urljoin(url, getParams);
-    }
-
-    return get(configuration, url);
-  };
+  const list = utils.buildListCallFunction(
+    httpClient,
+    configuration,
+    urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'filters')
+  );
 
   const deleteAll = () => {
     const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'filters');

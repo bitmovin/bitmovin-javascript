@@ -12,17 +12,7 @@ const apiKeys = (configuration, httpClient: HttpClient) => {
     return get(configuration, url);
   };
 
-  const list = (limit, offset) => {
-    let url = apiKeysBaseUrl;
-    const getParams = utils.buildGetParamString({
-      limit,
-      offset
-    });
-    if (getParams.length > 0) {
-      url = urljoin(url, getParams);
-    }
-    return get(configuration, url);
-  };
+  const list = utils.buildListCallFunction(httpClient, configuration, apiKeysBaseUrl);
 
   const create = () => {
     const url = apiKeysBaseUrl;

@@ -9,8 +9,7 @@ import {
   Details,
   HttpClient,
   InternalConfiguration,
-  List,
-  Pagination
+  List
 } from '../../utils/types';
 
 import muxings, {Muxings} from './muxings';
@@ -67,22 +66,11 @@ export const encodings = (configuration: InternalConfiguration, httpClient: Http
     return post<ApiResource<Encoding>, object>(configuration, url, encoding);
   };
 
-  const list = (limit, offset, sort, filter) => {
-    let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings');
-
-    const filterParams = utils.buildFilterParamString(filter);
-    const getParams = utils.buildGetParamString({
-      ...filterParams,
-      limit,
-      offset,
-      sort
-    });
-    if (getParams.length > 0) {
-      url = urljoin(url, getParams);
-    }
-
-    return get<Pagination<Encoding>>(configuration, url);
-  };
+  const list = utils.buildListCallFunction<Encoding>(
+    httpClient,
+    configuration,
+    urljoin(configuration.apiBaseUrl, 'encoding/encodings')
+  );
 
   const resource = Object.assign(resourceDetails, {
     create,

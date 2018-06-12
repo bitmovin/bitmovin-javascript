@@ -53,11 +53,11 @@ export const aws = (configuration, httpClient: HttpClient) => {
       return post(configuration, url, infrastructure);
     };
 
-    const list = (limit, offset, sort, filter) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type);
-      url = utils.buildUrlParams(url, {limit, offset, sort, filter});
-      return get(configuration, url);
-    };
+    const list = utils.buildListCallFunction(
+      httpClient,
+      configuration,
+      urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type)
+    );
 
     const resource = Object.assign(resourceDetails, {create, list});
     return resource;

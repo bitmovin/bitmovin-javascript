@@ -4,7 +4,7 @@ import urljoin from 'url-join';
 
 import BitmovinError from './BitmovinError';
 import logger from './Logger';
-import {HttpClient} from './types';
+import {HttpClient, InternalConfiguration, List, Pagination} from './types';
 
 const GET = 'GET';
 const POST = 'POST';
@@ -75,67 +75,89 @@ const delete_ = (configuration, url, fetchMethod = fetch) => {
   return request(configuration, DELETE, url, fetchMethod, undefined);
 };
 
-export const utils = {
-  buildGetParamString: (getParams: object) => {
-    const params = [];
-    let paramsString = '';
-
-    for (const key in getParams) {
-      if (getParams.hasOwnProperty(key)) {
-        const value = getParams[key];
-        if (value !== undefined && value !== null && value !== '') {
-          params.push(key + '=' + getParams[key]);
-        }
-      }
-    }
-
-    for (let i = 0; i < params.length; i++) {
-      let param = '';
-      if (i === 0) {
-        param += '?';
-      } else {
-        param += '&';
-      }
-      param += params[i];
-
-      paramsString += param;
-    }
-
-    return paramsString;
-  },
-
-  buildFilterParamString: (filterParams?: object) => {
-    const processedFilterParams = {};
-    for (const key in filterParams) {
-      if (filterParams.hasOwnProperty(key)) {
-        processedFilterParams[key] = filterParams[key].join(',');
-      }
-    }
-    return processedFilterParams;
-  },
-
-  buildUrlParams: (baseUrl: string, params: object) => {
-    const filterParams = utils.buildFilterParamString(params.filter);
-    const getParams = utils.buildGetParamString({
-      ...filterParams,
-      limit: params.limit,
-      offset: params.offset,
-      sort: params.sort
-    });
-
-    if (getParams.length > 0) {
-      return urljoin(baseUrl, getParams);
-    }
-
-    return baseUrl;
-  }
-};
-
 const Http: HttpClient = {
   get,
   post,
   put,
   delete_
+};
+
+const buildGetParamString = (getParams: object) => {
+  const params = [];
+  let paramsString = '';
+
+  for (const key in getParams) {
+    if (getParams.hasOwnProperty(key)) {
+      const value = getParams[key];
+      if (value !== undefined && value !== null && value !== '') {
+        params.push(key + '=' + getParams[key]);
+      }
+    }
+  }
+
+  for (let i = 0; i < params.length; i++) {
+    let param = '';
+    if (i === 0) {
+      param += '?';
+    } else {
+      param += '&';
+    }
+    param += params[i];
+
+    paramsString += param;
+  }
+
+  return paramsString;
+};
+
+const buildFilterParamString = (filterParams?: object) => {
+  const processedFilterParams = {};
+  for (const key in filterParams) {
+    if (filterParams.hasOwnProperty(key)) {
+      processedFilterParams[key] = filterParams[key].join(',');
+    }
+  }
+  return processedFilterParams;
+};
+
+const buildUrlParams = (baseUrl: string, params: object) => {
+  const filterParams = utils.buildFilterParamString(params.filter);
+  const getParams = utils.buildGetParamString({
+    ...filterParams,
+    limit: params.limit,
+    offset: params.offset,
+    sort: params.sort
+  });
+
+  if (getParams.length > 0) {
+    return urljoin(baseUrl, getParams);
+  }
+
+  return baseUrl;
+};
+
+export const utils = {
+  buildGetParamString,
+  buildFilterParamString,
+  buildUrlParams,
+
+  buildListCallFunction<T>(httpClient: HttpClient, configuration: InternalConfiguration, url: string): List<T> {
+    return (limit?: number, offset?: number, sort?: string, filter?: object): Promise<Pagination<T>> => {
+      const filterParams = buildFilterParamString(filter);
+      const getParams = buildGetParamString({
+        ...filterParams,
+        limit,
+        offset,
+        sort
+      });
+
+      if (getParams.length > 0) {
+        url = urljoin(url, getParams);
+      }
+
+      return httpClient.get<Pagination<T>>(configuration, url);
+    };
+  }
 };
 
 export default Http;

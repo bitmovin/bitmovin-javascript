@@ -53,19 +53,11 @@ export const thumbnails = (configuration, encodingId, streamId, httpClient: Http
     return post(configuration, url, thumbnail);
   };
 
-  const list = (limit, offset) => {
-    let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails');
-
-    const getParams = utils.buildGetParamString({
-      limit,
-      offset
-    });
-    if (getParams.length > 0) {
-      url = urljoin(url, getParams);
-    }
-
-    return get(configuration, url);
-  };
+  const list = utils.buildListCallFunction(
+    httpClient,
+    configuration,
+    urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId, 'thumbnails')
+  );
 
   const resourceDetails = Object.assign(details, {
     add,

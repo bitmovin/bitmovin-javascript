@@ -33,20 +33,11 @@ export const filters = (configuration, httpClient: HttpClient) => {
       return post(configuration, url, filter);
     };
 
-    const list = (limit, offset, sort) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl);
-
-      const getParams = utils.buildGetParamString({
-        limit,
-        offset,
-        sort
-      });
-      if (getParams.length > 0) {
-        url = urljoin(url, getParams);
-      }
-
-      return get(configuration, url);
-    };
+    const list = utils.buildListCallFunction(
+      httpClient,
+      configuration,
+      urljoin(configuration.apiBaseUrl, 'encoding/filters', typeUrl)
+    );
 
     const resource = Object.assign(resourceDetails, {create, list});
     return resource;
@@ -58,22 +49,7 @@ export const filters = (configuration, httpClient: HttpClient) => {
     rotate: typeFn('rotate'),
     watermark: typeFn('watermark'),
 
-    list: (limit, offset, sort, filter) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/filters');
-
-      const filterParams = utils.buildFilterParamString(filter);
-      const getParams = utils.buildGetParamString({
-        ...filterParams,
-        limit,
-        offset,
-        sort
-      });
-      if (getParams.length > 0) {
-        url = urljoin(url, getParams);
-      }
-
-      return get(configuration, url);
-    }
+    list: utils.buildListCallFunction(httpClient, configuration, urljoin(configuration.apiBaseUrl, 'encoding/filters'))
   };
 };
 

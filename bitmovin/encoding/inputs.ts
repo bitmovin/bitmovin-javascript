@@ -28,19 +28,11 @@ export const inputs = (configuration, httpClient: HttpClient) => {
       return post(configuration, url, input);
     };
 
-    const list = (limit, offset) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl);
-
-      const getParams = utils.buildGetParamString({
-        limit,
-        offset
-      });
-      if (getParams.length > 0) {
-        url = urljoin(url, getParams);
-      }
-
-      return get(configuration, url);
-    };
+    const list = utils.buildListCallFunction(
+      httpClient,
+      configuration,
+      urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl)
+    );
 
     const resource = Object.assign(resourceDetails, {create, list});
     return resource;
@@ -56,19 +48,11 @@ export const inputs = (configuration, httpClient: HttpClient) => {
       };
     };
 
-    rtmpFn.list = (limit, offset) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl);
-
-      const getParams = utils.buildGetParamString({
-        limit,
-        offset
-      });
-      if (getParams.length > 0) {
-        url = urljoin(url, getParams);
-      }
-
-      return get(configuration, url);
-    };
+    rtmpFn.list = utils.buildListCallFunction(
+      httpClient,
+      configuration,
+      urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl)
+    );
 
     return rtmpFn;
   };
@@ -86,22 +70,7 @@ export const inputs = (configuration, httpClient: HttpClient) => {
     sftp: typeFn('sftp'),
     local: typeFn('local'),
 
-    list: (limit, offset, sort, filter) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/inputs');
-
-      const filterParams = utils.buildFilterParamString(filter);
-      const getParams = utils.buildGetParamString({
-        ...filterParams,
-        limit,
-        offset,
-        sort
-      });
-      if (getParams.length > 0) {
-        url = urljoin(url, getParams);
-      }
-
-      return get(configuration, url);
-    },
+    list: utils.buildListCallFunction(httpClient, configuration, urljoin(configuration.apiBaseUrl, 'encoding/inputs')),
 
     getType: inputId => {
       const url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', inputId, 'type');

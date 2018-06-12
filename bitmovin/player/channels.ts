@@ -7,19 +7,11 @@ export const channels = (configuration, httpClient: HttpClient) => {
   const {get} = httpClient;
   const resourceDetails = channelName => {
     const versions = {
-      list: (limit, offset) => {
-        let url = urljoin(configuration.apiBaseUrl, 'player/channels', channelName, 'versions');
-
-        const getParams = utils.buildGetParamString({
-          limit,
-          offset
-        });
-        if (getParams.length > 0) {
-          url = urljoin(url, getParams);
-        }
-
-        return get(configuration, url);
-      },
+      list: utils.buildListCallFunction(
+        httpClient,
+        configuration,
+        urljoin(configuration.apiBaseUrl, 'player/channels', channelName, 'versions')
+      ),
       latest: () => {
         const url = urljoin(configuration.apiBaseUrl, 'player/channels', channelName, 'versions', 'latest');
         return get(configuration, url);
@@ -31,19 +23,11 @@ export const channels = (configuration, httpClient: HttpClient) => {
     };
   };
 
-  const list = (limit, offset) => {
-    let url = urljoin(configuration.apiBaseUrl, 'player/channels');
-
-    const getParams = utils.buildGetParamString({
-      limit,
-      offset
-    });
-    if (getParams.length > 0) {
-      url = urljoin(url, getParams);
-    }
-
-    return get(configuration, url);
-  };
+  const list = utils.buildListCallFunction(
+    httpClient,
+    configuration,
+    urljoin(configuration.apiBaseUrl, 'player/channels')
+  );
 
   const resource = Object.assign(resourceDetails, {list});
   return resource;

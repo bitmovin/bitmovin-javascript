@@ -35,21 +35,11 @@ export const infrastructure = (configuration, httpClient: HttpClient) => {
       return post(configuration, url, infrastructure);
     };
 
-    const list = (limit, offset, sort, filter) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type);
-      const filterParams = utils.buildFilterParamString(filter);
-      const getParams = utils.buildGetParamString({
-        ...filterParams,
-        limit,
-        offset,
-        sort
-      });
-      if (getParams.length > 0) {
-        url = urljoin(url, getParams);
-      }
-
-      return get(configuration, url);
-    };
+    const list = utils.buildListCallFunction(
+      httpClient,
+      configuration,
+      urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type)
+    );
 
     const resource = Object.assign(resourceDetails, {create, list});
     return resource;

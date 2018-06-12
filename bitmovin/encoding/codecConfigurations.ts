@@ -36,20 +36,11 @@ export const codecConfigurations = (configuration, httpClient: HttpClient) => {
       return post(configuration, url, codecConfig);
     };
 
-    const list = (limit, offset, sort) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', typeUrl);
-
-      const getParams = utils.buildGetParamString({
-        limit,
-        offset,
-        sort
-      });
-      if (getParams.length > 0) {
-        url = urljoin(url, getParams);
-      }
-
-      return get(configuration, url);
-    };
+    const list = utils.buildListCallFunction(
+      httpClient,
+      configuration,
+      urljoin(configuration.apiBaseUrl, 'encoding/configurations', typeUrl)
+    );
 
     const resource = Object.assign(resourceDetails, {create, list});
     return resource;
@@ -69,22 +60,11 @@ export const codecConfigurations = (configuration, httpClient: HttpClient) => {
     vp8: typeFn('video/vp8'),
     mjpeg: typeFn('video/mjpeg'),
 
-    list: (limit, offset, sort, filter) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/configurations');
-
-      const filterParams = utils.buildFilterParamString(filter);
-      const getParams = utils.buildGetParamString({
-        ...filterParams,
-        limit,
-        offset,
-        sort
-      });
-      if (getParams.length > 0) {
-        url = urljoin(url, getParams);
-      }
-
-      return get(configuration, url);
-    },
+    list: utils.buildListCallFunction(
+      httpClient,
+      configuration,
+      urljoin(configuration.apiBaseUrl, 'encoding/configurations')
+    ),
 
     getType: configurationId => {
       const url = urljoin(configuration.apiBaseUrl, 'encoding/configurations', configurationId, 'type');

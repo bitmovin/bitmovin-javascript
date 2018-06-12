@@ -41,19 +41,11 @@ export const muxings = (configuration: InternalConfiguration, encodingId: string
       return post(configuration, url, muxing);
     };
 
-    const list = (limit, offset) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl);
-
-      const getParams = utils.buildGetParamString({
-        limit,
-        offset
-      });
-      if (getParams.length > 0) {
-        url = urljoin(url, getParams);
-      }
-
-      return get(configuration, url);
-    };
+    const list = utils.buildListCallFunction<Muxing>(
+      httpClient,
+      configuration,
+      urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings', typeUrl)
+    );
 
     const resource = Object.assign(resourceDetails, {
       add,
@@ -69,19 +61,11 @@ export const muxings = (configuration: InternalConfiguration, encodingId: string
     mp4: typeFn('mp4'),
     webm: typeFn('webm'),
 
-    list: (limit, offset) => {
-      let url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings');
-
-      const getParams = utils.buildGetParamString({
-        limit,
-        offset
-      });
-      if (getParams.length > 0) {
-        url = urljoin(url, getParams);
-      }
-
-      return get(configuration, url);
-    }
+    list: utils.buildListCallFunction<Muxing>(
+      httpClient,
+      configuration,
+      urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'muxings')
+    )
   };
 };
 

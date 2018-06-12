@@ -4,8 +4,9 @@ import http, {utils} from '../../../utils/http';
 
 import contentProtections from './dashManifestContentProtections';
 import representations from './dashManifestRepresentations';
+import {HttpClient, InternalConfiguration} from '../../../utils/types';
 
-export const adaptationSets = (configuration, manifestId, periodId, httpClient: HttpClient) => {
+export const adaptationSets = (configuration: InternalConfiguration, manifestId, periodId, httpClient: HttpClient) => {
   const {get, post, delete_} = httpClient;
   const typeFn = typeUrl => {
     const resourceDetails = adaptationSetId => {
@@ -54,8 +55,10 @@ export const adaptationSets = (configuration, manifestId, periodId, httpClient: 
       return post(configuration, url, period);
     };
 
-    const list = (limit, offset) => {
-      let url = urljoin(
+    const list = utils.buildListCallFunction(
+      httpClient,
+      configuration,
+      urljoin(
         configuration.apiBaseUrl,
         'encoding/manifests/dash',
         manifestId,
@@ -63,37 +66,26 @@ export const adaptationSets = (configuration, manifestId, periodId, httpClient: 
         periodId,
         'adaptationsets',
         typeUrl
-      );
+      )
+    );
 
-      const getParams = utils.buildGetParamString({
-        limit,
-        offset
-      });
-      if (getParams.length > 0) {
-        url = urljoin(url, getParams);
-      }
-
-      return get(configuration, url);
-    };
-
-    const resource = Object.assign(resourceDetails, {add, create, list});
+    const resource = Object.assign(resourceDetails, {create, list});
     return resource;
   };
 
-  const resourceDetails = adaptationSetId => {
+  const fn = adaptationSetId => {
     return {
       representations: representations(configuration, manifestId, periodId, adaptationSetId),
       contentProtections: contentProtections(configuration, manifestId, periodId, adaptationSetId, null)
     };
   };
 
-  fn.audio = typeFn('audio');
-  fn.video = typeFn('video');
-  fn.subtitle = typeFn('subtitle');
-  fn.custom = typeFn('custom');
+  const audio = typeFn('audio');
+  const video = typeFn('video');
+  const subtitle = typeFn('subtitle');
+  const custom = typeFn('custom');
 
-  const resource = Object.assign(resourceDetails, {add, create, list});
-  return resource;
+  return Object.assign(fn, {audio, video, subtitle, custom});
 };
 
 export default (configuration, manifestId, periodId) => {
