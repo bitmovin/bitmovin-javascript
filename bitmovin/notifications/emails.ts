@@ -1,5 +1,5 @@
 // @flow
-import urljoin from 'url-join';
+import * as urljoin from 'url-join';
 
 import httpClient, {utils} from '../utils/http';
 import {
