@@ -1,4 +1,4 @@
-import {account} from '../../bitmovin/account/account';
+import {account} from '../../bitmovin/account';
 import {
   assertItCallsCorrectUrl,
   assertItReturnsUnderlyingPromise,
