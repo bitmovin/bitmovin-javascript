@@ -24,7 +24,7 @@ const apiKeys = (configuration, httpClient: HttpClient) => {
     return delete_(configuration, url);
   };
 
-  const resource = Object.assign(resourceDetails, {deleteApiKey, create, list});
+  const resource = Object.assign(resourceDetails, {delete: deleteApiKey, create, list});
   return resource;
 };
 

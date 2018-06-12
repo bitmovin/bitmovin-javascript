@@ -1,7 +1,7 @@
 import urljoin from 'url-join';
 
 import http from '../utils/http';
-import {HttpClient, InternalConfiguration} from '../utils/types';
+import {Create, Details, HttpClient, InternalConfiguration} from '../utils/types';
 
 import apiKeys from './apiKeys';
 import billing from './billing';
@@ -48,9 +48,9 @@ export const account = (configuration: InternalConfiguration, httpClient: HttpCl
 };
 
 export interface Account {
-  information: () => void;
-  login: (eMail: string, password: string) => void;
-  changePassword: (eMail: string, currentPassword: string, newPassword: string) => void;
+  information: () => Details<{}>;
+  login: (eMail: string, password: string) => Create<{}>;
+  changePassword: (eMail: string, currentPassword: string, newPassword: string) => Create<{}>;
   billing: object;
   organizations: object;
   apiKeys: object;

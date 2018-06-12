@@ -143,6 +143,8 @@ export const utils = {
 
   buildListCallFunction<T>(httpClient: HttpClient, configuration: InternalConfiguration, url: string): List<T> {
     return (limit?: number, offset?: number, sort?: string, filter?: object): Promise<Pagination<T>> => {
+      let urlToCall = url;
+
       const filterParams = buildFilterParamString(filter);
       const getParams = buildGetParamString({
         ...filterParams,
@@ -152,10 +154,10 @@ export const utils = {
       });
 
       if (getParams.length > 0) {
-        url = urljoin(url, getParams);
+        urlToCall = urljoin(url, getParams);
       }
 
-      return httpClient.get<Pagination<T>>(configuration, url);
+      return httpClient.get<Pagination<T>>(configuration, urlToCall);
     };
   }
 };
