@@ -8,6 +8,7 @@ import player, {Player} from './player';
 import logger from './utils/Logger';
 import utils from './utils/Utils';
 import {BitmovinConfiguration, InternalConfiguration} from './utils/types';
+import notifications, {Notifications} from './notifications/notifications';
 
 declare const __VERSION__: any;
 
@@ -71,6 +72,7 @@ export interface BitmovinAPI {
   player: Player;
   analytics: Analytics;
   account: Account;
+  notifications: Notifications
 }
 
 const Bitmovin = (configuration: BitmovinConfiguration): BitmovinAPI => {
@@ -82,7 +84,8 @@ const Bitmovin = (configuration: BitmovinConfiguration): BitmovinAPI => {
     encoding: encoding(internalConfig),
     player: player(internalConfig),
     analytics: analytics(internalConfig),
-    account: account(internalConfig)
+    account: account(internalConfig),
+    notifications: notifications(internalConfig)
   };
 
   return bitmovin;
