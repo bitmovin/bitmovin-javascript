@@ -2,18 +2,21 @@
 import emails from '../../bitmovin/notifications/emails';
 import {getConfiguration} from '../utils';
 import {mockHttp, testSetup} from '../assertions';
+import {EmailNotificationWithConditions} from '../../bitmovin/notifications/types';
 
 const testConfiguration = getConfiguration();
 const notificationEmails = emails(testConfiguration, mockHttp);
 
-const testEmailNotificationWithConditions = {
+const testEmailNotificationWithConditions: EmailNotificationWithConditions = {
   id: 'id',
   resolve: true,
-  conditions: [],
+  conditions: {
+    type: 'AND',
+    conditions: []
+  },
   emails: [],
   name: 'name',
-  description: 'description',
-  customData: null
+  description: 'description'
 };
 
 const testNotificationId = 'testNotificationId';
@@ -42,7 +45,7 @@ describe('liveInputStreamChanged', () => {
     });
 
     it('should include offset', async () => {
-      await notificationEmails.encoding.encodings.liveInputStreamChanged.list(null, 10);
+      await notificationEmails.encoding.encodings.liveInputStreamChanged.list(undefined, 10);
       expect(mockHttp.get).toHaveBeenCalledWith(
         testConfiguration,
         'https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/live-input-stream-changed?offset=10'
@@ -113,7 +116,7 @@ describe('liveInputStreamChanged', () => {
       });
 
       it('should include offset', async () => {
-        await notificationEmails.encoding.encodings(testEncodingId).liveInputStreamChanged.list(null, 10);
+        await notificationEmails.encoding.encodings(testEncodingId).liveInputStreamChanged.list(undefined, 10);
         expect(mockHttp.get).toHaveBeenCalledWith(
           testConfiguration,
           `https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/${testEncodingId}/live-input-stream-changed?offset=10`
