@@ -1,4 +1,4 @@
-import urljoin from 'url-join';
+import * as urljoin from 'url-join';
 
 import account, {Account} from './account';
 import analytics, {Analytics} from './analytics';

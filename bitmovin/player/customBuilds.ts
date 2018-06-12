@@ -1,4 +1,4 @@
-import urljoin from 'url-join';
+import * as urljoin from 'url-join';
 
 import http, {utils} from '../utils/http';
 import {HttpClient} from '../utils/types';
