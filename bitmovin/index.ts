@@ -16,11 +16,7 @@ const checkAuthorizationInConfiguration = configuration => {
     return;
   }
 
-  if (utils.isNoEmptyString(configuration.eMail) && utils.isNoEmptyString(configuration.password)) {
-    return;
-  }
-
-  logger.log('Neither apiKey nor email and password provided in configuration.');
+  logger.log('No apiKey provided in configuration.');
 };
 
 const setupConfiguration = configuration => {

@@ -39,7 +39,7 @@ export const inputs = (configuration, httpClient: HttpClient) => {
   };
 
   const rtmpTypeFn = typeUrl => {
-    const rtmpFn = inputId => {
+    const rtmpDetails = inputId => {
       return {
         details: () => {
           const url = urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl, inputId);
@@ -48,13 +48,17 @@ export const inputs = (configuration, httpClient: HttpClient) => {
       };
     };
 
-    rtmpFn.list = utils.buildListCallFunction(
+    const list = utils.buildListCallFunction(
       httpClient,
       configuration,
       urljoin(configuration.apiBaseUrl, 'encoding/inputs', typeUrl)
     );
 
-    return rtmpFn;
+    const rtmp = Object.assign(rtmpDetails, {
+      list
+    });
+
+    return rtmp;
   };
 
   return {

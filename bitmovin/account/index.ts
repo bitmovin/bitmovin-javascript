@@ -1,7 +1,7 @@
 import urljoin from 'url-join';
 
 import http from '../utils/http';
-import {Create, Details, HttpClient, InternalConfiguration} from '../utils/types';
+import {ApiResource, Details, HttpClient, InternalConfiguration} from '../utils/types';
 
 import apiKeys from './apiKeys';
 import billing from './billing';
@@ -11,7 +11,7 @@ export const account = (configuration: InternalConfiguration, httpClient: HttpCl
   const {get, post} = httpClient;
   const accountBaseUrl = urljoin(configuration.apiBaseUrl, 'account');
 
-  const information = () => {
+  const information: Details<object> = () => {
     const url = urljoin(accountBaseUrl, '/information');
 
     return get(configuration, url);
@@ -24,7 +24,7 @@ export const account = (configuration: InternalConfiguration, httpClient: HttpCl
       password
     };
 
-    return post(configuration, url, loginRequestPayload);
+    return post<ApiResource<object>, object>(configuration, url, loginRequestPayload);
   };
 
   const changePassword = (eMail, currentPassword, newPassword) => {
@@ -34,7 +34,7 @@ export const account = (configuration: InternalConfiguration, httpClient: HttpCl
       currentPassword,
       newPassword
     };
-    return post(configuration, url, changePasswordPayload);
+    return post<ApiResource<object>, object>(configuration, url, changePasswordPayload);
   };
 
   return {
@@ -48,9 +48,9 @@ export const account = (configuration: InternalConfiguration, httpClient: HttpCl
 };
 
 export interface Account {
-  information: () => Details<{}>;
-  login: (eMail: string, password: string) => Create<{}>;
-  changePassword: (eMail: string, currentPassword: string, newPassword: string) => Create<{}>;
+  information: Details<object>;
+  login: (eMail: string, password: string) => Promise<ApiResource<object>>;
+  changePassword: (eMail: string, currentPassword: string, newPassword: string) => Promise<ApiResource<object>>;
   billing: object;
   organizations: object;
   apiKeys: object;

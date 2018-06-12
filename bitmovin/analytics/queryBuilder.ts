@@ -1,11 +1,16 @@
 class Builder {
-  private query_: object;
-  private aggregations_: object;
+  private queryObj: {
+    target: any;
+    filters: any[];
+    groupBy: any[];
+    orderBy: any[];
+  };
+  private aggregations: object;
   private percentile: any;
 
   constructor(aggregations, query?) {
-    this.aggregations_ = aggregations;
-    this.query_ =
+    this.aggregations = aggregations;
+    this.queryObj =
       query ||
       Object.freeze({
         filters: [],
@@ -31,16 +36,16 @@ class Builder {
 
   public filter(name, operator, value) {
     const filter = Object.freeze({name, operator, value});
-    return this.extendQuery_({filters: Object.freeze([...this.query_.filters, filter])});
+    return this.extendQuery_({filters: Object.freeze([...this.queryObj.filters, filter])});
   }
 
   public groupBy(dimension) {
-    return this.extendQuery_({groupBy: Object.freeze([...this.query_.groupBy, dimension])});
+    return this.extendQuery_({groupBy: Object.freeze([...this.queryObj.groupBy, dimension])});
   }
 
   public orderBy(name, order) {
     const newOrder = Object.freeze({name, order});
-    return this.extendQuery_({orderBy: Object.freeze([...this.query_.orderBy, newOrder])});
+    return this.extendQuery_({orderBy: Object.freeze([...this.queryObj.orderBy, newOrder])});
   }
 
   public percentile_(percentile) {
@@ -60,11 +65,11 @@ class Builder {
   }
 
   public extendQuery_(extensions) {
-    return new Builder(this.aggregations_, Object.freeze({...this.query_, ...extensions}));
+    return new Builder(this.aggregations, Object.freeze({...this.queryObj, ...extensions}));
   }
 
   public query() {
-    const {target, ...queryAttrs} = this.query_;
+    const {target, ...queryAttrs} = this.queryObj;
     return target(queryAttrs);
   }
 }

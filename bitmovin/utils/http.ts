@@ -76,14 +76,14 @@ const delete_ = (configuration, url, fetchMethod = fetch) => {
 };
 
 const buildGetParamString = (getParams: object) => {
-  const params = [];
+  const params: string[] = [];
   let paramsString = '';
 
   for (const key in getParams) {
     if (getParams.hasOwnProperty(key)) {
       const value = getParams[key];
       if (value !== undefined && value !== null && value !== '') {
-        params.push(key + '=' + getParams[key]);
+        params.push(`${key}=${value}`);
       }
     }
   }
@@ -103,7 +103,7 @@ const buildGetParamString = (getParams: object) => {
   return paramsString;
 };
 
-const buildFilterParamString = (filterParams?: object) => {
+const buildFilterParamString = (filterParams: object) => {
   const processedFilterParams = {};
   for (const key in filterParams) {
     if (filterParams.hasOwnProperty(key)) {
@@ -121,7 +121,7 @@ const buildListCallFunction = <T>(
   return (limit?: number, offset?: number, sort?: string, filter?: object): Promise<Pagination<T>> => {
     let urlToCall = url;
 
-    const filterParams = buildFilterParamString(filter);
+    const filterParams = filter ? buildFilterParamString(filter) : {};
     const getParams = buildGetParamString({
       ...filterParams,
       limit,

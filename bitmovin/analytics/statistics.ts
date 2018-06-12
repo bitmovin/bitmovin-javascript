@@ -10,7 +10,7 @@ export const statistics = (configuration, httpClient: HttpClient) => {
   return {
     impressions: (licenseKeyId, start, end, interval, offset, limit) => {
       if (!start || !end) {
-        return Promise.reject(new BitmovinError('Not all required params given.'));
+        return Promise.reject(new BitmovinError('Not all required params given.', undefined));
       }
 
       const analyticsStatisticsBaseUrl = urljoin(configuration.apiBaseUrl, '/analytics/statistics/impressions');

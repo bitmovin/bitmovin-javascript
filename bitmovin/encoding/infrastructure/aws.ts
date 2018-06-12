@@ -8,7 +8,7 @@ export const aws = (configuration, httpClient: HttpClient) => {
 
   const typeFn = type => {
     const resourceDetails = id => {
-      const regions = regionName => {
+      const regionDetails = regionName => {
         return {
           add: region => {
             const url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type, id, 'regions', regionName);
@@ -25,11 +25,15 @@ export const aws = (configuration, httpClient: HttpClient) => {
         };
       };
 
-      regions.list = utils.buildListCallFunction(
+      const listRegions = utils.buildListCallFunction(
         httpClient,
         configuration,
         urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type, id, 'regions')
       );
+
+      const regions = Object.assign(regionDetails, {
+        list: listRegions
+      });
 
       return {
         status: () => {

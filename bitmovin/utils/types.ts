@@ -1,8 +1,6 @@
 export interface BitmovinConfiguration {
   apiKey: string;
   tenantOrgId?: string;
-  eMail?: string;
-  password?: string;
   debug?: boolean;
   protocol?: string;
   host?: string;
@@ -17,8 +15,6 @@ export interface BitmovinConfiguration {
 export interface InternalConfiguration {
   apiKey: string;
   tenantOrgId?: string;
-  eMail?: string;
-  password?: string;
   debug?: boolean;
   protocol: string;
   host: string;

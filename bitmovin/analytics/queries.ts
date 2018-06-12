@@ -3,7 +3,7 @@ import urljoin from 'url-join';
 import http from '../utils/http';
 import {HttpClient} from '../utils/types';
 
-import queryBuilder from './query_builder';
+import queryBuilder from './queryBuilder';
 
 export const queries = (configuration, httpClient: HttpClient) => {
   const {post} = httpClient;
