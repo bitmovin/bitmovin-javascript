@@ -1,6 +1,7 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../../../utils/http';
+import {HttpClient} from '../../../utils/types';
 
 import adaptationSets from './dashManifestAdaptationSets';
 
@@ -39,7 +40,7 @@ export const dashManifestPeriods = (configuration, manifestId, httpClient: HttpC
     return get(configuration, url);
   };
 
-  const resource = Object.assign(resourceDetails, {add, create, list});
+  const resource = Object.assign(resourceDetails, {add, list});
   return resource;
 };
 

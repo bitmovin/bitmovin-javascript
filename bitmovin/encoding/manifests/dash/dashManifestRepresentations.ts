@@ -1,6 +1,7 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../../../utils/http';
+import {HttpClient} from '../../../utils/types';
 
 import contentProtections from './dashManifestContentProtections';
 
@@ -83,7 +84,7 @@ export const representations = (configuration, manifestId, periodId, adaptationS
       return get(configuration, url);
     };
 
-    const resource = Object.assign(resourceDetails, {add, create, list});
+    const resource = Object.assign(resourceDetails, {add, list});
     return resource;
   };
 

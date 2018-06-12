@@ -14,7 +14,6 @@ export const statistics = (configuration, httpClient: HttpClient) => {
 
     if (options !== {} && options.from && options.to) {
       if (!isValidApiRequestDateString(options.from) || !isValidApiRequestDateString(options.to)) {
-        console.error('Wrong date format! Correct format is yyyy-MM-dd');
         return Promise.reject(new BitmovinError('Wrong date format! Correct format is yyyy-MM-dd', {}));
       }
       newUrl = urljoin(newUrl, options.from, options.to);

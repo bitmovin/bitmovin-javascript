@@ -1,6 +1,7 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../../../utils/http';
+import {HttpClient} from '../../../utils/types';
 
 import contentProtections from './smoothManifestContentProtections';
 import representations from './smoothManifestRepresentations';
@@ -54,7 +55,7 @@ export const smoothManifests = (configuration, httpClient: HttpClient) => {
     return get(configuration, url);
   };
 
-  const resource = Object.assign(resourceDetails, {add, create, list});
+  const resource = Object.assign(resourceDetails, {create, list});
   return resource;
 };
 

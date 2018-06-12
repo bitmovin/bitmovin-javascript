@@ -1,6 +1,7 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../../../utils/http';
+import {HttpClient} from '../../../utils/types';
 
 export const contentProtection = (configuration, manifestId, httpClient: HttpClient) => {
   const {get, post, delete_} = httpClient;
@@ -37,7 +38,7 @@ export const contentProtection = (configuration, manifestId, httpClient: HttpCli
     return get(configuration, url);
   };
 
-  const resource = Object.assign(resourceDetails, {add, create, list});
+  const resource = Object.assign(resourceDetails, {add, list});
   return resource;
 };
 

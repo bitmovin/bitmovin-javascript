@@ -1,6 +1,7 @@
 import urljoin from 'url-join';
 
 import http, {utils} from '../../../utils/http';
+import {HttpClient} from '../../../utils/types';
 
 export const representations = (configuration, manifestId, httpClient: HttpClient) => {
   const {get, post, delete_} = httpClient;
@@ -44,7 +45,7 @@ export const representations = (configuration, manifestId, httpClient: HttpClien
       return get(configuration, url);
     };
 
-    const resource = Object.assign(resourceDetails, {add, create, list});
+    const resource = Object.assign(resourceDetails, {add, list});
     return resource;
   };
 

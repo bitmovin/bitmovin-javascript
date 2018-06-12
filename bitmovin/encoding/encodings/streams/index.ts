@@ -4,6 +4,7 @@ import http, {utils} from '../../../utils/http';
 import {
   ApiResource,
   Create,
+  CustomData,
   Delete,
   Details,
   HttpClient,
@@ -82,6 +83,7 @@ interface StreamDetail {
   details: Details<Stream>;
   inputDetails: Details<StreamInput>;
   delete: Delete<{}>;
+  customData: CustomData;
   filters: object;
   thumbnails: object;
   sprites: object;

@@ -1,7 +1,7 @@
 class Builder {
   private query_: object;
   private aggregations_: object;
-  private percentile: object;
+  private percentile: any;
 
   constructor(aggregations, query?) {
     this.aggregations_ = aggregations;
