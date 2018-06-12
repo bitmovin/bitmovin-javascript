@@ -19,7 +19,7 @@ import thumbnails from './thumbnails';
 export const streams = (configuration: InternalConfiguration, encodingId: string, httpClient: HttpClient): Streams => {
   const {get, post, delete_} = httpClient;
 
-  const details = (streamId): StreamDetail => {
+  const resourceDetails = (streamId): StreamDetail => {
     return {
       details: () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams', streamId);
@@ -71,12 +71,7 @@ export const streams = (configuration: InternalConfiguration, encodingId: string
     return get<Pagination<Stream>>(configuration, url);
   };
 
-  const resourceDetails = Object.assign(details, {
-    add,
-    list
-  });
-
-  const resource = Object.assign(resourceDetails, {add, create, list});
+  const resource = Object.assign(resourceDetails, {add, list});
   return resource;
 };
 

@@ -69,7 +69,7 @@ export const sprites = (configuration, encodingId, streamId, httpClient: HttpCli
     return get(configuration, url);
   };
 
-  const resource = Object.assign(resourceDetails, {add, create, list});
+  const resource = Object.assign(resourceDetails, {add, list});
   return resource;
 };
 

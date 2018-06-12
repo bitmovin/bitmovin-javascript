@@ -72,7 +72,7 @@ export const thumbnails = (configuration, encodingId, streamId, httpClient: Http
     list
   });
 
-  const resource = Object.assign(resourceDetails, {add, create, list});
+  const resource = Object.assign(resourceDetails, {add, list});
   return resource;
 };
 
