@@ -19,7 +19,7 @@ describe('player', () => {
   describe('custom-builds', () => {
     const customBuildsClient = customBuilds(testConfiguration, mockHttp);
 
-    describe('add', function() {
+    describe('add', () => {
       assertItCallsCorrectUrl('POST', '/v1/player/custom-builds/web', customBuildsClient.web.add);
       assertItReturnsUnderlyingPromise(mockPost, () =>
         customBuildsClient.web.add({
@@ -46,13 +46,13 @@ describe('player', () => {
 
     describe('list limit only', () => {
       assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web\\?limit=10', () =>
-        customBuildsClient.web.list(10, null)
+        customBuildsClient.web.list(10, undefined)
       );
     });
 
     describe('list offset only', () => {
       assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web\\?offset=5', () =>
-        customBuildsClient.web.list(null, 5)
+        customBuildsClient.web.list(undefined, 5)
       );
     });
 
@@ -110,7 +110,7 @@ describe('player', () => {
       });
       describe('list offset only', () => {
         assertItCallsCorrectUrl('GET', '/v1/player/custom-builds/web/domains\\?offset=5', () =>
-          customBuildsClient.web.domains.list(null, 5)
+          customBuildsClient.web.domains.list(undefined, 5)
         );
         assertItReturnsUnderlyingPromise(mockGet, customBuildsClient.web.domains.list);
       });

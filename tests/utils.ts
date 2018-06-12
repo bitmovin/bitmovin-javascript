@@ -1,9 +1,11 @@
+import {InternalConfiguration} from '../bitmovin/utils/types';
+
 const settings = {
   apiKey: 'test-api-key',
   tenantOrgId: 'test-org-id'
 };
 
-const getConfiguration = () => {
+const getConfiguration = (): InternalConfiguration => {
   return {
     apiBaseUrl: 'https://api.bitmovin.com/v1/',
     httpHeaders: {
