@@ -76,7 +76,7 @@ export const adaptationSets = (configuration: InternalConfiguration, manifestId,
   const fn = adaptationSetId => {
     return {
       representations: representations(configuration, manifestId, periodId, adaptationSetId),
-      contentProtections: contentProtections(configuration, manifestId, periodId, adaptationSetId, null)
+      contentProtections: contentProtections(configuration, manifestId, periodId, adaptationSetId, undefined)
     };
   };
 
