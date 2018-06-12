@@ -7,6 +7,12 @@ const settings = {
 
 const getConfiguration = (): InternalConfiguration => {
   return {
+    ...settings,
+    protocol: 'https',
+    host: 'api.bitmovin.com',
+    basePath: '/v1',
+    requestTimeout: 300000,
+    xApiClient: 'bitmovin-javascript',
     apiBaseUrl: 'https://api.bitmovin.com/v1/',
     httpHeaders: {
       'Content-Type': 'application/json',

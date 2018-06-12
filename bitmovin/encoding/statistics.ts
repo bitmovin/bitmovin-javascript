@@ -65,7 +65,7 @@ export const statistics = (configuration, httpClient: HttpClient) => {
      * from: Date
      * to: Date
     */
-    overall: (from = undefined, to = undefined) => {
+    overall: (from?: string, to?: string) => {
       let url = urljoin(configuration.apiBaseUrl, 'encoding/statistics');
       if (from && to) {
         url = urljoin(url, from, to);
