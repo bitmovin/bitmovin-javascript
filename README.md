@@ -25,11 +25,29 @@ yarn add bitmovin-javascript
 Initialization
 ----------
 
-Using ES6 Imports
+The Babel configuration for all builds can be found in `.babelrc.js`.
+
+### Node
+
+Using ES6 `import`
 ```es6
 import Bitmovin from 'bitmovin-javascript';
 const bitmovin = new Bitmovin({'apiKey': '<YOUR_API_KEY>'});
 ```
+
+With `require`
+```js
+const Bitmovin = require('bitmovin-javascript').default;
+const bitmovin = new Bitmovin({'apiKey': '<YOUR_API_KEY>'});
+```
+
+### Browser
+
+Use `bitmovin-javascript/dist/bitmovin.browser.js` or `bitmovin.browser.min.js` for the minified version.
+
+### ES6 Module
+
+Import `bitmovin-javascript/dist/es-modules`, this "build" also includes [flow](https://github.com/facebook/flow) types.
 
 Usage
 -----------
@@ -44,8 +62,9 @@ So for example the list all inputs call is defined as `GET v1/encoding/inputs` i
 ```js
 const limit = 100;
 const offset = 0;
-bitmovin.encoding.inputs.list(limit, offset).then((inputs) => {
-  inputs.forEach((input) => {
+bitmovin.encoding.inputs.list(limit, offset).then(result => {
+  const {items} = result;
+  items.forEach(input => {
     console.log(input.name);
   });
 });
@@ -56,7 +75,7 @@ Examples
 
 An sample DASH & HLS encoding sample can be found in [examples/encoding/01_simple_encoding_dash_manifest.js](https://github.com/bitmovin/bitmovin-javascript/blob/develop/examples/encoding/01_simple_encoding_dash_manifest.js)
 
-For more examples visit our [example page](https://github.com/bitmovin/bitmovin-javascript/tree/develop/examples/encoding) or look at the [integration tests](https://github.com/bitmovin/bitmovin-javascript/tree/develop/tests_it)
+For more examples visit our [example page](https://github.com/bitmovin/bitmovin-javascript/tree/develop/examples/encoding).
 
 Contributing
 -----------
@@ -69,6 +88,7 @@ Running tests:
 yarn test
 yarn coverage
 ```
+
 License
 -----------
 MIT
