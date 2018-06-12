@@ -11,6 +11,7 @@ module.exports = {
   "globals": {
     "ts-jest": {
       "tsConfigFile": "tsconfig.json"
-    }
+    },
+    "__VERSION__": "test"
   }
 };
