@@ -1,11 +1,11 @@
 // @flow
-import type {BitmovinConfiguration, HttpClient} from '../utils/types';
+import {HttpClient, InternalConfiguration} from '../utils/types';
 import http from '../utils/http';
 
 import emails from './emails';
-import type {NotificationEmails} from './emails';
+import {NotificationEmails} from './emails';
 
-export const notifications = (configuration: BitmovinConfiguration, httpClient: HttpClient = http): Notifications => {
+export const notifications = (configuration: InternalConfiguration, httpClient: HttpClient = http): Notifications => {
   return {
     emails: emails(configuration, httpClient)
   };

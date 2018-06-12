@@ -2,66 +2,82 @@
 import urljoin from 'url-join';
 
 import httpClient, {utils} from '../utils/http';
-import type {BitmovinConfiguration, Create, Delete, Details, HttpClient, List} from '../utils/types';
+import {
+  ApiResource,
+  Create,
+  Delete,
+  Details,
+  HttpClient,
+  InternalConfiguration,
+  List,
+  Pagination
+} from '../utils/types';
 
-import type {EmailNotificationWithConditions, EmailNotificationWithConditionsDetails} from './types';
+import {EmailNotificationWithConditions, EmailNotificationWithConditionsDetails} from './types';
 
-const emails = (configuration: BitmovinConfiguration, http: HttpClient = httpClient): NotificationEmails => {
+const emails = (configuration: InternalConfiguration, http: HttpClient = httpClient): NotificationEmails => {
   const emailsBaseUrl = urljoin(configuration.apiBaseUrl, 'notifications', 'emails');
   const encodingBaseUrl = urljoin(emailsBaseUrl, 'encoding');
   const encodingsBaseUrl = urljoin(encodingBaseUrl, 'encodings');
 
   const listAll = (limit, offset, sort, filter) => {
     const url = buildListUrl(emailsBaseUrl, limit, offset, sort, filter);
-    return http.get(configuration, url);
+    return http.get<Pagination<EmailNotificationWithConditionsDetails>>(configuration, url);
   };
 
   const listEncoding = (limit, offset, sort, filter) => {
     const url = buildListUrl(encodingBaseUrl, limit, offset, sort, filter);
-    return http.get(configuration, url);
+    return http.get<Pagination<EmailNotificationWithConditionsDetails>>(configuration, url);
   };
 
-  let encodings = (encodingId: string) => {
+  const encodings = (encodingId: string) => {
     const url = urljoin(encodingsBaseUrl, encodingId);
     return {liveInputStreamChanged: createLiveInputStreamChangedMethods(url, configuration, http)};
   };
-  encodings.liveInputStreamChanged = createLiveInputStreamChangedMethods(encodingsBaseUrl, configuration, http);
+  const encodingsResource = Object.assign(encodings, {
+    liveInputStreamChanged: createLiveInputStreamChangedMethods(encodingsBaseUrl, configuration, http)
+  });
 
   return {
     list: listAll,
     encoding: {
       list: listEncoding,
-      encodings
+      encodings: encodingsResource
     }
   };
 };
 
 const createLiveInputStreamChangedMethods = (
   encodingsBaseUrl: string,
-  configuration: BitmovinConfiguration,
+  configuration: InternalConfiguration,
   http: HttpClient
-) => {
+): NotificationEmailsType => {
   const typeBaseUrl = urljoin(encodingsBaseUrl, 'live-input-stream-changed');
 
   let liveInputStreamChanged = (notificationId: string) => {
     const url = urljoin(typeBaseUrl, notificationId);
     return {
-      details: () => http.get(configuration, url),
-      delete: () => http.delete_(configuration, url),
-      replace: (emailNotification: EmailNotificationWithConditions) => http.put(configuration, url, emailNotification)
+      details: () => http.get<EmailNotificationWithConditionsDetails>(configuration, url),
+      delete: () => http.delete_<object>(configuration, url),
+      replace: (emailNotification: EmailNotificationWithConditions) => http.put<EmailNotificationWithConditionsDetails, EmailNotificationWithConditions>(configuration, url, emailNotification)
     };
   };
 
-  liveInputStreamChanged.create = (emailNotification: EmailNotificationWithConditions) => {
-    return http.post(configuration, typeBaseUrl, emailNotification);
+  const create = (emailNotification: EmailNotificationWithConditions) => {
+    return http.post<EmailNotificationWithConditions, EmailNotificationWithConditions>(configuration, typeBaseUrl, emailNotification);
   };
 
-  liveInputStreamChanged.list = (limit, offset, sort, filter) => {
+  const list = (limit, offset, sort, filter) => {
     const url = buildListUrl(typeBaseUrl, limit, offset, sort, filter);
-    return http.get(configuration, url);
+    return http.get<Pagination<EmailNotificationWithConditionsDetails>>(configuration, url);
   };
 
-  return liveInputStreamChanged;
+  const resource = Object.assign(liveInputStreamChanged, {
+    create,
+    list
+  });
+
+  return resource;
 };
 
 const buildListUrl = (url, limit, offset, sort, filter) => {
@@ -79,10 +95,10 @@ const buildListUrl = (url, limit, offset, sort, filter) => {
 };
 
 type NotificationEmailsType = {
-  $call: string => {
+  (notificationId: string): {
     details: Details<EmailNotificationWithConditionsDetails>,
-    delete: Delete<Object>,
-    replace: EmailNotificationWithConditions => Promise<EmailNotificationWithConditionsDetails>
+    delete: Delete<object>,
+    replace: (emailNotification: EmailNotificationWithConditions) => Promise<EmailNotificationWithConditionsDetails>
   },
   create: Create<EmailNotificationWithConditions>,
   list: List<EmailNotificationWithConditionsDetails>
@@ -93,7 +109,7 @@ export type NotificationEmails = {
   encoding: {
     list: List<EmailNotificationWithConditionsDetails>,
     encodings: {
-      $call: string => {
+      (encodingId: string): {
         liveInputStreamChanged: NotificationEmailsType
       },
       liveInputStreamChanged: NotificationEmailsType

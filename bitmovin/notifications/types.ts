@@ -1,34 +1,63 @@
 // @flow
-import {CONDITION_MEMBERS, CONDITION_OPERATORS, STREAM_CONDITION_MEMBERS} from './enums';
-
-export type ConditionMembers = $Keys<typeof CONDITION_MEMBERS>;
-export type ConditionOperators = $Keys<typeof CONDITION_OPERATORS>;
-export type StreamConditionMembers = $Keys<typeof STREAM_CONDITION_MEMBERS>;
-
-export type UserSpecificCustomData = {
-  customData: ?Object
+export enum ConditionMembers {
+  HEIGHT,
+  WIDTH,
+  BITRATE,
+  FPS,
+  ASPECTRATIO,
+  INPUTSTREAM,
+  LANGUAGE,
+  CHANNELFORMAT,
+  CHANNELLAYOUT,
+  STREAMCOUNT,
+  AUDIOSTREAMCOUNT,
+  VIDEOSTREAMCOUNT,
+  DURATION
 };
 
-export type UserSpecificCustomDataDetails = {
+export enum StreamConditionMembers {
+  BITRATE,
+  CODEC,
+  FPS,
+  HEIGHT,
+  WIDTH,
+  MEDIA_TYPE,
+  STREAM_ID
+};
+
+export enum ConditionOperators {
+  LESS_THAN_OR_EQUAL,
+  LESS_THAN,
+  GREATER_THAN,
+  GREATER_THAN_OR_EQUAL,
+  EQUAL,
+  UNEQUAL
+};
+
+export interface UserSpecificCustomData {
+  customData?: object
+};
+
+export interface UserSpecificCustomDataDetails {
   createdAt: string,
   modifiedAt: string,
-  customData: Object
+  customData: object
 };
 
-export type AbstractConditionConditionFirst = {
+export interface AbstractConditionConditionFirst {
   attribute: ConditionMembers,
   operator: ConditionOperators,
   value: string
 };
 
-export type StreamCondition = {
+export interface StreamCondition {
   type: 'CONDITION',
   attribute: StreamConditionMembers,
   operator: ConditionOperators,
   value: string
 };
 
-export type CompoundCondition = {
+export interface CompoundCondition {
   type: 'AND' | 'OR',
   conditions: Array<Condition>
 };
@@ -38,18 +67,18 @@ export type Condition = CompoundCondition | StreamCondition;
 export type EmailNotification = {
   id: string,
   emails: Array<string>,
-  name: ?string,
-  description: ?string
+  name?: string,
+  description?: string
 } & UserSpecificCustomData;
 
 export type EmailNotificationResource = {
   id: string,
-  triggeredAt: ?string,
-  resolvedAt: ?string
+  triggeredAt?: string,
+  resolvedAt?: string
 } & UserSpecificCustomDataDetails;
 
 export type EmailNotificationWithConditions = {
-  resolve: ?boolean,
+  resolve?: boolean,
   conditions: Condition
 } & EmailNotification;
 
