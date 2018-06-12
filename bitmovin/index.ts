@@ -57,11 +57,14 @@ const setupConfiguration = configuration => {
   internalConfig.httpHeaders = {
     'Content-Type': 'application/json',
     'X-Api-Key': internalConfig.apiKey,
-    'X-Tenant-Org-Id': internalConfig.tenantOrgId,
     'X-Api-Client': internalConfig.xApiClient,
     'X-Api-Client-Version': `${__VERSION__}`,
     ...internalConfig.additionalHeaders
   };
+
+  if (internalConfig.tenantOrgId !== undefined) {
+    internalConfig.httpHeaders['X-Tenant-Org-Id'] = internalConfig.tenantOrgId;
+  }
 
   return internalConfig;
 };
