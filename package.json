@@ -17,7 +17,7 @@
     "clean": "rimraf dist",
     "lint": "tslint --config ./tslint.json \"./{bitmovin,tests}/**/*.ts\"",
     "lint-examples": "eslint ./examples",
-    "test": "jest",
+    "test": "jest --watch",
     "coverage": "jest --coverage",
     "format": "prettier --config ./.prettierrc --write \"./{bitmovin,examples,tests}/**/*.ts\"",
     "format-check": "prettier --config ./.prettierrc --list-different \"./{bitmovin,examples,tests}/**/*.ts\"",
