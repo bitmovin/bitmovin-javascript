@@ -1,4 +1,4 @@
-import urljoin from 'url-join';
+import * as urljoin from 'url-join';
 
 import {permissions} from '../../../bitmovin/account/organizations/permissions';
 import {
