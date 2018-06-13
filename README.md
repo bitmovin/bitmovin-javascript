@@ -25,20 +25,18 @@ yarn add bitmovin-javascript
 Initialization
 ----------
 
-The Babel configuration for all builds can be found in `.babelrc.js`.
-
 ### Node
 
 Using ES6 `import`
 ```es6
 import Bitmovin from 'bitmovin-javascript';
-const bitmovin = new Bitmovin({'apiKey': '<YOUR_API_KEY>'});
+const bitmovin = Bitmovin({'apiKey': '<YOUR_API_KEY>'});
 ```
 
 With `require`
 ```js
 const Bitmovin = require('bitmovin-javascript').default;
-const bitmovin = new Bitmovin({'apiKey': '<YOUR_API_KEY>'});
+const bitmovin = Bitmovin({'apiKey': '<YOUR_API_KEY>'});
 ```
 
 ### Browser
@@ -51,7 +49,7 @@ Import `bitmovin-javascript/dist/index.js`.
 
 ### Types
 
-- Typescript (`bitmovin-javascript/dist/index.d.ts`
+- Typescript (`bitmovin-javascript/dist/index.d.ts`)
 
 Usage
 -----------
@@ -84,14 +82,7 @@ For more examples visit our [example page](https://github.com/bitmovin/bitmovin-
 Contributing
 -----------
 
-If you want to contribute feel free to send Pull-Requests. Make sure the tests pass and new functions have ample test coverage.
-
-Running tests:
-
-``` bash
-yarn test
-yarn coverage
-```
+If you want to contribute feel free to send Pull-Requests. Code quality is ensured through [lint-staged](https://github.com/okonet/lint-staged), please make sure all tests are passing with `yarn test`.
 
 License
 -----------
