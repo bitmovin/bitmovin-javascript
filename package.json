@@ -14,10 +14,9 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf dist",
-    "lint": "tslint --config ./tslint.json \"./{bitmovin,tests}/**/*.ts\"",
+    "lint": "tslint \"./{bitmovin,tests}/**/*.ts\"",
     "lint-examples": "eslint ./examples",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "jest --watch",
     "coverage-ci": "jest --runInBand --coverage",
     "format": "prettier --config ./.prettierrc --write \"./{bitmovin,examples,tests}/**/*.ts\"",
     "format-files": "prettier --config ./.prettierrc --write",
@@ -31,7 +30,12 @@
   "lint-staged": {
     "*.ts": [
       "yarn format-files",
-      "tslint",
+      "tslint --fix",
+      "git add"
+    ],
+    "*.js": [
+      "yarn format-files",
+      "eslint --fix",
       "git add"
     ]
   },
