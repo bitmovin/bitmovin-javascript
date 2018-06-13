@@ -6,7 +6,6 @@ script:
   - "yarn format-check"
   - "yarn lint"
   - "yarn lint-examples"
-  - "yarn test"
-  - "yarn coverage"
+  - "yarn coverage-ci"
   - "yarn run codecov"
   - "yarn build"

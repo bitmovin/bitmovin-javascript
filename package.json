@@ -18,7 +18,7 @@
     "lint-examples": "eslint ./examples",
     "test": "jest",
     "test:watch": "jest --watch",
-    "coverage": "jest --coverage",
+    "coverage-ci": "jest --runInBand --coverage",
     "format": "prettier --config ./.prettierrc --write \"./{bitmovin,examples,tests}/**/*.ts\"",
     "format-files": "prettier --config ./.prettierrc --write",
     "format-check": "prettier --config ./.prettierrc --list-different \"./{bitmovin,examples,tests}/**/*.ts\"",
