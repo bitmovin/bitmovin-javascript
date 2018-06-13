@@ -1,5 +1,5 @@
 import playerChannels, {Channels} from './channels';
-import customBuilds from './customBuilds';
+import customBuilds, {CustomBuilds} from './customBuilds';
 import playerLicenses, {Licenses} from './licenses';
 import playerStatistics, {Statistics} from './statistics';
 
@@ -14,7 +14,7 @@ export interface Player {
   channels: Channels;
   licenses: Licenses;
   statistics: Statistics;
-  customBuilds: object;
+  customBuilds: CustomBuilds;
 }
 
 export default player;

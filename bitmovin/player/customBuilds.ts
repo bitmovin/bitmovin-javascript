@@ -1,45 +1,85 @@
 import * as urljoin from 'url-join';
 
 import http, {utils} from '../utils/http';
-import {HttpClient} from '../utils/types';
+import {BitmovinDetails, Create, Delete, Details, HttpClient, List} from '../utils/types';
 
 import {webCustomPlayerBuildDomain} from './webCustomPlayerBuildDomain';
 
-export const customBuilds = (configuration, httpClient: HttpClient) => {
+export type CustomPlayerBuild = BitmovinDetails & {}; //TODO: there is no type CustomPlayerBuild in the api spec, find out what it contains
+export type CustomPlayerBuildDetails = CustomPlayerBuild & {
+  id: string
+}
+
+export enum CustomPlayerBuildStatusEnum {
+  CREATED = 'CREATED', FINISHED = 'FINISHED', RUNNING = 'RUNNING', ERROR = 'ERROR'
+}
+
+export interface CustomPlayerBuildStatus {
+  status: CustomPlayerBuildStatusEnum,
+  progress: number,
+  eta: number,
+  messages: Array<{text: string, links: Array<object>}>,
+  subtasks: Array<object>
+}
+
+export interface CustomPlayerBuildDownload {
+  downloadLink: string,
+  expiresAt: string
+}
+
+export interface CustomBuildsWeb {
+  (customBuildId: string): {
+    details: Details<CustomPlayerBuildDetails>,
+    start: () => Promise<string>,
+    status: () => Promise<CustomPlayerBuildStatus>,
+    download: () => Promise<CustomPlayerBuildDownload>,
+    delete: Delete<string> //TODO: not specified in api spec
+  },
+
+  add: Create<CustomPlayerBuildDetails>,
+  list: List<CustomPlayerBuildDetails>,
+  domains: object
+}
+
+export interface CustomBuilds {
+  web: CustomBuildsWeb
+}
+
+export const customBuilds = (configuration, httpClient: HttpClient): CustomBuilds => {
   const {get, post, delete_} = httpClient;
 
-  const web = () => {
+  const web = (): CustomBuildsWeb => {
     const resourceDetails = customBuildId => {
       return {
         details: () => {
           const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web', customBuildId);
-          return get(configuration, url);
+          return get<CustomPlayerBuildDetails>(configuration, url);
         },
         start: () => {
           const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web', customBuildId, 'start');
-          return post(configuration, url, {});
+          return post<string, object>(configuration, url, {});
         },
         status: () => {
           const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web', customBuildId, 'status');
-          return get(configuration, url);
+          return get<CustomPlayerBuildStatus>(configuration, url);
         },
         download: () => {
           const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web', customBuildId, 'download');
-          return get(configuration, url);
+          return get<CustomPlayerBuildDownload>(configuration, url);
         },
         delete: () => {
           const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web', customBuildId);
-          return delete_(configuration, url);
+          return delete_<string>(configuration, url);
         }
       };
     };
 
     const add = customBuild => {
       const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web');
-      return post(configuration, url, customBuild);
+      return post<CustomPlayerBuildDetails, string>(configuration, url, customBuild);
     };
 
-    const list = utils.buildListCallFunction(
+    const list = utils.buildListCallFunction<CustomPlayerBuildDetails>(
       httpClient,
       configuration,
       urljoin(configuration.apiBaseUrl, 'player/custom-builds/web')

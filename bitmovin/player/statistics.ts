@@ -12,7 +12,7 @@ export interface Statistics {
     interval: string,
     offset?: number,
     limit?: number
-  ) => Promise<object>;
+  ) => Promise<object>; //TODO: properly type return type, couldn't find it in the api spec
   INTERVAL: {
     DAILY: 'DAILY';
   };
