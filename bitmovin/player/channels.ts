@@ -4,22 +4,25 @@ import http, {utils} from '../utils/http';
 import {ApiResource, Details, HttpClient, List} from '../utils/types';
 
 export enum Channel {
-  Developer = 'developer', Beta = 'beta', Staging = 'staging', Stable = 'stable'
+  Developer = 'developer',
+  Beta = 'beta',
+  Staging = 'staging',
+  Stable = 'stable'
 }
 
 export interface PlayerVersion {
-  version: string,
-  playerUrl: string
+  version: string;
+  playerUrl: string;
 }
 
 export interface Channels {
   (channelName: string): {
     versions: {
-      list: List<PlayerVersion>,
-      latest: Details<PlayerVersion>
-    }
-  },
-  list: List<Channel>
+      list: List<PlayerVersion>;
+      latest: Details<PlayerVersion>;
+    };
+  };
+  list: List<Channel>;
 }
 
 export const channels = (configuration, httpClient: HttpClient): Channels => {

@@ -85,6 +85,6 @@ export interface HttpClient {
 }
 
 export interface BitmovinDetails {
-  createdAt: string,
-  modifiedAt: string
+  createdAt: string;
+  modifiedAt: string;
 }

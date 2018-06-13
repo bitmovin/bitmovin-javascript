@@ -7,35 +7,35 @@ import domains from './domains';
 import thirdPartyLicensing from './thirdPartyLicensing';
 
 export interface DomainDetails {
-  id: string,
-  url: string
+  id: string;
+  url: string;
 }
 
 export type PlayerLicense = BitmovinDetails & {
-  id: string,
-  name: string,
-  licenseKey: string,
-  impressions: number,
-  maxImpressions: number,
-  thirdPartyLicensingEnabled: boolean,
-  domains: Array<DomainDetails>
-}
+  id: string;
+  name: string;
+  licenseKey: string;
+  impressions: number;
+  maxImpressions: number;
+  thirdPartyLicensingEnabled: boolean;
+  domains: Array<DomainDetails>;
+};
 
-export type  PlayerLicenseListObject = BitmovinDetails & {
-  id: string,
-  name: string,
-  licenseKey: string,
-  impressions: number,
-  maxImpressions: number,
-  thirdPartyLicensingEnabled: boolean
-}
+export type PlayerLicenseListObject = BitmovinDetails & {
+  id: string;
+  name: string;
+  licenseKey: string;
+  impressions: number;
+  maxImpressions: number;
+  thirdPartyLicensingEnabled: boolean;
+};
 
 export interface Licenses {
   (licenseId: string): {
-    details: Details<PlayerLicense>,
-    update: (license: PlayerLicense) => Promise<ApiResource<PlayerLicense>>
-  },
-  list: List<PlayerLicenseListObject>
+    details: Details<PlayerLicense>;
+    update: (license: PlayerLicense) => Promise<ApiResource<PlayerLicense>>;
+  };
+  list: List<PlayerLicenseListObject>;
 }
 
 export const licenses = (configuration, httpClient: HttpClient): Licenses => {

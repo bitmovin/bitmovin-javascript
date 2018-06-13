@@ -14,10 +14,7 @@ describe('emails', () => {
   describe('list', () => {
     it('should call correct url', async () => {
       await notificationEmails.list();
-      expect(mockHttp.get).toHaveBeenCalledWith(
-        testConfiguration,
-        'https://api.bitmovin.com/v1/notifications/emails'
-      );
+      expect(mockHttp.get).toHaveBeenCalledWith(testConfiguration, 'https://api.bitmovin.com/v1/notifications/emails');
     });
   });
 
@@ -29,7 +26,7 @@ describe('emails', () => {
           testConfiguration,
           'https://api.bitmovin.com/v1/notifications/emails/encoding'
         );
-      })
-    })
-  })
+      });
+    });
+  });
 });

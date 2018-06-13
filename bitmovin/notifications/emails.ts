@@ -59,12 +59,21 @@ const createLiveInputStreamChangedMethods = (
     return {
       details: () => http.get<EmailNotificationWithConditionsDetails>(configuration, url),
       delete: () => http.delete_<object>(configuration, url),
-      replace: (emailNotification: EmailNotificationWithConditions) => http.put<EmailNotificationWithConditionsDetails, EmailNotificationWithConditions>(configuration, url, emailNotification)
+      replace: (emailNotification: EmailNotificationWithConditions) =>
+        http.put<EmailNotificationWithConditionsDetails, EmailNotificationWithConditions>(
+          configuration,
+          url,
+          emailNotification
+        )
     };
   };
 
   const create = (emailNotification: EmailNotificationWithConditions) => {
-    return http.post<EmailNotificationWithConditions, EmailNotificationWithConditions>(configuration, typeBaseUrl, emailNotification);
+    return http.post<EmailNotificationWithConditions, EmailNotificationWithConditions>(
+      configuration,
+      typeBaseUrl,
+      emailNotification
+    );
   };
 
   const list = (limit, offset, sort, filter) => {
@@ -96,25 +105,25 @@ const buildListUrl = (url, limit, offset, sort, filter) => {
 
 type NotificationEmailsType = {
   (notificationId: string): {
-    details: Details<EmailNotificationWithConditionsDetails>,
-    delete: Delete<object>,
-    replace: (emailNotification: EmailNotificationWithConditions) => Promise<EmailNotificationWithConditionsDetails>
-  },
-  create: Create<EmailNotificationWithConditions>,
-  list: List<EmailNotificationWithConditionsDetails>
+    details: Details<EmailNotificationWithConditionsDetails>;
+    delete: Delete<object>;
+    replace: (emailNotification: EmailNotificationWithConditions) => Promise<EmailNotificationWithConditionsDetails>;
+  };
+  create: Create<EmailNotificationWithConditions>;
+  list: List<EmailNotificationWithConditionsDetails>;
 };
 
 export type NotificationEmails = {
-  list: List<EmailNotificationWithConditionsDetails>,
+  list: List<EmailNotificationWithConditionsDetails>;
   encoding: {
-    list: List<EmailNotificationWithConditionsDetails>,
+    list: List<EmailNotificationWithConditionsDetails>;
     encodings: {
       (encodingId: string): {
-        liveInputStreamChanged: NotificationEmailsType
-      },
-      liveInputStreamChanged: NotificationEmailsType
-    }
-  }
+        liveInputStreamChanged: NotificationEmailsType;
+      };
+      liveInputStreamChanged: NotificationEmailsType;
+    };
+  };
 };
 
 export default emails;

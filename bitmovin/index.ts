@@ -75,7 +75,7 @@ export interface BitmovinAPI {
   player: Player;
   analytics: Analytics;
   account: Account;
-  notifications: Notifications
+  notifications: Notifications;
 }
 
 const Bitmovin = (configuration: BitmovinConfiguration): BitmovinAPI => {

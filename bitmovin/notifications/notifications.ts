@@ -12,7 +12,7 @@ export const notifications = (configuration: InternalConfiguration, httpClient: 
 };
 
 export type Notifications = {
-  emails: NotificationEmails
+  emails: NotificationEmails;
 };
 
 export default notifications;
