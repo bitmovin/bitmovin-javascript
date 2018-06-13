@@ -83,3 +83,8 @@ export interface HttpClient {
   put<T, J>(configuration: InternalConfiguration, url: string, object?: J, fetchMethod?: any): Promise<T>;
   delete_<T>(configuration: InternalConfiguration, url: string, fetchMethod?: any): Promise<T>;
 }
+
+export interface BitmovinDetails {
+  createdAt: string,
+  modifiedAt: string
+}

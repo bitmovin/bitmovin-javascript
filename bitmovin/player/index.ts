@@ -1,6 +1,6 @@
-import playerChannels from './channels';
+import playerChannels, {Channels} from './channels';
 import customBuilds from './customBuilds';
-import playerLicenses from './licenses';
+import playerLicenses, {Licenses} from './licenses';
 import playerStatistics from './statistics';
 
 const player = (internalConfig): Player => ({
@@ -11,8 +11,8 @@ const player = (internalConfig): Player => ({
 });
 
 export interface Player {
-  channels: object;
-  licenses: object;
+  channels: Channels;
+  licenses: Licenses;
   statistics: object;
   customBuilds: object;
 }

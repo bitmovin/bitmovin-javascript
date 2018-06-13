@@ -18,7 +18,8 @@ export interface Channels {
       list: List<PlayerVersion>,
       latest: Details<PlayerVersion>
     }
-  }
+  },
+  list: List<Channel>
 }
 
 export const channels = (configuration, httpClient: HttpClient): Channels => {
