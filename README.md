@@ -82,7 +82,13 @@ For more examples visit our [example page](https://github.com/bitmovin/bitmovin-
 Contributing
 -----------
 
-If you want to contribute feel free to send Pull-Requests. Code quality is ensured through [lint-staged](https://github.com/okonet/lint-staged), please make sure all tests are passing with `yarn test`.
+If you want to contribute feel free to send pull requests. Code quality is ensured through [lint-staged](https://github.com/okonet/lint-staged), please make sure all tests are passing with `yarn test`.
+
+Upgrade from v1
+----------------
+
+Version 2 of the Bitmovin JavaScript client still has the same 1:1 mapping as v1. With v2 we improved the bundling and changed the default export to not require a `new` to create a Bitmovin "object".
+Internally the client changed quite a lot as you can see in [this pull request](https://github.com/bitmovin/bitmovin-javascript/pull/62).
 
 License
 -----------
