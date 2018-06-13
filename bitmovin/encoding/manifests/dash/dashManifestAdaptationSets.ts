@@ -1,10 +1,10 @@
 import * as urljoin from 'url-join';
 
 import http, {utils} from '../../../utils/http';
+import {HttpClient, InternalConfiguration} from '../../../utils/types';
 
 import contentProtections from './dashManifestContentProtections';
 import representations from './dashManifestRepresentations';
-import {HttpClient, InternalConfiguration} from '../../../utils/types';
 
 export const adaptationSets = (configuration: InternalConfiguration, manifestId, periodId, httpClient: HttpClient) => {
   const {get, post, delete_} = httpClient;
@@ -76,7 +76,7 @@ export const adaptationSets = (configuration: InternalConfiguration, manifestId,
   const fn = adaptationSetId => {
     return {
       representations: representations(configuration, manifestId, periodId, adaptationSetId),
-      contentProtections: contentProtections(configuration, manifestId, periodId, adaptationSetId, null)
+      contentProtections: contentProtections(configuration, manifestId, periodId, adaptationSetId, undefined)
     };
   };
 

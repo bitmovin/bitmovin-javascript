@@ -14,6 +14,8 @@
     }],
     "interface-name": false,
     "object-literal-key-quotes": [true, "as-needed"],
-    "no-null-keyword": true
+    "no-null-keyword": true,
+    "no-empty-interface": false,
+    "max-line-length": [false]
   }
 }

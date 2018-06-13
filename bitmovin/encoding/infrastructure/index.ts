@@ -30,9 +30,9 @@ export const infrastructure = (configuration, httpClient: HttpClient) => {
       };
     };
 
-    const create = infrastructure => {
+    const create = infrastructurePayload => {
       const url = urljoin(configuration.apiBaseUrl, 'encoding/infrastructure', type);
-      return post(configuration, url, infrastructure);
+      return post(configuration, url, infrastructurePayload);
     };
 
     const list = utils.buildListCallFunction(

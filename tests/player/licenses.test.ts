@@ -74,7 +74,7 @@ describe('player', () => {
       const thirdPartyLicensingClient = thirdPartyLicensing(testConfiguration, licenseId, mockHttp);
 
       describe('add', () => {
-        const thirdPartyLicensing = {
+        const thirdPartyLicensingPayload = {
           licenseCheckServer: 'https://your.server.to',
           licenseCheckTimeout: 5000,
           errorAction: 'yourErrorAction',
@@ -86,8 +86,12 @@ describe('player', () => {
           '/v1/player/licenses/' + licenseId + '/third-party-licensing',
           thirdPartyLicensingClient.add
         );
-        assertItReturnsUnderlyingPromise(mockPost, () => thirdPartyLicensingClient.add(thirdPartyLicensing));
-        assertPayload(mockPost, () => thirdPartyLicensingClient.add(thirdPartyLicensing), thirdPartyLicensing);
+        assertItReturnsUnderlyingPromise(mockPost, () => thirdPartyLicensingClient.add(thirdPartyLicensingPayload));
+        assertPayload(
+          mockPost,
+          () => thirdPartyLicensingClient.add(thirdPartyLicensingPayload),
+          thirdPartyLicensingPayload
+        );
       });
 
       describe('get', () => {

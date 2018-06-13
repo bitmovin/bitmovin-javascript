@@ -11,8 +11,8 @@ export const contactDetails = (configuration, httpClient: HttpClient) => {
     details: () => {
       return get(configuration, contactDetailsBaseUrl);
     },
-    update: contactDetails => {
-      return put(configuration, contactDetailsBaseUrl, contactDetails);
+    update: contactDetailsPayload => {
+      return put(configuration, contactDetailsBaseUrl, contactDetailsPayload);
     }
   };
 };

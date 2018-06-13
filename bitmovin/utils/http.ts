@@ -71,6 +71,7 @@ const put = (configuration, url, object, fetchMethod = fetch) => {
   return request(configuration, PUT, url, fetchMethod, body);
 };
 
+// tslint:disable-next-line
 const delete_ = (configuration, url, fetchMethod = fetch) => {
   return request(configuration, DELETE, url, fetchMethod, undefined);
 };
