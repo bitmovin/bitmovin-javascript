@@ -1,20 +1,38 @@
 import * as urljoin from 'url-join';
 
 import http, {utils} from '../utils/http';
-import {HttpClient} from '../utils/types';
+import {ApiResource, Details, HttpClient, List} from '../utils/types';
 
-export const channels = (configuration, httpClient: HttpClient) => {
+export enum Channel {
+  Developer = 'developer', Beta = 'beta', Staging = 'staging', Stable = 'stable'
+}
+
+export interface PlayerVersion {
+  version: string,
+  playerUrl: string
+}
+
+export interface Channels {
+  (channelName: string): {
+    versions: {
+      list: List<PlayerVersion>,
+      latest: Details<PlayerVersion>
+    }
+  }
+}
+
+export const channels = (configuration, httpClient: HttpClient): Channels => {
   const {get} = httpClient;
-  const resourceDetails = channelName => {
+  const resourceDetails = (channelName: string) => {
     const versions = {
-      list: utils.buildListCallFunction(
+      list: utils.buildListCallFunction<PlayerVersion>(
         httpClient,
         configuration,
         urljoin(configuration.apiBaseUrl, 'player/channels', channelName, 'versions')
       ),
       latest: () => {
         const url = urljoin(configuration.apiBaseUrl, 'player/channels', channelName, 'versions', 'latest');
-        return get(configuration, url);
+        return get<ApiResource<PlayerVersion>>(configuration, url);
       }
     };
 
@@ -23,7 +41,7 @@ export const channels = (configuration, httpClient: HttpClient) => {
     };
   };
 
-  const list = utils.buildListCallFunction(
+  const list = utils.buildListCallFunction<Channel>(
     httpClient,
     configuration,
     urljoin(configuration.apiBaseUrl, 'player/channels')
