@@ -7,3 +7,4 @@ script:
   - "yarn lint-examples"
   - "yarn coverage-ci"
   - "yarn run codecov"
+  - "yarn build"
