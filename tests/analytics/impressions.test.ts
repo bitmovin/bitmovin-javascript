@@ -24,10 +24,10 @@ describe('analytics', () => {
 
     describe('without license key', () => {
       assertItCallsCorrectUrl('POST', '/v1/analytics/impressions/my-impression-id', () =>
-        impressionsClient('my-impression-id')
+        impressionsClient('my-impression-id', undefined)
       );
-      assertItReturnsUnderlyingPromise(mockPost, () => impressionsClient('my-impression-id'));
-      assertPayload(mockPost, () => impressionsClient('my-impression-id'), {licenseKey: undefined});
+      assertItReturnsUnderlyingPromise(mockPost, () => impressionsClient('my-impression-id', undefined));
+      assertPayload(mockPost, () => impressionsClient('my-impression-id', undefined), {licenseKey: undefined});
     });
   });
 });

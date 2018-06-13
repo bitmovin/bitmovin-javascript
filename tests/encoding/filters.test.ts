@@ -131,7 +131,6 @@ describe('encoding', () => {
     describe('stream', () => {
       describe('filters', () => {
         describe('list', () => {
-          // Should we really call this list
           assertItCallsCorrectUrl(
             'GET',
             '/v1/encoding/encodings/encoding-id/streams/stream-id/filters',

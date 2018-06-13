@@ -75,9 +75,9 @@ interface StreamDetail {
   inputDetails: Details<StreamInput>;
   delete: Delete<{}>;
   customData: CustomData;
-  filters: object;
-  thumbnails: object;
-  sprites: object;
+  filters: any;
+  thumbnails: any;
+  sprites: any;
 }
 
 export interface Streams {
