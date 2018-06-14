@@ -284,7 +284,7 @@ const startHlsManifestCreation = manifest => {
   const startPromise = bitmovin.encoding.manifests.hls(manifest.id).start();
 
   return new Promise((resolve, reject) => {
-    startPromise.then(startResponse => {
+    startPromise.then(() => {
       waitUntilHlsManifestFinished(manifest)
         .then(success => {
           console.log('Hls manifest creation finished: ', success);
@@ -341,7 +341,7 @@ const exit = (code, message) => {
 };
 
 main()
-  .then(result => {
+  .then(() => {
     console.log('FINISHED!');
   })
   .catch(error => {

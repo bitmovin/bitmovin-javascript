@@ -114,7 +114,7 @@ const exit = (code, message) => {
 };
 
 main()
-  .then(result => {
+  .then(() => {
     console.log('Finished custom build!');
   })
   .catch(error => {

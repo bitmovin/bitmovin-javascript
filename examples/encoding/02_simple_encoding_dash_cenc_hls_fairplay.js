@@ -59,7 +59,7 @@ const main = () => {
         const hlsManifestCreationPromise = createHlsManifest(output.id);
         Promise.all([dashManifestCreationPromise, hlsManifestCreationPromise]).then(([dashManifest, hlsManifest]) => {
           console.log('Successfully created DASH and HLS Manifest Resources');
-          [
+          const [
             createdDashManifest,
             createdDashManifestPeriod,
             createdDashManifestAudioAdaptationSet,
@@ -708,7 +708,7 @@ const startEncodingAndWaitForItToBeFinished = encoding => {
   const startPromise = bitmovin.encoding.encodings(encoding.id).start();
 
   return new Promise((resolve, reject) => {
-    startPromise.then(startResponse => {
+    startPromise.then(() => {
       waitUntilEncodingFinished(encoding)
         .then(success => {
           console.log('Encoding finished', success);
@@ -748,7 +748,7 @@ const startDashManifestCreationAndWaitForItToBeFinished = manifest => {
   const startPromise = bitmovin.encoding.manifests.dash(manifest.id).start();
 
   return new Promise((resolve, reject) => {
-    startPromise.then(startResponse => {
+    startPromise.then(() => {
       waitUntilDashManifestFinished(manifest)
         .then(success => {
           console.log('manifest finished', success);
@@ -788,7 +788,7 @@ const startHlsManifestCreationAndWaitForItToBeFinished = manifest => {
   const startPromise = bitmovin.encoding.manifests.hls(manifest.id).start();
 
   return new Promise((resolve, reject) => {
-    startPromise.then(startResponse => {
+    startPromise.then(() => {
       waitUntilHlsManifestFinished(manifest)
         .then(success => {
           console.log('hls manifest finished', success);
