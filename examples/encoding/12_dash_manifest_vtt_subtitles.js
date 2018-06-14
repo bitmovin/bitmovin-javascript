@@ -238,12 +238,12 @@ const main = () => {
 
         return dashManifestPromise
           .then(createdDashManifest => {
-            return startEncodingAndWaitForItToBeFinished(encoding).then(_ => {
+            return startEncodingAndWaitForItToBeFinished(encoding).then(() => {
               console.log('Successfully finished encoding');
 
               const dashManifestCreation = startDashManifestCreation(createdDashManifest);
 
-              return dashManifestCreation.then(_ => {
+              return dashManifestCreation.then(() => {
                 console.log('Successfully created dash Manifests');
               });
             });
@@ -287,7 +287,7 @@ const addStreamToEncoding = (input, output, selectionMode, index, codecConfigura
 const startDashManifestCreation = manifest => {
   const startPromise = bitmovin.encoding.manifests.dash(manifest.id).start();
 
-  return startPromise.then(startResponse => {
+  return startPromise.then(() => {
     return waitUntilDashManifestFinished(manifest)
       .then(success => {
         console.log('manifest finished', success);
@@ -304,7 +304,7 @@ const startEncodingAndWaitForItToBeFinished = encoding => {
   const startPromise = bitmovin.encoding.encodings(encoding.id).start();
 
   return new Promise((resolve, reject) => {
-    startPromise.then(startResponse => {
+    startPromise.then(() => {
       waitUntilEncodingFinished(encoding)
         .then(success => {
           console.log('dash encoding finished', success);
@@ -606,7 +606,7 @@ const createHttpInput = input => {
 };
 
 const createS3Output = output => {
-  const outputCreatePromise = bitmovin.encoding.outputs.s3.create(s3Output);
+  const outputCreatePromise = bitmovin.encoding.outputs.s3.create(output);
 
   return new Promise((resolve, reject) => {
     outputCreatePromise
@@ -675,7 +675,7 @@ const exit = (code, message) => {
 };
 
 main()
-  .then(result => {
+  .then(() => {
     console.log('finished!');
   })
   .catch(error => {
