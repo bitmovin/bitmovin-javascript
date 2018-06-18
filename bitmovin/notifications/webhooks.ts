@@ -1,4 +1,3 @@
-// @flow
 import * as urljoin from 'url-join';
 
 import httpClient from '../utils/http';
@@ -14,8 +13,13 @@ import {
 } from '../utils/types';
 
 import {
-   EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingFinishedWebhook,
-  EncodingFinishedWebhookDetails, TransferFinishedWebhook, TransferFinishedWebhookDetails, UserSpecificCustomDataDetails
+  EncodingErrorWebhook,
+  EncodingErrorWebhookDetails,
+  EncodingFinishedWebhook,
+  EncodingFinishedWebhookDetails,
+  TransferFinishedWebhook,
+  TransferFinishedWebhookDetails,
+  UserSpecificCustomDataDetails
 } from './types';
 import {buildListUrl} from '../utils/UrlUtils';
 
@@ -28,25 +32,81 @@ const webhooks = (configuration: InternalConfiguration, http: HttpClient = httpC
   const encodings = (encodingId: string) => {
     const url = urljoin(encodingsBaseUrl, encodingId);
     return {
-      finished: createMethods<EncodingFinishedWebhookDetails, EncodingFinishedWebhook, EncodingFinishedWebhookDetails, EncodingFinishedWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>(url, 'finished', configuration, http),
-      error: createMethods<EncodingErrorWebhookDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingErrorWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>(url, 'error', configuration, http)
+      finished: createMethods<
+        EncodingFinishedWebhookDetails,
+        EncodingFinishedWebhook,
+        EncodingFinishedWebhookDetails,
+        EncodingFinishedWebhookDetails,
+        DeleteResult,
+        UserSpecificCustomDataDetails
+      >(url, 'finished', configuration, http),
+      error: createMethods<
+        EncodingErrorWebhookDetails,
+        EncodingErrorWebhook,
+        EncodingErrorWebhookDetails,
+        EncodingErrorWebhookDetails,
+        DeleteResult,
+        UserSpecificCustomDataDetails
+      >(url, 'error', configuration, http)
     };
   };
   const encodingsResource = Object.assign(encodings, {
-    finished: createMethods<EncodingFinishedWebhookDetails, EncodingFinishedWebhook, EncodingFinishedWebhookDetails, EncodingFinishedWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>(encodingsBaseUrl, 'finished', configuration, http),
-    error: createMethods<EncodingErrorWebhookDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingErrorWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>(encodingsBaseUrl, 'error', configuration, http)
+    finished: createMethods<
+      EncodingFinishedWebhookDetails,
+      EncodingFinishedWebhook,
+      EncodingFinishedWebhookDetails,
+      EncodingFinishedWebhookDetails,
+      DeleteResult,
+      UserSpecificCustomDataDetails
+    >(encodingsBaseUrl, 'finished', configuration, http),
+    error: createMethods<
+      EncodingErrorWebhookDetails,
+      EncodingErrorWebhook,
+      EncodingErrorWebhookDetails,
+      EncodingErrorWebhookDetails,
+      DeleteResult,
+      UserSpecificCustomDataDetails
+    >(encodingsBaseUrl, 'error', configuration, http)
   });
 
   const transfers = (transferId: string) => {
     const url = urljoin(transfersBaseUrl, transferId);
     return {
-      finished: createMethods<TransferFinishedWebhookDetails, TransferFinishedWebhook, TransferFinishedWebhookDetails, TransferFinishedWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>(url, 'finished', configuration, http),
-      error: createMethods<EncodingErrorWebhookDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingErrorWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>(url, 'error', configuration, http)
+      finished: createMethods<
+        TransferFinishedWebhookDetails,
+        TransferFinishedWebhook,
+        TransferFinishedWebhookDetails,
+        TransferFinishedWebhookDetails,
+        DeleteResult,
+        UserSpecificCustomDataDetails
+      >(url, 'finished', configuration, http),
+      error: createMethods<
+        EncodingErrorWebhookDetails,
+        EncodingErrorWebhook,
+        EncodingErrorWebhookDetails,
+        EncodingErrorWebhookDetails,
+        DeleteResult,
+        UserSpecificCustomDataDetails
+      >(url, 'error', configuration, http)
     };
   };
   const transfersResource = Object.assign(transfers, {
-    finished: createMethods<TransferFinishedWebhookDetails, TransferFinishedWebhook, TransferFinishedWebhookDetails, TransferFinishedWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>(transfersBaseUrl, 'finished', configuration, http),
-    error: createMethods<EncodingErrorWebhookDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingErrorWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>(transfersBaseUrl, 'error', configuration, http)
+    finished: createMethods<
+      TransferFinishedWebhookDetails,
+      TransferFinishedWebhook,
+      TransferFinishedWebhookDetails,
+      TransferFinishedWebhookDetails,
+      DeleteResult,
+      UserSpecificCustomDataDetails
+    >(transfersBaseUrl, 'finished', configuration, http),
+    error: createMethods<
+      EncodingErrorWebhookDetails,
+      EncodingErrorWebhook,
+      EncodingErrorWebhookDetails,
+      EncodingErrorWebhookDetails,
+      DeleteResult,
+      UserSpecificCustomDataDetails
+    >(transfersBaseUrl, 'error', configuration, http)
   });
 
   return {
@@ -70,20 +130,12 @@ const createMethods = <TListResult, TCreateParam, TCreateResult, TDetails, TDele
     return {
       details: () => http.get<ApiResource<TDetails>>(configuration, url),
       delete: () => http.delete_<TDelete>(configuration, url),
-      customData: () =>
-        http.get<TCustomData>(
-          configuration,
-          url
-        )
+      customData: () => http.get<TCustomData>(configuration, url)
     };
   };
 
   const create = (webhookNotification: TCreateParam) => {
-    return http.post<ApiResource<TCreateResult>, TCreateParam>(
-      configuration,
-      typeBaseUrl,
-      webhookNotification
-    );
+    return http.post<ApiResource<TCreateResult>, TCreateParam>(configuration, typeBaseUrl, webhookNotification);
   };
 
   const list = (limit, offset, sort, filter) => {
@@ -101,37 +153,93 @@ const createMethods = <TListResult, TCreateParam, TCreateResult, TDetails, TDele
 
 type NotificationWebhooksType<TListResult, TCreateParam, TCreateResult, TDetails, TDelete, TCustomData> = {
   (notificationId: string): {
-    details: Details<TDetails>,
-    delete: Delete<TDelete>,
-    customData: () => Promise<TCustomData>,
-  },
-  create: Create2<TCreateParam, TCreateResult>,
-  list: List<TListResult>
+    details: Details<TDetails>;
+    delete: Delete<TDelete>;
+    customData: () => Promise<TCustomData>;
+  };
+  create: Create2<TCreateParam, TCreateResult>;
+  list: List<TListResult>;
 };
 
 interface DeleteResult {
-  id: string
-};
+  id: string;
+}
 
 export type NotificationWebhooks = {
   encoding: {
     encodings: {
       (encodingId: string): {
-        finished: NotificationWebhooksType<EncodingFinishedWebhookDetails, EncodingFinishedWebhook, EncodingFinishedWebhookDetails, EncodingFinishedWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>,
-        error: NotificationWebhooksType<EncodingErrorWebhookDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingErrorWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>
-      },
-      finished: NotificationWebhooksType<EncodingFinishedWebhookDetails, EncodingFinishedWebhook, EncodingFinishedWebhookDetails, EncodingFinishedWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>,
-      error: NotificationWebhooksType<EncodingErrorWebhookDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingErrorWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>
-    },
+        finished: NotificationWebhooksType<
+          EncodingFinishedWebhookDetails,
+          EncodingFinishedWebhook,
+          EncodingFinishedWebhookDetails,
+          EncodingFinishedWebhookDetails,
+          DeleteResult,
+          UserSpecificCustomDataDetails
+        >;
+        error: NotificationWebhooksType<
+          EncodingErrorWebhookDetails,
+          EncodingErrorWebhook,
+          EncodingErrorWebhookDetails,
+          EncodingErrorWebhookDetails,
+          DeleteResult,
+          UserSpecificCustomDataDetails
+        >;
+      };
+      finished: NotificationWebhooksType<
+        EncodingFinishedWebhookDetails,
+        EncodingFinishedWebhook,
+        EncodingFinishedWebhookDetails,
+        EncodingFinishedWebhookDetails,
+        DeleteResult,
+        UserSpecificCustomDataDetails
+      >;
+      error: NotificationWebhooksType<
+        EncodingErrorWebhookDetails,
+        EncodingErrorWebhook,
+        EncodingErrorWebhookDetails,
+        EncodingErrorWebhookDetails,
+        DeleteResult,
+        UserSpecificCustomDataDetails
+      >;
+    };
     transfers: {
       (transferId: string): {
-        finished: NotificationWebhooksType<TransferFinishedWebhookDetails, TransferFinishedWebhook, TransferFinishedWebhookDetails, TransferFinishedWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>,
-        error: NotificationWebhooksType<EncodingErrorWebhookDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingErrorWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>
-      },
-      finished: NotificationWebhooksType<TransferFinishedWebhookDetails, TransferFinishedWebhook, TransferFinishedWebhookDetails, TransferFinishedWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>,
-      error: NotificationWebhooksType<EncodingErrorWebhookDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingErrorWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>
-    }
-  }
+        finished: NotificationWebhooksType<
+          TransferFinishedWebhookDetails,
+          TransferFinishedWebhook,
+          TransferFinishedWebhookDetails,
+          TransferFinishedWebhookDetails,
+          DeleteResult,
+          UserSpecificCustomDataDetails
+        >;
+        error: NotificationWebhooksType<
+          EncodingErrorWebhookDetails,
+          EncodingErrorWebhook,
+          EncodingErrorWebhookDetails,
+          EncodingErrorWebhookDetails,
+          DeleteResult,
+          UserSpecificCustomDataDetails
+        >;
+      };
+      finished: NotificationWebhooksType<
+        TransferFinishedWebhookDetails,
+        TransferFinishedWebhook,
+        TransferFinishedWebhookDetails,
+        TransferFinishedWebhookDetails,
+        DeleteResult,
+        UserSpecificCustomDataDetails
+      >;
+      error: NotificationWebhooksType<
+        EncodingErrorWebhookDetails,
+        EncodingErrorWebhook,
+        EncodingErrorWebhookDetails,
+        EncodingErrorWebhookDetails,
+        DeleteResult,
+        UserSpecificCustomDataDetails
+      >;
+    };
+  };
 };
 
 export default webhooks;

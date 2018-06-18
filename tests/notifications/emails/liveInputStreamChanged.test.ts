@@ -1,4 +1,3 @@
-// @flow
 import emails from '../../../bitmovin/notifications/emails';
 import {getConfiguration} from '../../utils';
 import {mockHttp, testSetup} from '../../assertions';

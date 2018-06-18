@@ -1,5 +1,3 @@
-// @flow
-
 //email notifications
 export enum ConditionMembers {
   HEIGHT,
@@ -89,7 +87,10 @@ export type EmailNotificationWithConditionsDetails = EmailNotificationWithCondit
 //webhook notifications
 
 export enum EncryptionType {
-  AES = 'AES', DESede = 'DESede', Blowfish = 'Blowfish', RSA = 'RSA'
+  AES = 'AES',
+  DESede = 'DESede',
+  Blowfish = 'Blowfish',
+  RSA = 'RSA'
 }
 
 export enum SignatureType {
@@ -97,59 +98,60 @@ export enum SignatureType {
 }
 
 export interface WebhookEncryptionResponse {
-  type: SignatureType
+  type: SignatureType;
 }
 
 export interface WebhookSignatureResponse {
-  type: SignatureType
+  type: SignatureType;
 }
 
 export enum WebhookHttpMethod {
-  POST = 'POST', PUT = 'PUT'
+  POST = 'POST',
+  PUT = 'PUT'
 }
 
 export interface BitmovinWebhookResponse {
-  url: string,
-  method?: WebhookHttpMethod,
-  insecureSsl?: boolean,
-  signature?: WebhookSignatureResponse,
-  encryption?: WebhookEncryptionResponse
+  url: string;
+  method?: WebhookHttpMethod;
+  insecureSsl?: boolean;
+  signature?: WebhookSignatureResponse;
+  encryption?: WebhookEncryptionResponse;
 }
 
 export type EncodingFinishedWebhookDetails = BitmovinWebhookResponse & {
-  url: string,
-  id: string,
-  schema: string
-}
+  url: string;
+  id: string;
+  schema: string;
+};
 
 export type BitmovinWebhook = UserSpecificCustomData & {
-  url: string,
-  method?: WebhookHttpMethod,
-  insecureSsl?: boolean,
-  signature?: WebhookSignatureResponse,
-  encryption?: WebhookEncryptionResponse
-}
+  url: string;
+  method?: WebhookHttpMethod;
+  insecureSsl?: boolean;
+  signature?: WebhookSignatureResponse;
+  encryption?: WebhookEncryptionResponse;
+};
 
 export type EncodingFinishedWebhook = BitmovinWebhook & {
-  url: string
-}
+  url: string;
+};
 
 export type EncodingErrorWebhookDetails = BitmovinWebhookResponse & {
-  url: string,
-  id: string,
-  schema: string
-}
+  url: string;
+  id: string;
+  schema: string;
+};
 
 export type EncodingErrorWebhook = BitmovinWebhook & {
-  url: string
-}
+  url: string;
+};
 
 export type TransferFinishedWebhookDetails = BitmovinWebhookResponse & {
-  url: string,
-  id: string,
-  schema: string
-}
+  url: string;
+  id: string;
+  schema: string;
+};
 
 export type TransferFinishedWebhook = BitmovinWebhook & {
-  url: string
-}
+  url: string;
+};

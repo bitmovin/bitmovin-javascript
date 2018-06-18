@@ -1,4 +1,3 @@
-// @flow
 import * as urljoin from 'url-join';
 
 import httpClient, {utils} from '../utils/http';

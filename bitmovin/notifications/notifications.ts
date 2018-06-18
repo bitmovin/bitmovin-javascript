@@ -1,4 +1,3 @@
-// @flow
 import {HttpClient, InternalConfiguration} from '../utils/types';
 import http from '../utils/http';
 
@@ -15,8 +14,8 @@ export const notifications = (configuration: InternalConfiguration, httpClient: 
 };
 
 export type Notifications = {
-  emails: NotificationEmails,
-  webhooks: NotificationWebhooks
+  emails: NotificationEmails;
+  webhooks: NotificationWebhooks;
 };
 
 export default notifications;

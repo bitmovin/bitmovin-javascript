@@ -7,42 +7,45 @@ import {webCustomPlayerBuildDomain} from './webCustomPlayerBuildDomain';
 
 export type CustomPlayerBuild = BitmovinDetails & {}; //TODO: there is no type CustomPlayerBuild in the api spec, find out what it contains
 export type CustomPlayerBuildDetails = CustomPlayerBuild & {
-  id: string
-}
+  id: string;
+};
 
 export enum CustomPlayerBuildStatusEnum {
-  CREATED = 'CREATED', FINISHED = 'FINISHED', RUNNING = 'RUNNING', ERROR = 'ERROR'
+  CREATED = 'CREATED',
+  FINISHED = 'FINISHED',
+  RUNNING = 'RUNNING',
+  ERROR = 'ERROR'
 }
 
 export interface CustomPlayerBuildStatus {
-  status: CustomPlayerBuildStatusEnum,
-  progress: number,
-  eta: number,
-  messages: Array<{text: string, links: Array<object>}>,
-  subtasks: Array<object>
+  status: CustomPlayerBuildStatusEnum;
+  progress: number;
+  eta: number;
+  messages: Array<{text: string; links: Array<object>}>;
+  subtasks: Array<object>;
 }
 
 export interface CustomPlayerBuildDownload {
-  downloadLink: string,
-  expiresAt: string
+  downloadLink: string;
+  expiresAt: string;
 }
 
 export interface CustomBuildsWeb {
   (customBuildId: string): {
-    details: Details<CustomPlayerBuildDetails>,
-    start: () => Promise<string>,
-    status: () => Promise<CustomPlayerBuildStatus>,
-    download: () => Promise<CustomPlayerBuildDownload>,
-    delete: Delete<string> //TODO: not specified in api spec
-  },
+    details: Details<CustomPlayerBuildDetails>;
+    start: () => Promise<string>;
+    status: () => Promise<CustomPlayerBuildStatus>;
+    download: () => Promise<CustomPlayerBuildDownload>;
+    delete: Delete<string>; //TODO: not specified in api spec
+  };
 
-  add: Create<CustomPlayerBuildDetails>,
-  list: List<CustomPlayerBuildDetails>,
-  domains: object
+  add: Create<CustomPlayerBuildDetails>;
+  list: List<CustomPlayerBuildDetails>;
+  domains: object;
 }
 
 export interface CustomBuilds {
-  web: CustomBuildsWeb
+  web: CustomBuildsWeb;
 }
 
 export const customBuilds = (configuration, httpClient: HttpClient): CustomBuilds => {
