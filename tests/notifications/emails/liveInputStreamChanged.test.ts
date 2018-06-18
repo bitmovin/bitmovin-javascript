@@ -1,8 +1,8 @@
 // @flow
-import emails from '../../bitmovin/notifications/emails';
-import {getConfiguration} from '../utils';
-import {mockHttp, testSetup} from '../assertions';
-import {EmailNotificationWithConditions} from '../../bitmovin/notifications/types';
+import emails from '../../../bitmovin/notifications/emails';
+import {getConfiguration} from '../../utils';
+import {mockHttp, testSetup} from '../../assertions';
+import {EmailNotificationWithConditions} from '../../../bitmovin/notifications/types';
 
 const testConfiguration = getConfiguration();
 const notificationEmails = emails(testConfiguration, mockHttp);
