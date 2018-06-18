@@ -143,3 +143,13 @@ export type EncodingErrorWebhookDetails = BitmovinWebhookResponse & {
 export type EncodingErrorWebhook = BitmovinWebhook & {
   url: string
 }
+
+export type TransferFinishedWebhookDetails = BitmovinWebhookResponse & {
+  url: string,
+  id: string,
+  schema: string
+}
+
+export type TransferFinishedWebhook = BitmovinWebhook & {
+  url: string
+}
