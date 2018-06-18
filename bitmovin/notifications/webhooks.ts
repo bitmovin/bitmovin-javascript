@@ -15,7 +15,7 @@ import {
 
 import {
   EmailNotificationWithConditions,
-  EmailNotificationWithConditionsDetails, EncodingFinishedWebhook,
+  EmailNotificationWithConditionsDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingFinishedWebhook,
   EncodingFinishedWebhookDetails, UserSpecificCustomDataDetails
 } from './types';
 
@@ -129,10 +129,10 @@ export type NotificationWebhooks = {
     encodings: {
       (encodingId: string): {
         finished: NotificationWebhooksType<EncodingFinishedWebhookDetails, EncodingFinishedWebhook, EncodingFinishedWebhookDetails, EncodingFinishedWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>,
-        error: NotificationWebhooksType
+        error: NotificationWebhooksType<EncodingErrorWebhookDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingErrorWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>
       },
       finished: NotificationWebhooksType<EncodingFinishedWebhookDetails, EncodingFinishedWebhook, EncodingFinishedWebhookDetails, EncodingFinishedWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>,
-      error: NotificationWebhooksType
+      error: NotificationWebhooksType<EncodingErrorWebhookDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingErrorWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>
     },
     transfers: {
       (encodingId: string): {

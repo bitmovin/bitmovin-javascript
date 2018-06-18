@@ -133,3 +133,13 @@ export type BitmovinWebhook = UserSpecificCustomData & {
 export type EncodingFinishedWebhook = BitmovinWebhook & {
   url: string
 }
+
+export type EncodingErrorWebhookDetails = BitmovinWebhookResponse & {
+  url: string,
+  id: string,
+  schema: string
+}
+
+export type EncodingErrorWebhook = BitmovinWebhook & {
+  url: string
+}
