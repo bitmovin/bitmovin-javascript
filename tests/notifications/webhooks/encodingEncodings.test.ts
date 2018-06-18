@@ -82,10 +82,9 @@ describe('encodings', () => {
         await notificationWebhooks.encoding.encodings
           .finished(testNotificationId)
           .customData();
-        expect(mockHttp.put).toHaveBeenCalledWith(
+        expect(mockHttp.get).toHaveBeenCalledWith(
           testConfiguration,
-          `https://api.bitmovin.com/v1/notifications/webhooks/encoding/encodings/finished/${testNotificationId}`,
-          testWebhookNotification
+          `https://api.bitmovin.com/v1/notifications/webhooks/encoding/encodings/finished/${testNotificationId}`
         );
       });
     });
@@ -162,10 +161,9 @@ describe('encodings', () => {
             .encodings(testEncodingId)
             .finished(testNotificationId)
             .customData();
-          expect(mockHttp.put).toHaveBeenCalledWith(
+          expect(mockHttp.get).toHaveBeenCalledWith(
             testConfiguration,
-            `https://api.bitmovin.com/v1/notifications/webhooks/encoding/encodings/${testEncodingId}/finished/${testNotificationId}`,
-            testWebhookNotification
+            `https://api.bitmovin.com/v1/notifications/webhooks/encoding/encodings/${testEncodingId}/finished/${testNotificationId}`
           );
         });
       });
