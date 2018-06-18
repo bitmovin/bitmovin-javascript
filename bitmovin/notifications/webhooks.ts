@@ -1,10 +1,9 @@
 // @flow
 import * as urljoin from 'url-join';
 
-import httpClient, {utils} from '../utils/http';
+import httpClient from '../utils/http';
 import {
-  ApiResource,
-  Create, Create2,
+  Create2,
   Delete,
   Details,
   HttpClient,
@@ -24,60 +23,50 @@ const webhooks = (configuration: InternalConfiguration, http: HttpClient = httpC
   const webhooksBaseUrl = urljoin(configuration.apiBaseUrl, 'notifications', 'webhooks');
   const encodingBaseUrl = urljoin(webhooksBaseUrl, 'encoding');
   const encodingsBaseUrl = urljoin(encodingBaseUrl, 'encodings');
-
-  const listAll = (limit, offset, sort, filter) => {
-    const url = buildListUrl(webhooksBaseUrl, limit, offset, sort, filter);
-    return http.get<Pagination<EmailNotificationWithConditionsDetails>>(configuration, url);
-  };
-
-  const listEncoding = (limit, offset, sort, filter) => {
-    const url = buildListUrl(encodingBaseUrl, limit, offset, sort, filter);
-    return http.get<Pagination<EmailNotificationWithConditionsDetails>>(configuration, url);
-  };
+  const transfersBaseUrl = urljoin(encodingBaseUrl, 'transfers');
 
   const encodings = (encodingId: string) => {
     const url = urljoin(encodingsBaseUrl, encodingId);
-    return {liveInputStreamChanged: createLiveInputStreamChangedMethods(url, configuration, http)};
+    return {
+      finished: createEncodingsFinishedMethods(url, configuration, http),
+      error: createEncodingsErrorMethods(url, configuration, http)
+    };
   };
   const encodingsResource = Object.assign(encodings, {
-    liveInputStreamChanged: createLiveInputStreamChangedMethods(encodingsBaseUrl, configuration, http)
+    finished: createEncodingsFinishedMethods(encodingsBaseUrl, configuration, http),
+    error: createEncodingsErrorMethods(encodingsBaseUrl, configuration, http)
   });
 
   return {
-    list: listAll,
     encoding: {
-      list: listEncoding,
       encodings: encodingsResource,
-      transfers: {
-        list: null
-      }
+      transfers: transfersResource
     }
   };
 };
 
-const createLiveInputStreamChangedMethods = (
+const createEncodingsFinishedMethods = (
   encodingsBaseUrl: string,
   configuration: InternalConfiguration,
   http: HttpClient
-): NotificationWebhooksType => {
-  const typeBaseUrl = urljoin(encodingsBaseUrl, 'live-input-stream-changed');
+): NotificationWebhooksType<EncodingFinishedWebhookDetails, EncodingFinishedWebhook, EncodingFinishedWebhookDetails, EncodingFinishedWebhookDetails, DeleteResult, UserSpecificCustomDataDetails> => {
+  const typeBaseUrl = urljoin(encodingsBaseUrl, 'finished ');
 
-  let liveInputStreamChanged = (notificationId: string) => {
+  let finished = (notificationId: string) => {
     const url = urljoin(typeBaseUrl, notificationId);
     return {
-      details: () => http.get<EmailNotificationWithConditionsDetails>(configuration, url),
-      delete: () => http.delete_<object>(configuration, url),
-      customData: (webhookNotification: EmailNotificationWithConditions) =>
-        http.put<EmailNotificationWithConditionsDetails, EmailNotificationWithConditions>(
+      details: () => http.get<EncodingFinishedWebhookDetails>(configuration, url),
+      delete: () => http.delete_<DeleteResult>(configuration, url),
+      customData: () =>
+        http.get<UserSpecificCustomDataDetails>(
           configuration,
-          url,
-          webhookNotification
+          url
         )
     };
   };
 
-  const create = (webhookNotification: EmailNotificationWithConditions) => {
-    return http.post<EmailNotificationWithConditions, EmailNotificationWithConditions>(
+  const create = (webhookNotification: EncodingFinishedWebhook) => {
+    return http.post<EncodingFinishedWebhookDetails, EncodingFinishedWebhook>(
       configuration,
       typeBaseUrl,
       webhookNotification
@@ -86,10 +75,51 @@ const createLiveInputStreamChangedMethods = (
 
   const list = (limit, offset, sort, filter) => {
     const url = buildListUrl(typeBaseUrl, limit, offset, sort, filter);
-    return http.get<Pagination<EmailNotificationWithConditionsDetails>>(configuration, url);
+    return http.get<Pagination<EncodingFinishedWebhookDetails>>(configuration, url);
   };
 
-  const resource = Object.assign(liveInputStreamChanged, {
+  const resource = Object.assign(finished, {
+    create,
+    list
+  });
+
+  return resource;
+};
+
+const createEncodingsErrorMethods = (
+  encodingsBaseUrl: string,
+  configuration: InternalConfiguration,
+  http: HttpClient
+): NotificationWebhooksType<EncodingErrorWebhookDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingErrorWebhookDetails, DeleteResult, UserSpecificCustomDataDetails> => {
+  const typeBaseUrl = urljoin(encodingsBaseUrl, 'error ');
+
+  let error = (notificationId: string) => {
+    const url = urljoin(typeBaseUrl, notificationId);
+    return {
+      details: () => http.get<EncodingErrorWebhookDetails>(configuration, url),
+      delete: () => http.delete_<DeleteResult>(configuration, url),
+      customData: () =>
+        http.get<UserSpecificCustomDataDetails>(
+          configuration,
+          url
+        )
+    };
+  };
+
+  const create = (webhookNotification: EncodingErrorWebhook) => {
+    return http.post<EncodingErrorWebhookDetails, EncodingErrorWebhook>(
+      configuration,
+      typeBaseUrl,
+      webhookNotification
+    );
+  };
+
+  const list = (limit, offset, sort, filter) => {
+    const url = buildListUrl(typeBaseUrl, limit, offset, sort, filter);
+    return http.get<Pagination<EncodingErrorWebhookDetails>>(configuration, url);
+  };
+
+  const resource = Object.assign(error, {
     create,
     list
   });
