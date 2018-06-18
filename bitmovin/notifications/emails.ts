@@ -14,6 +14,7 @@ import {
 } from '../utils/types';
 
 import {EmailNotificationWithConditions, EmailNotificationWithConditionsDetails} from './types';
+import {buildListUrl} from '../utils/UrlUtils';
 
 const emails = (configuration: InternalConfiguration, http: HttpClient = httpClient): NotificationEmails => {
   const emailsBaseUrl = urljoin(configuration.apiBaseUrl, 'notifications', 'emails');
@@ -87,20 +88,6 @@ const createLiveInputStreamChangedMethods = (
   });
 
   return resource;
-};
-
-const buildListUrl = (url, limit, offset, sort, filter) => {
-  const filterParams = utils.buildFilterParamString(filter);
-  let getParams = utils.buildGetParamString({
-    ...filterParams,
-    limit: limit,
-    offset: offset,
-    sort: sort
-  });
-  if (getParams.length > 0) {
-    return urljoin(url, getParams);
-  }
-  return url;
 };
 
 type NotificationEmailsType = {

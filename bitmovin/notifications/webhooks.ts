@@ -18,6 +18,7 @@ import {
   EmailNotificationWithConditionsDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingFinishedWebhook,
   EncodingFinishedWebhookDetails, TransferFinishedWebhook, TransferFinishedWebhookDetails, UserSpecificCustomDataDetails
 } from './types';
+import {buildListUrl} from '../utils/UrlUtils';
 
 const webhooks = (configuration: InternalConfiguration, http: HttpClient = httpClient): NotificationWebhooks => {
   const webhooksBaseUrl = urljoin(configuration.apiBaseUrl, 'notifications', 'webhooks');
@@ -94,20 +95,6 @@ const createLiveInputStreamChangedMethods = (
   });
 
   return resource;
-};
-
-const buildListUrl = (url, limit, offset, sort, filter) => {
-  const filterParams = utils.buildFilterParamString(filter);
-  let getParams = utils.buildGetParamString({
-    ...filterParams,
-    limit: limit,
-    offset: offset,
-    sort: sort
-  });
-  if (getParams.length > 0) {
-    return urljoin(url, getParams);
-  }
-  return url;
 };
 
 type NotificationWebhooksType<TListResult, TCreateParam, TCreateResult, TDetails, TDelete, TCustomData> = {
