@@ -4,7 +4,7 @@ import * as urljoin from 'url-join';
 import httpClient, {utils} from '../utils/http';
 import {
   ApiResource,
-  Create,
+  Create, Create2,
   Delete,
   Details,
   HttpClient,
@@ -13,7 +13,11 @@ import {
   Pagination
 } from '../utils/types';
 
-import {EmailNotificationWithConditions, EmailNotificationWithConditionsDetails} from './types';
+import {
+  EmailNotificationWithConditions,
+  EmailNotificationWithConditionsDetails, EncodingFinishedWebhook,
+  EncodingFinishedWebhookDetails, UserSpecificCustomDataDetails
+} from './types';
 
 const webhooks = (configuration: InternalConfiguration, http: HttpClient = httpClient): NotificationWebhooks => {
   const webhooksBaseUrl = urljoin(configuration.apiBaseUrl, 'notifications', 'webhooks');
@@ -106,32 +110,36 @@ const buildListUrl = (url, limit, offset, sort, filter) => {
   return url;
 };
 
-type NotificationWebhooksType = {
+type NotificationWebhooksType<TListResult, TCreateParam, TCreateResult, TDetails, TDelete, TCustomData> = {
   (notificationId: string): {
-    details: Details<any>;
-    delete: Delete<object>;
-    customData: () => Promise<any>;
-  };
-  create: Create<any>;
-  list: List<any>;
+    details: Details<TDetails>,
+    delete: Delete<TDelete>,
+    customData: () => Promise<TCustomData>,
+  },
+  create: Create2<TCreateParam, TCreateResult>,
+  list: List<TListResult>
+};
+
+interface DeleteResult {
+  id: string
 };
 
 export type NotificationWebhooks = {
-  list: List<any>;
   encoding: {
-    list: List<any>;
     encodings: {
       (encodingId: string): {
-        finished: NotificationWebhooksType;
+        finished: NotificationWebhooksType<EncodingFinishedWebhookDetails, EncodingFinishedWebhook, EncodingFinishedWebhookDetails, EncodingFinishedWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>,
+        error: NotificationWebhooksType
       },
-      finished: NotificationWebhooksType;
+      finished: NotificationWebhooksType<EncodingFinishedWebhookDetails, EncodingFinishedWebhook, EncodingFinishedWebhookDetails, EncodingFinishedWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>,
       error: NotificationWebhooksType
     },
     transfers: {
       (encodingId: string): {
-        finished: NotificationWebhooksType;
+        finished: NotificationWebhooksType,
+        error: NotificationWebhooksType
       },
-      finished: NotificationWebhooksType;
+      finished: NotificationWebhooksType,
       error: NotificationWebhooksType
     }
   }

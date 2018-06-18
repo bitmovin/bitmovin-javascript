@@ -87,3 +87,49 @@ export type EmailNotificationWithConditions = {
 export type EmailNotificationWithConditionsDetails = EmailNotificationWithConditions & EmailNotificationResource;
 
 //webhook notifications
+
+export enum EncryptionType {
+  AES = 'AES', DESede = 'DESede', Blowfish = 'Blowfish', RSA = 'RSA'
+}
+
+export enum SignatureType {
+  HMAC = 'HMAC'
+}
+
+export interface WebhookEncryptionResponse {
+  type: SignatureType
+}
+
+export interface WebhookSignatureResponse {
+  type: SignatureType
+}
+
+export enum WebhookHttpMethod {
+  POST = 'POST', PUT = 'PUT'
+}
+
+export interface BitmovinWebhookResponse {
+  url: string,
+  method?: WebhookHttpMethod,
+  insecureSsl?: boolean,
+  signature?: WebhookSignatureResponse,
+  encryption?: WebhookEncryptionResponse
+}
+
+export type EncodingFinishedWebhookDetails = BitmovinWebhookResponse & {
+  url: string,
+  id: string,
+  schema: string
+}
+
+export type BitmovinWebhook = UserSpecificCustomData & {
+  url: string,
+  method?: WebhookHttpMethod,
+  insecureSsl?: boolean,
+  signature?: WebhookSignatureResponse,
+  encryption?: WebhookEncryptionResponse
+}
+
+export type EncodingFinishedWebhook = BitmovinWebhook & {
+  url: string
+}

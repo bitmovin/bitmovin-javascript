@@ -72,6 +72,7 @@ export type List<T> = (
   filter?: object
 ) => Promise<Pagination<ApiResource<T>>>;
 
+export type Create2<TParam, TResult> = (data: TParam) => Promise<ApiResource<TResult>>;
 export type Create<T> = (data: T) => Promise<ApiResource<T>>;
 export type Details<T> = () => Promise<ApiResource<T>>;
 export type Delete<T> = () => Promise<T>;
