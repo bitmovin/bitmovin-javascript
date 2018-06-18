@@ -169,4 +169,155 @@ describe('encodings', () => {
       });
     });
   });
+
+  describe('error', () => {
+    describe('list', () => {
+      it('should call the correct url', async () => {
+        await notificationWebhooks.encoding.encodings.error.list();
+        expect(mockHttp.get).toHaveBeenCalledWith(
+          testConfiguration,
+          'https://api.bitmovin.com/v1/notifications/webhooks/encoding/encodings/error'
+        );
+      });
+
+      it('should include limit', async () => {
+        await notificationWebhooks.encoding.encodings.error.list(10);
+        expect(mockHttp.get).toHaveBeenCalledWith(
+          testConfiguration,
+          'https://api.bitmovin.com/v1/notifications/webhooks/encoding/encodings/error?limit=10'
+        );
+      });
+
+      it('should include offset', async () => {
+        await notificationWebhooks.encoding.encodings.error.list(undefined, 10);
+        expect(mockHttp.get).toHaveBeenCalledWith(
+          testConfiguration,
+          'https://api.bitmovin.com/v1/notifications/webhooks/encoding/encodings/error?offset=10'
+        );
+      });
+    });
+
+    describe('create', () => {
+      it('should call the correct url', async () => {
+        await notificationWebhooks.encoding.encodings.error.create(testWebhookNotification);
+        expect(mockHttp.post).toHaveBeenCalledWith(
+          testConfiguration,
+          'https://api.bitmovin.com/v1/notifications/webhooks/encoding/encodings/error',
+          testWebhookNotification
+        );
+      });
+    });
+
+    describe('details', () => {
+      it('should call the correct url', async () => {
+        await notificationWebhooks.encoding.encodings.error(testNotificationId).details();
+        expect(mockHttp.get).toHaveBeenCalledWith(
+          testConfiguration,
+          `https://api.bitmovin.com/v1/notifications/webhooks/encoding/encodings/error/${testNotificationId}`
+        );
+      });
+    });
+
+    describe('delete', () => {
+      it('should call the correct url', async () => {
+        await notificationWebhooks.encoding.encodings.error(testNotificationId).delete();
+        expect(mockHttp.delete_).toHaveBeenCalledWith(
+          testConfiguration,
+          `https://api.bitmovin.com/v1/notifications/webhooks/encoding/encodings/error/${testNotificationId}`
+        );
+      });
+    });
+
+    describe('customData', () => {
+      it('should call the correct url', async () => {
+        await notificationWebhooks.encoding.encodings
+          .error(testNotificationId)
+          .customData();
+        expect(mockHttp.get).toHaveBeenCalledWith(
+          testConfiguration,
+          `https://api.bitmovin.com/v1/notifications/webhooks/encoding/encodings/error/${testNotificationId}`
+        );
+      });
+    });
+
+    describe('single encoding notifications', () => {
+      describe('list', () => {
+        it('should call the correct url', async () => {
+          await notificationWebhooks.encoding.encodings(testEncodingId).error.list();
+          expect(mockHttp.get).toHaveBeenCalledWith(
+            testConfiguration,
+            `https://api.bitmovin.com/v1/notifications/webhooks/encoding/encodings/${testEncodingId}/error`
+          );
+        });
+
+        it('should include limit', async () => {
+          await notificationWebhooks.encoding.encodings(testEncodingId).error.list(10);
+          expect(mockHttp.get).toHaveBeenCalledWith(
+            testConfiguration,
+            `https://api.bitmovin.com/v1/notifications/webhooks/encoding/encodings/${testEncodingId}/error?limit=10`
+          );
+        });
+
+        it('should include offset', async () => {
+          await notificationWebhooks.encoding.encodings(testEncodingId).error.list(undefined, 10);
+          expect(mockHttp.get).toHaveBeenCalledWith(
+            testConfiguration,
+            `https://api.bitmovin.com/v1/notifications/webhooks/encoding/encodings/${testEncodingId}/error?offset=10`
+          );
+        });
+      });
+
+      describe('create', () => {
+        it('should call the correct url', async () => {
+          await notificationWebhooks.encoding
+            .encodings(testEncodingId)
+            .error.create(testWebhookNotification);
+          expect(mockHttp.post).toHaveBeenCalledWith(
+            testConfiguration,
+            `https://api.bitmovin.com/v1/notifications/webhooks/encoding/encodings/${testEncodingId}/error`,
+            testWebhookNotification
+          );
+        });
+      });
+
+      describe('details', () => {
+        it('should call the correct url', async () => {
+          await notificationWebhooks.encoding
+            .encodings(testEncodingId)
+            .error(testNotificationId)
+            .details();
+          expect(mockHttp.get).toHaveBeenCalledWith(
+            testConfiguration,
+            `https://api.bitmovin.com/v1/notifications/webhooks/encoding/encodings/${testEncodingId}/error/${testNotificationId}`
+          );
+        });
+      });
+
+      describe('delete', () => {
+        it('should call the correct url', async () => {
+          await notificationWebhooks.encoding
+            .encodings(testEncodingId)
+            .error(testNotificationId)
+            .delete();
+          expect(mockHttp.delete_).toHaveBeenCalledWith(
+            testConfiguration,
+            `https://api.bitmovin.com/v1/notifications/webhooks/encoding/encodings/${testEncodingId}/error/${testNotificationId}`
+          );
+        });
+      });
+
+      describe('customData', () => {
+        it('should call the correct url', async () => {
+          await notificationWebhooks.encoding
+            .encodings(testEncodingId)
+            .error(testNotificationId)
+            .customData();
+          expect(mockHttp.get).toHaveBeenCalledWith(
+            testConfiguration,
+            `https://api.bitmovin.com/v1/notifications/webhooks/encoding/encodings/${testEncodingId}/error/${testNotificationId}`
+          );
+        });
+      });
+    });
+  });
 });
