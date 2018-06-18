@@ -25,20 +25,18 @@ yarn add bitmovin-javascript
 Initialization
 ----------
 
-The Babel configuration for all builds can be found in `.babelrc.js`.
-
 ### Node
 
 Using ES6 `import`
 ```es6
 import Bitmovin from 'bitmovin-javascript';
-const bitmovin = new Bitmovin({'apiKey': '<YOUR_API_KEY>'});
+const bitmovin = Bitmovin({'apiKey': '<YOUR_API_KEY>'});
 ```
 
 With `require`
 ```js
 const Bitmovin = require('bitmovin-javascript').default;
-const bitmovin = new Bitmovin({'apiKey': '<YOUR_API_KEY>'});
+const bitmovin = Bitmovin({'apiKey': '<YOUR_API_KEY>'});
 ```
 
 ### Browser
@@ -51,7 +49,7 @@ Import `bitmovin-javascript/dist/index.js`.
 
 ### Types
 
-- Typescript (`bitmovin-javascript/dist/index.d.ts`
+- Typescript (`bitmovin-javascript/dist/index.d.ts`)
 
 Usage
 -----------
@@ -84,14 +82,13 @@ For more examples visit our [example page](https://github.com/bitmovin/bitmovin-
 Contributing
 -----------
 
-If you want to contribute feel free to send Pull-Requests. Make sure the tests pass and new functions have ample test coverage.
+If you want to contribute feel free to send pull requests. Code quality is ensured through [lint-staged](https://github.com/okonet/lint-staged), please make sure all tests are passing with `yarn test`.
 
-Running tests:
+Upgrade from v1
+----------------
 
-``` bash
-yarn test
-yarn coverage
-```
+Version 2 of the Bitmovin JavaScript client still has the same 1:1 mapping as v1. With v2 we improved the bundling and changed the default export to not require a `new` to create a Bitmovin "object".
+Internally the client changed quite a lot as you can see in [this pull request](https://github.com/bitmovin/bitmovin-javascript/pull/62).
 
 License
 -----------

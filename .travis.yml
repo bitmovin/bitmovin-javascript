@@ -1,11 +1,10 @@
 language: node_js
 node_js:
   - "node"
-  - "6"
 script:
   - "yarn format-check"
   - "yarn lint"
   - "yarn lint-examples"
-  - "yarn coverage"
+  - "yarn coverage-ci"
   - "yarn run codecov"
   - "yarn build"

@@ -1,11 +1,12 @@
+import {Promise} from 'es6-promise';
+
 import http from '../../bitmovin/utils/http';
+import {InternalConfiguration} from '../../bitmovin/utils/types';
+import {getConfiguration} from '../utils';
 
 describe('Test HTTP Client', () => {
   it('should resolve the promise if the response status is 204', () => {
-    const constMockConfiguration = {
-      httpHeaders: ['X-Api-Key: someApiKey'],
-      requestTimeOut: 5000
-    };
+    const constMockConfiguration: InternalConfiguration = getConfiguration();
 
     const mockResponse = {
       status: 204
@@ -25,10 +26,7 @@ describe('Test HTTP Client', () => {
   });
 
   it('should reject the promise if the response status is > 399', () => {
-    const constMockConfiguration = {
-      httpHeaders: ['X-Api-Key: someApiKey'],
-      requestTimeOut: 5000
-    };
+    const constMockConfiguration: InternalConfiguration = getConfiguration();
 
     const errorData = {
       requestId: '23e71f50-aca9-49be-8bb2-d50ee6b5cd35',
@@ -65,10 +63,7 @@ describe('Test HTTP Client', () => {
   });
 
   it('Should resolve the response if status is 200', () => {
-    const constMockConfiguration = {
-      httpHeaders: ['X-Api-Key: someApiKey'],
-      requestTimeOut: 5000
-    };
+    const constMockConfiguration: InternalConfiguration = getConfiguration();
 
     const successData = {
       requestId: '33fc02af-5b81-4948-81ef-71c999c017f2',
@@ -107,10 +102,7 @@ describe('Test HTTP Client', () => {
   });
 
   it('should do a successfull post', () => {
-    const constMockConfiguration = {
-      httpHeaders: ['X-Api-Key: someApiKey'],
-      requestTimeOut: 5000
-    };
+    const constMockConfiguration: InternalConfiguration = getConfiguration();
 
     const successData = {
       requestId: '33fc02af-5b81-4948-81ef-71c999c017f2',
@@ -153,10 +145,7 @@ describe('Test HTTP Client', () => {
   });
 
   it('should fail a post request with error code 400', () => {
-    const constMockConfiguration = {
-      httpHeaders: ['X-Api-Key: someApiKey'],
-      requestTimeOut: 5000
-    };
+    const constMockConfiguration: InternalConfiguration = getConfiguration();
 
     const errorData = {
       requestId: '33fc02af-5b81-4948-81ef-71c999c017f2',
@@ -196,10 +185,7 @@ describe('Test HTTP Client', () => {
   });
 
   it('should do a successfull delete', () => {
-    const constMockConfiguration = {
-      httpHeaders: ['X-Api-Key: someApiKey'],
-      requestTimeOut: 5000
-    };
+    const constMockConfiguration: InternalConfiguration = getConfiguration();
 
     const successData = {
       requestId: '33fc02af-5b81-4948-81ef-71c999c017f2',
@@ -234,10 +220,7 @@ describe('Test HTTP Client', () => {
   });
 
   it('should fail a delete request with error code 400', () => {
-    const constMockConfiguration = {
-      httpHeaders: ['X-Api-Key: someApiKey'],
-      requestTimeOut: 5000
-    };
+    const constMockConfiguration: InternalConfiguration = getConfiguration();
 
     const errorData = {
       requestId: '33fc02af-5b81-4948-81ef-71c999c017f2',

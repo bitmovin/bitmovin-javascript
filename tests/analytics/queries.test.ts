@@ -97,15 +97,15 @@ describe('analytics', () => {
           }
         );
       };
-      testBuilderFunction(queriesClient.builder.max);
-      testBuilderFunction(queriesClient.builder.min);
-      testBuilderFunction(queriesClient.builder.avg);
-      testBuilderFunction(queriesClient.builder.sum);
-      testBuilderFunction(queriesClient.builder.count);
-      testBuilderFunction(queriesClient.builder.median);
-      testBuilderFunction(queriesClient.builder.variance);
+      testBuilderFunction(queriesClient.builder.max, undefined);
+      testBuilderFunction(queriesClient.builder.min, undefined);
+      testBuilderFunction(queriesClient.builder.avg, undefined);
+      testBuilderFunction(queriesClient.builder.sum, undefined);
+      testBuilderFunction(queriesClient.builder.count, undefined);
+      testBuilderFunction(queriesClient.builder.median, undefined);
+      testBuilderFunction(queriesClient.builder.variance, undefined);
       testBuilderFunction(queriesClient.builder.percentile, 95);
-      testBuilderFunction(queriesClient.builder.stddev);
+      testBuilderFunction(queriesClient.builder.stddev, undefined);
 
       const testBuilderFunctionAtTheEnd = funcName => {
         const query = queriesClient.builder

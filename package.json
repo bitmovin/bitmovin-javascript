@@ -1,7 +1,7 @@
 {
   "name": "bitmovin-javascript",
-  "version": "2.0.0-beta3",
-  "main": "./dist/inde.js",
+  "version": "2.0.1",
+  "main": "./dist/index.js",
   "browser": "./dist/bitmovin.browser.js",
   "types": "./dist/index.d.ts",
   "repository": {
@@ -14,11 +14,10 @@
   "license": "MIT",
   "scripts": {
     "clean": "rimraf dist",
-    "lint": "tslint --config ./tslint.json \"./{bitmovin,tests}/**/*.ts\"",
+    "lint": "tslint \"./{bitmovin,tests}/**/*.ts\"",
     "lint-examples": "eslint ./examples",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "coverage": "jest --coverage",
+    "test": "jest --watch",
+    "coverage-ci": "jest --runInBand --coverage",
     "format": "prettier --config ./.prettierrc --write \"./{bitmovin,examples,tests}/**/*.ts\"",
     "format-files": "prettier --config ./.prettierrc --write",
     "format-check": "prettier --config ./.prettierrc --list-different \"./{bitmovin,examples,tests}/**/*.ts\"",
@@ -31,7 +30,12 @@
   "lint-staged": {
     "*.ts": [
       "yarn format-files",
-      "tslint",
+      "tslint --fix",
+      "git add"
+    ],
+    "*.js": [
+      "yarn format-files",
+      "eslint --fix",
       "git add"
     ]
   },
@@ -47,6 +51,7 @@
     "jest": "^23.1.0",
     "lint-staged": "^7.2.0",
     "prettier": "^1.12.1",
+    "replace": "^1.0.0",
     "rimraf": "^2.6.2",
     "ts-jest": "^22.4.6",
     "tslint": "^5.10.0",
