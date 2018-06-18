@@ -14,8 +14,7 @@ import {
 } from '../utils/types';
 
 import {
-  EmailNotificationWithConditions,
-  EmailNotificationWithConditionsDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingFinishedWebhook,
+   EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingFinishedWebhook,
   EncodingFinishedWebhookDetails, TransferFinishedWebhook, TransferFinishedWebhookDetails, UserSpecificCustomDataDetails
 } from './types';
 import {buildListUrl} from '../utils/UrlUtils';
@@ -36,6 +35,18 @@ const webhooks = (configuration: InternalConfiguration, http: HttpClient = httpC
   const encodingsResource = Object.assign(encodings, {
     finished: createMethods<EncodingFinishedWebhookDetails, EncodingFinishedWebhook, EncodingFinishedWebhookDetails, EncodingFinishedWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>(encodingsBaseUrl, 'finished', configuration, http),
     error: createMethods<EncodingErrorWebhookDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingErrorWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>(encodingsBaseUrl, 'error', configuration, http)
+  });
+
+  const transfers = (transferId: string) => {
+    const url = urljoin(transfersBaseUrl, transferId);
+    return {
+      finished: createMethods<TransferFinishedWebhookDetails, TransferFinishedWebhook, TransferFinishedWebhookDetails, TransferFinishedWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>(url, 'finished', configuration, http),
+      error: createMethods<EncodingErrorWebhookDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingErrorWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>(url, 'error', configuration, http)
+    };
+  };
+  const transfersResource = Object.assign(transfers, {
+    finished: createMethods<TransferFinishedWebhookDetails, TransferFinishedWebhook, TransferFinishedWebhookDetails, TransferFinishedWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>(transfersBaseUrl, 'finished', configuration, http),
+    error: createMethods<EncodingErrorWebhookDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingErrorWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>(transfersBaseUrl, 'error', configuration, http)
   });
 
   return {
