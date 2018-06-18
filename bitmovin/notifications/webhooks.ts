@@ -137,10 +137,10 @@ export type NotificationWebhooks = {
     transfers: {
       (encodingId: string): {
         finished: NotificationWebhooksType<TransferFinishedWebhookDetails, TransferFinishedWebhook, TransferFinishedWebhookDetails, TransferFinishedWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>,
-        error: NotificationWebhooksType
+        error: NotificationWebhooksType<EncodingErrorWebhookDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingErrorWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>
       },
       finished: NotificationWebhooksType<TransferFinishedWebhookDetails, TransferFinishedWebhook, TransferFinishedWebhookDetails, TransferFinishedWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>,
-      error: NotificationWebhooksType
+      error: NotificationWebhooksType<EncodingErrorWebhookDetails, EncodingErrorWebhook, EncodingErrorWebhookDetails, EncodingErrorWebhookDetails, DeleteResult, UserSpecificCustomDataDetails>
     }
   }
 };
