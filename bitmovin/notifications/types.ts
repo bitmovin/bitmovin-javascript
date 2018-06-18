@@ -1,4 +1,6 @@
 // @flow
+
+//email notifications
 export enum ConditionMembers {
   HEIGHT,
   WIDTH,
@@ -83,3 +85,5 @@ export type EmailNotificationWithConditions = {
 } & EmailNotification;
 
 export type EmailNotificationWithConditionsDetails = EmailNotificationWithConditions & EmailNotificationResource;
+
+//webhook notifications
