@@ -1,5 +1,6 @@
 import * as urljoin from 'url-join';
 
+import {buildListUrl} from '../utils/UrlUtils';
 import http from '../utils/http';
 import {ApiResource, Delete, Details, HttpClient, InternalConfiguration, List, Pagination} from '../utils/types';
 
@@ -13,16 +14,19 @@ export const notifications = (configuration: InternalConfiguration, httpClient: 
   const list = (notificationId: string) => {
     const url = urljoin(configuration.apiBaseUrl, 'notifications', notificationId);
     return {
-      details: () => http.get<EmailNotificationWithConditionsDetails>(configuration, url),
-      delete: () => http.delete_<object>(configuration, url)
+      details: () => httpClient.get<EmailNotificationWithConditionsDetails>(configuration, url),
+      delete: () => httpClient.delete_<object>(configuration, url)
     };
   };
 
   const api = Object.assign(list, {
     emails: emails(configuration, httpClient),
     webhooks: webhooks(configuration, httpClient),
-    list: () =>
-      http.get<Pagination<ApiResource<object>>>(configuration, urljoin(configuration.apiBaseUrl, 'notifications'))
+    list: (limit, offset, sort, filter) => {
+      const baseUrl = urljoin(configuration.apiBaseUrl, 'notifications');
+      const url = buildListUrl(baseUrl, limit, offset, sort, filter);
+      return httpClient.get<Pagination<ApiResource<object>>>(configuration, url);
+    }
   });
 
   return api;
