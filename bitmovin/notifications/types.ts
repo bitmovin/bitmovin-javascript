@@ -1,4 +1,8 @@
 //email notifications
+export enum EventTypes {
+  LIVE_INPUT_STREAM_CHANGED = 'LIVE_INPUT_STREAM_CHANGED'
+}
+
 export enum ConditionMembers {
   HEIGHT,
   WIDTH,
@@ -66,6 +70,8 @@ export type Condition = CompoundCondition | StreamCondition;
 
 export type EmailNotification = {
   id: string;
+  type: 'EMAIL',
+  eventType: EventTypes,
   emails: Array<string>;
   name?: string;
   description?: string;
