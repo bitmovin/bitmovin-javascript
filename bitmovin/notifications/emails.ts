@@ -57,8 +57,6 @@ const createLiveInputStreamChangedMethods = (
   let liveInputStreamChanged = (notificationId: string) => {
     const url = urljoin(typeBaseUrl, notificationId);
     return {
-      details: () => http.get<EmailNotificationWithConditionsDetails>(configuration, url),
-      delete: () => http.delete_<object>(configuration, url),
       replace: (emailNotification: EmailNotificationWithConditions) =>
         http.put<EmailNotificationWithConditionsDetails, EmailNotificationWithConditions>(
           configuration,
@@ -85,8 +83,6 @@ const createLiveInputStreamChangedMethods = (
 
 type NotificationEmailsType = {
   (notificationId: string): {
-    details: Details<EmailNotificationWithConditionsDetails>;
-    delete: Delete<object>;
     replace: (emailNotification: EmailNotificationWithConditions) => Promise<EmailNotificationWithConditionsDetails>;
   };
   create: Create<EmailNotificationWithConditions>;
