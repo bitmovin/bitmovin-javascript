@@ -18,7 +18,7 @@ export type PlayerLicense = BitmovinDetails & {
   impressions: number;
   maxImpressions: number;
   thirdPartyLicensingEnabled: boolean;
-  domains: Array<DomainDetails>;
+  domains: DomainDetails[];
 };
 
 export type PlayerLicenseListObject = BitmovinDetails & {

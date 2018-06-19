@@ -1,6 +1,6 @@
-import {getConfiguration} from '../../utils';
 import webhooks from '../../../bitmovin/notifications/webhooks';
 import {mockHttp, testSetup} from '../../assertions';
+import {getConfiguration} from '../../utils';
 
 const testConfiguration = getConfiguration();
 const notificationWebhooks = webhooks(testConfiguration, mockHttp);
@@ -79,9 +79,7 @@ describe('transfers', () => {
 
     describe('customData', () => {
       it('should call the correct url', async () => {
-        await notificationWebhooks.encoding.transfers
-          .finished(testNotificationId)
-          .customData();
+        await notificationWebhooks.encoding.transfers.finished(testNotificationId).customData();
         expect(mockHttp.get).toHaveBeenCalledWith(
           testConfiguration,
           `https://api.bitmovin.com/v1/notifications/webhooks/encoding/transfers/finished/${testNotificationId}`
@@ -118,9 +116,7 @@ describe('transfers', () => {
 
       describe('create', () => {
         it('should call the correct url', async () => {
-          await notificationWebhooks.encoding
-            .transfers(testEncodingId)
-            .finished.create(testWebhookNotification);
+          await notificationWebhooks.encoding.transfers(testEncodingId).finished.create(testWebhookNotification);
           expect(mockHttp.post).toHaveBeenCalledWith(
             testConfiguration,
             `https://api.bitmovin.com/v1/notifications/webhooks/encoding/transfers/${testEncodingId}/finished`,
@@ -230,9 +226,7 @@ describe('transfers', () => {
 
     describe('customData', () => {
       it('should call the correct url', async () => {
-        await notificationWebhooks.encoding.transfers
-          .error(testNotificationId)
-          .customData();
+        await notificationWebhooks.encoding.transfers.error(testNotificationId).customData();
         expect(mockHttp.get).toHaveBeenCalledWith(
           testConfiguration,
           `https://api.bitmovin.com/v1/notifications/webhooks/encoding/transfers/error/${testNotificationId}`
@@ -269,9 +263,7 @@ describe('transfers', () => {
 
       describe('create', () => {
         it('should call the correct url', async () => {
-          await notificationWebhooks.encoding
-            .transfers(testEncodingId)
-            .error.create(testWebhookNotification);
+          await notificationWebhooks.encoding.transfers(testEncodingId).error.create(testWebhookNotification);
           expect(mockHttp.post).toHaveBeenCalledWith(
             testConfiguration,
             `https://api.bitmovin.com/v1/notifications/webhooks/encoding/transfers/${testEncodingId}/error`,

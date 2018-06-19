@@ -1,5 +1,6 @@
 import * as urljoin from 'url-join';
 
+import {buildListUrl} from '../utils/UrlUtils';
 import httpClient from '../utils/http';
 import {
   ApiResource,
@@ -21,7 +22,6 @@ import {
   TransferFinishedWebhookDetails,
   UserSpecificCustomDataDetails
 } from './types';
-import {buildListUrl} from '../utils/UrlUtils';
 
 const webhooks = (configuration: InternalConfiguration, http: HttpClient = httpClient): NotificationWebhooks => {
   const webhooksBaseUrl = urljoin(configuration.apiBaseUrl, 'notifications', 'webhooks');
@@ -125,7 +125,7 @@ const createMethods = <TListResult, TCreateParam, TCreateResult, TDetails, TDele
 ): NotificationWebhooksType<TListResult, TCreateParam, TCreateResult, TDetails, TDelete, TCustomData> => {
   const typeBaseUrl = urljoin(baseUrl, notificationType);
 
-  let finished = (notificationId: string) => {
+  const finished = (notificationId: string) => {
     const url = urljoin(typeBaseUrl, notificationId);
     return {
       details: () => http.get<ApiResource<TDetails>>(configuration, url),
@@ -151,7 +151,7 @@ const createMethods = <TListResult, TCreateParam, TCreateResult, TDetails, TDele
   return resource;
 };
 
-type NotificationWebhooksType<TListResult, TCreateParam, TCreateResult, TDetails, TDelete, TCustomData> = {
+interface NotificationWebhooksType<TListResult, TCreateParam, TCreateResult, TDetails, TDelete, TCustomData> {
   (notificationId: string): {
     details: Details<TDetails>;
     delete: Delete<TDelete>;
@@ -159,13 +159,13 @@ type NotificationWebhooksType<TListResult, TCreateParam, TCreateResult, TDetails
   };
   create: Create2<TCreateParam, TCreateResult>;
   list: List<TListResult>;
-};
+}
 
 interface DeleteResult {
   id: string;
 }
 
-export type NotificationWebhooks = {
+export interface NotificationWebhooks {
   encoding: {
     encodings: {
       (encodingId: string): {
@@ -240,6 +240,6 @@ export type NotificationWebhooks = {
       >;
     };
   };
-};
+}
 
 export default webhooks;

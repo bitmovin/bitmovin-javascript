@@ -1,4 +1,4 @@
-//email notifications
+// email notifications
 export enum EventTypes {
   LIVE_INPUT_STREAM_CHANGED = 'LIVE_INPUT_STREAM_CHANGED'
 }
@@ -63,16 +63,16 @@ export interface StreamCondition {
 
 export interface CompoundCondition {
   type: 'AND' | 'OR';
-  conditions: Array<Condition>;
+  conditions: Condition[];
 }
 
 export type Condition = CompoundCondition | StreamCondition;
 
 export type EmailNotification = {
   id: string;
-  type: 'EMAIL',
-  eventType: EventTypes,
-  emails: Array<string>;
+  type: 'EMAIL';
+  eventType: EventTypes;
+  emails: string[];
   name?: string;
   description?: string;
 } & UserSpecificCustomData;
@@ -90,7 +90,7 @@ export type EmailNotificationWithConditions = {
 
 export type EmailNotificationWithConditionsDetails = EmailNotificationWithConditions & EmailNotificationResource;
 
-//webhook notifications
+// webhook notifications
 
 export enum EncryptionType {
   AES = 'AES',

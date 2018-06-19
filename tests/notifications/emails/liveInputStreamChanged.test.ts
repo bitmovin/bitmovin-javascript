@@ -1,7 +1,7 @@
 import emails from '../../../bitmovin/notifications/emails';
-import {getConfiguration} from '../../utils';
-import {mockHttp, testSetup} from '../../assertions';
 import {EmailNotificationWithConditions} from '../../../bitmovin/notifications/types';
+import {mockHttp, testSetup} from '../../assertions';
+import {getConfiguration} from '../../utils';
 
 const testConfiguration = getConfiguration();
 const notificationEmails = emails(testConfiguration, mockHttp);

@@ -1,13 +1,14 @@
-import {utils} from './http';
 import * as urljoin from 'url-join';
+
+import {utils} from './http';
 
 export const buildListUrl = (url, limit, offset, sort, filter) => {
   const filterParams = utils.buildFilterParamString(filter);
-  let getParams = utils.buildGetParamString({
+  const getParams = utils.buildGetParamString({
     ...filterParams,
-    limit: limit,
-    offset: offset,
-    sort: sort
+    limit,
+    offset,
+    sort
   });
   if (getParams.length > 0) {
     return urljoin(url, getParams);

@@ -1,5 +1,6 @@
 import * as urljoin from 'url-join';
 
+import {buildListUrl} from '../utils/UrlUtils';
 import httpClient, {utils} from '../utils/http';
 import {
   ApiResource,
@@ -13,7 +14,6 @@ import {
 } from '../utils/types';
 
 import {EmailNotificationWithConditions, EmailNotificationWithConditionsDetails} from './types';
-import {buildListUrl} from '../utils/UrlUtils';
 
 const emails = (configuration: InternalConfiguration, http: HttpClient = httpClient): NotificationEmails => {
   const emailsBaseUrl = urljoin(configuration.apiBaseUrl, 'notifications', 'emails');
@@ -54,7 +54,7 @@ const createLiveInputStreamChangedMethods = (
 ): NotificationEmailsType => {
   const typeBaseUrl = urljoin(encodingsBaseUrl, 'live-input-stream-changed');
 
-  let liveInputStreamChanged = (notificationId: string) => {
+  const liveInputStreamChanged = (notificationId: string) => {
     const url = urljoin(typeBaseUrl, notificationId);
     return {
       replace: (emailNotification: EmailNotificationWithConditions) =>
@@ -81,14 +81,14 @@ const createLiveInputStreamChangedMethods = (
   return resource;
 };
 
-type NotificationEmailsType = {
+interface NotificationEmailsType {
   (notificationId: string): {
     replace: (emailNotification: EmailNotificationWithConditions) => Promise<EmailNotificationWithConditionsDetails>;
   };
   create: Create<EmailNotificationWithConditions>;
-};
+}
 
-export type NotificationEmails = {
+export interface NotificationEmails {
   list: List<EmailNotificationWithConditionsDetails>;
   encoding: {
     list: List<EmailNotificationWithConditionsDetails>;
@@ -99,6 +99,6 @@ export type NotificationEmails = {
       liveInputStreamChanged: NotificationEmailsType;
     };
   };
-};
+}
 
 export default emails;

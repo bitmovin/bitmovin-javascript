@@ -5,7 +5,7 @@ import {BitmovinDetails, Create, Delete, Details, HttpClient, List} from '../uti
 
 import {webCustomPlayerBuildDomain} from './webCustomPlayerBuildDomain';
 
-export type CustomPlayerBuild = BitmovinDetails & {}; //TODO: there is no type CustomPlayerBuild in the api spec, find out what it contains
+export type CustomPlayerBuild = BitmovinDetails & {}; // TODO: there is no type CustomPlayerBuild in the api spec, find out what it contains
 export type CustomPlayerBuildDetails = CustomPlayerBuild & {
   id: string;
 };
@@ -21,8 +21,8 @@ export interface CustomPlayerBuildStatus {
   status: CustomPlayerBuildStatusEnum;
   progress: number;
   eta: number;
-  messages: Array<{text: string; links: Array<object>}>;
-  subtasks: Array<object>;
+  messages: Array<{text: string; links: object[]}>;
+  subtasks: object[];
 }
 
 export interface CustomPlayerBuildDownload {
@@ -36,7 +36,7 @@ export interface CustomBuildsWeb {
     start: () => Promise<string>;
     status: () => Promise<CustomPlayerBuildStatus>;
     download: () => Promise<CustomPlayerBuildDownload>;
-    delete: Delete<string>; //TODO: not specified in api spec
+    delete: Delete<string>; // TODO: not specified in api spec
   };
 
   add: Create<CustomPlayerBuildDetails>;
