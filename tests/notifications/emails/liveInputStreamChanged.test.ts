@@ -1,5 +1,5 @@
 import emails from '../../../bitmovin/notifications/emails';
-import {EmailNotificationWithConditions} from '../../../bitmovin/notifications/types';
+import {EmailNotificationWithConditions, EventTypes} from '../../../bitmovin/notifications/types';
 import {mockHttp, testSetup} from '../../assertions';
 import {getConfiguration} from '../../utils';
 
@@ -8,6 +8,8 @@ const notificationEmails = emails(testConfiguration, mockHttp);
 
 const testEmailNotificationWithConditions: EmailNotificationWithConditions = {
   id: 'id',
+  type: 'EMAIL',
+  eventType: EventTypes.LIVE_INPUT_STREAM_CHANGED,
   resolve: true,
   conditions: {
     type: 'AND',
@@ -26,32 +28,6 @@ describe('liveInputStreamChanged', () => {
     testSetup();
   });
 
-  describe('list', () => {
-    it('should call the correct url', async () => {
-      await notificationEmails.encoding.encodings.liveInputStreamChanged.list();
-      expect(mockHttp.get).toHaveBeenCalledWith(
-        testConfiguration,
-        'https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/live-input-stream-changed'
-      );
-    });
-
-    it('should include limit', async () => {
-      await notificationEmails.encoding.encodings.liveInputStreamChanged.list(10);
-      expect(mockHttp.get).toHaveBeenCalledWith(
-        testConfiguration,
-        'https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/live-input-stream-changed?limit=10'
-      );
-    });
-
-    it('should include offset', async () => {
-      await notificationEmails.encoding.encodings.liveInputStreamChanged.list(undefined, 10);
-      expect(mockHttp.get).toHaveBeenCalledWith(
-        testConfiguration,
-        'https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/live-input-stream-changed?offset=10'
-      );
-    });
-  });
-
   describe('create', () => {
     it('should call the correct url', async () => {
       await notificationEmails.encoding.encodings.liveInputStreamChanged.create(testEmailNotificationWithConditions);
@@ -59,26 +35,6 @@ describe('liveInputStreamChanged', () => {
         testConfiguration,
         'https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/live-input-stream-changed',
         testEmailNotificationWithConditions
-      );
-    });
-  });
-
-  describe('details', () => {
-    it('should call the correct url', async () => {
-      await notificationEmails.encoding.encodings.liveInputStreamChanged(testNotificationId).details();
-      expect(mockHttp.get).toHaveBeenCalledWith(
-        testConfiguration,
-        `https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/live-input-stream-changed/${testNotificationId}`
-      );
-    });
-  });
-
-  describe('delete', () => {
-    it('should call the correct url', async () => {
-      await notificationEmails.encoding.encodings.liveInputStreamChanged(testNotificationId).delete();
-      expect(mockHttp.delete_).toHaveBeenCalledWith(
-        testConfiguration,
-        `https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/live-input-stream-changed/${testNotificationId}`
       );
     });
   });
@@ -97,32 +53,6 @@ describe('liveInputStreamChanged', () => {
   });
 
   describe('single encoding notifications', () => {
-    describe('list', () => {
-      it('should call the correct url', async () => {
-        await notificationEmails.encoding.encodings(testEncodingId).liveInputStreamChanged.list();
-        expect(mockHttp.get).toHaveBeenCalledWith(
-          testConfiguration,
-          `https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/${testEncodingId}/live-input-stream-changed`
-        );
-      });
-
-      it('should include limit', async () => {
-        await notificationEmails.encoding.encodings(testEncodingId).liveInputStreamChanged.list(10);
-        expect(mockHttp.get).toHaveBeenCalledWith(
-          testConfiguration,
-          `https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/${testEncodingId}/live-input-stream-changed?limit=10`
-        );
-      });
-
-      it('should include offset', async () => {
-        await notificationEmails.encoding.encodings(testEncodingId).liveInputStreamChanged.list(undefined, 10);
-        expect(mockHttp.get).toHaveBeenCalledWith(
-          testConfiguration,
-          `https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/${testEncodingId}/live-input-stream-changed?offset=10`
-        );
-      });
-    });
-
     describe('create', () => {
       it('should call the correct url', async () => {
         await notificationEmails.encoding
@@ -132,32 +62,6 @@ describe('liveInputStreamChanged', () => {
           testConfiguration,
           `https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/${testEncodingId}/live-input-stream-changed`,
           testEmailNotificationWithConditions
-        );
-      });
-    });
-
-    describe('details', () => {
-      it('should call the correct url', async () => {
-        await notificationEmails.encoding
-          .encodings(testEncodingId)
-          .liveInputStreamChanged(testNotificationId)
-          .details();
-        expect(mockHttp.get).toHaveBeenCalledWith(
-          testConfiguration,
-          `https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/${testEncodingId}/live-input-stream-changed/${testNotificationId}`
-        );
-      });
-    });
-
-    describe('delete', () => {
-      it('should call the correct url', async () => {
-        await notificationEmails.encoding
-          .encodings(testEncodingId)
-          .liveInputStreamChanged(testNotificationId)
-          .delete();
-        expect(mockHttp.delete_).toHaveBeenCalledWith(
-          testConfiguration,
-          `https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/${testEncodingId}/live-input-stream-changed/${testNotificationId}`
         );
       });
     });
