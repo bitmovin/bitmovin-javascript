@@ -127,7 +127,6 @@ export interface BitmovinWebhookResponse {
 export type EncodingFinishedWebhookDetails = BitmovinWebhookResponse & {
   url: string;
   id: string;
-  schema: string;
 };
 
 export type BitmovinWebhook = UserSpecificCustomData & {
@@ -145,7 +144,6 @@ export type EncodingFinishedWebhook = BitmovinWebhook & {
 export type EncodingErrorWebhookDetails = BitmovinWebhookResponse & {
   url: string;
   id: string;
-  schema: string;
 };
 
 export type EncodingErrorWebhook = BitmovinWebhook & {
@@ -155,7 +153,6 @@ export type EncodingErrorWebhook = BitmovinWebhook & {
 export type TransferFinishedWebhookDetails = BitmovinWebhookResponse & {
   url: string;
   id: string;
-  schema: string;
 };
 
 export type TransferFinishedWebhook = BitmovinWebhook & {
