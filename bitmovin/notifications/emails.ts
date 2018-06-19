@@ -76,14 +76,8 @@ const createLiveInputStreamChangedMethods = (
     );
   };
 
-  const list = (limit, offset, sort, filter) => {
-    const url = buildListUrl(typeBaseUrl, limit, offset, sort, filter);
-    return http.get<Pagination<EmailNotificationWithConditionsDetails>>(configuration, url);
-  };
-
   const resource = Object.assign(liveInputStreamChanged, {
-    create,
-    list
+    create
   });
 
   return resource;
@@ -96,7 +90,6 @@ type NotificationEmailsType = {
     replace: (emailNotification: EmailNotificationWithConditions) => Promise<EmailNotificationWithConditionsDetails>;
   };
   create: Create<EmailNotificationWithConditions>;
-  list: List<EmailNotificationWithConditionsDetails>;
 };
 
 export type NotificationEmails = {
