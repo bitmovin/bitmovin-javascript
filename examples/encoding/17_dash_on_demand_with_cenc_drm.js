@@ -205,7 +205,7 @@ const addDrmToRepresentations = (representations, output) => {
       widevine: {
         pssh: DRM_WIDEVINE_PSSH
       },
-      playready: {
+      playReady: {
         laUrl: DRM_PLAYREADY_LA_URL
       },
       marlin: {},
@@ -364,21 +364,16 @@ const waitUntilEncodingFinished = encoding => {
 };
 
 const startEncodingAndWaitForItToBeFinished = encoding => {
-  const startPromise = bitmovin.encoding.encodings(encoding.id).start();
-
-  return new Promise((resolve, reject) => {
-    startPromise.then(() => {
-      waitUntilEncodingFinished(encoding)
-        .then(success => {
-          console.log('dash encoding finished', success);
-          resolve(true);
-        })
-        .catch(error => {
-          console.log('dash encoding errored', error);
-          reject(error);
-        });
+  const startPromise = bitmovin.encoding.encodings(encoding.id).start(null);
+  return startPromise
+    .then(() => {
+      return waitUntilEncodingFinished(encoding).then(success => {
+        console.log('dash encoding finished', success);
+      });
+    })
+    .catch(error => {
+      console.log('dash encoding errored', error);
     });
-  });
 };
 
 const waitUntilDashManifestFinished = manifest => {
@@ -408,19 +403,14 @@ const waitUntilDashManifestFinished = manifest => {
 
 const startDashManifestCreationAndWaitUntilFinishedOrError = manifest => {
   const startPromise = bitmovin.encoding.manifests.dash(manifest.id).start();
-
-  return new Promise((resolve, reject) => {
-    startPromise.then(() => {
-      waitUntilDashManifestFinished(manifest)
-        .then(success => {
-          console.log('manifest finished', success);
-          resolve(true);
-        })
-        .catch(error => {
-          console.log('manifest errored', error);
-          reject(error);
-        });
-    });
+  return startPromise.then(() => {
+    return waitUntilDashManifestFinished(manifest)
+      .then(success => {
+        console.log('manifest finished', success);
+      })
+      .catch(error => {
+        console.log('manifest errored', error);
+      });
   });
 };
 
