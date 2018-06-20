@@ -1,7 +1,7 @@
 import * as urljoin from 'url-join';
 
 import {buildListUrl} from '../utils/UrlUtils';
-import http from '../utils/http';
+import http, {utils} from '../utils/http';
 import {ApiResource, Delete, Details, HttpClient, InternalConfiguration, List, Pagination} from '../utils/types';
 
 import emails from './emails';
@@ -22,11 +22,11 @@ export const notifications = (configuration: InternalConfiguration, httpClient: 
   const api = Object.assign(list, {
     emails: emails(configuration, httpClient),
     webhooks: webhooks(configuration, httpClient),
-    list: (limit, offset, sort, filter) => {
-      const baseUrl = urljoin(configuration.apiBaseUrl, 'notifications');
-      const url = buildListUrl(baseUrl, limit, offset, sort, filter);
-      return httpClient.get<Pagination<ApiResource<object>>>(configuration, url);
-    }
+    list: utils.buildListCallFunction<ApiResource<object>>(
+      httpClient,
+      configuration,
+      urljoin(configuration.apiBaseUrl, 'notifications')
+    )
   });
 
   return api;

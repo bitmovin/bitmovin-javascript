@@ -1,7 +1,7 @@
 import * as urljoin from 'url-join';
 
 import {buildListUrl} from '../utils/UrlUtils';
-import httpClient from '../utils/http';
+import httpClient, {utils} from '../utils/http';
 import {
   ApiResource,
   Create2,
@@ -112,14 +112,9 @@ const createMethods = <T, TDetails>(
     return http.post<ApiResource<TDetails>, T>(configuration, typeBaseUrl, webhookNotification);
   };
 
-  const list = (limit, offset, sort, filter) => {
-    const url = buildListUrl(typeBaseUrl, limit, offset, sort, filter);
-    return http.get<Pagination<TDetails>>(configuration, url);
-  };
-
   const resource = Object.assign(finished, {
     create,
-    list
+    list: utils.buildListCallFunction<TDetails>(http, configuration, typeBaseUrl)
   });
 
   return resource;

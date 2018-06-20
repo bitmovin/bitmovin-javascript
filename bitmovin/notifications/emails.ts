@@ -20,11 +20,6 @@ const emails = (configuration: InternalConfiguration, http: HttpClient = httpCli
   const encodingBaseUrl = urljoin(emailsBaseUrl, 'encoding');
   const encodingsBaseUrl = urljoin(encodingBaseUrl, 'encodings');
 
-  const listAll = (limit, offset, sort, filter) => {
-    const url = buildListUrl(emailsBaseUrl, limit, offset, sort, filter);
-    return http.get<Pagination<EmailNotificationWithConditionsDetails>>(configuration, url);
-  };
-
   const listEncoding = (limit, offset, sort, filter) => {
     const url = buildListUrl(encodingBaseUrl, limit, offset, sort, filter);
     return http.get<Pagination<EmailNotificationWithConditionsDetails>>(configuration, url);
@@ -39,7 +34,7 @@ const emails = (configuration: InternalConfiguration, http: HttpClient = httpCli
   });
 
   return {
-    list: listAll,
+    list: utils.buildListCallFunction<EmailNotificationWithConditionsDetails>(http, configuration, emailsBaseUrl),
     encoding: {
       list: listEncoding,
       encodings: encodingsResource
