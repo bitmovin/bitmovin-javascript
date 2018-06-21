@@ -21,8 +21,8 @@ export interface CustomPlayerBuildStatus {
   status: CustomPlayerBuildStatusEnum;
   progress: number;
   eta: number;
-  messages: Array<{text: string; links: object[]}>;
-  subtasks: object[];
+  messages: Array<{text: string; links: any[]}>;
+  subtasks: any[];
 }
 
 export interface CustomPlayerBuildDownload {
@@ -41,7 +41,7 @@ export interface CustomBuildsWeb {
 
   add: Create<CustomPlayerBuildDetails>;
   list: List<CustomPlayerBuildDetails>;
-  domains: object;
+  domains: any;
 }
 
 export interface CustomBuilds {
@@ -60,7 +60,7 @@ export const customBuilds = (configuration, httpClient: HttpClient): CustomBuild
         },
         start: () => {
           const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web', customBuildId, 'start');
-          return post<string, object>(configuration, url, {});
+          return post<string, any>(configuration, url, {});
         },
         status: () => {
           const url = urljoin(configuration.apiBaseUrl, 'player/custom-builds/web', customBuildId, 'status');

@@ -4,10 +4,10 @@ import analyticsQueries from './queries';
 import analyticsStatistics from './statistics';
 
 export interface Analytics {
-  licenses: object;
-  statistics: object;
-  impressions: object;
-  queries: object;
+  licenses: any;
+  statistics: any;
+  impressions: any;
+  queries: any;
 }
 
 const analytics = internalConfig => ({

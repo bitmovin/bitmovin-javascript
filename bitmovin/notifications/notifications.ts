@@ -15,14 +15,14 @@ export const notifications = (configuration: InternalConfiguration, httpClient: 
     const url = urljoin(configuration.apiBaseUrl, 'notifications', notificationId);
     return {
       details: () => httpClient.get<EmailNotificationWithConditionsDetails>(configuration, url),
-      delete: () => httpClient.delete_<object>(configuration, url)
+      delete: () => httpClient.delete_<any>(configuration, url)
     };
   };
 
   const api = Object.assign(list, {
     emails: emails(configuration, httpClient),
     webhooks: webhooks(configuration, httpClient),
-    list: utils.buildListCallFunction<ApiResource<object>>(
+    list: utils.buildListCallFunction<ApiResource<any>>(
       httpClient,
       configuration,
       urljoin(configuration.apiBaseUrl, 'notifications')
@@ -35,12 +35,12 @@ export const notifications = (configuration: InternalConfiguration, httpClient: 
 export interface Notifications {
   (notificationId: string): {
     details: Details<EmailNotificationWithConditionsDetails>;
-    delete: Delete<object>;
+    delete: Delete<any>;
   };
 
   emails: NotificationEmails;
   webhooks: NotificationWebhooks;
-  list: List<object>;
+  list: List<any>;
 }
 
 export default notifications;

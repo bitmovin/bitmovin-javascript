@@ -5,7 +5,7 @@ class Builder {
     groupBy: any[];
     orderBy: any[];
   };
-  private aggregations: object;
+  private aggregations: any;
   private percentile: any;
 
   constructor(aggregations, query?) {

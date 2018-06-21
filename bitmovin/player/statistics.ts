@@ -12,7 +12,7 @@ export interface Statistics {
     interval: string,
     offset?: number,
     limit?: number
-  ) => Promise<object>; // TODO: properly type return type, couldn't find it in the api spec
+  ) => Promise<any>; // TODO: properly type return type, couldn't find it in the api spec
   INTERVAL: {
     DAILY: 'DAILY';
   };
@@ -39,7 +39,7 @@ export const statistics = (configuration, httpClient: HttpClient): Statistics =>
       });
 
       const url = urljoin(playerStatisticsBaseUrl, getParams);
-      return get<object>(configuration, url);
+      return get<any>(configuration, url);
     },
     INTERVAL: {
       DAILY: 'DAILY'
