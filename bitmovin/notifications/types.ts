@@ -44,13 +44,13 @@ export enum ConditionOperators {
 }
 
 export interface UserSpecificCustomData {
-  customData?: object;
+  customData?: any;
 }
 
 export interface UserSpecificCustomDataDetails {
   createdAt: string;
   modifiedAt: string;
-  customData: object;
+  customData: any;
 }
 
 export interface AbstractConditionConditionFirst {
