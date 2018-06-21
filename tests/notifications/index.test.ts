@@ -1,4 +1,4 @@
-import notifications from '../../bitmovin/notifications/notifications';
+import notifications from '../../bitmovin/notifications';
 import {mockHttp, testSetup} from '../assertions';
 import {getConfiguration} from '../utils';
 

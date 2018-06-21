@@ -5,7 +5,7 @@ import analytics, {Analytics} from './analytics';
 import encoding, {Encoding} from './encoding';
 import player, {Player} from './player';
 
-import notifications, {Notifications} from './notifications/notifications';
+import notifications, {Notifications} from './notifications';
 import logger from './utils/Logger';
 import utils from './utils/Utils';
 import {BitmovinConfiguration, InternalConfiguration} from './utils/types';
