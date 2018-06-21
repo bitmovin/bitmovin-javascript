@@ -108,7 +108,8 @@ const createS3Output = () => {
 
 const createEncoding = () => {
   const encoding = {
-    name: 'MyOnDemand DRM Encoding'
+    name: 'MyOnDemand DRM Encoding',
+    encoderVersion: 'BETA'
   };
   return bitmovin.encoding.encodings.create(encoding);
 };
