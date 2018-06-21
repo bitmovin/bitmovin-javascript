@@ -20,13 +20,18 @@ export enum ConditionMembers {
 }
 
 export enum StreamConditionMembers {
-  BITRATE,
-  CODEC,
-  FPS,
-  HEIGHT,
-  WIDTH,
-  MEDIA_TYPE,
-  STREAM_ID
+  BITS_READ_AVG = 'bits_read_avg',
+  BITS_READ_MIN = 'bits_read_min',
+  BITS_READ_MAX = 'bits_read_max',
+  SAMPLES_READ_AVG = 'samples_read_avg',
+  SAMPLES_READ_MIN = 'samples_read_min',
+  SAMPLES_READ_MAX = 'samples_read_max',
+  RATE = 'rate',
+  CODEC = 'codec',
+  HEIGHT = 'height',
+  WIDTH = 'width',
+  MEDIA_TYPE = 'media_type',
+  STREAM_ID = 'stream_id'
 }
 
 export enum ConditionOperators {
