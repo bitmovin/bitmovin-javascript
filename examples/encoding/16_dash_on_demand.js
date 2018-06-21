@@ -102,7 +102,8 @@ const createS3Output = () => {
 
 const createEncoding = () => {
   const encoding = {
-    name: 'MyOnDemand Encoding'
+    name: 'MyOnDemand Encoding',
+    encoderVersion: 'BETA'
   };
   return bitmovin.encoding.encodings.create(encoding);
 };
