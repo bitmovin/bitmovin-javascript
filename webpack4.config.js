@@ -1,4 +1,6 @@
+const webpack = require('webpack');
 const path = require('path');
+const packageJson = require('./package');
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -15,11 +17,13 @@ const config = {
     library: 'bitmovin'
   },
   module: {
-    rules: [{
-      test: /\.ts$/,
-      loader: 'awesome-typescript-loader',
-      exclude: /node_modules/
-    }]
+    rules: [
+      {
+        test: /\.ts$/,
+        loader: 'awesome-typescript-loader',
+        exclude: /node_modules/
+      }
+    ]
   },
   optimization: {
     noEmitOnErrors: false
@@ -28,7 +32,12 @@ const config = {
     extensions: ['.tsx', '.ts', '.js']
   },
   devtool: isProd ? false : 'source-map',
-  stats: process.env.WEBPACK_MODE === 'log' ? 'verbose' : 'normal'
+  stats: process.env.WEBPACK_MODE === 'log' ? 'verbose' : 'normal',
+  plugins: [
+    new webpack.DefinePlugin({
+      __VERSION__: JSON.stringify(packageJson.version)
+    })
+  ]
 };
 
 module.exports = config;

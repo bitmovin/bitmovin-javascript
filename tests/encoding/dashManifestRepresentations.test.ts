@@ -56,6 +56,8 @@ describe('encoding', () => {
           testType('fmp4');
           testType('drmFmp4', 'fmp4/drm');
           testType('sidecar');
+          testType('mp4');
+          testType('drmMp4', 'mp4/drm');
         });
       });
     });
