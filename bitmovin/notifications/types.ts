@@ -36,12 +36,12 @@ export enum StreamConditionMembers {
 }
 
 export enum ConditionOperators {
-  LESS_THAN_OR_EQUAL = 'LESS_THAN_OR_EQUAL',
-  LESS_THAN = 'LESS_THAN',
-  GREATER_THAN = 'GREATER_THAN',
-  GREATER_THAN_OR_EQUAL = 'GREATER_THAN_OR_EQUAL',
-  EQUAL = 'EQUAL',
-  UNEQUAL = 'UNEQUAL'
+  LESS_THAN_OR_EQUAL = '<=',
+  LESS_THAN = '<',
+  GREATER_THAN = '>',
+  GREATER_THAN_OR_EQUAL = '>=',
+  EQUAL = '==',
+  UNEQUAL = '!='
 }
 
 export interface UserSpecificCustomData {
