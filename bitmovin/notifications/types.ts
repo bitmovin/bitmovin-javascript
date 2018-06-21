@@ -1,6 +1,7 @@
 // email notifications
 export enum EventTypes {
-  LIVE_INPUT_STREAM_CHANGED = 'LIVE_INPUT_STREAM_CHANGED'
+  LIVE_INPUT_STREAM_CHANGED = 'LIVE_INPUT_STREAM_CHANGED',
+  ERROR = 'ERROR'
 }
 
 export enum ConditionMembers {

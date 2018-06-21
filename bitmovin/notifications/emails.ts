@@ -27,10 +27,14 @@ const emails = (configuration: InternalConfiguration, http: HttpClient = httpCli
 
   const encodings = (encodingId: string) => {
     const url = urljoin(encodingsBaseUrl, encodingId);
-    return {liveInputStreamChanged: createLiveInputStreamChangedMethods(url, configuration, http)};
+    return {
+      liveInputStreamChanged: createLiveInputStreamChangedMethods(url, configuration, http),
+      error: createErrorMethods(url, configuration, http)
+    };
   };
   const encodingsResource = Object.assign(encodings, {
-    liveInputStreamChanged: createLiveInputStreamChangedMethods(encodingsBaseUrl, configuration, http)
+    liveInputStreamChanged: createLiveInputStreamChangedMethods(encodingsBaseUrl, configuration, http),
+    error: createErrorMethods(encodingsBaseUrl, configuration, http)
   });
 
   return {
@@ -48,8 +52,24 @@ const createLiveInputStreamChangedMethods = (
   http: HttpClient
 ): NotificationEmailsType => {
   const typeBaseUrl = urljoin(encodingsBaseUrl, 'live-input-stream-changed');
+  return createMethods(typeBaseUrl, configuration, http);
+};
 
-  const liveInputStreamChanged = (notificationId: string) => {
+const createErrorMethods = (
+  encodingsBaseUrl: string,
+  configuration: InternalConfiguration,
+  http: HttpClient
+): NotificationEmailsType => {
+  const typeBaseUrl = urljoin(encodingsBaseUrl, 'error');
+  return createMethods(typeBaseUrl, configuration, http);
+};
+
+const createMethods = (
+  typeBaseUrl: string,
+  configuration: InternalConfiguration,
+  http: HttpClient
+): NotificationEmailsType => {
+  const specificResource = (notificationId: string) => {
     const url = urljoin(typeBaseUrl, notificationId);
     return {
       replace: (emailNotification: EmailNotificationWithConditions) =>
@@ -69,7 +89,7 @@ const createLiveInputStreamChangedMethods = (
     );
   };
 
-  const resource = Object.assign(liveInputStreamChanged, {
+  const resource = Object.assign(specificResource, {
     create
   });
 
@@ -80,6 +100,7 @@ interface NotificationEmailsType {
   (notificationId: string): {
     replace: (emailNotification: EmailNotificationWithConditions) => Promise<EmailNotificationWithConditionsDetails>;
   };
+
   create: Create<EmailNotificationWithConditions>;
 }
 
@@ -90,8 +111,10 @@ export interface NotificationEmails {
     encodings: {
       (encodingId: string): {
         liveInputStreamChanged: NotificationEmailsType;
+        error: NotificationEmailsType;
       };
       liveInputStreamChanged: NotificationEmailsType;
+      error: NotificationEmailsType;
     };
   };
 }
