@@ -9,7 +9,7 @@ const notificationEmails = emails(testConfiguration, mockHttp);
 const testEmailNotificationWithConditions: EmailNotificationWithConditions = {
   id: 'id',
   type: 'EMAIL',
-  eventType: EventTypes.ERROR,
+  eventType: EventTypes.ENCODING_ERROR,
   resolve: true,
   conditions: {
     type: 'AND',
@@ -17,7 +17,8 @@ const testEmailNotificationWithConditions: EmailNotificationWithConditions = {
   },
   emails: [],
   name: 'name',
-  description: 'description'
+  description: 'description',
+  resourceId: 'aaaaa-aaaa-aaaa-aaaaa'
 };
 
 const testNotificationId = 'testNotificationId';

@@ -81,6 +81,7 @@ export type EmailNotification = {
   emails: string[];
   name?: string;
   description?: string;
+  resourceId: string;
 } & UserSpecificCustomData;
 
 export type EmailNotificationResource = {
