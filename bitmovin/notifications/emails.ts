@@ -29,7 +29,8 @@ const emails = (configuration: InternalConfiguration, http: HttpClient = httpCli
     const url = urljoin(encodingsBaseUrl, encodingId);
     return {
       liveInputStreamChanged: createLiveInputStreamChangedMethods(url, configuration, http),
-      error: createErrorMethods(url, configuration, http)
+      error: createErrorMethods(url, configuration, http),
+      list: utils.buildListCallFunction<EmailNotificationWithConditionsDetails>(http, configuration, url)
     };
   };
   const encodingsResource = Object.assign(encodings, {
@@ -112,6 +113,7 @@ export interface NotificationEmails {
       (encodingId: string): {
         liveInputStreamChanged: NotificationEmailsType;
         error: NotificationEmailsType;
+        list: List<EmailNotificationWithConditionsDetails>;
       };
       liveInputStreamChanged: NotificationEmailsType;
       error: NotificationEmailsType;
