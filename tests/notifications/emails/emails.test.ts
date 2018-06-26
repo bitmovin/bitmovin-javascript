@@ -43,5 +43,15 @@ describe('emails', () => {
         );
       });
     });
+
+    describe('encodings detail', () => {
+      it('should call correct url', async () => {
+        await notificationEmails.encoding.encodings('testid').list();
+        expect(mockHttp.get).toHaveBeenCalledWith(
+          testConfiguration,
+          'https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/testid'
+        );
+      });
+    });
   });
 });
