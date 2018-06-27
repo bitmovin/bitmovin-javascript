@@ -25,6 +25,7 @@
     "build:bundle:dev": "cross-env NODE_ENV=development webpack --config=./webpack4.config.js",
     "build:bundle:prod": "cross-env NODE_ENV=production webpack --config=./webpack4.config.js",
     "build:modules": "tsc --project ./tsconfig.json && replace \"__VERSION__\" \"'$(node -p \"require('./package.json').version\")'\" ./dist/index.js",
+    "prepublish": "yarn lint && yarn build",
     "precommit": "lint-staged"
   },
   "lint-staged": {
