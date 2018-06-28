@@ -54,7 +54,7 @@ export const streams = (configuration: InternalConfiguration, encodingId: string
   const add = stream => {
     const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'streams');
 
-    return post<ApiResource<Stream>, object>(configuration, url, stream);
+    return post<ApiResource<Stream>, any>(configuration, url, stream);
   };
 
   const list = utils.buildListCallFunction<Stream>(

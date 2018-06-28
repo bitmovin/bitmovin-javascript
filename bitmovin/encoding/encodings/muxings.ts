@@ -73,10 +73,10 @@ interface Muxing {}
 
 export interface Muxings {
   list: List<Muxing>;
-  fmp4: object;
-  ts: object;
-  mp4: object;
-  webm: object;
+  fmp4: any;
+  ts: any;
+  mp4: any;
+  webm: any;
 }
 
 export default (configuration: InternalConfiguration, encodingId: string): Muxings => {

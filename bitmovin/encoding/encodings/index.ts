@@ -63,7 +63,7 @@ export const encodings = (configuration: InternalConfiguration, httpClient: Http
 
   const create = encoding => {
     const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings');
-    return post<ApiResource<Encoding>, object>(configuration, url, encoding);
+    return post<ApiResource<Encoding>, any>(configuration, url, encoding);
   };
 
   const list = utils.buildListCallFunction<Encoding>(
@@ -88,12 +88,12 @@ interface EncodingDetail {
   details: Details<Encoding>;
   delete: Delete<{}>;
   customData: CustomData;
-  liveDetails: Details<object>;
-  start: Create<object>;
-  stop: Details<object>;
-  startLive: Create<object>;
-  stopLive: Details<object>;
-  status: Details<object>;
+  liveDetails: Details<any>;
+  start: Create<any>;
+  stop: Details<any>;
+  startLive: Create<any>;
+  stopLive: Details<any>;
+  status: Details<any>;
   streams: Streams;
   muxings: Muxings;
 }

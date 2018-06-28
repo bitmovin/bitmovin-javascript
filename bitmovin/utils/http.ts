@@ -76,7 +76,7 @@ const delete_ = (configuration, url, fetchMethod = fetch) => {
   return request(configuration, DELETE, url, fetchMethod, undefined);
 };
 
-const buildGetParamString = (getParams: object) => {
+const buildGetParamString = (getParams: any) => {
   const params: string[] = [];
   let paramsString = '';
 
@@ -104,7 +104,7 @@ const buildGetParamString = (getParams: object) => {
   return paramsString;
 };
 
-const buildFilterParamString = (filterParams: object) => {
+const buildFilterParamString = (filterParams: any) => {
   const processedFilterParams = {};
   for (const key in filterParams) {
     if (filterParams.hasOwnProperty(key)) {
@@ -119,7 +119,7 @@ const buildListCallFunction = <T>(
   configuration: InternalConfiguration,
   url: string
 ): List<T> => {
-  return (limit?: number, offset?: number, sort?: string, filter?: object): Promise<Pagination<T>> => {
+  return (limit?: number, offset?: number, sort?: string, filter?: any): Promise<Pagination<T>> => {
     let urlToCall = url;
 
     const filterParams = filter ? buildFilterParamString(filter) : {};
