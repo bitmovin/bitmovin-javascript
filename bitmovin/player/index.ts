@@ -11,10 +11,10 @@ const player = (internalConfig): Player => ({
 });
 
 export interface Player {
-  channels: object;
-  licenses: object;
-  statistics: object;
-  customBuilds: object;
+  channels: any;
+  licenses: any;
+  statistics: any;
+  customBuilds: any;
 }
 
 export default player;

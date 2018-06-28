@@ -8,8 +8,8 @@ export interface BitmovinConfiguration {
   basePath?: string;
   requestTimeout?: number;
   xApiClient?: string;
-  additionalHeaders?: object;
-  httpHeaders?: object;
+  additionalHeaders?: any;
+  httpHeaders?: any;
 }
 
 export interface InternalConfiguration {
@@ -22,8 +22,8 @@ export interface InternalConfiguration {
   basePath: string;
   requestTimeout: number;
   xApiClient: string;
-  additionalHeaders?: object;
-  httpHeaders?: object;
+  additionalHeaders?: any;
+  httpHeaders?: any;
 }
 
 export interface Pagination<T> {
@@ -69,7 +69,7 @@ export type List<T> = (
   limit?: number,
   offset?: number,
   sort?: string,
-  filter?: object
+  filter?: any
 ) => Promise<Pagination<ApiResource<T>>>;
 
 export type Create<T> = (data: T) => Promise<ApiResource<T>>;

@@ -11,7 +11,7 @@ export const account = (configuration: InternalConfiguration, httpClient: HttpCl
   const {get, post} = httpClient;
   const accountBaseUrl = urljoin(configuration.apiBaseUrl, 'account');
 
-  const information: Details<object> = () => {
+  const information: Details<any> = () => {
     const url = urljoin(accountBaseUrl, '/information');
 
     return get(configuration, url);
@@ -24,7 +24,7 @@ export const account = (configuration: InternalConfiguration, httpClient: HttpCl
       password
     };
 
-    return post<ApiResource<object>, object>(configuration, url, loginRequestPayload);
+    return post<ApiResource<any>, any>(configuration, url, loginRequestPayload);
   };
 
   const changePassword = (eMail, currentPassword, newPassword) => {
@@ -34,7 +34,7 @@ export const account = (configuration: InternalConfiguration, httpClient: HttpCl
       currentPassword,
       newPassword
     };
-    return post<ApiResource<object>, object>(configuration, url, changePasswordPayload);
+    return post<ApiResource<any>, any>(configuration, url, changePasswordPayload);
   };
 
   return {
@@ -48,12 +48,12 @@ export const account = (configuration: InternalConfiguration, httpClient: HttpCl
 };
 
 export interface Account {
-  information: Details<object>;
-  login: (eMail: string, password: string) => Promise<ApiResource<object>>;
-  changePassword: (eMail: string, currentPassword: string, newPassword: string) => Promise<ApiResource<object>>;
-  billing: object;
-  organizations: object;
-  apiKeys: object;
+  information: Details<any>;
+  login: (eMail: string, password: string) => Promise<ApiResource<any>>;
+  changePassword: (eMail: string, currentPassword: string, newPassword: string) => Promise<ApiResource<any>>;
+  billing: any;
+  organizations: any;
+  apiKeys: any;
 }
 
 export default (configuration): Account => {
