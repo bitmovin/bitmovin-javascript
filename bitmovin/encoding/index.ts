@@ -10,13 +10,13 @@ import statistics from './statistics';
 
 export interface Encoding {
   encodings: Encodings;
-  codecConfigurations: object;
-  inputs: object;
-  outputs: object;
-  manifests: object;
-  filters: object;
-  statistics: object;
-  infrastructure: object;
+  codecConfigurations: any;
+  inputs: any;
+  outputs: any;
+  manifests: any;
+  filters: any;
+  statistics: any;
+  infrastructure: any;
 }
 
 const encoding = internalConfig => ({
