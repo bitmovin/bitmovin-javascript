@@ -97,7 +97,7 @@ const createMethods = (
   return resource;
 };
 
-interface NotificationEmailsType {
+export interface NotificationEmailsType {
   (notificationId: string): {
     replace: (emailNotification: EmailNotificationWithConditions) => Promise<EmailNotificationWithConditionsDetails>;
   };

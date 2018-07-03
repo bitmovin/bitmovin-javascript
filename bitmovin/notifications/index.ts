@@ -6,7 +6,13 @@ import {ApiResource, Delete, Details, HttpClient, InternalConfiguration, List, P
 
 import emails from './emails';
 import {NotificationEmails} from './emails';
-import {EmailNotificationWithConditionsDetails} from './types';
+import {
+  EmailNotification,
+  EmailNotificationWithConditionsDetails,
+  EncodingErrorWebhook,
+  EncodingFinishedWebhook,
+  TransferFinishedWebhook
+} from './types';
 import webhooks from './webhooks';
 import {NotificationWebhooks} from './webhooks';
 
@@ -40,7 +46,7 @@ export interface Notifications {
 
   emails: NotificationEmails;
   webhooks: NotificationWebhooks;
-  list: List<any>;
+  list: List<EmailNotification | EncodingFinishedWebhook | EncodingErrorWebhook | TransferFinishedWebhook>;
 }
 
 export default notifications;

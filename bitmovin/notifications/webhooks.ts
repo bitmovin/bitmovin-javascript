@@ -120,7 +120,7 @@ const createMethods = <T, TDetails>(
   return resource;
 };
 
-interface NotificationWebhooksType<T, TDetails> {
+export interface NotificationWebhooksType<T, TDetails> {
   (notificationId: string): {
     details: Details<TDetails>;
     delete: Delete<DeleteResult>;
