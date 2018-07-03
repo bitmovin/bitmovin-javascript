@@ -1,6 +1,6 @@
 {
   "name": "bitmovin-javascript",
-  "version": "2.1.3",
+  "version": "2.2.0",
   "main": "./dist/index.js",
   "browser": "./dist/bitmovin.browser.js",
   "types": "./dist/index.d.ts",
@@ -22,9 +22,10 @@
     "format-files": "prettier --config ./.prettierrc --write",
     "format-check": "prettier --config ./.prettierrc --list-different \"./{bitmovin,examples,tests}/**/*.ts\"",
     "build": "yarn clean && yarn build:bundle:dev && yarn build:bundle:prod && yarn build:modules",
-    "build:bundle:dev": "NODE_ENV=development webpack --config=./webpack4.config.js",
-    "build:bundle:prod": "NODE_ENV=production webpack --config=./webpack4.config.js",
+    "build:bundle:dev": "cross-env NODE_ENV=development webpack --config=./webpack4.config.js",
+    "build:bundle:prod": "cross-env NODE_ENV=production webpack --config=./webpack4.config.js",
     "build:modules": "tsc --project ./tsconfig.json && replace \"__VERSION__\" \"'$(node -p \"require('./package.json').version\")'\" ./dist/index.js",
+    "prepublish": "yarn lint && yarn build",
     "precommit": "lint-staged"
   },
   "lint-staged": {
@@ -45,6 +46,7 @@
     "@types/url-join": "^0.8.2",
     "awesome-typescript-loader": "^5.0.0",
     "codecov": "^2.2.0",
+    "cross-env": "^5.2.0",
     "eslint": "^4.19.1",
     "esprima": "^4.0.0",
     "husky": "^0.14.3",

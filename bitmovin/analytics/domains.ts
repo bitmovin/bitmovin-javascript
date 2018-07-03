@@ -15,7 +15,7 @@ export const domains = (configuration, licenseId, httpClient: HttpClient) => {
     };
   };
 
-  const add = domain => {
+  const add = (domain: string) => {
     const url = urljoin(configuration.apiBaseUrl, 'analytics/licenses', licenseId, 'domains');
     return post(configuration, url, domain);
   };

@@ -4,7 +4,21 @@ import BitmovinError from '../utils/BitmovinError';
 import http, {utils} from '../utils/http';
 import {HttpClient} from '../utils/types';
 
-export const statistics = (configuration, httpClient: HttpClient) => {
+export interface Statistics {
+  impressions: (
+    licenseKeyId: string,
+    start: string,
+    end: string,
+    interval: string,
+    offset?: number,
+    limit?: number
+  ) => Promise<any>; // TODO: properly type return type, couldn't find it in the api spec
+  INTERVAL: {
+    DAILY: 'DAILY';
+  };
+}
+
+export const statistics = (configuration, httpClient: HttpClient): Statistics => {
   const {get} = httpClient;
 
   return {
@@ -25,7 +39,7 @@ export const statistics = (configuration, httpClient: HttpClient) => {
       });
 
       const url = urljoin(playerStatisticsBaseUrl, getParams);
-      return get(configuration, url);
+      return get<any>(configuration, url);
     },
     INTERVAL: {
       DAILY: 'DAILY'
