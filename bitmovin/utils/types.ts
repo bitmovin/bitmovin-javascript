@@ -72,6 +72,7 @@ export type List<T> = (
   filter?: any
 ) => Promise<Pagination<ApiResource<T>>>;
 
+export type Create2<TParam, TResult> = (data: TParam) => Promise<ApiResource<TResult>>;
 export type Create<T> = (data: T) => Promise<ApiResource<T>>;
 export type Details<T> = () => Promise<ApiResource<T>>;
 export type Delete<T> = () => Promise<T>;
@@ -82,4 +83,9 @@ export interface HttpClient {
   post<T, J>(configuration: InternalConfiguration, url: string, object?: J, fetchMethod?: any): Promise<T>;
   put<T, J>(configuration: InternalConfiguration, url: string, object?: J, fetchMethod?: any): Promise<T>;
   delete_<T>(configuration: InternalConfiguration, url: string, fetchMethod?: any): Promise<T>;
+}
+
+export interface BitmovinDetails {
+  createdAt: string;
+  modifiedAt: string;
 }
