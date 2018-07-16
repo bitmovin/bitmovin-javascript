@@ -83,11 +83,14 @@ const webhooks = (configuration: InternalConfiguration, http: HttpClient = httpC
     )
   });
 
+  const list = utils.buildListCallFunction<any>(http, configuration, webhooksBaseUrl);
+
   return {
     encoding: {
       encodings: encodingsResource,
       transfers: transfersResource
-    }
+    },
+    list
   };
 };
 
@@ -135,6 +138,7 @@ interface DeleteResult {
 }
 
 export interface NotificationWebhooks {
+  list: List<any>;
   encoding: {
     encodings: {
       (encodingId: string): {
