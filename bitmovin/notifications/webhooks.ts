@@ -20,8 +20,7 @@ import {
   TransferFinishedWebhook,
   TransferFinishedWebhookDetails,
   UserSpecificCustomDataDetails,
-  WebhookDetails,
-  WebhookHttpMethod
+  WebhookDetails
 } from './types';
 
 const webhooks = (configuration: InternalConfiguration, http: HttpClient = httpClient): NotificationWebhooks => {

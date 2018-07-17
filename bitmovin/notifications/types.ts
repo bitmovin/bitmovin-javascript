@@ -131,40 +131,40 @@ export interface BitmovinWebhookResponse {
   encryption?: WebhookEncryptionResponse;
 }
 
-export type EncodingFinishedWebhookDetails = BitmovinWebhookResponse & {
+export interface EncodingFinishedWebhookDetails extends BitmovinWebhookResponse {
   url: string;
   id: string;
-};
+}
 
-export type BitmovinWebhook = UserSpecificCustomData & {
+export interface BitmovinWebhook extends UserSpecificCustomData {
   url: string;
   method?: WebhookHttpMethod;
   insecureSsl?: boolean;
   signature?: WebhookSignatureResponse;
   encryption?: WebhookEncryptionResponse;
-};
+}
 
-export type EncodingFinishedWebhook = BitmovinWebhook & {
+export interface EncodingFinishedWebhook extends BitmovinWebhook {
   url: string;
-};
+}
 
-export type EncodingErrorWebhookDetails = BitmovinWebhookResponse & {
-  url: string;
-  id: string;
-};
-
-export type EncodingErrorWebhook = BitmovinWebhook & {
-  url: string;
-};
-
-export type TransferFinishedWebhookDetails = BitmovinWebhookResponse & {
+export interface EncodingErrorWebhookDetails extends BitmovinWebhookResponse {
   url: string;
   id: string;
-};
+}
 
-export type TransferFinishedWebhook = BitmovinWebhook & {
+export interface EncodingErrorWebhook extends BitmovinWebhook {
   url: string;
-};
+}
+
+export interface TransferFinishedWebhookDetails extends BitmovinWebhookResponse {
+  url: string;
+  id: string;
+}
+
+export interface TransferFinishedWebhook extends BitmovinWebhook {
+  url: string;
+}
 
 export interface WebhookDetails {
   id: string;
