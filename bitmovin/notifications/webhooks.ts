@@ -1,17 +1,7 @@
 import * as urljoin from 'url-join';
 
-import {buildListUrl} from '../utils/UrlUtils';
 import httpClient, {utils} from '../utils/http';
-import {
-  ApiResource,
-  Create2,
-  Delete,
-  Details,
-  HttpClient,
-  InternalConfiguration,
-  List,
-  Pagination
-} from '../utils/types';
+import {ApiResource, Create2, Delete, Details, HttpClient, InternalConfiguration, List} from '../utils/types';
 
 import {
   EncodingErrorWebhook,
@@ -20,7 +10,8 @@ import {
   EncodingFinishedWebhookDetails,
   TransferFinishedWebhook,
   TransferFinishedWebhookDetails,
-  UserSpecificCustomDataDetails
+  UserSpecificCustomDataDetails,
+  WebhookHttpMethod
 } from './types';
 
 const webhooks = (configuration: InternalConfiguration, http: HttpClient = httpClient): NotificationWebhooks => {
@@ -129,6 +120,7 @@ export interface NotificationWebhooksType<T, TDetails> {
     delete: Delete<DeleteResult>;
     customData: () => Promise<UserSpecificCustomDataDetails>;
   };
+
   create: Create2<T, TDetails>;
   list: List<TDetails>;
 }
@@ -137,8 +129,23 @@ interface DeleteResult {
   id: string;
 }
 
+interface WebhookOverview {
+  id: string;
+  createdAt: string;
+  modifiedAt?: string;
+  type: string;
+  resourceType: string;
+  eventType: string;
+  resourceId?: string;
+  method?: WebhookHttpMethod;
+  url: string;
+  insecureSsl?: boolean;
+  signatureType?: string;
+  encryptionType?: string;
+}
+
 export interface NotificationWebhooks {
-  list: List<any>;
+  list: List<WebhookOverview>;
   encoding: {
     encodings: {
       (encodingId: string): {
