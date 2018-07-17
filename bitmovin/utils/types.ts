@@ -89,3 +89,7 @@ export interface BitmovinDetails {
   createdAt: string;
   modifiedAt: string;
 }
+
+export interface DeleteResult {
+  id: string;
+}
