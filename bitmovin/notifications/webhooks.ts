@@ -1,7 +1,16 @@
 import * as urljoin from 'url-join';
 
 import httpClient, {utils} from '../utils/http';
-import {ApiResource, Create2, Delete, Details, HttpClient, InternalConfiguration, List} from '../utils/types';
+import {
+  ApiResource,
+  Create2,
+  Delete,
+  DeleteResult,
+  Details,
+  HttpClient,
+  InternalConfiguration,
+  List
+} from '../utils/types';
 
 import {
   EncodingErrorWebhook,
@@ -125,11 +134,7 @@ export interface NotificationWebhooksType<T, TDetails> {
   list: List<TDetails>;
 }
 
-interface DeleteResult {
-  id: string;
-}
-
-interface WebhookOverview {
+export interface WebhookDetails {
   id: string;
   createdAt: string;
   modifiedAt?: string;
@@ -145,7 +150,7 @@ interface WebhookOverview {
 }
 
 export interface NotificationWebhooks {
-  list: List<WebhookOverview>;
+  list: List<WebhookDetails>;
   encoding: {
     encodings: {
       (encodingId: string): {
