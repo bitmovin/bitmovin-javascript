@@ -165,3 +165,18 @@ export type TransferFinishedWebhookDetails = BitmovinWebhookResponse & {
 export type TransferFinishedWebhook = BitmovinWebhook & {
   url: string;
 };
+
+export interface WebhookDetails {
+  id: string;
+  createdAt: string;
+  modifiedAt?: string;
+  type: string;
+  resourceType: string;
+  eventType: string;
+  resourceId?: string;
+  method?: WebhookHttpMethod;
+  url: string;
+  insecureSsl?: boolean;
+  signatureType?: string;
+  encryptionType?: string;
+}

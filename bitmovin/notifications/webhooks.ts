@@ -20,6 +20,7 @@ import {
   TransferFinishedWebhook,
   TransferFinishedWebhookDetails,
   UserSpecificCustomDataDetails,
+  WebhookDetails,
   WebhookHttpMethod
 } from './types';
 
@@ -132,21 +133,6 @@ export interface NotificationWebhooksType<T, TDetails> {
 
   create: Create2<T, TDetails>;
   list: List<TDetails>;
-}
-
-export interface WebhookDetails {
-  id: string;
-  createdAt: string;
-  modifiedAt?: string;
-  type: string;
-  resourceType: string;
-  eventType: string;
-  resourceId?: string;
-  method?: WebhookHttpMethod;
-  url: string;
-  insecureSsl?: boolean;
-  signatureType?: string;
-  encryptionType?: string;
 }
 
 export interface NotificationWebhooks {
