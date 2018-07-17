@@ -23,6 +23,8 @@ import {
   WebhookDetails
 } from './types';
 
+export {DeleteResult};
+
 const webhooks = (configuration: InternalConfiguration, http: HttpClient = httpClient): NotificationWebhooks => {
   const webhooksBaseUrl = urljoin(configuration.apiBaseUrl, 'notifications', 'webhooks');
   const encodingBaseUrl = urljoin(webhooksBaseUrl, 'encoding');
