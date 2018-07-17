@@ -2,16 +2,7 @@ import * as urljoin from 'url-join';
 
 import {buildListUrl} from '../utils/UrlUtils';
 import httpClient, {utils} from '../utils/http';
-import {
-  ApiResource,
-  Create,
-  Delete,
-  Details,
-  HttpClient,
-  InternalConfiguration,
-  List,
-  Pagination
-} from '../utils/types';
+import {Create, HttpClient, InternalConfiguration, List, Pagination} from '../utils/types';
 
 import {EmailNotificationWithConditions, EmailNotificationWithConditionsDetails} from './types';
 
