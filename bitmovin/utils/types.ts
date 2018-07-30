@@ -74,6 +74,7 @@ export type List<T> = (
 
 export type Create2<TParam, TResult> = (data: TParam) => Promise<ApiResource<TResult>>;
 export type Create<T> = (data: T) => Promise<ApiResource<T>>;
+export type OptionalCreate<T> = (data?: T) => Promise<ApiResource<T>>;
 export type Details<T> = () => Promise<ApiResource<T>>;
 export type Delete<T> = () => Promise<T>;
 export type CustomData = () => Promise<CustomDataT>;

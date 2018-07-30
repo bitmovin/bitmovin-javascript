@@ -9,7 +9,8 @@ import {
   Details,
   HttpClient,
   InternalConfiguration,
-  List
+  List,
+  OptionalCreate
 } from '../../utils/types';
 
 import muxings, {Muxings} from './muxings';
@@ -89,7 +90,7 @@ interface EncodingDetail {
   delete: Delete<{}>;
   customData: CustomData;
   liveDetails: Details<any>;
-  start: Create<any>;
+  start: OptionalCreate<any>;
   stop: Details<any>;
   startLive: Create<any>;
   stopLive: Details<any>;
