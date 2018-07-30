@@ -1,4 +1,4 @@
-// 01_simple_encoding_dash_manifest.js
+// 08_simple_encoding_webm_in_dash_manifest.js
 
 // ---------------------------------------------------------------------------------------------------------------------
 
@@ -17,7 +17,7 @@
 // 2.2. Add a stream to your encoding. Typically you would like to add one audio stream and multiple video streams.
 //      Each stream maps to a codec configuration which you have created earlier and specifies the quality properties
 //      of your generated output.
-// 2.3. Add muxings to your encoding. Typically you want to add a FMP4 muxing for each of your configured streams.
+// 2.3. Add muxings to your encoding. In this example we create a WEBM muxing for each of your configured streams.
 //      That will give the player the ability to adapt between various qualities later on.
 // 2.4. Start your fully configured encoding.
 
@@ -29,8 +29,8 @@
 // 3.3. Add an audio adaptation set. One audio adaptation set is typically enough for the most use cases.
 // 3.4. Add a video adaptation set. One video adaptation set is typically enough for the most use cases. It gives the
 //      player the opportunity to switch between various qualities inside that adaptation set.
-// 3.5. Add an audio fmp4 representation to the previously created audio adaptation set.
-// 3.6. Add multiple video fmp4 representations th the previously created video adaptation set. The number of the video
+// 3.5. Add an audio webm representation to the previously created audio adaptation set.
+// 3.6. Add multiple video webm representations th the previously created video adaptation set. The number of the video
 //      representations can be derived from the number of the created video streams with different codec configurations.
 // 3.7. Start the manifest creation.
 
@@ -57,7 +57,7 @@ const OUTPUT_PATH = '/path/to/your/output/destination/';
 console.log('OUTPUT_PATH', OUTPUT_PATH);
 
 const httpInput = {
-  name: 'Sintel 2010 1080p MKV',
+  name: 'HTTPS Input for simple encoding',
   description: 'sample input file for simple encoding test in bitmovin-javascript',
   host: INPUT_FILE_HOST
 };
