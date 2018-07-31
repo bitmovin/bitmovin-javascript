@@ -3,8 +3,12 @@ import * as urljoin from 'url-join';
 import http, {utils} from '../utils/http';
 import {ApiResource, BitmovinDetails, Details, HttpClient, List} from '../utils/types';
 
-import domains from './domains';
-import thirdPartyLicensing from './thirdPartyLicensing';
+import domains, {Domains} from './domains';
+import thirdPartyLicensing, {ThirdPartyLicensing} from './thirdPartyLicensing';
+
+export interface Domain {
+  url: string;
+}
 
 export interface DomainDetails {
   id: string;
@@ -34,7 +38,10 @@ export interface Licenses {
   (licenseId: string): {
     details: Details<PlayerLicense>;
     update: (license: PlayerLicense) => Promise<ApiResource<PlayerLicense>>;
+    domains: Domains;
+    thirdPartyLicensing: ThirdPartyLicensing;
   };
+
   list: List<PlayerLicenseListObject>;
 }
 
