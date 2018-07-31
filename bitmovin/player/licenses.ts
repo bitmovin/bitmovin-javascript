@@ -25,15 +25,6 @@ export type PlayerLicense = BitmovinDetails & {
   domains: DomainDetails[];
 };
 
-export type PlayerLicenseListObject = BitmovinDetails & {
-  id: string;
-  name: string;
-  licenseKey: string;
-  impressions: number;
-  maxImpressions: number;
-  thirdPartyLicensingEnabled: boolean;
-};
-
 export interface Licenses {
   (licenseId: string): {
     details: Details<PlayerLicense>;
@@ -42,7 +33,7 @@ export interface Licenses {
     thirdPartyLicensing: ThirdPartyLicensing;
   };
 
-  list: List<PlayerLicenseListObject>;
+  list: List<PlayerLicense>;
 }
 
 export const licenses = (configuration, httpClient: HttpClient): Licenses => {
@@ -62,7 +53,7 @@ export const licenses = (configuration, httpClient: HttpClient): Licenses => {
     };
   };
 
-  const list = utils.buildListCallFunction<PlayerLicenseListObject>(
+  const list = utils.buildListCallFunction<PlayerLicense>(
     httpClient,
     configuration,
     urljoin(configuration.apiBaseUrl, 'player/licenses')
