@@ -7,9 +7,9 @@ import {HttpClient} from '../utils/types';
 export interface Statistics {
   impressions: (
     licenseKeyId: string,
-    start: string,
-    end: string,
-    interval: string,
+    start?: string,
+    end?: string,
+    interval?: string,
     offset?: number,
     limit?: number
   ) => Promise<any>; // TODO: properly type return type, couldn't find it in the api spec
