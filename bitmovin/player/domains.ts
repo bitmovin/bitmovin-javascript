@@ -1,7 +1,7 @@
 import * as urljoin from 'url-join';
 
 import http, {utils} from '../utils/http';
-import {Create, Delete, HttpClient, List} from '../utils/types';
+import {Create, Create2, Delete, HttpClient, List} from '../utils/types';
 
 import {Domain, DomainDetails} from './licenses';
 
@@ -10,7 +10,7 @@ export interface Domains {
     delete: Delete<any>;
   };
 
-  add: Create<Domain>;
+  add: Create2<Domain, DomainDetails>;
   list: List<DomainDetails>;
 }
 

@@ -15,7 +15,7 @@ export interface DomainDetails {
   url: string;
 }
 
-export type PlayerLicense = BitmovinDetails & {
+export interface PlayerLicense {
   id: string;
   name: string;
   licenseKey: string;
@@ -23,7 +23,7 @@ export type PlayerLicense = BitmovinDetails & {
   maxImpressions: number;
   thirdPartyLicensingEnabled: boolean;
   domains: DomainDetails[];
-};
+}
 
 export interface Licenses {
   (licenseId: string): {
