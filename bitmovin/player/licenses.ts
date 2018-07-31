@@ -25,10 +25,18 @@ export interface PlayerLicense {
   domains: DomainDetails[];
 }
 
+export interface UpdatePlayerLicense {
+  name?: string;
+  licenseKey?: string;
+  impressions?: number;
+  maxImpressions?: number;
+  thirdPartyLicensingEnabled?: boolean;
+}
+
 export interface Licenses {
   (licenseId: string): {
     details: Details<PlayerLicense>;
-    update: (license: PlayerLicense) => Promise<ApiResource<PlayerLicense>>;
+    update: (license: UpdatePlayerLicense) => Promise<ApiResource<PlayerLicense>>;
     domains: Domains;
     thirdPartyLicensing: ThirdPartyLicensing;
   };

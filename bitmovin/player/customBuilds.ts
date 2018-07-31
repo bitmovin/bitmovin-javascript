@@ -40,9 +40,11 @@ export interface CustomPlayerBuildStatus {
   subtasks: any[];
 }
 
-export interface CustomPlayerBuildDownload {
+interface CustomPlayerBuildDownload {
   downloadLink: string;
   expiresAt: string;
+  createdAt: string;
+  modifiedAt: string;
 }
 
 export interface CustomBuildsWeb {
