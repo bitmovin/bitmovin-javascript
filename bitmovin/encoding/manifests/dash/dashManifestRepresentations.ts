@@ -94,7 +94,8 @@ export const representations = (configuration, manifestId, periodId, adaptationS
     sidecar: typeFn('sidecar'),
     vtt: typeFn('vtt'),
     mp4: typeFn('mp4'),
-    drmMp4: typeFn('mp4/drm')
+    drmMp4: typeFn('mp4/drm'),
+    webm: typeFn('webm')
   };
 };
 
