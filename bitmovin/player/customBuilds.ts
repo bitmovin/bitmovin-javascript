@@ -3,12 +3,27 @@ import * as urljoin from 'url-join';
 import http, {utils} from '../utils/http';
 import {BitmovinDetails, Create, Delete, Details, HttpClient, List} from '../utils/types';
 
+import {DomainDetails} from './licenses';
 import {webCustomPlayerBuildDomain} from './webCustomPlayerBuildDomain';
 
-export type CustomPlayerBuild = BitmovinDetails & {}; // TODO: there is no type CustomPlayerBuild in the api spec, find out what it contains
-export type CustomPlayerBuildDetails = CustomPlayerBuild & {
+interface CustomPlayerBuildDomain {
   id: string;
+  domain: string;
+}
+
+// TODO: there is no type CustomPlayerBuild in the api spec, find out what it contains (the values right now are taken from the portal)
+export type CustomPlayerBuild = BitmovinDetails & {
+  id: string;
+  createdAt: string;
+  description: string;
+  domains: CustomPlayerBuildDomain[];
+  modifiedAt: string;
+  name: string;
+  playerVersion: string;
+  status: string;
+  selected?: boolean;
 };
+export type CustomPlayerBuildDetails = CustomPlayerBuild & {};
 
 export enum CustomPlayerBuildStatusEnum {
   CREATED = 'CREATED',
@@ -25,9 +40,11 @@ export interface CustomPlayerBuildStatus {
   subtasks: any[];
 }
 
-export interface CustomPlayerBuildDownload {
+interface CustomPlayerBuildDownload {
   downloadLink: string;
   expiresAt: string;
+  createdAt: string;
+  modifiedAt: string;
 }
 
 export interface CustomBuildsWeb {
