@@ -3,15 +3,19 @@ import * as urljoin from 'url-join';
 import http, {utils} from '../utils/http';
 import {ApiResource, BitmovinDetails, Details, HttpClient, List} from '../utils/types';
 
-import domains from './domains';
-import thirdPartyLicensing from './thirdPartyLicensing';
+import domains, {Domains} from './domains';
+import thirdPartyLicensing, {ThirdPartyLicensing} from './thirdPartyLicensing';
+
+export interface Domain {
+  url: string;
+}
 
 export interface DomainDetails {
   id: string;
   url: string;
 }
 
-export type PlayerLicense = BitmovinDetails & {
+export interface PlayerLicense {
   id: string;
   name: string;
   licenseKey: string;
@@ -19,23 +23,25 @@ export type PlayerLicense = BitmovinDetails & {
   maxImpressions: number;
   thirdPartyLicensingEnabled: boolean;
   domains: DomainDetails[];
-};
+}
 
-export type PlayerLicenseListObject = BitmovinDetails & {
-  id: string;
-  name: string;
-  licenseKey: string;
-  impressions: number;
-  maxImpressions: number;
-  thirdPartyLicensingEnabled: boolean;
-};
+export interface UpdatePlayerLicense {
+  name?: string;
+  licenseKey?: string;
+  impressions?: number;
+  maxImpressions?: number;
+  thirdPartyLicensingEnabled?: boolean;
+}
 
 export interface Licenses {
   (licenseId: string): {
     details: Details<PlayerLicense>;
-    update: (license: PlayerLicense) => Promise<ApiResource<PlayerLicense>>;
+    update: (license: UpdatePlayerLicense) => Promise<ApiResource<PlayerLicense>>;
+    domains: Domains;
+    thirdPartyLicensing: ThirdPartyLicensing;
   };
-  list: List<PlayerLicenseListObject>;
+
+  list: List<PlayerLicense>;
 }
 
 export const licenses = (configuration, httpClient: HttpClient): Licenses => {
@@ -55,7 +61,7 @@ export const licenses = (configuration, httpClient: HttpClient): Licenses => {
     };
   };
 
-  const list = utils.buildListCallFunction<PlayerLicenseListObject>(
+  const list = utils.buildListCallFunction<PlayerLicense>(
     httpClient,
     configuration,
     urljoin(configuration.apiBaseUrl, 'player/licenses')
