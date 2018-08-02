@@ -59,6 +59,76 @@ describe('encoding', () => {
     testOutputType('sftp');
     testOutputType('local');
 
+    describe('genericS3', () => {
+      const urlPart = 'generic-s3';
+      const type = 'genericS3';
+      describe('list', () => {
+        assertItCallsCorrectUrl('GET', '/v1/encoding/outputs/generic-s3', client.genericS3.list);
+        assertItReturnsUnderlyingPromise(mockGet, client.genericS3.list);
+      });
+      describe('item', () => {
+        describe('details', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/outputs/${urlPart}/output-id`,
+            client[type]('output-id').details
+          );
+          assertItReturnsUnderlyingPromise(mockGet, () => client[type]('output-id').details());
+        });
+        describe('customData', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/outputs/${urlPart}/output-id/customData`,
+            client[type]('output-id').customData
+          );
+          assertItReturnsUnderlyingPromise(mockGet, client[type]('output-id').customData);
+        });
+        describe('delete', () => {
+          assertItCallsCorrectUrl(
+            'DELETE',
+            `/v1/encoding/outputs/${urlPart}/output-id`,
+            client[type]('output-id').delete
+          );
+          assertItReturnsUnderlyingPromise(mockDelete, client[type]('output-id').delete);
+        });
+      });
+    });
+
+    describe('akamaiNetstorage', () => {
+      const urlPart = 'akamai-netstorage';
+      const type = 'akamaiNetstorage';
+      describe('list', () => {
+        assertItCallsCorrectUrl('GET', '/v1/encoding/outputs/akamai-netstorage', client.akamaiNetstorage.list);
+        assertItReturnsUnderlyingPromise(mockGet, client.akamaiNetstorage.list);
+      });
+      describe('item', () => {
+        describe('details', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/outputs/${urlPart}/output-id`,
+            client[type]('output-id').details
+          );
+          assertItReturnsUnderlyingPromise(mockGet, () => client[type]('output-id').details());
+        });
+        describe('customData', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/outputs/${urlPart}/output-id/customData`,
+            client[type]('output-id').customData
+          );
+          assertItReturnsUnderlyingPromise(mockGet, client[type]('output-id').customData);
+        });
+        describe('delete', () => {
+          assertItCallsCorrectUrl(
+            'DELETE',
+            `/v1/encoding/outputs/${urlPart}/output-id`,
+            client[type]('output-id').delete
+          );
+          assertItReturnsUnderlyingPromise(mockDelete, client[type]('output-id').delete);
+        });
+      });
+    });
+
     describe('list', () => {
       describe('un parameterized list call', () => {
         assertItCallsCorrectUrl('GET', '/v1/encoding/outputs', client.list);
