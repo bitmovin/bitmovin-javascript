@@ -96,6 +96,33 @@ describe('encoding', () => {
       });
     });
 
+    describe('akamaiNetstorage', () => {
+      const urlPart = 'akamai-netstorage';
+      const type = 'akamaiNetstorage';
+      describe('list', () => {
+        assertItCallsCorrectUrl('GET', '/v1/encoding/inputs/akamai-netstorage', client.akamaiNetstorage.list);
+        assertItReturnsUnderlyingPromise(mockGet, client.akamaiNetstorage.list);
+      });
+      describe('item', () => {
+        describe('details', () => {
+          assertItCallsCorrectUrl('GET', `/v1/encoding/inputs/${urlPart}/input-id`, client[type]('input-id').details);
+          assertItReturnsUnderlyingPromise(mockGet, () => client[type]('input-id').details());
+        });
+        describe('customData', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/inputs/${urlPart}/input-id/customData`,
+            client[type]('input-id').customData
+          );
+          assertItReturnsUnderlyingPromise(mockGet, client[type]('input-id').customData);
+        });
+        describe('delete', () => {
+          assertItCallsCorrectUrl('DELETE', `/v1/encoding/inputs/${urlPart}/input-id`, client[type]('input-id').delete);
+          assertItReturnsUnderlyingPromise(mockDelete, client[type]('input-id').delete);
+        });
+      });
+    });
+
     describe('list', () => {
       assertItCallsCorrectUrl('GET', '/v1/encoding/inputs', client.list);
       assertItReturnsUnderlyingPromise(mockGet, client.list);
