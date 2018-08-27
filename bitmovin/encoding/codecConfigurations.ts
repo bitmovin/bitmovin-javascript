@@ -50,6 +50,7 @@ export const codecConfigurations = (configuration, httpClient: HttpClient) => {
     h264: typeFn('video/h264'),
     h265: typeFn('video/h265'),
     aac: typeFn('audio/aac'),
+    av1: typeFn('video/av1'),
     vp9: typeFn('video/vp9'),
     ac3: typeFn('audio/ac3'),
     eac3: typeFn('audio/eac3'),
