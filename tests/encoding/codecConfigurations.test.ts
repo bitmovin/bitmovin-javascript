@@ -132,6 +132,7 @@ describe('encoding', () => {
     testConfigType('h264', 'video/h264');
     testConfigType('h265', 'video/h265');
     testConfigType('aac', 'audio/aac');
+    testConfigType('av1', 'video/av1');
     testConfigType('vp9', 'video/vp9');
     testConfigType('ac3', 'audio/ac3');
     testConfigType('eac3', 'audio/eac3');
