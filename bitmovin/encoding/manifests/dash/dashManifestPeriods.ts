@@ -4,6 +4,7 @@ import http, {utils} from '../../../utils/http';
 import {HttpClient} from '../../../utils/types';
 
 import adaptationSets from './dashManifestAdaptationSets';
+import customXmlElements from './dashManifestCustomXmlElements';
 
 export const dashManifestPeriods = (configuration, manifestId, httpClient: HttpClient) => {
   const {get, post, delete_} = httpClient;
@@ -17,7 +18,8 @@ export const dashManifestPeriods = (configuration, manifestId, httpClient: HttpC
         const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests/dash', manifestId, 'periods', periodId);
         return delete_(configuration, url);
       },
-      adaptationSets: adaptationSets(configuration, manifestId, periodId)
+      adaptationSets: adaptationSets(configuration, manifestId, periodId),
+      customXmlElements: customXmlElements(configuration, manifestId, periodId)
     };
   };
 
