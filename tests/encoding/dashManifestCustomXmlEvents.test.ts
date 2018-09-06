@@ -11,10 +11,18 @@ describe('encoding', () => {
       const client = customXmlElements(testConfiguration, 'manifest-id', 'period-id', mockHttp);
 
       describe('list', () => {
-        assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/manifests/dash/manifest-id/periods/period-id/custom-xml-elements', client.list);
+        assertItCallsUrlAndReturnsPromise(
+          'GET',
+          '/v1/encoding/manifests/dash/manifest-id/periods/period-id/custom-xml-elements',
+          client.list
+        );
       });
       describe('add', () => {
-        assertItCallsUrlAndReturnsPromise('POST', '/v1/encoding/manifests/dash/manifest-id/periods/period-id/custom-xml-elements', client.add);
+        assertItCallsUrlAndReturnsPromise(
+          'POST',
+          '/v1/encoding/manifests/dash/manifest-id/periods/period-id/custom-xml-elements',
+          client.add
+        );
       });
       describe('customXmlElement', () => {
         const customXmlElement = client('custom-xml-element-id');
