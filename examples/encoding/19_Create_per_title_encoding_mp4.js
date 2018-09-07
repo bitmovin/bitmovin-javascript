@@ -115,23 +115,20 @@ const main = () =>
 
         const preparationPromise = Promise.all(preparationPromises);
 
-        preparationPromise.then(() => {
-            addAudioStreamToEncoding(input, output, aacCodecConfiguration, encoding)
-                .then(audioStream => {
-                    addVideoStreamToEncoding(input, output, h264CodecConfiguration, audioStream, encoding)
-                        .then(
-                            videoStream => {
-                                startEncodingAndWaitForItToBeFinished(encoding).then(() => {
-                                    resolve(true);
-                                });
-                            }
-                        );
-                });
-        });
+        preparationPromise
+            .then(() => addAudioStreamToEncoding(input, output, aacCodecConfiguration, encoding))
+            .then(audioStream => addVideoStreamToEncoding(input, output, h264CodecConfiguration, audioStream, encoding))
+            .then(() => startEncodingAndWaitForItToBeFinished(encoding))
+            .then(() => resolve(true))
+            .catch(error => {
+                console.log('An error ocurred.');
+                reject(error);
+            });
     });
 
 
- //
+
+//
 
 /**
  * This will add the audio stream that will be encoded with the given codec configuration.
