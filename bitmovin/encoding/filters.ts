@@ -49,7 +49,12 @@ export const filters = (configuration, httpClient: HttpClient) => {
     rotate: typeFn('rotate'),
     watermark: typeFn('watermark'),
 
-    list: utils.buildListCallFunction(httpClient, configuration, urljoin(configuration.apiBaseUrl, 'encoding/filters'))
+    list: utils.buildListCallFunction(httpClient, configuration, urljoin(configuration.apiBaseUrl, 'encoding/filters')),
+    getType: filterId => {
+      const url = urljoin(configuration.apiBaseUrl, 'encoding/filters', filterId, 'type');
+
+      return get(configuration, url);
+    }
   };
 };
 

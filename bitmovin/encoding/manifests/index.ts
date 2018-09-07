@@ -8,6 +8,8 @@ import hlsManifests from './hls';
 import smoothManifests from './smooth';
 
 export const manifests = (configuration, httpClient: HttpClient) => {
+  const {get} = httpClient;
+
   return {
     list: utils.buildListCallFunction(
       httpClient,
@@ -16,7 +18,12 @@ export const manifests = (configuration, httpClient: HttpClient) => {
     ),
     dash: dashManifests(configuration),
     hls: hlsManifests(configuration),
-    smooth: smoothManifests(configuration)
+    smooth: smoothManifests(configuration),
+    getType: manifestId => {
+      const url = urljoin(configuration.apiBaseUrl, 'encoding/manifests', manifestId, 'type');
+
+      return get(configuration, url);
+    }
   };
 };
 
