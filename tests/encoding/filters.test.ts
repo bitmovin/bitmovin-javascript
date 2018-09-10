@@ -79,6 +79,11 @@ describe('encoding', () => {
         );
         assertItReturnsUnderlyingPromise(mockGet, () => client.list(limit, offset, sort, filter));
       });
+
+      describe('getType', () => {
+        assertItCallsCorrectUrl('GET', '/v1/encoding/filters/filter-id/type', () => client.getType('filter-id'));
+        assertItReturnsUnderlyingPromise(mockGet, () => client.getType('filter-id'));
+      });
     });
 
     const testFilterType = type => {

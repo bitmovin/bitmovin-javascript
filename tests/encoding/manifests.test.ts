@@ -68,6 +68,11 @@ describe('encoding', () => {
         );
         assertItReturnsUnderlyingPromise(mockGet, () => client.list(limit, offset, sort, filter));
       });
+
+      describe('getType', () => {
+        assertItCallsCorrectUrl('GET', '/v1/encoding/manifests/manifest-id/type', () => client.getType('manifest-id'));
+        assertItReturnsUnderlyingPromise(mockGet, () => client.getType('manifest-id'));
+      });
     });
   });
 });
