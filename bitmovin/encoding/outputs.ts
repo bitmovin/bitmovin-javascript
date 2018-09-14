@@ -46,6 +46,7 @@ export const outputs = (configuration, httpClient: HttpClient) => {
     ftp: typeFn('ftp'),
     sftp: typeFn('sftp'),
     genericS3: typeFn('generic-s3'),
+    bitmovinTempS3: typeFn('bitmovin-temp-s3'),
     local: typeFn('local'),
     akamaiNetstorage: typeFn('akamai-netstorage'),
 
