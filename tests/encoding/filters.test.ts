@@ -124,10 +124,141 @@ describe('encoding', () => {
         });
       });
     };
+
     testFilterType('crop');
     testFilterType('watermark');
     testFilterType('deinterlace');
     testFilterType('rotate');
+    testFilterType('text');
+    testFilterType('unsharp');
+    testFilterType('scale');
+    testFilterType('interlace');
+
+    describe('enhancedWatermark', () => {
+      const type = 'enhanced-watermark';
+      describe('list', () => {
+        assertItCallsCorrectUrl('GET', `/v1/encoding/filters/${type}`, client.enhancedWatermark.list);
+        assertItReturnsUnderlyingPromise(mockGet, client.enhancedWatermark.list);
+      });
+
+      describe('add', () => {
+        assertItCallsCorrectUrl('POST', `/v1/encoding/filters/${type}`, client.enhancedWatermark.create);
+        assertItReturnsUnderlyingPromise(mockPost, client.enhancedWatermark.create);
+      });
+
+      describe('filter', () => {
+        describe('details', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/filters/${type}/filter-id`,
+            client.enhancedWatermark('filter-id').details
+          );
+          assertItReturnsUnderlyingPromise(mockGet, client.enhancedWatermark('filter-id').details);
+        });
+
+        describe('customData', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/filters/${type}/filter-id/customData`,
+            client.enhancedWatermark('filter-id').customData
+          );
+          assertItReturnsUnderlyingPromise(mockGet, client.enhancedWatermark('filter-id').customData);
+        });
+
+        describe('delete', () => {
+          assertItCallsCorrectUrl(
+            'DELETE',
+            `/v1/encoding/filters/${type}/filter-id`,
+            client.enhancedWatermark('filter-id').delete
+          );
+          assertItReturnsUnderlyingPromise(mockDelete, client.enhancedWatermark('filter-id').delete);
+        });
+      });
+    });
+
+    describe('audioMix', () => {
+      const type = 'audio-mix';
+      describe('list', () => {
+        assertItCallsCorrectUrl('GET', `/v1/encoding/filters/${type}`, client.audioMix.list);
+        assertItReturnsUnderlyingPromise(mockGet, client.audioMix.list);
+      });
+
+      describe('add', () => {
+        assertItCallsCorrectUrl('POST', `/v1/encoding/filters/${type}`, client.audioMix.create);
+        assertItReturnsUnderlyingPromise(mockPost, client.audioMix.create);
+      });
+
+      describe('filter', () => {
+        describe('details', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/filters/${type}/filter-id`,
+            client.audioMix('filter-id').details
+          );
+          assertItReturnsUnderlyingPromise(mockGet, client.audioMix('filter-id').details);
+        });
+
+        describe('customData', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/filters/${type}/filter-id/customData`,
+            client.audioMix('filter-id').customData
+          );
+          assertItReturnsUnderlyingPromise(mockGet, client.audioMix('filter-id').customData);
+        });
+
+        describe('delete', () => {
+          assertItCallsCorrectUrl(
+            'DELETE',
+            `/v1/encoding/filters/${type}/filter-id`,
+            client.audioMix('filter-id').delete
+          );
+          assertItReturnsUnderlyingPromise(mockDelete, client.audioMix('filter-id').delete);
+        });
+      });
+    });
+
+    describe('denoiseHqdn3d', () => {
+      const type = 'denoise-hqdn3d';
+      describe('list', () => {
+        assertItCallsCorrectUrl('GET', `/v1/encoding/filters/${type}`, client.denoiseHqdn3d.list);
+        assertItReturnsUnderlyingPromise(mockGet, client.denoiseHqdn3d.list);
+      });
+
+      describe('add', () => {
+        assertItCallsCorrectUrl('POST', `/v1/encoding/filters/${type}`, client.denoiseHqdn3d.create);
+        assertItReturnsUnderlyingPromise(mockPost, client.denoiseHqdn3d.create);
+      });
+
+      describe('filter', () => {
+        describe('details', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/filters/${type}/filter-id`,
+            client.denoiseHqdn3d('filter-id').details
+          );
+          assertItReturnsUnderlyingPromise(mockGet, client.denoiseHqdn3d('filter-id').details);
+        });
+
+        describe('customData', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/filters/${type}/filter-id/customData`,
+            client.denoiseHqdn3d('filter-id').customData
+          );
+          assertItReturnsUnderlyingPromise(mockGet, client.denoiseHqdn3d('filter-id').customData);
+        });
+
+        describe('delete', () => {
+          assertItCallsCorrectUrl(
+            'DELETE',
+            `/v1/encoding/filters/${type}/filter-id`,
+            client.denoiseHqdn3d('filter-id').delete
+          );
+          assertItReturnsUnderlyingPromise(mockDelete, client.denoiseHqdn3d('filter-id').delete);
+        });
+      });
+    });
   });
 
   describe('streams', () => {
