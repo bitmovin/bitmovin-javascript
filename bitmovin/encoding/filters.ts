@@ -48,6 +48,13 @@ export const filters = (configuration, httpClient: HttpClient) => {
     deinterlace: typeFn('deinterlace'),
     rotate: typeFn('rotate'),
     watermark: typeFn('watermark'),
+    enhancedWatermark: typeFn('enhanced-watermark'),
+    audioMix: typeFn('audio-mix'),
+    denoiseHqdn3d: typeFn('denoise-hqdn3d'),
+    text: typeFn('text'),
+    unsharp: typeFn('unsharp'),
+    scale: typeFn('scale'),
+    interlace: typeFn('interlace'),
 
     list: utils.buildListCallFunction(httpClient, configuration, urljoin(configuration.apiBaseUrl, 'encoding/filters')),
     getType: filterId => {
