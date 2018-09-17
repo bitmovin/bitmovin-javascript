@@ -94,6 +94,41 @@ describe('encoding', () => {
       });
     });
 
+    describe('bitmovinTempS3', () => {
+      const urlPart = 'bitmovin-temp-s3';
+      const type = 'bitmovinTempS3';
+      describe('list', () => {
+        assertItCallsCorrectUrl('GET', '/v1/encoding/outputs/bitmovin-temp-s3', client.bitmovinTempS3.list);
+        assertItReturnsUnderlyingPromise(mockGet, client.bitmovinTempS3.list);
+      });
+      describe('item', () => {
+        describe('details', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/outputs/${urlPart}/output-id`,
+            client[type]('output-id').details
+          );
+          assertItReturnsUnderlyingPromise(mockGet, () => client[type]('output-id').details());
+        });
+        describe('customData', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/outputs/${urlPart}/output-id/customData`,
+            client[type]('output-id').customData
+          );
+          assertItReturnsUnderlyingPromise(mockGet, client[type]('output-id').customData);
+        });
+        describe('delete', () => {
+          assertItCallsCorrectUrl(
+            'DELETE',
+            `/v1/encoding/outputs/${urlPart}/output-id`,
+            client[type]('output-id').delete
+          );
+          assertItReturnsUnderlyingPromise(mockDelete, client[type]('output-id').delete);
+        });
+      });
+    });
+
     describe('akamaiNetstorage', () => {
       const urlPart = 'akamai-netstorage';
       const type = 'akamaiNetstorage';
