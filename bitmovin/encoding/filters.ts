@@ -50,6 +50,7 @@ export const filters = (configuration, httpClient: HttpClient) => {
     watermark: typeFn('watermark'),
     enhancedWatermark: typeFn('enhanced-watermark'),
     audioMix: typeFn('audio-mix'),
+    audioVolume: typeFn('audio-volume'),
     denoiseHqdn3d: typeFn('denoise-hqdn3d'),
     text: typeFn('text'),
     unsharp: typeFn('unsharp'),

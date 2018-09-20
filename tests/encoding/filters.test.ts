@@ -218,6 +218,48 @@ describe('encoding', () => {
       });
     });
 
+    describe('audioVolume', () => {
+      const type = 'audio-volume';
+      describe('list', () => {
+        assertItCallsCorrectUrl('GET', `/v1/encoding/filters/${type}`, client.audioVolume.list);
+        assertItReturnsUnderlyingPromise(mockGet, client.audioVolume.list);
+      });
+
+      describe('add', () => {
+        assertItCallsCorrectUrl('POST', `/v1/encoding/filters/${type}`, client.audioVolume.create);
+        assertItReturnsUnderlyingPromise(mockPost, client.audioVolume.create);
+      });
+
+      describe('filter', () => {
+        describe('details', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/filters/${type}/filter-id`,
+            client.audioVolume('filter-id').details
+          );
+          assertItReturnsUnderlyingPromise(mockGet, client.audioVolume('filter-id').details);
+        });
+
+        describe('customData', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/filters/${type}/filter-id/customData`,
+            client.audioVolume('filter-id').customData
+          );
+          assertItReturnsUnderlyingPromise(mockGet, client.audioVolume('filter-id').customData);
+        });
+
+        describe('delete', () => {
+          assertItCallsCorrectUrl(
+            'DELETE',
+            `/v1/encoding/filters/${type}/filter-id`,
+            client.audioVolume('filter-id').delete
+          );
+          assertItReturnsUnderlyingPromise(mockDelete, client.audioVolume('filter-id').delete);
+        });
+      });
+    });
+
     describe('denoiseHqdn3d', () => {
       const type = 'denoise-hqdn3d';
       describe('list', () => {
