@@ -5,9 +5,9 @@ import {HttpClient} from '../utils/types';
 
 import queryBuilder from './queryBuilder';
 
-export const queries = (configuration, httpClient: HttpClient) => {
+export const queries = (configuration, httpClient: HttpClient, urlPath: string) => {
   const {post} = httpClient;
-  const baseUrl = urljoin(configuration.apiBaseUrl, 'analytics/queries');
+  const baseUrl = urljoin(configuration.apiBaseUrl, urlPath);
 
   const queryMethods = ['count', 'sum', 'avg', 'min', 'max', 'median', 'percentile', 'stddev', 'variance'].reduce(
     (obj, method) => ({...obj, [method]: query => post(configuration, urljoin(baseUrl, method), query)}),
@@ -25,6 +25,6 @@ export const queries = (configuration, httpClient: HttpClient) => {
   return fn;
 };
 
-export default configuration => {
-  return queries(configuration, http);
+export default (configuration, urlPath) => {
+  return queries(configuration, http, urlPath);
 };
