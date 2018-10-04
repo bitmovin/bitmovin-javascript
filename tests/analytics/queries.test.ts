@@ -13,10 +13,11 @@ import {
 import {getConfiguration} from '../utils';
 
 const testConfiguration = getConfiguration();
+const analyticsPath = 'analytics/queries';
 
 describe('analytics', () => {
   beforeEach(testSetup);
-  const queriesClient = queries(testConfiguration, mockHttp);
+  const queriesClient = queries(testConfiguration, mockHttp, analyticsPath);
 
   describe('queries', () => {
     describe('min', () => {
