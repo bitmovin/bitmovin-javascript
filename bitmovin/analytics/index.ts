@@ -3,7 +3,7 @@ import analyticsLicenses from './licenses';
 import analyticsQueries from './queries';
 import analyticsStatistics from './statistics';
 
-const ANALYTICS_PATH_QUERIES_ADS = 'analytics/a/queries';
+const ANALYTICS_PATH_QUERIES_ADS = 'analytics/ads/queries';
 const ANALYTICS_PATH_QUERIES = 'analytics/queries';
 
 export interface Analytics {
