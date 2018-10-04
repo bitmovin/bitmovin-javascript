@@ -11,6 +11,9 @@ export interface Analytics {
   statistics: any;
   impressions: any;
   queries: any;
+  ads: {
+    queries: any;
+  };
 }
 
 const analytics = internalConfig => ({
