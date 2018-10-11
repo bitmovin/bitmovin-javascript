@@ -25,14 +25,19 @@ describe('Bitmovin default exports', () => {
     assertItContains('infrastructure');
   });
   describe('analytics', () => {
-    const assertItContains = key => {
+    const assertItContains = (obj, key) => {
       it('should contain ' + key, () => {
-        expect(typeof client.analytics[key]).toEqual('function');
+        expect(typeof obj[key]).toEqual('function');
       });
     };
-    assertItContains('impressions');
-    assertItContains('licenses');
-    assertItContains('queries');
+    const generalApi = client.analytics;
+    assertItContains(generalApi, 'impressions');
+    assertItContains(generalApi, 'licenses');
+    assertItContains(generalApi, 'queries');
+
+    const adsApi = client.analytics.ads;
+    expect(adsApi).not.toBeNull();
+    assertItContains(adsApi, 'queries');
   });
   describe('player', () => {
     const assertItContains = key => {
