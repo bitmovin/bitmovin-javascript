@@ -19,11 +19,27 @@ describe('encoding', () => {
 
     describe('encodings', () => {
       describe('live-statistics', () => {
-        assertItCallsUrlAndReturnsPromise(
-          'GET',
-          '/v1/encoding/statistics/encodings/encoding-id/live-statistics',
-          client.encodings('encoding-id').liveStatistics
-        );
+        describe('list', () => {
+          assertItCallsUrlAndReturnsPromise(
+            'GET',
+            '/v1/encoding/statistics/encodings/encoding-id/live-statistics',
+            client.encodings('encoding-id').liveStatistics.list
+          );
+        });
+        describe('events', () => {
+          assertItCallsUrlAndReturnsPromise(
+            'GET',
+            '/v1/encoding/statistics/encodings/encoding-id/live-statistics/events',
+            client.encodings('encoding-id').liveStatistics.events
+          );
+        });
+        describe('streams', () => {
+          assertItCallsUrlAndReturnsPromise(
+            'GET',
+            '/v1/encoding/statistics/encodings/encoding-id/live-statistics/streams',
+            client.encodings('encoding-id').liveStatistics.streams
+          );
+        });
       });
 
       describe('vod', () => {

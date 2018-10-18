@@ -83,9 +83,34 @@ export const statistics = (configuration, httpClient: HttpClient) => {
           const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings', encodingId);
           return get(configuration, url);
         },
-        liveStatistics: () => {
-          const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings', encodingId, 'live-statistics');
-          return get(configuration, url);
+        liveStatistics: {
+          list: () => {
+            const url = urljoin(
+              configuration.apiBaseUrl,
+              'encoding/statistics/encodings',
+              encodingId,
+              'live-statistics'
+            );
+            return get(configuration, url);
+          },
+          events: () => {
+            const url = urljoin(
+              configuration.apiBaseUrl,
+              'encoding/statistics/encodings',
+              encodingId,
+              'live-statistics/events'
+            );
+            return get(configuration, url);
+          },
+          streams: () => {
+            const url = urljoin(
+              configuration.apiBaseUrl,
+              'encoding/statistics/encodings',
+              encodingId,
+              'live-statistics/streams'
+            );
+            return get(configuration, url);
+          }
         }
       };
     }
