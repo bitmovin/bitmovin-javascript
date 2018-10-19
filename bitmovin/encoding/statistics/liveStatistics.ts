@@ -16,7 +16,7 @@ export const liveStatistics = (
   };
 
   const events = {
-    list: utils.buildListCallFunction<Events>(
+    list: utils.buildListCallFunction<Event>(
       httpClient,
       configuration,
       urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings', encodingId, 'live-statistics/events')
