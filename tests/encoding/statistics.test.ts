@@ -1,5 +1,4 @@
 import {statistics} from '../../bitmovin/encoding/statistics';
-import {liveStatistics} from '../../bitmovin/encoding/statistics/liveStatistics';
 import {dateToApiRequestString, getFirstDayOfTheWeekFromDate} from '../../bitmovin/utils/DateUtils';
 import {assertItCallsUrlAndReturnsPromise, mockGet, mockHttp, testSetup} from '../assertions';
 import {getConfiguration} from '../utils';
@@ -8,7 +7,6 @@ const testConfiguration = getConfiguration();
 describe('encoding', () => {
   beforeEach(testSetup);
   const client = statistics(testConfiguration, mockHttp);
-  const test = liveStatistics(testConfiguration, 'encoding-id', mockHttp);
 
   describe('statistics', () => {
     describe('overall', () => {
@@ -20,26 +18,6 @@ describe('encoding', () => {
     });
 
     describe('encodings', () => {
-      describe('live-statistics', () => {
-        assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/statistics/encodings/encoding-id/live-statistics', test);
-
-        describe('events', () => {
-          assertItCallsUrlAndReturnsPromise(
-            'GET',
-            '/v1/encoding/statistics/encodings/encoding-id/live-statistics/events',
-            test.events.list
-          );
-        });
-
-        describe('streams', () => {
-          assertItCallsUrlAndReturnsPromise(
-            'GET',
-            '/v1/encoding/statistics/encodings/encoding-id/live-statistics/streams',
-            test.streams.list
-          );
-        });
-      });
-
       describe('vod', () => {
         assertItCallsUrlAndReturnsPromise('GET', '/v1/encoding/statistics/encodings/vod', client.vod.list);
       });
