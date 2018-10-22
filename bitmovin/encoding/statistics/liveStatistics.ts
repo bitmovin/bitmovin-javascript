@@ -1,7 +1,7 @@
 import * as urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
-import {HttpClient, InternalConfiguration, List} from '../../utils/types';
+import {HttpClient, InternalConfiguration, List, ResponseEnvelope} from '../../utils/types';
 
 export const liveStatistics = (
   configuration: InternalConfiguration,
@@ -10,7 +10,7 @@ export const liveStatistics = (
 ): LiveStatistics => {
   const {get} = httpClient;
 
-  const resourceDetails = (): Promise<LiveStatisticsDetail> => {
+  const resourceDetails = (): Promise<ResponseEnvelope<LiveStatisticsDetail>> => {
     const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings', encodingId, 'live-statistics');
     return get(configuration, url);
   };
@@ -39,22 +39,40 @@ export const liveStatistics = (
   return resource;
 };
 
-interface Event {}
+interface Event {
+  time: string;
+  details: any;
+}
 
-interface Stream {}
+interface Stream {
+  id: string;
+  userId: string;
+  orgId: string;
+  createdAt: string;
+  customDataCreatedAt: string;
+  time: string;
+  streamInfos?: any;
+}
 
-interface Events {
+export interface Events {
   list: List<Event>;
 }
 
-interface Streams {
+export interface Streams {
   list: List<Stream>;
 }
 
-interface LiveStatisticsDetail {}
+interface LiveStatisticsDetail {
+  id: string;
+  createdAt: string;
+  encodingId: string;
+  status: string;
+  events: Event[];
+  statistics: Stream[];
+}
 
 export interface LiveStatistics {
-  (): Promise<LiveStatisticsDetail>;
+  (): Promise<ResponseEnvelope<LiveStatisticsDetail>>;
   events: Events;
   streams: Streams;
 }
