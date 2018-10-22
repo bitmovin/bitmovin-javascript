@@ -10,7 +10,7 @@ export const liveStatistics = (
 ): LiveStatistics => {
   const {get} = httpClient;
 
-  const resourceDetails = (): Promise<ResponseEnvelope<LiveStatisticsDetail>> => {
+  const resourceDetails = (): Promise<LiveStatisticsDetail> => {
     const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings', encodingId, 'live-statistics');
     return get(configuration, url);
   };
@@ -72,7 +72,7 @@ interface LiveStatisticsDetail {
 }
 
 export interface LiveStatistics {
-  (): Promise<ResponseEnvelope<LiveStatisticsDetail>>;
+  (): Promise<LiveStatisticsDetail>;
   events: Events;
   streams: Streams;
 }
