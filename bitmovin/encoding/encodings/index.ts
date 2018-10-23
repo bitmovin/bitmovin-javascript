@@ -41,6 +41,10 @@ export const encodings = (configuration: InternalConfiguration, httpClient: Http
         const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'start');
         return post(configuration, url, startConfiguration);
       },
+      getStart: () => {
+        const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'start');
+        return get(configuration, url);
+      },
       stop: () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'stop');
         return post(configuration, url);
@@ -91,6 +95,7 @@ interface EncodingDetail {
   customData: CustomData;
   liveDetails: Details<any>;
   start: OptionalCreate<any>;
+  getStart: Details<any>;
   stop: Details<any>;
   startLive: Create<any>;
   stopLive: Details<any>;

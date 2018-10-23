@@ -106,6 +106,10 @@ describe('encoding', () => {
         assertItCallsCorrectUrl('POST', '/v1/encoding/encodings/encoding-id/start', enc.start);
         assertItReturnsUnderlyingPromise(mockPost, enc.start);
       });
+      describe('getStart', () => {
+        assertItCallsCorrectUrl('GET', '/v1/encoding/encodings/encoding-id/start', enc.getStart);
+        assertItReturnsUnderlyingPromise(mockGet, enc.getStart);
+      });
       describe('stop', () => {
         assertItCallsCorrectUrl('POST', '/v1/encoding/encodings/encoding-id/stop', enc.stop);
         assertItReturnsUnderlyingPromise(mockPost, enc.stop);
