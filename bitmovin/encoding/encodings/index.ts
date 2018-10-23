@@ -9,8 +9,7 @@ import {
   Details,
   HttpClient,
   InternalConfiguration,
-  List,
-  OptionalCreate
+  List
 } from '../../utils/types';
 
 import muxings, {Muxings} from './muxings';
@@ -20,6 +19,20 @@ export const encodings = (configuration: InternalConfiguration, httpClient: Http
   const {get, post, delete_} = httpClient;
 
   const resourceDetails = (encodingId: string): EncodingDetail => {
+    const startCallable = startConfiguration => {
+      const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'start');
+      return post(configuration, url, startConfiguration);
+    };
+
+    const startDetails = () => {
+      const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'start');
+      return get(configuration, url);
+    };
+
+    const start = Object.assign(startCallable, {
+      details: startDetails
+    });
+
     return {
       details: () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId);
@@ -37,14 +50,7 @@ export const encodings = (configuration: InternalConfiguration, httpClient: Http
         const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId);
         return delete_(configuration, url);
       },
-      start: startConfiguration => {
-        const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'start');
-        return post(configuration, url, startConfiguration);
-      },
-      getStart: () => {
-        const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'start');
-        return get(configuration, url);
-      },
+      start,
       stop: () => {
         const url = urljoin(configuration.apiBaseUrl, 'encoding/encodings', encodingId, 'stop');
         return post(configuration, url);
@@ -85,8 +91,13 @@ export const encodings = (configuration: InternalConfiguration, httpClient: Http
   return resource;
 };
 
-interface Encoding {
+export interface Encoding {
   cloudRegion: string;
+}
+
+interface Start {
+  (startConfiguration: any): Promise<ApiResource<any>>;
+  details: Details<any>;
 }
 
 interface EncodingDetail {
@@ -94,8 +105,7 @@ interface EncodingDetail {
   delete: Delete<{}>;
   customData: CustomData;
   liveDetails: Details<any>;
-  start: OptionalCreate<any>;
-  getStart: Details<any>;
+  start: Start;
   stop: Details<any>;
   startLive: Create<any>;
   stopLive: Details<any>;
