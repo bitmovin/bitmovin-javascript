@@ -39,12 +39,12 @@ export const liveStatistics = (
   return resource;
 };
 
-interface Event {
+export interface Event {
   time: string;
   details: any;
 }
 
-interface Stream {
+export interface Stream {
   id: string;
   userId: string;
   orgId: string;
@@ -54,11 +54,11 @@ interface Stream {
   streamInfos?: any;
 }
 
-export interface Events {
+interface Events {
   list: List<Event>;
 }
 
-export interface Streams {
+interface Streams {
   list: List<Stream>;
 }
 
