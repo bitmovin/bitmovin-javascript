@@ -70,7 +70,7 @@ describe('emails', () => {
     it('should call correct url', async () => {
       const updateData = {
         emails: [],
-        intervalType: IntervalType.MONTHLY,
+        intervalType: IntervalType.Monthly,
         muted: false
       };
       await notificationEmails.usageReports.update(updateData);
@@ -84,7 +84,7 @@ describe('emails', () => {
 
   describe('usage reports send', () => {
     it('should call correct url', async () => {
-      await notificationEmails.usageReports.send(IntervalType.WEEKLY);
+      await notificationEmails.usageReports.send(IntervalType.Weekly);
       expect(mockHttp.post).toHaveBeenCalledWith(
         testConfiguration,
         'https://api.bitmovin.com/v1/notifications/emails/usage-reports/WEEKLY/actions/send'
