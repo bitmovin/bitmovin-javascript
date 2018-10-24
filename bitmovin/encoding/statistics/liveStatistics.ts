@@ -1,7 +1,7 @@
 import * as urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
-import {HttpClient, InternalConfiguration, List} from '../../utils/types';
+import {ApiResource, HttpClient, InternalConfiguration, List} from '../../utils/types';
 
 export const liveStatistics = (
   configuration: InternalConfiguration,
@@ -57,14 +57,12 @@ interface Streams {
   list: List<Stream>;
 }
 
-interface LiveStatisticsDetail {
-  id: string;
-  createdAt: string;
+export type LiveStatisticsDetail = ApiResource<{
   encodingId: string;
   status: string;
   events: Event[];
   statistics: Stream[];
-}
+}>;
 
 export interface LiveStatistics {
   (): Promise<LiveStatisticsDetail>;
