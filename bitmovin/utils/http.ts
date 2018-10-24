@@ -122,12 +122,12 @@ const buildFilterParamString = (filterParams: any) => {
   return processedFilterParams;
 };
 
-const buildListCallFunction = <T>(
+const buildListCallFunction = <T, J = {}>(
   httpClient: HttpClient,
   configuration: InternalConfiguration,
   url: string
-): List<T> => {
-  return (limit?: number, offset?: number, sort?: string, filter?: any): Promise<Pagination<T>> => {
+): List<T, J> => {
+  return (limit?: number, offset?: number, sort?: string, filter?: any): Promise<Pagination<T, J>> => {
     let urlToCall = url;
 
     const filterParams = filter ? buildFilterParamString(filter) : {};
@@ -142,7 +142,7 @@ const buildListCallFunction = <T>(
       urlToCall = urljoin(url, getParams);
     }
 
-    return httpClient.get<Pagination<T>>(configuration, urlToCall);
+    return httpClient.get<Pagination<T, J>>(configuration, urlToCall);
   };
 };
 
