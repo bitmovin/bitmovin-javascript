@@ -1,5 +1,5 @@
 import {liveStatistics} from '../../bitmovin/encoding/statistics/liveStatistics';
-import {assertItCallsUrlAndReturnsPromise, mockGet, mockHttp, testSetup} from '../assertions';
+import {assertItCallsUrlAndReturnsPromise, mockHttp, testSetup} from '../assertions';
 import {getConfiguration} from '../utils';
 
 const testConfiguration = getConfiguration();

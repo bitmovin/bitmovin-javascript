@@ -1,7 +1,7 @@
 import * as urljoin from 'url-join';
 
 import http, {utils} from '../../utils/http';
-import {HttpClient, InternalConfiguration, List, ResponseEnvelope} from '../../utils/types';
+import {ApiResource, HttpClient, InternalConfiguration, List} from '../../utils/types';
 
 export const liveStatistics = (
   configuration: InternalConfiguration,
@@ -16,7 +16,7 @@ export const liveStatistics = (
   };
 
   const events = {
-    list: utils.buildListCallFunction<Event>(
+    list: buildCustomListCallFunction<Event>(
       httpClient,
       configuration,
       urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings', encodingId, 'live-statistics/events')
@@ -39,6 +39,42 @@ export const liveStatistics = (
   return resource;
 };
 
+const buildCustomListCallFunction = <T>(
+  httpClient: HttpClient,
+  configuration: InternalConfiguration,
+  url: string
+): CustomList<T> => {
+  return (limit?: number, offset?: number, sort?: string, filter?: any): Promise<CustomPagination<T>> => {
+    let urlToCall = url;
+
+    const filterParams = filter ? utils.buildFilterParamString(filter) : {};
+    const getParams = utils.buildGetParamString({
+      ...filterParams,
+      limit,
+      offset,
+      sort
+    });
+
+    if (getParams.length > 0) {
+      urlToCall = urljoin(url, getParams);
+    }
+
+    return httpClient.get<CustomPagination<T>>(configuration, urlToCall);
+  };
+};
+
+interface CustomPagination<T> {
+  totalCount: number;
+  items: Array<ApiResource<T>>;
+  status: string;
+}
+
+type CustomList<T> = (
+  limit?: number,
+  offset?: number,
+  sort?: string,
+  filter?: any
+) => Promise<CustomPagination<ApiResource<T>>>;
 export interface Event {
   time: string;
   details: any;
@@ -55,7 +91,7 @@ export interface Stream {
 }
 
 interface Events {
-  list: List<Event>;
+  list: CustomList<Event>;
 }
 
 interface Streams {
