@@ -1,8 +1,7 @@
 import * as urljoin from 'url-join';
 
-import {buildListUrl} from '../utils/UrlUtils';
 import http, {utils} from '../utils/http';
-import {ApiResource, Delete, Details, HttpClient, InternalConfiguration, List, Pagination} from '../utils/types';
+import {ApiResource, Delete, Details, HttpClient, InternalConfiguration, List, ResourceId} from '../utils/types';
 
 import emails from './emails';
 import {NotificationEmails} from './emails';
@@ -21,7 +20,9 @@ export const notifications = (configuration: InternalConfiguration, httpClient: 
     const url = urljoin(configuration.apiBaseUrl, 'notifications', notificationId);
     return {
       details: () => httpClient.get<EmailNotificationWithConditionsDetails>(configuration, url),
-      delete: () => httpClient.delete_<any>(configuration, url)
+      delete: () => httpClient.delete_<any>(configuration, url),
+      mute: () => httpClient.post<ResourceId, void>(configuration, urljoin(url, 'mute')),
+      unmute: () => httpClient.post<ResourceId, void>(configuration, urljoin(url, 'unmute'))
     };
   };
 
@@ -42,6 +43,8 @@ export interface Notifications {
   (notificationId: string): {
     details: Details<EmailNotificationWithConditionsDetails>;
     delete: Delete<any>;
+    mute: () => Promise<ResourceId>;
+    unmute: () => Promise<ResourceId>;
   };
 
   emails: NotificationEmails;

@@ -1,4 +1,6 @@
 // email notifications
+import {ApiResource, ResourceId} from '../utils/types';
+
 export enum EventTypes {
   LIVE_INPUT_STREAM_CHANGED = 'LIVE_INPUT_STREAM_CHANGED',
   ENCODING_ERROR = 'ENCODING_ERROR'
@@ -179,4 +181,22 @@ export interface WebhookDetails {
   insecureSsl?: boolean;
   signatureType?: string;
   encryptionType?: string;
+}
+
+export enum IntervalType {
+  Weekly = 'WEEKLY',
+  Monthly = 'MONTHLY',
+  Daily = 'DAILY'
+}
+
+export type UsageReportEmailNotification = ApiResource<{
+  emails: string[];
+  intervalType: IntervalType;
+  muted: boolean;
+}>;
+
+export interface UsageReportEmailNotificationUpdate {
+  intervalType: IntervalType;
+  emails: string[];
+  muted: boolean;
 }

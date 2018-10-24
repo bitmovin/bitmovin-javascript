@@ -45,6 +45,26 @@ describe('notifications', () => {
     });
   });
 
+  describe('mute', () => {
+    it('should call correct url', async () => {
+      await notificationsApi(testNotificationId).mute();
+      expect(mockHttp.post).toHaveBeenCalledWith(
+        testConfiguration,
+        `https://api.bitmovin.com/v1/notifications/${testNotificationId}/mute`
+      );
+    });
+  });
+
+  describe('unmute', () => {
+    it('should call correct url', async () => {
+      await notificationsApi(testNotificationId).unmute();
+      expect(mockHttp.post).toHaveBeenCalledWith(
+        testConfiguration,
+        `https://api.bitmovin.com/v1/notifications/${testNotificationId}/unmute`
+      );
+    });
+  });
+
   describe('delete', () => {
     it('should call correct url', async () => {
       await notificationsApi(testNotificationId).delete();

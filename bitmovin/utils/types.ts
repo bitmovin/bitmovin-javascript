@@ -52,6 +52,10 @@ export interface ResponseEnvelope<T> {
   data: ResponseSuccessData<T> | ResponseErrorData;
 }
 
+export interface ResourceId {
+  id: string;
+}
+
 export type ApiResource<T> = T & {
   id: string;
   name?: string;
@@ -91,6 +95,4 @@ export interface BitmovinDetails {
   modifiedAt: string;
 }
 
-export interface DeleteResult {
-  id: string;
-}
+export interface DeleteResult extends ResourceId {}
