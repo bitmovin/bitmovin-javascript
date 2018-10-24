@@ -26,10 +26,10 @@ export interface InternalConfiguration {
   httpHeaders?: any;
 }
 
-export interface Pagination<T> {
+export type Pagination<T, J = {}> = J & {
   totalCount: number;
   items: Array<ApiResource<T>>;
-}
+};
 
 interface ResponseSuccessData<T> {
   result: T;
@@ -65,12 +65,12 @@ interface CustomDataT {
   createdAt?: string;
 }
 
-export type List<T> = (
+export type List<T, J = {}> = (
   limit?: number,
   offset?: number,
   sort?: string,
   filter?: any
-) => Promise<Pagination<ApiResource<T>>>;
+) => Promise<Pagination<ApiResource<T>, J>>;
 
 export type Create2<TParam, TResult> = (data: TParam) => Promise<ApiResource<TResult>>;
 export type Create<T> = (data: T) => Promise<ApiResource<T>>;

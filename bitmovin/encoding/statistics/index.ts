@@ -1,9 +1,11 @@
 import * as urljoin from 'url-join';
 
-import BitmovinError from '../utils/BitmovinError';
-import {isValidApiRequestDateString} from '../utils/DateUtils';
-import http, {utils} from '../utils/http';
-import {HttpClient} from '../utils/types';
+import BitmovinError from '../../utils/BitmovinError';
+import {isValidApiRequestDateString} from '../../utils/DateUtils';
+import http, {utils} from '../../utils/http';
+import {HttpClient} from '../../utils/types';
+
+import liveStatistics from './liveStatistics';
 
 export const statistics = (configuration, httpClient: HttpClient) => {
   const {get} = httpClient;
@@ -83,10 +85,7 @@ export const statistics = (configuration, httpClient: HttpClient) => {
           const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings', encodingId);
           return get(configuration, url);
         },
-        liveStatistics: () => {
-          const url = urljoin(configuration.apiBaseUrl, 'encoding/statistics/encodings', encodingId, 'live-statistics');
-          return get(configuration, url);
-        }
+        liveStatistics: liveStatistics(configuration, encodingId)
       };
     }
   };
