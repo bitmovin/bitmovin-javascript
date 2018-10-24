@@ -41,17 +41,18 @@ const emails = (configuration: InternalConfiguration, http: HttpClient = httpCli
     return http.get<Pagination<UsageReportEmailNotification>>(configuration, url);
   };
 
-  const updateUsageReport = (updateData: UsageReportEmailNotificationUpdate) => {
-    return http.post<UsageReportEmailNotification, UsageReportEmailNotificationUpdate>(
-      configuration,
-      usageReportsBaseUrl,
-      updateData
-    );
+  const usageReportInterval = (intervalType: IntervalType) => {
+    const sendUsageReport = () => {
+      const url = urljoin(usageReportsBaseUrl, intervalType, 'actions/send');
+      return http.post<UsageReportEmailNotification, void>(configuration, url);
+    };
+    return {
+      send: sendUsageReport
+    };
   };
 
-  const sendUsageReport = (intervalType: IntervalType) => {
-    const url = urljoin(usageReportsBaseUrl, intervalType, 'actions/send');
-    return http.post<UsageReportEmailNotification, void>(configuration, url);
+  const createOrUpdateUsageReport = (updateData: UsageReportEmailNotificationUpdate) => {
+    return http.post<UsageReportEmailNotification, any>(configuration, usageReportsBaseUrl, updateData);
   };
 
   return {
@@ -60,11 +61,10 @@ const emails = (configuration: InternalConfiguration, http: HttpClient = httpCli
       list: listEncoding,
       encodings: encodingsResource
     },
-    usageReports: {
+    usageReports: Object.assign(usageReportInterval, {
       list: listUsageReports,
-      update: updateUsageReport,
-      send: sendUsageReport
-    }
+      createOrUpdate: createOrUpdateUsageReport
+    })
   };
 };
 
@@ -142,8 +142,10 @@ export interface NotificationEmails {
   };
   usageReports: {
     list: List<UsageReportEmailNotification>;
-    update: (updateData: UsageReportEmailNotificationUpdate) => Promise<UsageReportEmailNotification>;
-    send: (intervalType: IntervalType) => Promise<ResourceId>;
+    createOrUpdate: (updateData: UsageReportEmailNotificationUpdate) => Promise<UsageReportEmailNotification>;
+    (intervalType: IntervalType): {
+      send: () => Promise<ResourceId>;
+    };
   };
 }
 
