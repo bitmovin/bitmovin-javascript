@@ -26,10 +26,10 @@ export interface InternalConfiguration {
   httpHeaders?: any;
 }
 
-export interface Pagination<T> {
+export type Pagination<T, J = {}> = J & {
   totalCount: number;
   items: Array<ApiResource<T>>;
-}
+};
 
 interface ResponseSuccessData<T> {
   result: T;
@@ -52,6 +52,10 @@ export interface ResponseEnvelope<T> {
   data: ResponseSuccessData<T> | ResponseErrorData;
 }
 
+export interface ResourceId {
+  id: string;
+}
+
 export type ApiResource<T> = T & {
   id: string;
   name?: string;
@@ -65,12 +69,12 @@ interface CustomDataT {
   createdAt?: string;
 }
 
-export type List<T> = (
+export type List<T, J = {}> = (
   limit?: number,
   offset?: number,
   sort?: string,
   filter?: any
-) => Promise<Pagination<ApiResource<T>>>;
+) => Promise<Pagination<ApiResource<T>, J>>;
 
 export type Create2<TParam, TResult> = (data: TParam) => Promise<ApiResource<TResult>>;
 export type Create<T> = (data: T) => Promise<ApiResource<T>>;
@@ -91,6 +95,4 @@ export interface BitmovinDetails {
   modifiedAt: string;
 }
 
-export interface DeleteResult {
-  id: string;
-}
+export interface DeleteResult extends ResourceId {}

@@ -1,4 +1,5 @@
 import emails from '../../../bitmovin/notifications/emails';
+import {IntervalType} from '../../../bitmovin/notifications/types';
 import {mockHttp, testSetup} from '../../assertions';
 import {getConfiguration} from '../../utils';
 
@@ -52,6 +53,42 @@ describe('emails', () => {
           'https://api.bitmovin.com/v1/notifications/emails/encoding/encodings/testid'
         );
       });
+    });
+  });
+
+  describe('usage reports list', () => {
+    it('should call correct url', async () => {
+      await notificationEmails.usageReports.list();
+      expect(mockHttp.get).toHaveBeenCalledWith(
+        testConfiguration,
+        'https://api.bitmovin.com/v1/notifications/emails/usage-reports'
+      );
+    });
+  });
+
+  describe('usage reports update', () => {
+    it('should call correct url', async () => {
+      const updateData = {
+        emails: [],
+        muted: false,
+        intervalType: IntervalType.Monthly
+      };
+      await notificationEmails.usageReports.createOrUpdate(updateData);
+      expect(mockHttp.post).toHaveBeenCalledWith(
+        testConfiguration,
+        'https://api.bitmovin.com/v1/notifications/emails/usage-reports',
+        updateData
+      );
+    });
+  });
+
+  describe('usage reports send', () => {
+    it('should call correct url', async () => {
+      await notificationEmails.usageReports(IntervalType.Weekly).send();
+      expect(mockHttp.post).toHaveBeenCalledWith(
+        testConfiguration,
+        'https://api.bitmovin.com/v1/notifications/emails/usage-reports/WEEKLY/actions/send'
+      );
     });
   });
 });
