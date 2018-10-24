@@ -91,9 +91,9 @@ export const encodings = (configuration: InternalConfiguration, httpClient: Http
   return resource;
 };
 
-export interface Encoding {
+export type Encoding = any & {
   cloudRegion: string;
-}
+};
 
 interface Start {
   (startConfiguration: any): Promise<ApiResource<any>>;
