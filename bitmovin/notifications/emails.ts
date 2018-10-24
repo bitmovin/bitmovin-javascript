@@ -2,14 +2,21 @@ import * as urljoin from 'url-join';
 
 import {buildListUrl} from '../utils/UrlUtils';
 import httpClient, {utils} from '../utils/http';
-import {Create, HttpClient, InternalConfiguration, List, Pagination} from '../utils/types';
+import {Create, HttpClient, InternalConfiguration, List, Pagination, ResourceId} from '../utils/types';
 
-import {EmailNotificationWithConditions, EmailNotificationWithConditionsDetails} from './types';
+import {
+  EmailNotificationWithConditions,
+  EmailNotificationWithConditionsDetails,
+  IntervalType,
+  UsageReportEmailNotification,
+  UsageReportEmailNotificationUpdate
+} from './types';
 
 const emails = (configuration: InternalConfiguration, http: HttpClient = httpClient): NotificationEmails => {
   const emailsBaseUrl = urljoin(configuration.apiBaseUrl, 'notifications', 'emails');
   const encodingBaseUrl = urljoin(emailsBaseUrl, 'encoding');
   const encodingsBaseUrl = urljoin(encodingBaseUrl, 'encodings');
+  const usageReportsBaseUrl = urljoin(emailsBaseUrl, 'usage-reports');
 
   const listEncoding = (limit, offset, sort, filter) => {
     const url = buildListUrl(encodingBaseUrl, limit, offset, sort, filter);
@@ -29,11 +36,34 @@ const emails = (configuration: InternalConfiguration, http: HttpClient = httpCli
     error: createErrorMethods(encodingsBaseUrl, configuration, http)
   });
 
+  const listUsageReports = (limit, offset, sort, filter) => {
+    const url = buildListUrl(usageReportsBaseUrl, limit, offset, sort, filter);
+    return http.get<Pagination<UsageReportEmailNotification>>(configuration, url);
+  };
+
+  const updateUsageReport = (updateData: UsageReportEmailNotificationUpdate) => {
+    return http.post<UsageReportEmailNotification, UsageReportEmailNotificationUpdate>(
+      configuration,
+      usageReportsBaseUrl,
+      updateData
+    );
+  };
+
+  const sendUsageReport = (intervalType: IntervalType) => {
+    const url = urljoin(usageReportsBaseUrl, intervalType, 'actions/send');
+    return http.post<UsageReportEmailNotification, void>(configuration, url);
+  };
+
   return {
     list: utils.buildListCallFunction<EmailNotificationWithConditionsDetails>(http, configuration, emailsBaseUrl),
     encoding: {
       list: listEncoding,
       encodings: encodingsResource
+    },
+    usageReports: {
+      list: listUsageReports,
+      update: updateUsageReport,
+      send: sendUsageReport
     }
   };
 };
@@ -109,6 +139,11 @@ export interface NotificationEmails {
       liveInputStreamChanged: NotificationEmailsType;
       error: NotificationEmailsType;
     };
+  };
+  usageReports: {
+    list: List<UsageReportEmailNotification>;
+    update: (updateData: UsageReportEmailNotificationUpdate) => Promise<UsageReportEmailNotification>;
+    send: (intervalType: IntervalType) => Promise<ResourceId>;
   };
 }
 

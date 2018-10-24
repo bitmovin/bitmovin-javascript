@@ -180,3 +180,22 @@ export interface WebhookDetails {
   signatureType?: string;
   encryptionType?: string;
 }
+
+export enum IntervalType {
+  WEEKLY = 'WEEKLY',
+  MONTHLY = 'MONTHLY',
+  DAILY = 'DAILY'
+}
+
+export interface UsageReportEmailNotification {
+  id: string;
+  emails: string[];
+  intervalType: IntervalType;
+  muted: boolean;
+}
+
+export interface UsageReportEmailNotificationUpdate {
+  intervalType: IntervalType;
+  emails: string[];
+  muted: boolean;
+}
