@@ -7,9 +7,9 @@ import {MetricQueryBuilder} from './metricQueryBuilder';
 
 export interface MetricQuery {
   metric: string;
-  filters: any[];
-  groupBy: any[];
-  orderBy: any[];
+  filters: Array<{name: string; operator: string; value: any}>;
+  groupBy: string[];
+  orderBy: Array<{name: string; order: string}>;
 }
 
 export default class MetricQueries {
