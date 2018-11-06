@@ -8,14 +8,12 @@ export class MetricQueryBuilder {
 
   constructor(queries: MetricQueries, query?: MetricQuery) {
     this.queries = queries;
-    this.queryObj =
-      query ||
-      Object.freeze({
-        metric: '',
-        filters: [],
-        groupBy: [],
-        orderBy: []
-      });
+    this.queryObj = query || {
+      metric: '',
+      filters: [],
+      groupBy: [],
+      orderBy: []
+    };
   }
 
   public metric(metric: MetricName | string): MetricQueryBuilder {
@@ -26,45 +24,47 @@ export class MetricQueryBuilder {
     return this.extendQuery_({start, end});
   }
 
-  public interval(interval): MetricQueryBuilder {
+  public interval(interval: string): MetricQueryBuilder {
     return this.extendQuery_({interval});
   }
 
-  public filter(name, operator, value): MetricQueryBuilder {
-    const filter = Object.freeze({name, operator, value});
-    return this.extendQuery_({filters: Object.freeze([...this.queryObj.filters, filter])});
+  public filter(name: string, operator: string, value: any): MetricQueryBuilder {
+    return this.extendQuery_({filters: [...this.queryObj.filters, {name, operator, value}]});
   }
 
-  public groupBy(dimension): MetricQueryBuilder {
-    return this.extendQuery_({groupBy: Object.freeze([...this.queryObj.groupBy, dimension])});
+  public groupBy(dimension: string): MetricQueryBuilder {
+    return this.extendQuery_({groupBy: [...this.queryObj.groupBy, dimension]});
   }
 
-  public orderBy(name, order): MetricQueryBuilder {
-    const newOrder = Object.freeze({name, order});
-    return this.extendQuery_({orderBy: Object.freeze([...this.queryObj.orderBy, newOrder])});
+  public orderBy(name: string, order: string): MetricQueryBuilder {
+    return this.extendQuery_({orderBy: [...this.queryObj.orderBy, {name, order}]});
   }
 
-  public percentile_(percentile): MetricQueryBuilder {
+  public percentile_(percentile: number): MetricQueryBuilder {
     return this.extendQuery_({percentile});
   }
 
-  public licenseKey(licenseKey): MetricQueryBuilder {
+  public licenseKey(licenseKey: string): MetricQueryBuilder {
     return this.extendQuery_({licenseKey});
   }
 
-  public limit(limit): MetricQueryBuilder {
+  public limit(limit: number): MetricQueryBuilder {
     return this.extendQuery_({limit});
   }
 
-  public offset(offset): MetricQueryBuilder {
+  public offset(offset: number): MetricQueryBuilder {
     return this.extendQuery_({offset});
   }
 
-  public extendQuery_(extensions): MetricQueryBuilder {
-    return new MetricQueryBuilder(this.queries, Object.freeze({...this.queryObj, ...extensions}));
+  public extendQuery_(extensions: any): MetricQueryBuilder {
+    return new MetricQueryBuilder(this.queries, {...this.queryObj, ...extensions});
   }
 
   public query(): Promise<{}> {
     return this.queries.metric(this.queryObj);
+  }
+
+  public queryObject(): MetricQuery {
+    return this.queryObj;
   }
 }
