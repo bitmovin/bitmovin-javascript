@@ -10,8 +10,8 @@ const ANALYTICS_PATH_QUERIES = 'analytics/queries';
 const ANALYTICS_PATH_METRIC_QUERIES = 'analytics/metrics';
 
 export const enum MetricName {
-  MAX_CONCURRENTVIEWERS = 'max_concurrentviewers',
-  AVG_CONCURRENTVIEWERS = 'avg_concurrentviewers'
+  MaxConcurrentViewers = 'max_concurrentviewers',
+  AvgConcurrentViewers = 'avg_concurrentviewers'
 }
 
 export interface Analytics {
