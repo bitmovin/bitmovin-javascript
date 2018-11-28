@@ -74,6 +74,7 @@ export const inputs = (configuration, httpClient: HttpClient) => {
     sftp: typeFn('sftp'),
     local: typeFn('local'),
     akamaiNetstorage: typeFn('akamai-netstorage'),
+    rolebasedS3: typeFn('s3-role-based'),
 
     list: utils.buildListCallFunction(httpClient, configuration, urljoin(configuration.apiBaseUrl, 'encoding/inputs')),
 

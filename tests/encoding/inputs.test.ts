@@ -123,6 +123,37 @@ describe('encoding', () => {
       });
     });
 
+    describe('rolebasedS3', () => {
+      const urlPart = 's3-role-based';
+      const type = 'rolebasedS3';
+      describe('list', () => {
+        assertItCallsCorrectUrl('GET', `/v1/encoding/inputs/${urlPart}`, client[type].list);
+        assertItReturnsUnderlyingPromise(mockGet, client[type].list);
+      });
+      describe('create', () => {
+        assertItCallsCorrectUrl('POST', `/v1/encoding/inputs/${urlPart}`, () => client[type].create({}));
+        assertItReturnsUnderlyingPromise(mockPost, client[type].list);
+      });
+      describe('item', () => {
+        describe('details', () => {
+          assertItCallsCorrectUrl('GET', `/v1/encoding/inputs/${urlPart}/input-id`, client[type]('input-id').details);
+          assertItReturnsUnderlyingPromise(mockGet, () => client[type]('input-id').details());
+        });
+        describe('customData', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/inputs/${urlPart}/input-id/customData`,
+            client[type]('input-id').customData
+          );
+          assertItReturnsUnderlyingPromise(mockGet, client[type]('input-id').customData);
+        });
+        describe('delete', () => {
+          assertItCallsCorrectUrl('DELETE', `/v1/encoding/inputs/${urlPart}/input-id`, client[type]('input-id').delete);
+          assertItReturnsUnderlyingPromise(mockDelete, client[type]('input-id').delete);
+        });
+      });
+    });
+
     describe('list', () => {
       assertItCallsCorrectUrl('GET', '/v1/encoding/inputs', client.list);
       assertItReturnsUnderlyingPromise(mockGet, client.list);
