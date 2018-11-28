@@ -123,9 +123,9 @@ describe('encoding', () => {
       });
     });
 
-    describe('rolebasedS3', () => {
+    describe('roleBasedS3', () => {
       const urlPart = 's3-role-based';
-      const type = 'rolebasedS3';
+      const type = 'roleBasedS3';
       describe('list', () => {
         assertItCallsCorrectUrl('GET', `/v1/encoding/inputs/${urlPart}`, client[type].list);
         assertItReturnsUnderlyingPromise(mockGet, client[type].list);
