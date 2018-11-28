@@ -58,6 +58,7 @@ export const muxings = (configuration: InternalConfiguration, encodingId: string
   return {
     fmp4: typeFn('fmp4'),
     ts: typeFn('ts'),
+    broadcastTs: typeFn('broadcast-ts'),
     mp4: typeFn('mp4'),
     webm: typeFn('webm'),
 
@@ -75,6 +76,7 @@ export interface Muxings {
   list: List<Muxing>;
   fmp4: any;
   ts: any;
+  broadcastTs: any;
   mp4: any;
   webm: any;
 }
