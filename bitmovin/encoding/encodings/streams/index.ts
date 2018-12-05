@@ -12,6 +12,7 @@ import {
   List
 } from '../../../utils/types';
 
+import {burnInSubtitles} from './burnInSubtitles';
 import {filters} from './filters';
 import {sprites} from './sprites';
 import {thumbnails} from './thumbnails';
@@ -47,7 +48,8 @@ export const streams = (configuration: InternalConfiguration, encodingId: string
       },
       filters: filters(configuration, encodingId, streamId, httpClient),
       thumbnails: thumbnails(configuration, encodingId, streamId, httpClient),
-      sprites: sprites(configuration, encodingId, streamId, httpClient)
+      sprites: sprites(configuration, encodingId, streamId, httpClient),
+      burnInSubtitles: burnInSubtitles(configuration, encodingId, streamId, httpClient)
     };
   };
 
@@ -78,6 +80,7 @@ interface StreamDetail {
   filters: any;
   thumbnails: any;
   sprites: any;
+  burnInSubtitles: any;
 }
 
 export interface Streams {
