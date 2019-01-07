@@ -107,6 +107,49 @@ describe('encoding', () => {
     });
   });
 
+  describe('progressiveWebm', () => {
+    beforeEach(testSetup);
+    const type = 'progressive-webm';
+    const client = muxings(testConfiguration, 'encoding-id', mockHttp);
+
+    describe('list', () => {
+      assertItCallsCorrectUrl('GET', `/v1/encoding/encodings/encoding-id/muxings/${type}`, client.progressiveWebm.list);
+      assertItReturnsUnderlyingPromise(mockGet, client.progressiveWebm.list);
+    });
+
+    describe('add', () => {
+      assertItCallsCorrectUrl('POST', `/v1/encoding/encodings/encoding-id/muxings/${type}`, client.progressiveWebm.add);
+      assertItReturnsUnderlyingPromise(mockPost, client.progressiveWebm.add);
+    });
+
+    describe('muxing', () => {
+      describe('details', () => {
+        assertItCallsCorrectUrl(
+          'GET',
+          `/v1/encoding/encodings/encoding-id/muxings/${type}/muxing-id`,
+          client.progressiveWebm('muxing-id').details
+        );
+        assertItReturnsUnderlyingPromise(mockGet, client.progressiveWebm('muxing-id').details);
+      });
+      describe('customData', () => {
+        assertItCallsCorrectUrl(
+          'GET',
+          `/v1/encoding/encodings/encoding-id/muxings/${type}/muxing-id/customData`,
+          client.progressiveWebm('muxing-id').customData
+        );
+        assertItReturnsUnderlyingPromise(mockGet, client.progressiveWebm('muxing-id').details);
+      });
+      describe('delete', () => {
+        assertItCallsCorrectUrl(
+          'DELETE',
+          `/v1/encoding/encodings/encoding-id/muxings/${type}/muxing-id`,
+          client.progressiveWebm('muxing-id').delete
+        );
+        assertItReturnsUnderlyingPromise(mockDelete, client.progressiveWebm('muxing-id').delete);
+      });
+    });
+  });
+
   describe('Muxings list all', () => {
     beforeEach(testSetup);
     const client = muxings(testConfiguration, 'encoding-id', mockHttp);
