@@ -6,7 +6,7 @@ import {HttpClient} from '../utils/types';
 import domains from './domains';
 
 export const licenses = (configuration, httpClient: HttpClient) => {
-  const {get, put} = httpClient;
+  const {get, post, put} = httpClient;
   const resourceDetails = licenseId => {
     return {
       details: () => {
@@ -19,6 +19,11 @@ export const licenses = (configuration, httpClient: HttpClient) => {
       },
       domains: domains(configuration, licenseId)
     };
+  };
+
+  const create = licensePayload => {
+    const url = urljoin(configuration.apiBaseUrl, 'analytics/licenses');
+    return post(configuration, url, licensePayload);
   };
 
   const list = (limit, offset) => {
@@ -35,7 +40,7 @@ export const licenses = (configuration, httpClient: HttpClient) => {
     return get(configuration, url);
   };
 
-  const resource = Object.assign(resourceDetails, {list});
+  const resource = Object.assign(resourceDetails, {create, list});
   return resource;
 };
 

@@ -1,7 +1,7 @@
 import * as urljoin from 'url-join';
 
 import http, {utils} from '../utils/http';
-import {ApiResource, BitmovinDetails, Details, HttpClient, List} from '../utils/types';
+import {ApiResource, Details, HttpClient, List} from '../utils/types';
 
 import domains, {Domains} from './domains';
 import thirdPartyLicensing, {ThirdPartyLicensing} from './thirdPartyLicensing';
@@ -45,7 +45,7 @@ export interface Licenses {
 }
 
 export const licenses = (configuration, httpClient: HttpClient): Licenses => {
-  const {get, put} = httpClient;
+  const {get, post, put} = httpClient;
   const resourceDetails = licenseId => {
     return {
       details: () => {
@@ -61,13 +61,18 @@ export const licenses = (configuration, httpClient: HttpClient): Licenses => {
     };
   };
 
+  const create = licensePayload => {
+    const url = urljoin(configuration.apiBaseUrl, 'player/licenses');
+    return post(configuration, url, licensePayload);
+  };
+
   const list = utils.buildListCallFunction<PlayerLicense>(
     httpClient,
     configuration,
     urljoin(configuration.apiBaseUrl, 'player/licenses')
   );
 
-  const resource = Object.assign(resourceDetails, {list});
+  const resource = Object.assign(resourceDetails, {create, list});
   return resource;
 };
 
