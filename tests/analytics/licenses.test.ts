@@ -11,7 +11,7 @@ import {getConfiguration} from '../utils';
 
 const testConfiguration = getConfiguration();
 
-describe('player', () => {
+describe('analytics', () => {
   const licensesClient = licenses(testConfiguration, mockHttp);
   beforeEach(testSetup);
 
