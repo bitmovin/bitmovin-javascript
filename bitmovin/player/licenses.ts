@@ -33,6 +33,10 @@ export interface UpdatePlayerLicense {
   thirdPartyLicensingEnabled?: boolean;
 }
 
+export interface CreatePlayerLicensePayload {
+  name: string;
+}
+
 export interface Licenses {
   (licenseId: string): {
     details: Details<PlayerLicense>;
@@ -41,6 +45,7 @@ export interface Licenses {
     thirdPartyLicensing: ThirdPartyLicensing;
   };
 
+  create: (licensePayload: CreatePlayerLicensePayload) => Promise<PlayerLicense>;
   list: List<PlayerLicense>;
 }
 
@@ -61,9 +66,9 @@ export const licenses = (configuration, httpClient: HttpClient): Licenses => {
     };
   };
 
-  const create = licensePayload => {
+  const create = (licensePayload: CreatePlayerLicensePayload) => {
     const url = urljoin(configuration.apiBaseUrl, 'player/licenses');
-    return post(configuration, url, licensePayload);
+    return post<PlayerLicense, CreatePlayerLicensePayload>(configuration, url, licensePayload);
   };
 
   const list = utils.buildListCallFunction<PlayerLicense>(
