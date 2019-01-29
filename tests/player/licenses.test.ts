@@ -22,6 +22,12 @@ describe('player', () => {
   beforeEach(testSetup);
 
   describe('license', () => {
+    describe('create', () => {
+      assertItCallsCorrectUrl('POST', '/v1/player/licenses', () => licensesClient.create({name: 'test-name'}));
+      assertItReturnsUnderlyingPromise(mockPost, licensesClient.create);
+      assertPayload(mockPost, () => licensesClient.create({name: 'test-name'}), {name: 'test-name'});
+    });
+
     describe('list', () => {
       assertItCallsCorrectUrl('GET', '/v1/player/licenses', licensesClient.list);
       assertItReturnsUnderlyingPromise(mockGet, licensesClient.list);
@@ -36,7 +42,7 @@ describe('player', () => {
 
     describe('update', () => {
       assertItCallsCorrectUrl('PUT', '/v1/player/licenses/my-license-id', () =>
-        licensesClient('my-license-id').update()
+        licensesClient('my-license-id').update({})
       );
       assertItReturnsUnderlyingPromise(mockPut, licensesClient('my-license-id').update);
       assertPayload(mockPut, () => licensesClient('my-license-id').update({name: 'foo'}), {name: 'foo'});
