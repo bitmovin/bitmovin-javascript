@@ -1,8 +1,11 @@
 import {licenses} from '../../bitmovin/analytics/licenses';
+import {Platform, platforms} from '../../bitmovin/analytics/releases/platforms';
+import {Channel} from '../../bitmovin/player/channels';
 import {
   assertItCallsCorrectUrl,
   assertItReturnsUnderlyingPromise,
   assertPayload,
+  mockGet,
   mockHttp,
   mockPost,
   testSetup
@@ -20,6 +23,64 @@ describe('analytics', () => {
       assertItCallsCorrectUrl('POST', '/v1/analytics/licenses', () => licensesClient.create({name: 'test-name'}));
       assertItReturnsUnderlyingPromise(mockPost, licensesClient.create);
       assertPayload(mockPost, () => licensesClient.create({name: 'test-name'}), {name: 'test-name'});
+    });
+  });
+  describe('releases', () => {
+    describe('platforms', () => {
+      const client = platforms(testConfiguration, mockHttp);
+
+      describe('list', () => {
+        assertItCallsCorrectUrl('GET', '/v1/analytics/releases/platforms', client.list);
+        assertItReturnsUnderlyingPromise(mockGet, client.list);
+      });
+      describe('channels', () => {
+        describe('list', () => {
+          assertItCallsCorrectUrl('GET', '/v1/analytics/releases/ios', client(Platform.IOs).channels.list);
+          assertItReturnsUnderlyingPromise(mockGet, client(Platform.IOs).channels.list);
+        });
+        describe('versions', () => {
+          describe('list', () => {
+            assertItCallsCorrectUrl(
+              'GET',
+              '/v1/analytics/releases/ios/stable',
+              client(Platform.IOs).channels(Channel.Stable).versions.list
+            );
+            assertItReturnsUnderlyingPromise(mockGet, client(Platform.IOs).channels(Channel.Stable).versions.list);
+          });
+          describe('specificVersion', () => {
+            describe('list', () => {
+              assertItCallsCorrectUrl(
+                'GET',
+                '/v1/analytics/releases/ios/stable/1.5',
+                client(Platform.IOs)
+                  .channels(Channel.Stable)
+                  .versions('1.5').list
+              );
+              assertItReturnsUnderlyingPromise(
+                mockGet,
+                client(Platform.IOs)
+                  .channels(Channel.Stable)
+                  .versions('1.5').list
+              );
+            });
+            describe('latest', () => {
+              assertItCallsCorrectUrl(
+                'GET',
+                '/v1/analytics/releases/ios/stable/1.5/latest',
+                client(Platform.IOs)
+                  .channels(Channel.Stable)
+                  .versions('1.5').latest
+              );
+              assertItReturnsUnderlyingPromise(
+                mockGet,
+                client(Platform.IOs)
+                  .channels(Channel.Stable)
+                  .versions('1.5').latest
+              );
+            });
+          });
+        });
+      });
     });
   });
 });
