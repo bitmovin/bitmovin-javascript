@@ -3,6 +3,7 @@ import MetricQueries from './metricQueries';
 import analyticsImpressions from './impressions';
 import analyticsLicenses from './licenses';
 import analyticsQueries from './queries';
+import analyticsPlatforms, {Platforms} from './releases/platforms';
 import analyticsStatistics from './statistics';
 
 const ANALYTICS_PATH_QUERIES_ADS = 'analytics/ads/queries';
@@ -23,6 +24,9 @@ export interface Analytics {
   ads: {
     queries: any;
   };
+  releases: {
+    platforms: Platforms;
+  };
 }
 
 const analytics = internalConfig => ({
@@ -33,7 +37,10 @@ const analytics = internalConfig => ({
   },
   metrics: new MetricQueries(internalConfig, ANALYTICS_PATH_METRIC_QUERIES),
   impressions: analyticsImpressions(internalConfig),
-  statistics: analyticsStatistics(internalConfig)
+  statistics: analyticsStatistics(internalConfig),
+  releases: {
+    platforms: analyticsPlatforms(internalConfig)
+  }
 });
 
 export default analytics;
