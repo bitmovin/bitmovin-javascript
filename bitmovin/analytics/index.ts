@@ -1,11 +1,9 @@
-import MetricQueries from './metricQueries';
-
 import analyticsImpressions from './impressions';
 import analyticsLicenses from './licenses';
+import MetricQueries from './metricQueries';
 import analyticsQueries from './queries';
 import analyticsPlatforms, {Platforms} from './releases/platforms';
 import analyticsStatistics from './statistics';
-
 const ANALYTICS_PATH_QUERIES_ADS = 'analytics/ads/queries';
 const ANALYTICS_PATH_QUERIES = 'analytics/queries';
 const ANALYTICS_PATH_METRIC_QUERIES = 'analytics/metrics';
