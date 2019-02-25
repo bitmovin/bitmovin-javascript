@@ -1,0 +1,47 @@
+{
+  "name": "bitmovin-javascript",
+  "version": "3.1.1-alpha.0",
+  "description": "OpenAPI client for bitmovin-javascript",
+  "author": "Bitmovin Inc",
+  "keywords": [
+    "bitmovin",
+    "bitmovin-typescript",
+    "bitmovin-api",
+    "bitmovin-javascript"
+  ],
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "browser": "./dist/bitmovin.browser.js",
+  "typings": "./dist/index.d.ts",
+  "scripts": {
+    "build": "npm run build:bundle:dev && npm run build:bundle:prod && npm run build:modules",
+    "build:bundle:dev": "cross-env NODE_ENV=development webpack --config=./webpack.config.js",
+    "build:bundle:prod": "cross-env NODE_ENV=production webpack --config=./webpack.config.js",
+    "build:modules": "tsc --project ./tsconfig.json",
+    "prepublishOnly": "npm run build",
+    "lint": "tslint \"./bitmovin/**/*.{ts,tsx}\"",
+    "format": "prettier --write \"./bitmovin/**/*.{ts,tsx,scss}\"",
+    "format-check-verbose": "prettier --check \"./bitmovin/**/*.{ts,tsx,scss}\"",
+    "format-check": "prettier --list-different \"./bitmovin/**/*.{ts,tsx,scss}\""
+  },
+  "dependencies": {
+    "es6-promise": "^4.2.5",
+    "isomorphic-fetch": "^2.2.1",
+    "url-join": "^4.0.0",
+    "prettier": "^1.16.4",
+    "tslint": "^5.12.1"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@types/isomorphic-fetch": "0.0.34",
+    "awesome-typescript-loader": "^5.2.1",
+    "cross-env": "^5.2.0",
+    "typescript": "^3.3.1",
+    "tslint-config-prettier": "^1.18.0",
+    "typescript": "^3.3.1",
+    "webpack": "^4.29.3",
+    "webpack-cli": "^3.2.3"
+  }
+}
