@@ -75,6 +75,8 @@ export const inputs = (configuration, httpClient: HttpClient) => {
     local: typeFn('local'),
     akamaiNetstorage: typeFn('akamai-netstorage'),
     roleBasedS3: typeFn('s3-role-based'),
+    srt: typeFn('srt'),
+    zixi: typeFn('zixi'),
 
     list: utils.buildListCallFunction(httpClient, configuration, urljoin(configuration.apiBaseUrl, 'encoding/inputs')),
 
