@@ -154,6 +154,60 @@ describe('encoding', () => {
       });
     });
 
+    describe('srt', () => {
+      const urlPart = 'srt';
+      const type = 'srt';
+      describe('list', () => {
+        assertItCallsCorrectUrl('GET', '/v1/encoding/inputs/srt', client.srt.list);
+        assertItReturnsUnderlyingPromise(mockGet, client.srt.list);
+      });
+      describe('item', () => {
+        describe('details', () => {
+          assertItCallsCorrectUrl('GET', `/v1/encoding/inputs/${urlPart}/input-id`, client[type]('input-id').details);
+          assertItReturnsUnderlyingPromise(mockGet, () => client[type]('input-id').details());
+        });
+        describe('customData', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/inputs/${urlPart}/input-id/customData`,
+            client[type]('input-id').customData
+          );
+          assertItReturnsUnderlyingPromise(mockGet, client[type]('input-id').customData);
+        });
+        describe('delete', () => {
+          assertItCallsCorrectUrl('DELETE', `/v1/encoding/inputs/${urlPart}/input-id`, client[type]('input-id').delete);
+          assertItReturnsUnderlyingPromise(mockDelete, client[type]('input-id').delete);
+        });
+      });
+    });
+
+    describe('zixi', () => {
+      const urlPart = 'zixi';
+      const type = 'zixi';
+      describe('list', () => {
+        assertItCallsCorrectUrl('GET', '/v1/encoding/inputs/zixi', client.zixi.list);
+        assertItReturnsUnderlyingPromise(mockGet, client.zixi.list);
+      });
+      describe('item', () => {
+        describe('details', () => {
+          assertItCallsCorrectUrl('GET', `/v1/encoding/inputs/${urlPart}/input-id`, client[type]('input-id').details);
+          assertItReturnsUnderlyingPromise(mockGet, () => client[type]('input-id').details());
+        });
+        describe('customData', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/inputs/${urlPart}/input-id/customData`,
+            client[type]('input-id').customData
+          );
+          assertItReturnsUnderlyingPromise(mockGet, client[type]('input-id').customData);
+        });
+        describe('delete', () => {
+          assertItCallsCorrectUrl('DELETE', `/v1/encoding/inputs/${urlPart}/input-id`, client[type]('input-id').delete);
+          assertItReturnsUnderlyingPromise(mockDelete, client[type]('input-id').delete);
+        });
+      });
+    });
+
     describe('list', () => {
       assertItCallsCorrectUrl('GET', '/v1/encoding/inputs', client.list);
       assertItReturnsUnderlyingPromise(mockGet, client.list);

@@ -1,6 +1,5 @@
-import MetricQueries, {MetricQuery} from './metricQueries';
-
 import {MetricName} from '.';
+import MetricQueries, {MetricQuery} from './metricQueries';
 
 export class MetricQueryBuilder {
   private queryObj: MetricQuery;
