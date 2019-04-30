@@ -1,3 +1,4 @@
+import {analytics} from '../../bitmovin/player/analytics';
 import {channels} from '../../bitmovin/player/channels';
 import {domains} from '../../bitmovin/player/domains';
 import {licenses} from '../../bitmovin/player/licenses';
@@ -136,6 +137,23 @@ describe('player', () => {
         assertItCallsCorrectUrl('GET', '/v1/player/channels/stable/versions/latest', client('stable').versions.latest);
         assertItReturnsUnderlyingPromise(mockGet, client('stable').versions.latest);
       });
+    });
+  });
+
+  describe('analytics', () => {
+    const licenseId = 'somePlayerLicenseId';
+    const client = analytics(testConfiguration, licenseId, mockHttp);
+
+    describe('add', () => {
+      const payload = {analyticsKey: 'someAnalyticsKey'};
+      assertItCallsCorrectUrl('POST', '/v1/player/licenses/' + licenseId + '/analytics', client.add);
+      assertItReturnsUnderlyingPromise(mockPost, () => client.add(payload));
+      assertPayload(mockPost, () => client.add(payload), payload);
+    });
+
+    describe('delete', () => {
+      assertItCallsCorrectUrl('DELETE', '/v1/player/licenses/' + licenseId + '/analytics', client.delete);
+      assertItReturnsUnderlyingPromise(mockGet, client.delete);
     });
   });
 });
