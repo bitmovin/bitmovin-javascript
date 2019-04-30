@@ -3,6 +3,7 @@ import * as urljoin from 'url-join';
 import http, {utils} from '../utils/http';
 import {ApiResource, Details, HttpClient, List} from '../utils/types';
 
+import analytics, {Analytics} from './analytics';
 import domains, {Domains} from './domains';
 import thirdPartyLicensing, {ThirdPartyLicensing} from './thirdPartyLicensing';
 
@@ -43,6 +44,7 @@ export interface Licenses {
     update: (license: UpdatePlayerLicense) => Promise<ApiResource<PlayerLicense>>;
     domains: Domains;
     thirdPartyLicensing: ThirdPartyLicensing;
+    analytics: Analytics;
   };
 
   create: (licensePayload: CreatePlayerLicensePayload) => Promise<PlayerLicense>;
@@ -62,7 +64,8 @@ export const licenses = (configuration, httpClient: HttpClient): Licenses => {
         return put<PlayerLicense, PlayerLicense>(configuration, url, license);
       },
       domains: domains(configuration, licenseId),
-      thirdPartyLicensing: thirdPartyLicensing(configuration, licenseId)
+      thirdPartyLicensing: thirdPartyLicensing(configuration, licenseId),
+      analytics: analytics(configuration, licenseId)
     };
   };
 
