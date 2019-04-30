@@ -144,16 +144,16 @@ describe('player', () => {
     const licenseId = 'somePlayerLicenseId';
     const client = analytics(testConfiguration, licenseId, mockHttp);
 
-    describe('add', () => {
+    describe('enable', () => {
       const payload = {analyticsKey: 'someAnalyticsKey'};
-      assertItCallsCorrectUrl('POST', '/v1/player/licenses/' + licenseId + '/analytics', client.add);
-      assertItReturnsUnderlyingPromise(mockPost, () => client.add(payload));
-      assertPayload(mockPost, () => client.add(payload), payload);
+      assertItCallsCorrectUrl('POST', '/v1/player/licenses/' + licenseId + '/analytics', client.enable);
+      assertItReturnsUnderlyingPromise(mockPost, () => client.enable(payload));
+      assertPayload(mockPost, () => client.enable(payload), payload);
     });
 
-    describe('delete', () => {
-      assertItCallsCorrectUrl('DELETE', '/v1/player/licenses/' + licenseId + '/analytics', client.delete);
-      assertItReturnsUnderlyingPromise(mockGet, client.delete);
+    describe('disable', () => {
+      assertItCallsCorrectUrl('DELETE', '/v1/player/licenses/' + licenseId + '/analytics', client.disable);
+      assertItReturnsUnderlyingPromise(mockGet, client.disable);
     });
   });
 });
