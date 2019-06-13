@@ -142,5 +142,7 @@ describe('encoding', () => {
     testConfigType('mp3', 'audio/mp3');
     testConfigType('vp8', 'video/vp8');
     testConfigType('mjpeg', 'video/mjpeg');
+    testConfigType('he-aac-v1', 'audio/he-aac-v1');
+    testConfigType('he-aac-v2', 'audio/he-aac-v2');
   });
 });
