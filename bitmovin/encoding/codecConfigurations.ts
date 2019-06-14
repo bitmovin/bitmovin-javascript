@@ -60,6 +60,8 @@ export const codecConfigurations = (configuration, httpClient: HttpClient) => {
     mp3: typeFn('audio/mp3'),
     vp8: typeFn('video/vp8'),
     mjpeg: typeFn('video/mjpeg'),
+    ['he-aac-v1']: typeFn('audio/he-aac-v1'),
+    ['he-aac-v2']: typeFn('audio/he-aac-v2'),
 
     list: utils.buildListCallFunction(
       httpClient,
