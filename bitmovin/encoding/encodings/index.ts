@@ -12,6 +12,7 @@ import {
   List
 } from '../../utils/types';
 
+import machineLearning, {MachineLearning} from './machineLearning';
 import muxings, {Muxings} from './muxings';
 import streams, {Streams} from './streams';
 
@@ -68,7 +69,8 @@ export const encodings = (configuration: InternalConfiguration, httpClient: Http
         return get(configuration, url);
       },
       streams: streams(configuration, encodingId),
-      muxings: muxings(configuration, encodingId)
+      muxings: muxings(configuration, encodingId),
+      machineLearning: machineLearning(configuration, encodingId)
     };
   };
 
@@ -112,6 +114,7 @@ interface EncodingDetail {
   status: Details<any>;
   streams: Streams;
   muxings: Muxings;
+  machineLearning: MachineLearning;
 }
 
 export interface Encodings {
