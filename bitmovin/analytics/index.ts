@@ -1,4 +1,7 @@
+import {InternalConfiguration} from '../utils/types';
+
 import analyticsImpressions from './impressions';
+import IndustryInsightQueries from './insights/IndustryInsightQueries';
 import analyticsLicenses from './licenses';
 import MetricQueries from './metricQueries';
 import analyticsQueries from './queries';
@@ -7,10 +10,25 @@ import analyticsStatistics from './statistics';
 const ANALYTICS_PATH_QUERIES_ADS = 'analytics/ads/queries';
 const ANALYTICS_PATH_QUERIES = 'analytics/queries';
 const ANALYTICS_PATH_METRIC_QUERIES = 'analytics/metrics';
+const ANALYTICS_PATH_INDUSTRY_INSIGHTS = 'analytics/insights/industry';
 
 export const enum MetricName {
   MaxConcurrentViewers = 'max_concurrentviewers',
   AvgConcurrentViewers = 'avg_concurrentviewers'
+}
+
+export const enum IndustryInsightMetric {
+  VideoBitrate = 'video_bitrate',
+  RebufferPercentage = 'rebuffer_percentage',
+  ErrorPercentage = 'error_percentage',
+  Startuptime = 'startuptime',
+  Videostartuptime = 'videostartuptime'
+}
+
+export const enum IndustryInsightFilter {
+  Browser = 'browser',
+  Isp = 'isp',
+  Country = 'country'
 }
 
 export interface Analytics {
@@ -25,9 +43,12 @@ export interface Analytics {
   releases: {
     platforms: Platforms;
   };
+  insights: {
+    industry: IndustryInsightQueries;
+  };
 }
 
-const analytics = internalConfig => ({
+const analytics = (internalConfig: InternalConfiguration) => ({
   licenses: analyticsLicenses(internalConfig),
   queries: analyticsQueries(internalConfig, ANALYTICS_PATH_QUERIES),
   ads: {
@@ -38,6 +59,9 @@ const analytics = internalConfig => ({
   statistics: analyticsStatistics(internalConfig),
   releases: {
     platforms: analyticsPlatforms(internalConfig)
+  },
+  insights: {
+    industry: new IndustryInsightQueries(internalConfig, ANALYTICS_PATH_INDUSTRY_INSIGHTS)
   }
 });
 
