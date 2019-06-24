@@ -4,6 +4,7 @@ import http from '../../utils/http';
 import {HttpClient} from '../../utils/types';
 
 import groups from './groups';
+import subOrganizations from './sub-organizations';
 
 export const organizations = (configuration, httpClient: HttpClient) => {
   const {get, post, delete_, put} = httpClient;
@@ -23,7 +24,8 @@ export const organizations = (configuration, httpClient: HttpClient) => {
         const url = urljoin(organizationsBaseUrl, organizationId);
         return put(configuration, url, organization);
       },
-      groups: groups(configuration, organizationId)
+      groups: groups(configuration, organizationId),
+      subOrganizations: subOrganizations(configuration, organizationId)
     };
   };
 
