@@ -34,6 +34,7 @@ const webhooks = (configuration: InternalConfiguration, http: HttpClient = httpC
   const encodings = (encodingId: string) => {
     const url = urljoin(encodingsBaseUrl, encodingId);
     return {
+      list: utils.buildListCallFunction<any>(http, configuration, url),
       finished: createMethods<EncodingFinishedWebhook, EncodingFinishedWebhookDetails>(
         url,
         'finished',
@@ -141,6 +142,7 @@ export interface NotificationWebhooks {
   encoding: {
     encodings: {
       (encodingId: string): {
+        list: List<WebhookDetails>;
         finished: NotificationWebhooksType<EncodingFinishedWebhook, EncodingFinishedWebhookDetails>;
         error: NotificationWebhooksType<EncodingErrorWebhook, EncodingErrorWebhookDetails>;
       };
