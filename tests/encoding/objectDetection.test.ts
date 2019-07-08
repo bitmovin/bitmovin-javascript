@@ -76,7 +76,7 @@ describe('encoding', () => {
         assertItCallsCorrectUrl(
           'GET',
           'v1/encoding/encodings/encoding-id/machine-learning/object-detection/object-detection-id/results/by-timestamp',
-          client.objectDetection('object-detection-id').results
+          client.objectDetection('object-detection-id').resultsByTimestamp
         );
         assertItReturnsUnderlyingPromise(mockGet, client.objectDetection('object-detection-id').resultsByTimestamp);
       });
