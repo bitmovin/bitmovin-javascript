@@ -65,6 +65,17 @@ export const objectDetection = (
           'results'
         );
         return get(configuration, url);
+      },
+      resultsByTimestamp: () => {
+        const url = urljoin(
+          configuration.apiBaseUrl,
+          'encoding/encodings',
+          encodingId,
+          OBJECT_DETECTION_PATH,
+          objectDetectionId,
+          'results/by-timestamp'
+        );
+        return get(configuration, url);
       }
     };
   };
@@ -92,6 +103,7 @@ interface ObjectDetectionConfigurationDetail {
   delete: Delete<{}>;
   customData: CustomData;
   results: List<ObjectDetectionResult>;
+  resultsByTimestamp: List<ObjectDetectionResult>;
 }
 
 export interface ObjectDetectionConfigurationDetails {
