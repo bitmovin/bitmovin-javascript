@@ -72,6 +72,14 @@ describe('encoding', () => {
         );
         assertItReturnsUnderlyingPromise(mockGet, client.objectDetection('object-detection-id').results);
       });
+      describe('results by timestamp', () => {
+        assertItCallsCorrectUrl(
+          'GET',
+          'v1/encoding/encodings/encoding-id/machine-learning/object-detection/object-detection-id/results/by-timestamp',
+          client.objectDetection('object-detection-id').results
+        );
+        assertItReturnsUnderlyingPromise(mockGet, client.objectDetection('object-detection-id').results);
+      });
     });
   });
 });
