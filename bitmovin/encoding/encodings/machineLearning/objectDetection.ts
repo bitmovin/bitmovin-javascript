@@ -55,17 +55,30 @@ export const objectDetection = (
         );
         return delete_(configuration, url);
       },
-      results: () => {
-        const url = urljoin(
+      results: utils.buildListCallFunction<ObjectDetectionResult>(
+        httpClient,
+        configuration,
+        urljoin(
           configuration.apiBaseUrl,
           'encoding/encodings',
           encodingId,
           OBJECT_DETECTION_PATH,
           objectDetectionId,
           'results'
-        );
-        return get(configuration, url);
-      }
+        )
+      ),
+      resultsByTimestamp: utils.buildListCallFunction<ObjectDetectionTimestampedResult>(
+        httpClient,
+        configuration,
+        urljoin(
+          configuration.apiBaseUrl,
+          'encoding/encodings',
+          encodingId,
+          OBJECT_DETECTION_PATH,
+          objectDetectionId,
+          'results/by-timestamp'
+        )
+      )
     };
   };
 
@@ -86,12 +99,14 @@ export const objectDetection = (
 
 interface ObjectDetectionConfig {}
 interface ObjectDetectionResult {}
+interface ObjectDetectionTimestampedResult {}
 
 interface ObjectDetectionConfigurationDetail {
   details: Details<ObjectDetectionConfig>;
   delete: Delete<{}>;
   customData: CustomData;
   results: List<ObjectDetectionResult>;
+  resultsByTimestamp: List<ObjectDetectionResult>;
 }
 
 export interface ObjectDetectionConfigurationDetails {
