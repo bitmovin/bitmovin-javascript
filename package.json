@@ -1,6 +1,6 @@
 {
   "name": "bitmovin-javascript",
-  "version": "2.25.0-alpha3",
+  "version": "2.25.0-alpha4",
   "main": "./dist/index.js",
   "browser": "./dist/bitmovin.browser.js",
   "types": "./dist/index.d.ts",
