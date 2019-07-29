@@ -301,6 +301,48 @@ describe('encoding', () => {
         });
       });
     });
+
+    describe('ebuR128SinglePass', () => {
+      const type = 'ebu-r128-single-pass';
+      describe('list', () => {
+        assertItCallsCorrectUrl('GET', `/v1/encoding/filters/${type}`, client.ebuR128SinglePass.list);
+        assertItReturnsUnderlyingPromise(mockGet, client.ebuR128SinglePass.list);
+      });
+
+      describe('add', () => {
+        assertItCallsCorrectUrl('POST', `/v1/encoding/filters/${type}`, client.ebuR128SinglePass.create);
+        assertItReturnsUnderlyingPromise(mockPost, client.ebuR128SinglePass.create);
+      });
+
+      describe('filter', () => {
+        describe('details', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/filters/${type}/filter-id`,
+            client.ebuR128SinglePass('filter-id').details
+          );
+          assertItReturnsUnderlyingPromise(mockGet, client.ebuR128SinglePass('filter-id').details);
+        });
+
+        describe('customData', () => {
+          assertItCallsCorrectUrl(
+            'GET',
+            `/v1/encoding/filters/${type}/filter-id/customData`,
+            client.ebuR128SinglePass('filter-id').customData
+          );
+          assertItReturnsUnderlyingPromise(mockGet, client.ebuR128SinglePass('filter-id').customData);
+        });
+
+        describe('delete', () => {
+          assertItCallsCorrectUrl(
+            'DELETE',
+            `/v1/encoding/filters/${type}/filter-id`,
+            client.ebuR128SinglePass('filter-id').delete
+          );
+          assertItReturnsUnderlyingPromise(mockDelete, client.ebuR128SinglePass('filter-id').delete);
+        });
+      });
+    });
   });
 
   describe('streams', () => {
