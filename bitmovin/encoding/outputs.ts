@@ -51,6 +51,7 @@ export const outputs = (configuration, httpClient: HttpClient) => {
     akamaiNetstorage: typeFn('akamai-netstorage'),
     akamaiMsl: typeFn('akamai-msl'),
     roleBasedS3: typeFn('s3-role-based'),
+    liveMediaIngest: typeFn('live-media-ingest'),
 
     list: utils.buildListCallFunction(httpClient, configuration, urljoin(configuration.apiBaseUrl, 'encoding/outputs')),
 
