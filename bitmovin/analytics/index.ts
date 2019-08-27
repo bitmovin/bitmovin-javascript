@@ -4,6 +4,7 @@ import analyticsImpressions from './impressions';
 import IndustryInsightQueries from './insights/IndustryInsightQueries';
 import analyticsLicenses from './licenses';
 import MetricQueries from './metricQueries';
+import organizationSettings from './organizations/settings';
 import analyticsQueries from './queries';
 import analyticsPlatforms, {Platforms} from './releases/platforms';
 import analyticsStatistics from './statistics';
@@ -62,7 +63,8 @@ const analytics = (internalConfig: InternalConfiguration) => ({
   },
   insights: {
     industry: new IndustryInsightQueries(internalConfig, ANALYTICS_PATH_INDUSTRY_INSIGHTS)
-  }
+  },
+  organizations: organizationSettings(internalConfig)
 });
 
 export default analytics;
