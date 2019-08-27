@@ -56,6 +56,7 @@ export const filters = (configuration, httpClient: HttpClient) => {
     unsharp: typeFn('unsharp'),
     scale: typeFn('scale'),
     interlace: typeFn('interlace'),
+    ebuR128SinglePass: typeFn('ebu-r128-single-pass'),
 
     list: utils.buildListCallFunction(httpClient, configuration, urljoin(configuration.apiBaseUrl, 'encoding/filters')),
     getType: filterId => {

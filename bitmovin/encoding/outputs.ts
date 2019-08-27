@@ -49,6 +49,7 @@ export const outputs = (configuration, httpClient: HttpClient) => {
     bitmovinTempS3: typeFn('bitmovin-temp-s3'),
     local: typeFn('local'),
     akamaiNetstorage: typeFn('akamai-netstorage'),
+    akamaiMsl: typeFn('akamai-msl'),
     roleBasedS3: typeFn('s3-role-based'),
 
     list: utils.buildListCallFunction(httpClient, configuration, urljoin(configuration.apiBaseUrl, 'encoding/outputs')),
