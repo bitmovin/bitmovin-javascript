@@ -1,4 +1,4 @@
-import {settings} from '../../../bitmovin/analytics/organizations/settings';
+import OrganizationSettings from '../../../bitmovin/analytics/insights/OrganizationSettings';
 import {
   assertItCallsCorrectUrl,
   assertItReturnsUnderlyingPromise,
@@ -12,40 +12,35 @@ import {getConfiguration} from '../../utils';
 
 const testConfiguration = getConfiguration();
 const ORG_ID = 'my-org-id';
+const INSIGHTS_PATH = 'analytics/insights';
 
 describe('analytics', () => {
-  const settingsClient = settings(testConfiguration, mockHttp);
+  const settingsClient = new OrganizationSettings(testConfiguration, INSIGHTS_PATH, mockHttp);
   beforeEach(testSetup);
 
   describe('organizations', () => {
     describe('settings', () => {
       describe('details', () => {
-        assertItCallsCorrectUrl('GET', `/v1/analytics/organizations/${ORG_ID}/settings`, () =>
-          settingsClient(ORG_ID).details()
+        assertItCallsCorrectUrl('GET', `/v1/analytics/insights/organizations/${ORG_ID}/settings`, () =>
+          settingsClient.settings(ORG_ID).details()
         );
-        assertItReturnsUnderlyingPromise(mockGet, settingsClient(ORG_ID).details);
+        assertItReturnsUnderlyingPromise(mockGet, settingsClient.settings(ORG_ID).details);
       });
       describe('update', () => {
-        assertItCallsCorrectUrl('PUT', `/v1/analytics/organizations/${ORG_ID}/settings`, () =>
-          settingsClient(ORG_ID).update({
-            isIndustryOptOut: true,
-            industry: 'IT',
-            subIndustry: 'Broadcasting'
+        assertItCallsCorrectUrl('PUT', `/v1/analytics/insights/organizations/${ORG_ID}/settings`, () =>
+          settingsClient.settings(ORG_ID).update({
+            includeInInsights: true
           })
         );
-        assertItReturnsUnderlyingPromise(mockPut, settingsClient(ORG_ID).update);
+        assertItReturnsUnderlyingPromise(mockPut, settingsClient.settings(ORG_ID).update);
         assertPayload(
           mockPut,
           () =>
-            settingsClient(ORG_ID).update({
-              isIndustryOptOut: true,
-              industry: 'IT',
-              subIndustry: 'Broadcasting'
+            settingsClient.settings(ORG_ID).update({
+              includeInInsights: true
             }),
           {
-            isIndustryOptOut: true,
-            industry: 'IT',
-            subIndustry: 'Broadcasting'
+            includeInInsights: true
           }
         );
       });
