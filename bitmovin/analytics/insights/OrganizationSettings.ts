@@ -19,12 +19,14 @@ export default class OrganizationSettings {
     this.baseUrl = urljoin(configuration.apiBaseUrl, urlPath, 'organizations');
   }
 
-  public settings = (orgId: string) => ({
-    details: (): Promise<Settings> => {
-      return this.httpClient.get(this.configuration, urljoin(this.baseUrl, orgId, 'settings'));
-    },
-    update: (settings: {includeInInsights: boolean}): Promise<Settings> => {
-      return this.httpClient.put(this.configuration, urljoin(this.baseUrl, orgId, 'settings'), settings);
-    }
-  })
+  public settings(orgId: string) {
+    return {
+      details: (): Promise<Settings> => {
+        return this.httpClient.get(this.configuration, urljoin(this.baseUrl, orgId, 'settings'));
+      },
+      update: (settings: {includeInInsights: boolean}): Promise<Settings> => {
+        return this.httpClient.put(this.configuration, urljoin(this.baseUrl, orgId, 'settings'), settings);
+      }
+    };
+  }
 }
