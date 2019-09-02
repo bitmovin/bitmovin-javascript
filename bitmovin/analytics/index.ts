@@ -2,16 +2,16 @@ import {InternalConfiguration} from '../utils/types';
 
 import analyticsImpressions from './impressions';
 import IndustryInsightQueries from './insights/IndustryInsightQueries';
+import OrganizationSettings from './insights/OrganizationSettings';
 import analyticsLicenses from './licenses';
 import MetricQueries from './metricQueries';
-import organizationSettings from './organizations/settings';
 import analyticsQueries from './queries';
 import analyticsPlatforms, {Platforms} from './releases/platforms';
 import analyticsStatistics from './statistics';
 const ANALYTICS_PATH_QUERIES_ADS = 'analytics/ads/queries';
 const ANALYTICS_PATH_QUERIES = 'analytics/queries';
 const ANALYTICS_PATH_METRIC_QUERIES = 'analytics/metrics';
-const ANALYTICS_PATH_INDUSTRY_INSIGHTS = 'analytics/insights/industry';
+const ANALYTICS_PATH_INSIGHTS = 'analytics/insights';
 
 export const enum MetricName {
   MaxConcurrentViewers = 'max_concurrentviewers',
@@ -62,9 +62,9 @@ const analytics = (internalConfig: InternalConfiguration) => ({
     platforms: analyticsPlatforms(internalConfig)
   },
   insights: {
-    industry: new IndustryInsightQueries(internalConfig, ANALYTICS_PATH_INDUSTRY_INSIGHTS)
-  },
-  organizations: organizationSettings(internalConfig)
+    industry: new IndustryInsightQueries(internalConfig, ANALYTICS_PATH_INSIGHTS),
+    organizations: new OrganizationSettings(internalConfig, ANALYTICS_PATH_INSIGHTS)
+  }
 });
 
 export default analytics;
