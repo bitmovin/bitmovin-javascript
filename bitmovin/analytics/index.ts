@@ -2,6 +2,7 @@ import {InternalConfiguration} from '../utils/types';
 
 import analyticsImpressions from './impressions';
 import IndustryInsightQueries from './insights/IndustryInsightQueries';
+import OrganizationSettings from './insights/OrganizationSettings';
 import analyticsLicenses from './licenses';
 import MetricQueries from './metricQueries';
 import analyticsQueries from './queries';
@@ -10,7 +11,7 @@ import analyticsStatistics from './statistics';
 const ANALYTICS_PATH_QUERIES_ADS = 'analytics/ads/queries';
 const ANALYTICS_PATH_QUERIES = 'analytics/queries';
 const ANALYTICS_PATH_METRIC_QUERIES = 'analytics/metrics';
-const ANALYTICS_PATH_INDUSTRY_INSIGHTS = 'analytics/insights/industry';
+const ANALYTICS_PATH_INSIGHTS = 'analytics/insights';
 
 export const enum MetricName {
   MaxConcurrentViewers = 'max_concurrentviewers',
@@ -45,10 +46,11 @@ export interface Analytics {
   };
   insights: {
     industry: IndustryInsightQueries;
+    organizations: OrganizationSettings;
   };
 }
 
-const analytics = (internalConfig: InternalConfiguration) => ({
+const analytics = (internalConfig: InternalConfiguration): Analytics => ({
   licenses: analyticsLicenses(internalConfig),
   queries: analyticsQueries(internalConfig, ANALYTICS_PATH_QUERIES),
   ads: {
@@ -61,7 +63,8 @@ const analytics = (internalConfig: InternalConfiguration) => ({
     platforms: analyticsPlatforms(internalConfig)
   },
   insights: {
-    industry: new IndustryInsightQueries(internalConfig, ANALYTICS_PATH_INDUSTRY_INSIGHTS)
+    industry: new IndustryInsightQueries(internalConfig, ANALYTICS_PATH_INSIGHTS),
+    organizations: new OrganizationSettings(internalConfig, ANALYTICS_PATH_INSIGHTS)
   }
 });
 
