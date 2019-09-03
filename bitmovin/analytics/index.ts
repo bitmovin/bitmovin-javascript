@@ -46,10 +46,11 @@ export interface Analytics {
   };
   insights: {
     industry: IndustryInsightQueries;
+    organizations: OrganizationSettings;
   };
 }
 
-const analytics = (internalConfig: InternalConfiguration) => ({
+const analytics = (internalConfig: InternalConfiguration): Analytics => ({
   licenses: analyticsLicenses(internalConfig),
   queries: analyticsQueries(internalConfig, ANALYTICS_PATH_QUERIES),
   ads: {
