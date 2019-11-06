@@ -36,13 +36,15 @@ describe('analytics', () => {
   describe('impressions', () => {
     const start = 1573137000000;
     const end = 1573396200000;
-    assertItCallsCorrectUrl('POST', '/v1/analytics/impressions', () => impressionsClient('license-key', start, end));
-    assertItReturnsUnderlyingPromise(mockPost, () => impressionsClient('license-key', start, end));
+    assertItCallsCorrectUrl('POST', '/v1/analytics/impressions', () =>
+      impressionsClient({licenseKey: 'license-key', start, end})
+    );
+    assertItReturnsUnderlyingPromise(mockPost, () => impressionsClient({licenseKey: 'license-key', start, end}));
     assertPayload(
       mockPost,
       () => {
         const filters = [{name: 'CUSTOM_USER_ID', operator: 'EQ', value: 'customer#1'}];
-        return impressionsClient('license-key', start, end, filters);
+        return impressionsClient({licenseKey: 'license-key', start, end, filters});
       },
       {
         licenseKey: 'license-key',

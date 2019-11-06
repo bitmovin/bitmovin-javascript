@@ -4,12 +4,13 @@ console.log(Bitmovin);
 const BITMOVIN_API_KEY = '<YOUR API KEY>';
 const bitmovin = new Bitmovin({apiKey: BITMOVIN_API_KEY, debug: false});
 
-const startTime = new Date('2019-11-07').getTime();
-const endTime = new Date('2019-11-10').getTime();
-const filters = [{name: 'CUSTOM_USER_ID', operator: 'EQ', value: 'customer#1'}];
-
 bitmovin.analytics
-  .impressions('<YOUR ANALYTICS LICENSE KEY>', startTime, endTime, filters)
+  .impressions({
+    licenseKey: '<YOUR ANALYTICS LICENSE KEY>',
+    start: new Date('2019-11-07').getTime(),
+    end: new Date('2019-11-10').getTime(),
+    filters: [{name: 'CUSTOM_USER_ID', operator: 'EQ', value: 'customer#1'}]
+  })
   .then(result => {
     console.log(result);
   })
