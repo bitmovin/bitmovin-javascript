@@ -3,7 +3,7 @@ import * as urljoin from 'url-join';
 import http from '../utils/http';
 import {HttpClient} from '../utils/types';
 
-export interface ImpressionDetailsQuery {
+export interface ImpressionsQuery {
   licenseKey: string;
   start: number;
   end: number;
@@ -18,7 +18,7 @@ export const impressions = (configuration, httpClient: HttpClient) => {
     const url = urljoin(impressionsBaseUrl, impressionId);
     return post(configuration, url, {licenseKey});
   };
-  const list = (query: ImpressionDetailsQuery) => {
+  const list = (query: ImpressionsQuery) => {
     const url = impressionsBaseUrl;
     return post(configuration, url, query);
   };
