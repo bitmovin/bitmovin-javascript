@@ -3,16 +3,28 @@ import * as urljoin from 'url-join';
 import http from '../utils/http';
 import {HttpClient} from '../utils/types';
 
+export interface ImpressionsQuery {
+  licenseKey: string;
+  start: number;
+  end: number;
+  filters?: Array<{name: string; operator: string; value: any}>;
+}
+
 export const impressions = (configuration, httpClient: HttpClient) => {
   const {post} = httpClient;
-  const impressionBaseUrl = urljoin(configuration.apiBaseUrl, 'analytics', 'impressions');
+  const impressionsBaseUrl = urljoin(configuration.apiBaseUrl, 'analytics', 'impressions');
 
-  const fn = (impressionId, licenseKey) => {
-    const url = urljoin(impressionBaseUrl, impressionId);
+  const details = (impressionId: string, licenseKey: string) => {
+    const url = urljoin(impressionsBaseUrl, impressionId);
     return post(configuration, url, {licenseKey});
   };
+  const list = (query: ImpressionsQuery) => {
+    const url = impressionsBaseUrl;
+    return post(configuration, url, query);
+  };
 
-  return fn;
+  const resource = Object.assign(list, {details});
+  return resource;
 };
 
 export default configuration => {
