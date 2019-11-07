@@ -1,4 +1,14 @@
-# Bitmovin Javascript API Client 
+# [![bitmovin](http://bitmovin-a.akamaihd.net/webpages/bitmovin-logo-github.png)](http://www.bitmovin.com)
+
+# New API Client (Recommended)
+
+`bitmovin-javascript` is the legacy Bitmovin API client for JavaScript. 
+
+We recommend using the new client, which you can find at [bitmovin-api-sdk-javascript](https://github.com/bitmovin/bitmovin-api-sdk-javascript). Using the new client guarantees 100% specification conformity at any given time and access to all features of the API as soon as they are released.
+
+---
+
+## Bitmovin Javascript API Client 
 [![bitmovin](http://bitmovin-a.akamaihd.net/webpages/bitmovin-logo-github.png)](http://www.bitmovin.com)
 [![codecov](https://codecov.io/gh/bitmovin/bitmovin-javascript/branch/develop/graph/badge.svg?token=XNzQalljOE)](https://codecov.io/gh/bitmovin/bitmovin-javascript)
 [![npm version](https://badge.fury.io/js/bitmovin-javascript.svg)](https://badge.fury.io/js/bitmovin-javascript)

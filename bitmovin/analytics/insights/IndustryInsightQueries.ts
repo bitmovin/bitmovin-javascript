@@ -21,7 +21,7 @@ export default class IndustryInsightQueries {
 
   constructor(private configuration: InternalConfiguration, urlPath: string, private httpClient: HttpClient = http) {
     this.configuration = configuration;
-    this.baseUrl = urljoin(configuration.apiBaseUrl, urlPath);
+    this.baseUrl = urljoin(configuration.apiBaseUrl, urlPath, 'industry');
   }
 
   public metric(query: IndustryInsightQuery): Promise<IndustryInsightValue> {
