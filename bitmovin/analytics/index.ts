@@ -1,5 +1,6 @@
 import {InternalConfiguration} from '../utils/types';
 
+import analyticsFilters from './filters';
 import analyticsImpressions from './impressions';
 import IndustryInsightQueries from './insights/IndustryInsightQueries';
 import OrganizationSettings from './insights/OrganizationSettings';
@@ -36,6 +37,7 @@ export interface Analytics {
   licenses: any;
   statistics: any;
   impressions: any;
+  filters: any;
   queries: any;
   metrics: MetricQueries;
   ads: {
@@ -58,6 +60,7 @@ const analytics = (internalConfig: InternalConfiguration): Analytics => ({
   },
   metrics: new MetricQueries(internalConfig, ANALYTICS_PATH_METRIC_QUERIES),
   impressions: analyticsImpressions(internalConfig),
+  filters: analyticsFilters(internalConfig),
   statistics: analyticsStatistics(internalConfig),
   releases: {
     platforms: analyticsPlatforms(internalConfig)
