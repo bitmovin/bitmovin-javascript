@@ -63,6 +63,7 @@ describe('analytics', () => {
           .licenseKey('license-key')
           .between(start, end)
           .interval('DAY')
+          .includeContext(true)
           .filter('STARTUPTIME', 'GT', 0)
           .filter('CDN_PROVIDER', 'EQ', 'akamai')
           .groupBy('VIDEOID')
@@ -91,6 +92,7 @@ describe('analytics', () => {
             ],
             groupBy: ['VIDEOID', 'CDN_PROVIDER'],
             interval: 'DAY',
+            includeContext: true,
             orderBy: [{name: 'DAY', order: 'DESC'}, {name: 'VIDEOID', order: 'ASC'}],
             limit: 10,
             offset: 20,

@@ -34,6 +34,10 @@ class Builder {
     return this.extendQuery_({interval});
   }
 
+  public includeContext(includeContext) {
+    return this.extendQuery_({includeContext});
+  }
+
   public filter(name, operator, value) {
     const filter = Object.freeze({name, operator, value});
     return this.extendQuery_({filters: Object.freeze([...this.queryObj.filters, filter])});
