@@ -71,7 +71,10 @@ describe('analytics', () => {
           .orderBy('DAY', 'DESC')
           .orderBy('VIDEOID', 'ASC')
           .limit(10)
-          .offset(20);
+          .offset(20)
+          .async(true)
+          .jobId('anyId')
+          .cursor(1);
 
         assertItReturnsPromise(mockPost, () => {
           return fn.query();
@@ -96,7 +99,10 @@ describe('analytics', () => {
             orderBy: [{name: 'DAY', order: 'DESC'}, {name: 'VIDEOID', order: 'ASC'}],
             limit: 10,
             offset: 20,
-            percentile
+            percentile,
+            async: true,
+            jobId: 'anyId',
+            cursor: 1
           }
         );
       };
