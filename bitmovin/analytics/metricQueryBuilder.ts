@@ -55,6 +55,18 @@ export class MetricQueryBuilder {
     return this.extendQuery_({offset});
   }
 
+  public async(async) {
+    return this.extendQuery_({async});
+  }
+
+  public jobId(jobId) {
+    return this.extendQuery_({jobId});
+  }
+
+  public cursor(cursor) {
+    return this.extendQuery_({cursor});
+  }
+
   public extendQuery_(extensions: any): MetricQueryBuilder {
     return new MetricQueryBuilder(this.queries, {...this.queryObj, ...extensions});
   }

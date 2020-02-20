@@ -68,6 +68,18 @@ class Builder {
     return this.extendQuery_({offset});
   }
 
+  public async(async) {
+    return this.extendQuery_({async});
+  }
+
+  public jobId(jobId) {
+    return this.extendQuery_({jobId});
+  }
+
+  public cursor(cursor) {
+    return this.extendQuery_({cursor});
+  }
+
   public extendQuery_(extensions) {
     return new Builder(this.aggregations, Object.freeze({...this.queryObj, ...extensions}));
   }
