@@ -30,22 +30,26 @@ const request = (configuration, method, url, fetchMethod = fetch, body) => {
   const params = buildParams(method, configuration, body);
 
   return fetchMethod(url, params)
-    .then(response => {
+    .then(async response => {
       if (response.status > 399) {
         const errorMessage =
           'HTTP Request was unsuccessful: HTTP Response Code was ' + response.status + ' ' + response.statusText;
         logger.error(errorMessage);
-        return response.json().then(responseData => {
-          logger.error('Error Response Body: ' + JSON.stringify(responseData));
-          throw new BitmovinError(errorMessage, {
-            ok: response.ok,
-            statusText: response.statusText,
-            redirected: response.redirected,
-            type: response.type,
-            status: response.status,
-            headers: response.headers,
-            responseData
-          });
+        let responseData;
+        try {
+          responseData = await response.json();
+        } catch (error) {
+          logger.log('Couldn`t parse server response as json.');
+        }
+        logger.error('Error Response Body: ' + JSON.stringify(responseData));
+        throw new BitmovinError(errorMessage, {
+          ok: response.ok,
+          statusText: response.statusText,
+          redirected: response.redirected,
+          type: response.type,
+          status: response.status,
+          headers: response.headers,
+          responseData
         });
       }
 
