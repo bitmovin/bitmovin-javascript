@@ -37,4 +37,25 @@ describe('analytics', () => {
       }
     );
   });
+
+  describe('filters video', () => {
+    const start = 1573137000000;
+    const end = 1573396200000;
+    assertItCallsCorrectUrl('POST', '/v1/analytics/filters/video', () =>
+      filtersClient.video({licenseKey: 'license-key', start, end})
+    );
+    assertItReturnsUnderlyingPromise(mockPost, () => filtersClient.video({licenseKey: 'license-key', start, end}));
+    assertPayload(
+      mockPost,
+      () => {
+        return filtersClient.video({licenseKey: 'license-key', start, end, query: 'foo'});
+      },
+      {
+        licenseKey: 'license-key',
+        start: 1573137000000,
+        end: 1573396200000,
+        query: 'foo'
+      }
+    );
+  });
 });

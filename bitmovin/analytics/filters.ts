@@ -10,6 +10,13 @@ export interface CustomUserIdQuery {
   query: string;
 }
 
+export interface VideoQuery {
+  licenseKey: string;
+  start: number;
+  end: number;
+  query: string;
+}
+
 export const filters = (configuration, httpClient: HttpClient) => {
   const {post} = httpClient;
   const filtersBaseUrl = urljoin(configuration.apiBaseUrl, 'analytics', 'filters');
@@ -19,7 +26,12 @@ export const filters = (configuration, httpClient: HttpClient) => {
     return post(configuration, url, query);
   };
 
-  const resource = Object.assign({customUserId});
+  const video = (query: VideoQuery) => {
+    const url = urljoin(filtersBaseUrl, 'video');
+    return post(configuration, url, query);
+  };
+
+  const resource = Object.assign({customUserId, video});
   return resource;
 };
 
