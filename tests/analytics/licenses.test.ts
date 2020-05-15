@@ -24,6 +24,13 @@ describe('analytics', () => {
       assertItReturnsUnderlyingPromise(mockPost, licensesClient.create);
       assertPayload(mockPost, () => licensesClient.create({name: 'test-name'}), {name: 'test-name'});
     });
+    describe('reorder', () => {
+      // \\ is needed to escape ? in url, otherwise regex matching failed
+      assertItCallsCorrectUrl('POST', '/v1/analytics/licenses/licenseId/changeorder\\?orderIndex=0', () =>
+        licensesClient.reorder('licenseId', 0)
+      );
+      assertItReturnsUnderlyingPromise(mockPost, licensesClient.reorder);
+    });
   });
   describe('releases', () => {
     describe('platforms', () => {

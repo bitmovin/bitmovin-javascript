@@ -40,7 +40,20 @@ export const licenses = (configuration, httpClient: HttpClient) => {
     return get(configuration, url);
   };
 
-  const resource = Object.assign(resourceDetails, {create, list});
+  const reorder = (licenseId, orderIndex) => {
+    let url = urljoin(configuration.apiBaseUrl, 'analytics/licenses', licenseId, 'changeorder');
+
+    const getParams = utils.buildGetParamString({
+      orderIndex
+    });
+    if (getParams.length > 0) {
+      url = urljoin(url, getParams);
+    }
+
+    return post(configuration, url);
+  };
+
+  const resource = Object.assign(resourceDetails, {create, list, reorder});
   return resource;
 };
 
