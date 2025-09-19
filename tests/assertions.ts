@@ -1,5 +1,3 @@
-import {Promise} from 'es6-promise';
-
 export const mockGet = jest.fn().mockReturnValue(Promise.resolve({}));
 export const mockPost = jest.fn().mockReturnValue(Promise.resolve({}));
 export const mockDelete = jest.fn().mockReturnValue(Promise.resolve({}));

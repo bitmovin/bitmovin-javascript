@@ -1,5 +1,3 @@
-import {Promise} from 'es6-promise';
-
 import http from '../../bitmovin/utils/http';
 import {InternalConfiguration} from '../../bitmovin/utils/types';
 import {getConfiguration} from '../utils';
