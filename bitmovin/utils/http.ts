@@ -1,4 +1,3 @@
-import 'es6-promise/auto';
 import * as fetch from 'isomorphic-fetch';
 import * as urljoin from 'url-join';
 

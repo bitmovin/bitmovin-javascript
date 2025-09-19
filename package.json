@@ -1,6 +1,6 @@
 {
   "name": "bitmovin-javascript",
-  "version": "2.35.0",
+  "version": "2.36.0",
   "main": "./dist/index.js",
   "browser": "./dist/bitmovin.browser.js",
   "types": "./dist/index.d.ts",
@@ -63,9 +63,8 @@
     "webpack-cli": "^3.1.1"
   },
   "dependencies": {
-    "es6-promise": "^4.2.4",
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.17.1",
-    "url-join": "^1.1.0"
+    "url-join": "3"
   }
 }
